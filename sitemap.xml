@@ -3,17 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://romanhaa.github.io/blog/my-first-post/</loc>
+    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/blog/</loc>
+    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://romanhaa.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>http://romanhaa.github.io/tags/interesting/</loc>
+    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/tags/post/</loc>
+    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://romanhaa.github.io/</loc>
+    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://romanhaa.github.io/tags/</loc>
+    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
     <priority>0</priority>
   </url>
   
