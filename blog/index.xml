@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on Roman H. - Data visualization &amp; Bioinformatics</title>
+    <title>Blogs on Roman H. - Data Visualization &amp; Bioinformatics</title>
     <link>http://romanhaa.github.io/blog/</link>
-    <description>Recent content in Blogs on Roman H. - Data visualization &amp; Bioinformatics</description>
+    <description>Recent content in Blogs on Roman H. - Data Visualization &amp; Bioinformatics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman H. - All rights reserved</copyright>
@@ -27,7 +27,8 @@
       <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/blog/paga_to_r/</guid>
-      <description>How to do it.</description>
+      <description>How to do it.
+install.packages(&amp;#34;tidyverse&amp;#34;) a &amp;lt;- c(1,2,3) test import scanpy as sc </description>
     </item>
     
   </channel>
