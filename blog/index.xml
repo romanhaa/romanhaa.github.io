@@ -7,18 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman H. - All rights reserved</copyright>
-    <lastBuildDate>Sun, 27 Jan 2019 16:59:20 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 27 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://romanhaa.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>My First Post</title>
-      <link>http://romanhaa.github.io/blog/my-first-post/</link>
-      <pubDate>Sun, 27 Jan 2019 16:59:20 +0100</pubDate>
+      <title>Manually plotting monocle trees with ggplot2</title>
+      <link>http://romanhaa.github.io/blog/monocle_to_r/</link>
+      <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/blog/my-first-post/</guid>
-      <description>Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean semper libero quis dictum dapibus. Nulla egestas vitae augue eu rutrum. Duis ullamcorper dictum ipsum.</description>
+      <guid>http://romanhaa.github.io/blog/monocle_to_r/</guid>
+      <description>How to do it.</description>
+    </item>
+    
+    <item>
+      <title>Porting PAGA results from scanpy to R</title>
+      <link>http://romanhaa.github.io/blog/paga_to_r/</link>
+      <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/blog/paga_to_r/</guid>
+      <description>How to do it.</description>
     </item>
     
   </channel>

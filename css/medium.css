@@ -63,11 +63,11 @@ section.recent-posts {
     margin-bottom:-1px;
 }
 .article-post ol, .article-post ul {
-    margin-bottom:1.5rem;
+    margin-bottom: 1.5rem;
 }
 .article-post ol ol, .article-post ul ul {
     list-style: disc;
-    margin-bottom:0rem;
+    margin-bottom: 0rem;
 }
 @media (min-width:576px) {
     .card-columns.listfeaturedtag {
@@ -242,10 +242,10 @@ span.post-name a,span.post-read-more a:hover {
     color:rgba(0,0,0,.8);
 }
 .article-post {
-    font-family:Merriweather;
-    font-size:1.1rem;
-    line-height:1.84;
-    color:rgba(0,0,0,.8);
+    font-family: Merriweather;
+    font-size: 1.1rem;
+    line-height: 1.84;
+    color: rgba(0,0,0,.8);
 }
 blockquote {
     border-left:4px solid #00ab6b;
@@ -254,7 +254,7 @@ blockquote {
     color:rgba(0,0,0,.5);
 }
 .article-post p,.article-post blockquote {
-    margin:0 0 1.5rem 0;
+    margin: 0 0 1.5rem 0;
 }
 .featured-image {
     display:block;
@@ -296,9 +296,38 @@ blockquote {
    }
 }
 @media (max-width:999px) {
+    .alertbar {
+        position:relative !Important;
+        margin-bottom:20px;
+        margin-top:20px;
+        box-shadow:none !Important;
+        padding-right: 14px !Important;
+   }
     #comments {
         margin-right: 15px;
     }
+    .jumbotron.fortags {
+       margin-bottom:0 !Important;
+   }
+    .alertbar form {
+       margin-top:20px;
+   }
+    .alertbar span, .alertbar form {
+        display: block;
+    }
+    .alertbar input[type="submit"] {
+        border-radius:3px !Important;
+    }
+    .alertbar input[type="email"] {
+       margin-right:0px !Important;
+       display:block;
+       border-right:1px solid #ddd !Important;
+       margin-bottom:10px;
+   }
+    .jumbotron {
+       margin-bottom:0;
+        border-radius: 0;
+   }
     .listfeaturedtag .wrapthumbnail, .listfeaturedtag .col-md-7 {
         width:100%;
         max-width:100%;
@@ -386,9 +415,61 @@ ul.tags li a:hover {
     font-size:0.85rem;
     display:inline-block;
 }
+.btn.subscribe {
+    background-color:#1C9963;
+    border-color:#1C9963;
+    color:rgba(255,255,255,1);
+    fill:rgba(255,255,255,1);
+    border-radius:30px;
+    font-size:0.85rem;
+    margin-left:10px;
+    font-weight:600;
+    text-transform:uppercase;
+}
 .post-top-meta .btn.follow {
     margin-left:5px;
     margin-top:-4px;
+}
+.alertbar {
+    box-shadow:0 -3px 10px 0 rgba(0,0,0,.0785);
+    position:fixed;
+    bottom:0;
+    left:0;
+    background-color:#fff;
+    width:100%;
+    padding:14px 0;
+    z-index:1;
+    display: none;
+}
+.alertbar form {
+   display: inline-block;
+}
+.alertbar input[type="email"] {
+    font-size:0.85rem;
+    padding:3px 5px 3px 10px;
+    border-top-left-radius:3px;
+    border-bottom-left-radius:3px;
+    border:1px solid #ddd;
+    border-right:0;
+    margin-right:-10px;
+    height:34px;
+    letter-spacing:0.5px;
+    margin-left:5px;
+}
+.alertbar input[type="submit"] {
+    background-color:#1C9963;
+    border:1px solid #1C9963;
+    color:rgba(255,255,255,1);
+    fill:rgba(255,255,255,1);
+    font-size:0.85rem;
+    border-radius:0;
+    padding:4px 10px;
+    border-top-right-radius:3px;
+    border-bottom-right-radius:3px;
+    font-weight:600;
+    height:34px;
+    letter-spacing:0.5px;
+    cursor: pointer;
 }
 .form-control::-webkit-input-placeholder {
     color: rgba(0,0,0,.5);
@@ -502,6 +583,43 @@ iframe {
 .transpdark {    
     background: rgba(0,0,0,0.75);
     color: #fff;
+}
+@media (min-width:768px) {
+    .jumbotron.fortags {
+        margin-bottom:-50px;
+        margin-top: 3rem;
+        padding:0;
+        height:350px;
+        border-radius:0;
+        background-image: url(../images/jumbotron.jpg);
+        background-size:cover;
+   }
+    .jumbotron.fortags .col-md-4 {
+        background:rgba(0,0,0,0.75);
+        color:#fff;
+   }
+    .jumbotron.fortags .row {
+        margin:0;
+   }
+}
+.jumbotron.fortags { 
+         margin-top: 3rem;
+         padding:0;
+         border-radius:0;
+         background-image: url(../images/jumbotron.jpg);
+         background-size:cover;
+}
+.jumbotron.fortags a {
+    padding: 5px 10px 7px;
+    background: #222;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: 500;
+    text-transform: lowercase;
+    font-size: 0.8rem;
+}
+.layout-page .jumbotron.fortags {
+   display:none;
 }
 .mb-30px {
    margin-bottom:30px;

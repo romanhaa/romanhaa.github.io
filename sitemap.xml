@@ -3,13 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://romanhaa.github.io/blog/my-first-post/</loc>
-    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
+    <loc>http://romanhaa.github.io/blog/monocle_to_r/</loc>
+    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/projects/cerebro/</loc>
+    <lastmod>2019-02-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/blog/paga_to_r/</loc>
+    <lastmod>2019-02-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/projects/epigenetics_in_aging/</loc>
+    <lastmod>2019-01-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://romanhaa.github.io/blog/</loc>
-    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
+    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -19,26 +34,19 @@
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/tags/interesting/</loc>
-    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://romanhaa.github.io/tags/post/</loc>
-    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
+    <loc>http://romanhaa.github.io/projects/</loc>
+    <lastmod>2019-02-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://romanhaa.github.io/</loc>
-    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
+    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://romanhaa.github.io/tags/</loc>
-    <lastmod>2019-01-27T16:59:20+01:00</lastmod>
     <priority>0</priority>
   </url>
   

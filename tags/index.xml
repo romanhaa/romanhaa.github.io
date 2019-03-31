@@ -7,28 +7,9 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman H. - All rights reserved</copyright>
-    <lastBuildDate>Sun, 27 Jan 2019 16:59:20 +0100</lastBuildDate>
     
 	<atom:link href="http://romanhaa.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Interesting</title>
-      <link>http://romanhaa.github.io/tags/interesting/</link>
-      <pubDate>Sun, 27 Jan 2019 16:59:20 +0100</pubDate>
-      
-      <guid>http://romanhaa.github.io/tags/interesting/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Post</title>
-      <link>http://romanhaa.github.io/tags/post/</link>
-      <pubDate>Sun, 27 Jan 2019 16:59:20 +0100</pubDate>
-      
-      <guid>http://romanhaa.github.io/tags/post/</guid>
-      <description></description>
-    </item>
     
   </channel>
 </rss>
