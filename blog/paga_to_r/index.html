@@ -140,8 +140,8 @@ sc<span style="color:#f92672">$</span>tl<span style="color:#f92672">$</span>umap
 sc<span style="color:#f92672">$</span>pl<span style="color:#f92672">$</span>paga_compare(
   adata,
   basis <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;umap&#34;</span>,
-  threshold <span style="color:#f92672">=</span> <span style="color:#ae81ff">.15</span>,
-  edge_width_scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>,
+  threshold <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>,
+  edge_width_scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
   save <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>
 )</code></pre></div>
 
@@ -282,9 +282,10 @@ Here, I&rsquo;ll assume you have already generated the PAGA using RNA velocity d
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sc<span style="color:#f92672">$</span>tl<span style="color:#f92672">$</span>paga(adata, groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;leiden&#34;</span>, use_rna_velocity <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
 sc<span style="color:#f92672">$</span>pl<span style="color:#f92672">$</span>paga(
   adata,
-  threshold <span style="color:#f92672">=</span> <span style="color:#ae81ff">.15</span>,
+  basis <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;umap&#34;</span>,
+  threshold <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>,
   arrowsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>,
-  edge_width_scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>,
+  edge_width_scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
   transitions <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;transitions_confidence&#34;</span>,
   dashed_edges <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;connectivities&#34;</span>,
   save <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>
