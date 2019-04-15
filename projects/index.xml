@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman H. - All rights reserved</copyright>
-    <lastBuildDate>Wed, 27 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 27 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://romanhaa.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,11 +15,10 @@
     <item>
       <title>Cerebro</title>
       <link>http://romanhaa.github.io/projects/cerebro/</link>
-      <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/cerebro/</guid>
-      <description> Interactive visualization of single cell RNA-seq data.
-Cerebro cerebroApp cerebroPrepare </description>
+      <description>Transcriptomics data from single cells (scRNA-seq) are generated with unprecedented frequency due to steadily decreasing prices for kits and sequencing. Due to the often exploratory nature of scRNA-seq experiments, extensive knowledge of the biological system is required to properly infer cell types and derive conclusions.</description>
     </item>
     
     <item>

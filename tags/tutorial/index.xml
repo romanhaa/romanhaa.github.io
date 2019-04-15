@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman H. - All rights reserved</copyright>
-    <lastBuildDate>Wed, 27 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://romanhaa.github.io/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,11 +15,10 @@
     <item>
       <title>Porting PAGA results from scanpy to R</title>
       <link>http://romanhaa.github.io/blog/paga_to_r/</link>
-      <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 15 Apr 2019 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/blog/paga_to_r/</guid>
-      <description>How to do it.
-install.packages(&amp;#34;tidyverse&amp;#34;) a &amp;lt;- c(1,2,3) test import scanpy as sc </description>
+      <description>Seurat and scanpy are both great frameworks to analyze single-cell RNA-seq data, the main difference being the language they are designed for. Most of the methods frequently used in the literature are available in both toolkits and the workflow is essentially the same.</description>
     </item>
     
   </channel>

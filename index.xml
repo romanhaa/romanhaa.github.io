@@ -7,38 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman H. - All rights reserved</copyright>
-    <lastBuildDate>Wed, 27 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://romanhaa.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Manually plotting monocle trees with ggplot2</title>
-      <link>http://romanhaa.github.io/blog/monocle_to_r/</link>
-      <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
+      <title>Porting PAGA results from scanpy to R</title>
+      <link>http://romanhaa.github.io/blog/paga_to_r/</link>
+      <pubDate>Mon, 15 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/blog/monocle_to_r/</guid>
-      <description>How to do it.</description>
+      <guid>http://romanhaa.github.io/blog/paga_to_r/</guid>
+      <description>Seurat and scanpy are both great frameworks to analyze single-cell RNA-seq data, the main difference being the language they are designed for. Most of the methods frequently used in the literature are available in both toolkits and the workflow is essentially the same.</description>
     </item>
     
     <item>
       <title>Cerebro</title>
       <link>http://romanhaa.github.io/projects/cerebro/</link>
-      <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/cerebro/</guid>
-      <description> Interactive visualization of single cell RNA-seq data.
-Cerebro cerebroApp cerebroPrepare </description>
-    </item>
-    
-    <item>
-      <title>Porting PAGA results from scanpy to R</title>
-      <link>http://romanhaa.github.io/blog/paga_to_r/</link>
-      <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://romanhaa.github.io/blog/paga_to_r/</guid>
-      <description>How to do it.
-install.packages(&amp;#34;tidyverse&amp;#34;) a &amp;lt;- c(1,2,3) test import scanpy as sc </description>
+      <description>Transcriptomics data from single cells (scRNA-seq) are generated with unprecedented frequency due to steadily decreasing prices for kits and sequencing. Due to the often exploratory nature of scRNA-seq experiments, extensive knowledge of the biological system is required to properly infer cell types and derive conclusions.</description>
     </item>
     
     <item>

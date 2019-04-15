@@ -67,7 +67,7 @@
             
             <h1 class="posttitle">Porting PAGA results from scanpy to R</h1>
             <div class="article-post">
-              Feb 27, 2019
+              Apr 15, 2019
             </div>
 
           </div>
@@ -76,13 +76,575 @@
 
           
           <div class="article-post">
-            <p>How to do it.</p>
+            
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">install.packages(<span style="color:#e6db74">&#34;tidyverse&#34;</span>)
-a <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>)
-test</code></pre></div>
+<p><a href="https://satijalab.org/seurat/">Seurat</a> and <a href="https://scanpy.readthedocs.io/en/latest/#">scanpy</a> are both great frameworks to analyze single-cell RNA-seq data, the main difference being the language they are designed for.
+Most of the methods frequently used in the literature are available in both toolkits and the workflow is essentially the same.
+However, Fabian Theis and his group (with special credit to Alex Wolf) have recently published their <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1663-x">PAGA</a> algorithm that attempts to harmonize dimensional reduction with clustering and trajectory analysis.
+This is very exciting and a step in the right direction as tSNE and UMAP are known to have limitations in this regard.
+However, if you are a heavy Seurat/R user, you will be bummed to hear that for now (at least to my knowledge) no R port of PAGA exists and I&rsquo;m not sure the authors have intentions to change this.
+As far as I know, Cole Trapnell and his lab are working on implementing something similar, if not precisely the PAGA algorithm, in <a href="http://cole-trapnell-lab.github.io/monocle-release/monocle3/">Monocle 3</a>.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> scanpy <span style="color:#f92672">as</span> sc</code></pre></div>
+<p>For those of you who do most of their analysis in Seurat and want to perform PAGA analysis (and/or can&rsquo;t wait for Monocle 3), I explain here how to do so.</p>
+
+<h3 id="requirements">Requirements</h3>
+
+<ul>
+<li><code>Seurat</code> <strong>v2</strong>.x; unfortunately, the <code>Convert()</code> function in Seurat v3 doesn&rsquo;t seem to be able yet to export the Seurat object to the anndata format (which is what we need).</li>
+<li>The <code>reticulate</code> R package for communication  between R and Python.</li>
+<li><code>scanpy</code>; I installed it using <code>pip3</code>.</li>
+</ul>
+
+<p>I also use the <code>tidyverse</code> R meta package but they are not technically required as the respective commands can be replaced.</p>
+
+<h3 id="let-s-get-started">Let&rsquo;s get started</h3>
+
+<p>First we load the packages mentioned above.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">library</span>(<span style="color:#e6db74">&#34;Seurat&#34;</span>)
+<span style="color:#f92672">library</span>(<span style="color:#e6db74">&#34;tidyverse&#34;</span>)
+<span style="color:#f92672">library</span>(<span style="color:#e6db74">&#34;reticulate&#34;</span>)</code></pre></div>
+
+<p>Then we load a Seurat object (this one here was created with <code>Seurat</code> v2.3.4), convert it to the anndata format and save it to a file.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">seurat <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">readRDS</span>(<span style="color:#e6db74">&#34;seurat.rds&#34;</span>)
+
+seurat_ad <span style="color:#f92672">&lt;-</span> Convert(
+  from <span style="color:#f92672">=</span> seurat,
+  to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;anndata&#34;</span>,
+  filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;seurat.h5ad&#34;</span>
+)</code></pre></div>
+
+<h4 id="apply-paga-and-umap">Apply PAGA and UMAP</h4>
+
+<p>Now we use the <code>reticulate</code> package to&hellip;</p>
+
+<ul>
+<li>load <code>scanpy</code></li>
+<li>load the exported anndata file (<code>sc.read()</code>)</li>
+<li>find neighbors (<code>sc.pp.neighbors()</code>)</li>
+<li>cluster cells using the Leiden algorithm (<code>sc.tl.leiden()</code>)</li>
+<li>run PAGA analysis (<code>sc.tl.paga()</code>) and give it a visual check (<code>sc.pl.paga()</code>)</li>
+<li>generate a UMAP using the PAGA results as initial positions (<code>sc.tl.umap()</code>)</li>
+<li>plot UMAP and PAGA side-by-side (<code>sc.pl.paga_compare()</code>)</li>
+</ul>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sc <span style="color:#f92672">&lt;-</span> import(<span style="color:#e6db74">&#34;scanpy&#34;</span>, convert <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+
+adata <span style="color:#f92672">=</span> sc<span style="color:#f92672">$</span>read(<span style="color:#e6db74">&#34;seurat.h5ad&#34;</span>)
+
+sc<span style="color:#f92672">$</span>pp<span style="color:#f92672">$</span>neighbors(adata)
+sc<span style="color:#f92672">$</span>tl<span style="color:#f92672">$</span>leiden(adata, resolution <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>)
+
+sc<span style="color:#f92672">$</span>tl<span style="color:#f92672">$</span>paga(adata, groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;leiden&#34;</span>)
+sc<span style="color:#f92672">$</span>pl<span style="color:#f92672">$</span>paga(adata)
+
+sc<span style="color:#f92672">$</span>tl<span style="color:#f92672">$</span>umap(adata, init_pos <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;paga&#34;</span>)
+
+sc<span style="color:#f92672">$</span>pl<span style="color:#f92672">$</span>paga_compare(
+  adata,
+  basis <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;umap&#34;</span>,
+  threshold <span style="color:#f92672">=</span> <span style="color:#ae81ff">.15</span>,
+  edge_width_scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>,
+  save <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>
+)</code></pre></div>
+
+<figure>
+  <img src="/images/blog/PAGA/scanpy_umap_paga.png" alt="UMAP_PAGA" style="width: 100%"/>
+  <figcaption style="text-align: center">PAGA on the basis of Leiden clusters and derived UMAP plotted with scanpy.</figcaption>
+</figure>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>In the previous step we stored the converted Seurat object to disk only to then load it again as an anndata file. This might seem a little silly since we could also use that object directly. However, I ran into some problems with automatic conversion of Python objects to R which can be circumvented by loading the exported file with automatic conversion switched off (<code>import(&quot;scanpy&quot;, convert=FALSE)</code>).</li>
+<li>Be aware that Python and R start arrays with different indices, namely 0 and 1, respectively.</li>
+</ul>
+
+<h4 id="export-results-and-store-in-seurat-object">Export results and store in Seurat object</h4>
+
+<p>Next, we store the results in our Seurat object.
+This is technically not necessary but I think it&rsquo;s good practice to keep all results in a single file.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>leiden <span style="color:#f92672">&lt;-</span> py_to_r(adata<span style="color:#f92672">$</span>obs<span style="color:#f92672">$</span>leiden)
+
+paga <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">list</span>(
+  connectivities <span style="color:#f92672">=</span> py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>connectivities<span style="color:#f92672">$</span>todense()),
+  connectivities_tree <span style="color:#f92672">=</span> py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>connectivities<span style="color:#f92672">$</span>todense()),
+  group_name <span style="color:#f92672">=</span> py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>groups),
+  groups <span style="color:#f92672">=</span> <span style="color:#66d9ef">levels</span>(py_to_r(adata<span style="color:#f92672">$</span>obs<span style="color:#f92672">$</span>leiden)),
+  group_colors <span style="color:#f92672">=</span> setNames(py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>leiden_colors), <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>(<span style="color:#66d9ef">nrow</span>(py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>pos))<span style="color:#ae81ff">-1</span>))),
+  position <span style="color:#f92672">=</span> tibble(
+    group <span style="color:#f92672">=</span> <span style="color:#66d9ef">levels</span>(py_to_r(adata<span style="color:#f92672">$</span>obs<span style="color:#f92672">$</span>leiden)),
+    x <span style="color:#f92672">=</span> <span style="color:#66d9ef">as.data.frame</span>(py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>pos))<span style="color:#f92672">$</span>V1,
+    y <span style="color:#f92672">=</span> <span style="color:#66d9ef">as.data.frame</span>(py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>pos))<span style="color:#f92672">$</span>V2
+  ),
+  umap <span style="color:#f92672">=</span> tibble(
+    UMAP_1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">as.data.frame</span>(py_to_r(adata<span style="color:#f92672">$</span>obsm<span style="color:#f92672">$</span>X_umap))<span style="color:#f92672">$</span>V1,
+    UMAP_2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">as.data.frame</span>(py_to_r(adata<span style="color:#f92672">$</span>obsm<span style="color:#f92672">$</span>X_umap))<span style="color:#f92672">$</span>V2
+  )
+)
+
+<span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>connectivities) <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">nrow</span>(paga<span style="color:#f92672">$</span>pos))
+<span style="color:#66d9ef">colnames</span>(paga<span style="color:#f92672">$</span>connectivities) <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">nrow</span>(paga<span style="color:#f92672">$</span>pos))
+
+seurat<span style="color:#f92672">@</span>misc<span style="color:#f92672">$</span>paga <span style="color:#f92672">&lt;-</span> paga</code></pre></div>
+
+<h4 id="process-paga-results">Process PAGA results</h4>
+
+<p>Then we turn the PAGA results in a plot-able format.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">paga_edges <span style="color:#f92672">&lt;-</span> tibble(
+  group1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>connectivities)[<span style="color:#66d9ef">row</span>(paga<span style="color:#f92672">$</span>connectivities)[<span style="color:#66d9ef">upper.tri</span>(paga<span style="color:#f92672">$</span>connectivities)]],
+  group2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">colnames</span>(paga<span style="color:#f92672">$</span>connectivities)[<span style="color:#66d9ef">col</span>(paga<span style="color:#f92672">$</span>connectivities)[<span style="color:#66d9ef">upper.tri</span>(paga<span style="color:#f92672">$</span>connectivities)]], 
+  weight <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>connectivities[<span style="color:#66d9ef">upper.tri</span>(paga<span style="color:#f92672">$</span>connectivities)]
+) <span style="color:#f92672">%&gt;%</span>
+mutate(
+  x1 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>x[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group1, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))],
+  y1 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group1, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))],
+  x2 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>x[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group2, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))],
+  y2 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group2, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))]
+) <span style="color:#f92672">%&gt;%</span>
+filter(weight <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0.15</span>)</code></pre></div>
+
+<p>We have removed all connections with a weight lower than <code>0.15</code>.
+This value was arbitrarily chosen and you can adjust this to your data set.
+The lower the cut-off, the more connection will be visible.</p>
+
+<h4 id="plot-paga-with-ggplot2">Plot PAGA with ggplot2</h4>
+
+<p>Now we can plot the graph generated by PAGA and the derived UMAP using <code>ggplot2</code>, in particular <code>geom_segment</code>.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">paga <span style="color:#f92672">&lt;-</span> ggplot(paga<span style="color:#f92672">$</span>position, aes(x, y)) <span style="color:#f92672">+</span>
+geom_segment(
+  data <span style="color:#f92672">=</span> paga_edges,
+  aes(x <span style="color:#f92672">=</span> x1, y <span style="color:#f92672">=</span> y1, xend <span style="color:#f92672">=</span> x2, yend <span style="color:#f92672">=</span> y2),
+  size <span style="color:#f92672">=</span> paga_edges<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">4</span>,
+  colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
+  show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+) <span style="color:#f92672">+</span>
+geom_point(aes(color <span style="color:#f92672">=</span> group), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>) <span style="color:#f92672">+</span>
+scale_color_manual(values <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>group_colors) <span style="color:#f92672">+</span>
+geom_text(aes(label <span style="color:#f92672">=</span> group), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>) <span style="color:#f92672">+</span>
+labs(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UMAP_1&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UMAP_2&#34;</span>) <span style="color:#f92672">+</span>
+theme_bw() <span style="color:#f92672">+</span>
+theme(
+  axis.title <span style="color:#f92672">=</span> element_blank(),
+  axis.text <span style="color:#f92672">=</span> element_blank(),
+  axis.ticks <span style="color:#f92672">=</span> element_blank(),
+  axis.line <span style="color:#f92672">=</span> element_blank(),
+  panel.grid.major <span style="color:#f92672">=</span> element_blank(),
+  panel.grid.minor <span style="color:#f92672">=</span> element_blank(),
+  panel.border <span style="color:#f92672">=</span> element_blank()
+)
+
+ggsave(paga, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;r_paga.pdf&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
+ggsave(paga, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;r_paga.png&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)</code></pre></div>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">umap <span style="color:#f92672">&lt;-</span> tibble(
+  UMAP_1 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>umap<span style="color:#f92672">$</span>UMAP_1,
+  UMAP_2 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>umap<span style="color:#f92672">$</span>UMAP_2,
+  group <span style="color:#f92672">=</span> seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>leiden
+) <span style="color:#f92672">%&gt;%</span>
+ggplot(<span style="color:#ae81ff">.</span>, aes(UMAP_1, UMAP_2, color <span style="color:#f92672">=</span> group)) <span style="color:#f92672">+</span>
+geom_point(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>, show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>) <span style="color:#f92672">+</span>
+scale_color_manual(values <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>group_colors) <span style="color:#f92672">+</span>
+theme_bw() <span style="color:#f92672">+</span>
+theme(
+  axis.title <span style="color:#f92672">=</span> element_blank(),
+  axis.text <span style="color:#f92672">=</span> element_blank(),
+  axis.ticks <span style="color:#f92672">=</span> element_blank(),
+  axis.line <span style="color:#f92672">=</span> element_blank(),
+  panel.grid.major <span style="color:#f92672">=</span> element_blank(),
+  panel.grid.minor <span style="color:#f92672">=</span> element_blank(),
+  panel.border <span style="color:#f92672">=</span> element_blank()
+)
+
+ggsave(umap, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;r_umap.pdf&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
+ggsave(umap, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;r_umap.png&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)</code></pre></div>
+
+<figure>
+  <img src="/images/blog/PAGA/r_umap.png" alt="UMAP" style="width: 50%"/><img src="/images/blog/PAGA/r_paga.png" alt="PAGA" style="width: 50%"/>
+  <figcaption style="text-align: center">PAGA on the basis of Leiden clusters and derived UMAP plotted with ggplot2.</figcaption>
+</figure>
+
+<h4 id="result">Result</h4>
+
+<p>Direct comparison <code>scanpy</code> vs <code>ggplot2</code>:</p>
+
+<figure>
+  <img src="/images/blog/PAGA/scanpy_paga.png" alt="PAGA" style="width: 50%"/><img src="/images/blog/PAGA/r_paga.png" alt="UMAP" style="width: 50%"/>
+  <figcaption style="text-align: center">PAGA plots of scanpy (left) and ggplot2 (right).</figcaption>
+</figure>
+
+<h3 id="adaptation-for-rna-velocity-based-transitions-between-clusters">Adaptation for RNA velocity-based transitions between clusters</h3>
+
+<p><code>scanpy</code> offers to use RNA velocity information to predict transitions between clusters in the PAGA results.
+I won&rsquo;t go into detail on how to do that but can recommend to use <a href="https://scvelo.readthedocs.io/en/latest/#"><code>scVelo</code></a> which directly integrates into the <code>scanpy</code> framework.
+Here, I&rsquo;ll assume you have already generated the PAGA using RNA velocity data, e.g. as shown below.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sc<span style="color:#f92672">$</span>tl<span style="color:#f92672">$</span>paga(adata, groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;leiden&#34;</span>, use_rna_velocity <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+sc<span style="color:#f92672">$</span>pl<span style="color:#f92672">$</span>paga(
+  adata,
+  threshold <span style="color:#f92672">=</span> <span style="color:#ae81ff">.15</span>,
+  arrowsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>,
+  edge_width_scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>,
+  transitions <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;transitions_confidence&#34;</span>,
+  dashed_edges <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;connectivities&#34;</span>,
+  save <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>
+)</code></pre></div>
+
+<figure>
+  <img src="/images/blog/PAGA/scanpy_umap_paga_velocity.png" alt="UMAP_PAGA_velocity" style="width: 100%"/>
+  <figcaption style="text-align: center">PAGA on the basis of Leiden clusters and derived UMAP plotted with scanpy.</figcaption>
+</figure>
+
+<h4 id="extract-paga-results">Extract PAGA results</h4>
+
+<p>When exporting the results to R and plotting them with <code>ggplot2</code> we will have to extract more information and add a layer for the transition arrows.
+Below you can see the same step as before, however also extracting the <code>transitions_confidence</code> matrix that represents the RNA velocity results.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">paga <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">list</span>(
+  connectivities <span style="color:#f92672">=</span> py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>connectivities<span style="color:#f92672">$</span>todense()),
+  connectivities_tree <span style="color:#f92672">=</span> py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>connectivities<span style="color:#f92672">$</span>todense()),
+  transitions_confidence <span style="color:#f92672">=</span> py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>transitions_confidence<span style="color:#f92672">$</span>todense()),
+  group_name <span style="color:#f92672">=</span> py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>groups),
+  groups <span style="color:#f92672">=</span> <span style="color:#66d9ef">levels</span>(py_to_r(adata<span style="color:#f92672">$</span>obs<span style="color:#f92672">$</span>leiden)),
+  group_colors <span style="color:#f92672">=</span> setNames(py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>leiden_colors), <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>(<span style="color:#66d9ef">nrow</span>(py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>pos))<span style="color:#ae81ff">-1</span>))),
+  position <span style="color:#f92672">=</span> tibble(
+    group <span style="color:#f92672">=</span> <span style="color:#66d9ef">levels</span>(py_to_r(adata<span style="color:#f92672">$</span>obs<span style="color:#f92672">$</span>leiden)),
+    x <span style="color:#f92672">=</span> <span style="color:#66d9ef">as.data.frame</span>(py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>pos))<span style="color:#f92672">$</span>V1,
+    y <span style="color:#f92672">=</span> <span style="color:#66d9ef">as.data.frame</span>(py_to_r(adata<span style="color:#f92672">$</span>uns<span style="color:#f92672">$</span>paga<span style="color:#f92672">$</span>pos))<span style="color:#f92672">$</span>V2
+  ),
+  umap <span style="color:#f92672">=</span> tibble(
+    UMAP_1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">as.data.frame</span>(py_to_r(adata<span style="color:#f92672">$</span>obsm<span style="color:#f92672">$</span>X_umap))<span style="color:#f92672">$</span>V1,
+    UMAP_2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">as.data.frame</span>(py_to_r(adata<span style="color:#f92672">$</span>obsm<span style="color:#f92672">$</span>X_umap))<span style="color:#f92672">$</span>V2
+  )
+)
+
+<span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>connectivities) <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">nrow</span>(paga<span style="color:#f92672">$</span>pos))
+<span style="color:#66d9ef">colnames</span>(paga<span style="color:#f92672">$</span>connectivities) <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">nrow</span>(paga<span style="color:#f92672">$</span>pos))
+
+<span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>transitions_confidence) <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">nrow</span>(paga<span style="color:#f92672">$</span>pos))
+<span style="color:#66d9ef">colnames</span>(paga<span style="color:#f92672">$</span>transitions_confidence) <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">nrow</span>(paga<span style="color:#f92672">$</span>pos))</code></pre></div>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">seurat<span style="color:#f92672">@</span>misc<span style="color:#f92672">$</span>paga <span style="color:#f92672">&lt;-</span> paga</code></pre></div>
+
+<h4 id="transform-matrices-to-tibbles">Transform matrices to tibbles</h4>
+
+<p>Then, we generate tibbles that contain information about the connectivities between clusters (<code>paga_edges</code>) as well as the transition confidence (<code>paga_arrows</code>).</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">paga_edges <span style="color:#f92672">&lt;-</span> tibble(
+  group1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>connectivities)[<span style="color:#66d9ef">row</span>(paga<span style="color:#f92672">$</span>connectivities)[<span style="color:#66d9ef">upper.tri</span>(paga<span style="color:#f92672">$</span>connectivities)]],
+  group2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">colnames</span>(paga<span style="color:#f92672">$</span>connectivities)[<span style="color:#66d9ef">col</span>(paga<span style="color:#f92672">$</span>connectivities)[<span style="color:#66d9ef">upper.tri</span>(paga<span style="color:#f92672">$</span>connectivities)]], 
+  weight <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>connectivities[<span style="color:#66d9ef">upper.tri</span>(paga<span style="color:#f92672">$</span>connectivities)]
+) <span style="color:#f92672">%&gt;%</span>
+mutate(
+  x1 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>x[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group1, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))],
+  y1 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group1, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))],
+  x2 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>x[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group2, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))],
+  y2 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group2, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))]
+)</code></pre></div>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">paga_arrows <span style="color:#f92672">&lt;-</span> tibble(
+  group1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">character</span>(),
+  group2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">character</span>(),
+  weight <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
+  x1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
+  y1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
+  x2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
+  y2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>()
+)</code></pre></div>
+
+<h4 id="generate-directed-arrows">Generate directed arrows</h4>
+
+<p>Next, we need to convert the transition confidences into a format that <code>ggplot2</code>, more precisely the <code>geom_segment</code> function, can handle.
+To do so, we&hellip;</p>
+
+<ul>
+<li>check the transition confidence for every combination of clusters</li>
+<li>check which direction is more confident and store only that value</li>
+<li>skip comparisons between clusters that have already been done</li>
+<li>shorten the arrow to avoid overlap with the cluster nodes</li>
+</ul>
+
+<p>There is probably a more elegant way to do this, perhaps using tools such as <a href="https://briatte.github.io/ggnetwork/"><code>ggnetwork</code></a> or <a href="https://briatte.github.io/ggnet/"><code>ggnet2</code></a>, but this gets the job done for now.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># dimensions of transition confidence matrix</span>
+paga_arrows_dimensions <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">nrow</span>(paga<span style="color:#f92672">$</span>transitions_confidence)
+
+<span style="color:#75715e"># list of performed comparisons</span>
+comparisons_done <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>()
+
+<span style="color:#75715e"># gap parameter to avoid plotting arrows on top/behind cluster nodes</span>
+arrow_gap <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">0.5</span>
+
+<span style="color:#75715e"># loop through rows</span>
+<span style="color:#66d9ef">for</span> ( i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>paga_arrows_dimensions ) {
+  <span style="color:#75715e"># loop through columns</span>
+  <span style="color:#66d9ef">for</span> ( j <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>paga_arrows_dimensions ) {
+    <span style="color:#75715e"># skip cell if on diagonal</span>
+    <span style="color:#66d9ef">if</span> ( i <span style="color:#f92672">==</span> j ) {
+      <span style="color:#66d9ef">next</span>
+    <span style="color:#75715e"># skip cell if transition between these clusters has already been extracted</span>
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> ( <span style="color:#66d9ef">paste0</span>(i, <span style="color:#e6db74">&#34;/&#34;</span>, j) <span style="color:#f92672">%in%</span> comparisons_done <span style="color:#f92672">|</span> <span style="color:#66d9ef">paste0</span>(j, <span style="color:#e6db74">&#34;/&#34;</span>, i) <span style="color:#f92672">%in%</span> comparisons_done ) {
+      <span style="color:#66d9ef">next</span>
+    <span style="color:#75715e"># if none of the above, go ahead</span>
+    } <span style="color:#66d9ef">else</span> {
+      <span style="color:#75715e"># get value for transition i to j</span>
+      i_to_j <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>transitions_confidence[j,i]
+      <span style="color:#75715e"># get value for transition j to i (other side of diagonal)</span>
+      j_to_i <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>transitions_confidence[i,j]
+      <span style="color:#75715e"># if i to j is more confident than j to i</span>
+      <span style="color:#66d9ef">if</span> ( i_to_j <span style="color:#f92672">&gt;</span> j_to_i ) {
+        x1 <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>x[i]
+        y1 <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[i]
+        x2 <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>x[j]
+        y2 <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[j]
+        x_length <span style="color:#f92672">=</span> x2 <span style="color:#f92672">-</span> x1
+        y_length <span style="color:#f92672">=</span> y2 <span style="color:#f92672">-</span> y1
+        gap <span style="color:#f92672">=</span> arrow_gap <span style="color:#f92672">/</span> <span style="color:#66d9ef">sqrt</span>(x_length <span style="color:#f92672">^</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> y_length <span style="color:#f92672">^</span> <span style="color:#ae81ff">2</span>)
+        x1_new <span style="color:#f92672">=</span> x1 <span style="color:#f92672">+</span> gap <span style="color:#f92672">*</span> x_length
+        y1_new <span style="color:#f92672">=</span> y1 <span style="color:#f92672">+</span> gap <span style="color:#f92672">*</span> y_length
+        x2_new <span style="color:#f92672">=</span> x1 <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> gap) <span style="color:#f92672">*</span> x_length
+        y2_new <span style="color:#f92672">=</span> y1 <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> gap) <span style="color:#f92672">*</span> y_length
+        new_entry <span style="color:#f92672">&lt;-</span> tibble(
+          group1 <span style="color:#f92672">=</span> (i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>),
+          group2 <span style="color:#f92672">=</span> (j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>),
+          weight <span style="color:#f92672">=</span> i_to_j,
+          x1 <span style="color:#f92672">=</span> x1_new,
+          y1 <span style="color:#f92672">=</span> y1_new,
+          x2 <span style="color:#f92672">=</span> x2_new,
+          y2 <span style="color:#f92672">=</span> y2_new
+        )
+        paga_arrows <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">rbind</span>(
+          paga_arrows,
+          new_entry
+        )
+      <span style="color:#75715e"># if j to i is more confident than i to j</span>
+      } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> ( j_to_i <span style="color:#f92672">&gt;</span> i_to_j ) {
+        x1 <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>x[j]
+        y1 <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[j]
+        x2 <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>x[i]
+        y2 <span style="color:#f92672">&lt;-</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[i]
+        x_length <span style="color:#f92672">=</span> x2 <span style="color:#f92672">-</span> x1
+        y_length <span style="color:#f92672">=</span> y2 <span style="color:#f92672">-</span> y1
+        gap <span style="color:#f92672">=</span> arrow_gap <span style="color:#f92672">/</span> <span style="color:#66d9ef">sqrt</span>(x_length <span style="color:#f92672">^</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> y_length <span style="color:#f92672">^</span> <span style="color:#ae81ff">2</span>)
+        x1_new <span style="color:#f92672">=</span> x1 <span style="color:#f92672">+</span> gap <span style="color:#f92672">*</span> x_length
+        y1_new <span style="color:#f92672">=</span> y1 <span style="color:#f92672">+</span> gap <span style="color:#f92672">*</span> y_length
+        x2_new <span style="color:#f92672">=</span> x1 <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> gap) <span style="color:#f92672">*</span> x_length
+        y2_new <span style="color:#f92672">=</span> y1 <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> gap) <span style="color:#f92672">*</span> y_length
+        new_entry <span style="color:#f92672">&lt;-</span> tibble(
+          group1 <span style="color:#f92672">=</span> (j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>),
+          group2 <span style="color:#f92672">=</span> (i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>),
+          weight <span style="color:#f92672">=</span> j_to_i,
+          x1 <span style="color:#f92672">=</span> x1_new,
+          y1 <span style="color:#f92672">=</span> y1_new,
+          x2 <span style="color:#f92672">=</span> x2_new,
+          y2 <span style="color:#f92672">=</span> y2_new
+        )
+        paga_arrows <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">rbind</span>(
+          paga_arrows,
+          new_entry
+        )
+      <span style="color:#75715e"># else (for example both 0)</span>
+      } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">next</span>
+      }
+      <span style="color:#75715e"># add comparison to list of already performed comparisons</span>
+      comparisons_done <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>(comparisons_done, <span style="color:#66d9ef">paste0</span>(i,<span style="color:#e6db74">&#34;/&#34;</span>,j))
+    }
+  }
+}</code></pre></div>
+
+<h4 id="filter-connections">Filter connections</h4>
+
+<p>Similar to what we&rsquo;ve done before, we remove connections and arrows below a threshold of confidence.
+Here, this threshold is <code>0.15</code>.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">paga_edges <span style="color:#f92672">&lt;-</span> paga_edges <span style="color:#f92672">%&gt;%</span>
+  filter(weight <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0.15</span>)
+
+paga_arrows <span style="color:#f92672">&lt;-</span> paga_arrows <span style="color:#f92672">%&gt;%</span>
+  filter(weight <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0.15</span>)</code></pre></div>
+
+<h4 id="plotting">Plotting</h4>
+
+<p>Finally, we put everything together.
+These are the steps:</p>
+
+<ul>
+<li>Set up plot.</li>
+<li>Add connectivities between clusters using dashed lines.</li>
+<li>Add arrows between clusters.</li>
+<li>Add cluster nodes.</li>
+<li>Add text to cluster nodes.</li>
+<li>Customize cluster color and layout.</li>
+<li>Save plot to file.</li>
+</ul>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># set up plot</span>
+plot <span style="color:#f92672">&lt;-</span> ggplot()
+
+<span style="color:#75715e"># add connectivities between clusters</span>
+plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> geom_segment(
+    data <span style="color:#f92672">=</span> paga_edges,
+    aes(x <span style="color:#f92672">=</span> x1, y <span style="color:#f92672">=</span> y1, xend <span style="color:#f92672">=</span> x2, yend <span style="color:#f92672">=</span> y2),
+    size <span style="color:#f92672">=</span> paga_edges<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">4</span>,
+    linetype <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
+    colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;grey&#34;</span>,
+    alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>,
+    show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+  )
+
+<span style="color:#75715e"># add transition arrows between clusters</span>
+plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> geom_segment(
+    data <span style="color:#f92672">=</span> paga_arrows,
+    aes(x <span style="color:#f92672">=</span> x1, y <span style="color:#f92672">=</span> y1, xend <span style="color:#f92672">=</span> x2, yend <span style="color:#f92672">=</span> y2),
+    size <span style="color:#f92672">=</span> paga_arrows<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">4</span>,
+    arrow <span style="color:#f92672">=</span> arrow(length <span style="color:#f92672">=</span> unit(<span style="color:#ae81ff">0.02</span>, <span style="color:#e6db74">&#34;npc&#34;</span>), type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;closed&#34;</span>),
+    show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+  )
+
+<span style="color:#75715e"># add cluster nodes</span>
+plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> geom_point(
+    data <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position,
+    aes(x, y, color <span style="color:#f92672">=</span> group),
+    size <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>,
+    show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+  )
+
+<span style="color:#75715e"># add cluster number to nodes</span>
+plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> geom_text(
+    data <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position,
+    aes(x, y, label <span style="color:#f92672">=</span> group),
+    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
+    fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>
+  )
+
+<span style="color:#75715e"># customize cluster color and layout</span>
+plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> scale_color_manual(values <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>group_colors) <span style="color:#f92672">+</span>
+  labs(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UMAP_1&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UMAP_2&#34;</span>) <span style="color:#f92672">+</span>
+  theme_bw() <span style="color:#f92672">+</span>
+  theme(
+    axis.title <span style="color:#f92672">=</span> element_blank(),
+    axis.text <span style="color:#f92672">=</span> element_blank(),
+    axis.ticks <span style="color:#f92672">=</span> element_blank(),
+    axis.line <span style="color:#f92672">=</span> element_blank(),
+    panel.grid.major <span style="color:#f92672">=</span> element_blank(),
+    panel.grid.minor <span style="color:#f92672">=</span> element_blank(),
+    panel.border <span style="color:#f92672">=</span> element_blank()
+  )
+
+<span style="color:#75715e"># save plot to file</span>
+ggsave(plot <span style="color:#f92672">=</span> plot, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;r_paga_velocity.pdf&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
+ggsave(plot <span style="color:#f92672">=</span> plot, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;r_paga_velocity.png&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)</code></pre></div>
+
+<p>Note that there are some parameters that you might have to adjust:</p>
+
+<ul>
+<li><code>arrow_gap</code>: How much to shorten the length of the transition arrows.</li>
+<li>Filter threshold for connectivities and transitions, here set to <code>0.15</code>.</li>
+<li>Scaling factors for connectivities (dashed lines) and transitions (arrows), currently set to <code>4</code>.</li>
+</ul>
+
+<h4 id="result-1">Result</h4>
+
+<p>Direct comparison <code>scanpy</code> vs <code>ggplot2</code>:</p>
+
+<figure>
+  <img src="/images/blog/PAGA/scanpy_paga_velocity.png" alt="PAGA" style="width: 50%"/><img src="/images/blog/PAGA/r_paga_velocity.png" alt="UMAP" style="width: 50%"/>
+  <figcaption style="text-align: center">PAGA plots with transition confidence of scanpy (left) and ggplot2 (right).</figcaption>
+</figure>
+
+<p>From here you can tweak the plots as you prefer, for example by scaling the point size in the PAGA results by the number of cells in that group/cluster.</p>
+
+<p>Parameter optimization is another topic, but I find this analysis very useful to understand the relationship between identified clusters.</p>
+
+<p><strong>That&rsquo;s it for now.</strong>
+You can use the same process explained here to perform other analysis provided by <code>scanpy</code>, such as diffusion pseudotime (<code>tl.dpt()</code>).</p>
+
+<h3 id="session-info">Session info</h3>
+
+<p>Analysis was performed in a Docker container: <a href="https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/r_github">romanhaa/r_github:2019-04-12_r_3.5.2</a></p>
+
+<p>Obligatory <code>sessionInfo()</code>:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">R version <span style="color:#ae81ff">3.5.2</span> (<span style="color:#ae81ff">2018-12-20</span>)
+Platform<span style="color:#f92672">:</span> x86_64<span style="color:#f92672">-</span>pc<span style="color:#f92672">-</span>linux<span style="color:#f92672">-</span>gnu (<span style="color:#ae81ff">64</span><span style="color:#f92672">-</span>bit)
+Running under<span style="color:#f92672">:</span> Debian GNU<span style="color:#f92672">/</span>Linux buster<span style="color:#f92672">/</span>sid
+
+Matrix products<span style="color:#f92672">:</span> default
+BLAS<span style="color:#f92672">:</span> <span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>x86_64<span style="color:#f92672">-</span>linux<span style="color:#f92672">-</span>gnu<span style="color:#f92672">/</span>blas<span style="color:#f92672">/</span>libblas.so.3.8.0
+LAPACK<span style="color:#f92672">:</span> <span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>x86_64<span style="color:#f92672">-</span>linux<span style="color:#f92672">-</span>gnu<span style="color:#f92672">/</span>lapack<span style="color:#f92672">/</span>liblapack.so.3.8.0
+
+locale<span style="color:#f92672">:</span>
+ [<span style="color:#ae81ff">1</span>] LC_CTYPE<span style="color:#f92672">=</span>en_US.UTF<span style="color:#ae81ff">-8</span>       LC_NUMERIC<span style="color:#f92672">=</span>C
+ [<span style="color:#ae81ff">3</span>] LC_TIME<span style="color:#f92672">=</span>en_US.UTF<span style="color:#ae81ff">-8</span>        LC_COLLATE<span style="color:#f92672">=</span>en_US.UTF<span style="color:#ae81ff">-8</span>
+ [<span style="color:#ae81ff">5</span>] LC_MONETARY<span style="color:#f92672">=</span>en_US.UTF<span style="color:#ae81ff">-8</span>    LC_MESSAGES<span style="color:#f92672">=</span>en_US.UTF<span style="color:#ae81ff">-8</span>
+ [<span style="color:#ae81ff">7</span>] LC_PAPER<span style="color:#f92672">=</span>en_US.UTF<span style="color:#ae81ff">-8</span>       LC_NAME<span style="color:#f92672">=</span>C
+ [<span style="color:#ae81ff">9</span>] LC_ADDRESS<span style="color:#f92672">=</span>C               LC_TELEPHONE<span style="color:#f92672">=</span>C
+[<span style="color:#ae81ff">11</span>] LC_MEASUREMENT<span style="color:#f92672">=</span>en_US.UTF<span style="color:#ae81ff">-8</span> LC_IDENTIFICATION<span style="color:#f92672">=</span>C
+
+attached base packages<span style="color:#f92672">:</span>
+[<span style="color:#ae81ff">1</span>] stats     graphics  grDevices utils     datasets  methods   base
+
+other attached packages<span style="color:#f92672">:</span>
+ [<span style="color:#ae81ff">1</span>] Seurat_2.3.4      Matrix_1.2<span style="color:#ae81ff">-17</span>     cowplot_0.9.4     reticulate_1.11.1
+ [<span style="color:#ae81ff">5</span>] colorout_1.2<span style="color:#ae81ff">-0</span>    forcats_0.4.0     stringr_1.4.0     dplyr_0.8.0.1
+ [<span style="color:#ae81ff">9</span>] purrr_0.3.2       readr_1.3.1       tidyr_0.8.3       tibble_2.1.1
+[<span style="color:#ae81ff">13</span>] ggplot2_3.1.1     tidyverse_1.2.1
+
+loaded via a namespace (and not attached)<span style="color:#f92672">:</span>
+  [<span style="color:#ae81ff">1</span>] Rtsne_0.15          colorspace_1.4<span style="color:#ae81ff">-1</span>    ggridges_0.5.1
+  [<span style="color:#ae81ff">4</span>] class_7.3<span style="color:#ae81ff">-15</span>        modeltools_0.2<span style="color:#ae81ff">-22</span>   mclust_5.4.3
+  [<span style="color:#ae81ff">7</span>] htmlTable_1.13.1    base64enc_0.1<span style="color:#ae81ff">-3</span>     proxy_0.4<span style="color:#ae81ff">-23</span>
+ [<span style="color:#ae81ff">10</span>] rstudioapi_0.10     npsurv_0.4<span style="color:#ae81ff">-0</span>        bit64_0.9<span style="color:#ae81ff">-7</span>
+ [<span style="color:#ae81ff">13</span>] flexmix_2.3<span style="color:#ae81ff">-15</span>      fansi_0.4.0         mvtnorm_1.0<span style="color:#ae81ff">-10</span>
+ [<span style="color:#ae81ff">16</span>] lubridate_1.7.4     xml2_1.2.0          codetools_0.2<span style="color:#ae81ff">-16</span>
+ [<span style="color:#ae81ff">19</span>] splines_3.5.2       R.methodsS3_1.7.1   lsei_1.2<span style="color:#ae81ff">-0</span>
+ [<span style="color:#ae81ff">22</span>] robustbase_0.93<span style="color:#ae81ff">-4</span>   knitr_1.22          Formula_1.2<span style="color:#ae81ff">-3</span>
+ [<span style="color:#ae81ff">25</span>] jsonlite_1.6        ica_1.0<span style="color:#ae81ff">-2</span>           broom_0.5.2
+ [<span style="color:#ae81ff">28</span>] cluster_2.0.8       kernlab_0.9<span style="color:#ae81ff">-27</span>      png_0.1<span style="color:#ae81ff">-7</span>
+ [<span style="color:#ae81ff">31</span>] R.oo_1.22.0         compiler_3.5.2      httr_1.4.0
+ [<span style="color:#ae81ff">34</span>] backports_1.1.3     assertthat_0.2.1    lazyeval_0.2.2
+ [<span style="color:#ae81ff">37</span>] cli_1.1.0           lars_1.2            acepack_1.4.1
+ [<span style="color:#ae81ff">40</span>] htmltools_0.3.6     tools_3.5.2         igraph_1.2.4
+ [<span style="color:#ae81ff">43</span>] gtable_0.3.0        glue_1.3.1          reshape2_1.4.3
+ [<span style="color:#ae81ff">46</span>] RANN_2.6.1          Rcpp_1.0.1          cellranger_1.1.0
+ [<span style="color:#ae81ff">49</span>] trimcluster_0.1<span style="color:#ae81ff">-2.1</span> ape_5.3             gdata_2.18.0
+ [<span style="color:#ae81ff">52</span>] nlme_3.1<span style="color:#ae81ff">-138</span>        iterators_1.0.10    fpc_2.1<span style="color:#ae81ff">-11.1</span>
+ [<span style="color:#ae81ff">55</span>] lmtest_0.9<span style="color:#ae81ff">-36</span>       gbRd_0.4<span style="color:#ae81ff">-11</span>         xfun_0.6
+ [<span style="color:#ae81ff">58</span>] rvest_0.3.2         irlba_2.3.3         gtools_3.8.1
+ [<span style="color:#ae81ff">61</span>] DEoptimR_1.0<span style="color:#ae81ff">-8</span>      zoo_1.8<span style="color:#ae81ff">-5</span>           MASS_7.3<span style="color:#ae81ff">-51.3</span>
+ [<span style="color:#ae81ff">64</span>] scales_1.0.0        hms_0.4.2           doSNOW_1.0.16
+ [<span style="color:#ae81ff">67</span>] parallel_3.5.2      RColorBrewer_1.1<span style="color:#ae81ff">-2</span>  pbapply_1.4<span style="color:#ae81ff">-0</span>
+ [<span style="color:#ae81ff">70</span>] gridExtra_2.3       segmented_0.5<span style="color:#ae81ff">-3.0</span>   rpart_4.1<span style="color:#ae81ff">-13</span>
+ [<span style="color:#ae81ff">73</span>] latticeExtra_0.6<span style="color:#ae81ff">-28</span> stringi_1.4.3       foreach_1.4.4
+ [<span style="color:#ae81ff">76</span>] checkmate_1.9.1     caTools_1.17.1.2    bibtex_0.4.2
+ [<span style="color:#ae81ff">79</span>] dtw_1.20<span style="color:#ae81ff">-1</span>          Rdpack_0.10<span style="color:#ae81ff">-1</span>       SDMTools_1.1<span style="color:#ae81ff">-221</span>
+ [<span style="color:#ae81ff">82</span>] rlang_0.3.4         pkgconfig_2.0.2     prabclus_2.2<span style="color:#ae81ff">-7</span>
+ [<span style="color:#ae81ff">85</span>] bitops_1.0<span style="color:#ae81ff">-6</span>        lattice_0.20<span style="color:#ae81ff">-38</span>     ROCR_1.0<span style="color:#ae81ff">-7</span>
+ [<span style="color:#ae81ff">88</span>] htmlwidgets_1.3     labeling_0.3        bit_1.1<span style="color:#ae81ff">-14</span>
+ [<span style="color:#ae81ff">91</span>] tidyselect_0.2.5    plyr_1.8.4          magrittr_1.5
+ [<span style="color:#ae81ff">94</span>] R6_2.4.0            snow_0.4<span style="color:#ae81ff">-3</span>          gplots_3.0.1.1
+ [<span style="color:#ae81ff">97</span>] generics_0.0.2      Hmisc_4.2<span style="color:#ae81ff">-0</span>         pillar_1.3.1
+[<span style="color:#ae81ff">100</span>] haven_2.1.0         foreign_0.8<span style="color:#ae81ff">-71</span>      withr_2.1.2
+[<span style="color:#ae81ff">103</span>] mixtools_1.1.0      fitdistrplus_1.0<span style="color:#ae81ff">-14</span> survival_2.44<span style="color:#ae81ff">-1.1</span>
+[<span style="color:#ae81ff">106</span>] nnet_7.3<span style="color:#ae81ff">-12</span>         tsne_0.1<span style="color:#ae81ff">-3</span>          hdf5r_1.1.1
+[<span style="color:#ae81ff">109</span>] modelr_0.1.4        crayon_1.3.4        KernSmooth_2.23<span style="color:#ae81ff">-15</span>
+[<span style="color:#ae81ff">112</span>] utf8_1.1.4          grid_3.5.2          readxl_1.3.1
+[<span style="color:#ae81ff">115</span>] data.table_1.12.2   metap_1.1           digest_0.6.18
+[<span style="color:#ae81ff">118</span>] diptest_0.75<span style="color:#ae81ff">-7</span>      R.utils_2.8.0       stats4_3.5.2
+[<span style="color:#ae81ff">121</span>] munsell_0.5.0</code></pre></div>
+
+<p>And Python + scanpy version:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#66d9ef">system</span>(<span style="color:#e6db74">&#34;python3 --version&#34;</span>)
+Python <span style="color:#ae81ff">3.7.3</span>rc1
+
+<span style="color:#66d9ef">system</span>(<span style="color:#e6db74">&#34;python3 -c &#39;import scanpy; print(scanpy.__version__)&#39;&#34;</span>)
+<span style="color:#ae81ff">1.4</span></code></pre></div>
 
           </div>
 
