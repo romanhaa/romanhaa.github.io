@@ -63,7 +63,7 @@
             
             <h1 class="posttitle">Porting PAGA results from scanpy to R</h1>
             <div class="article-post">
-              Apr 15, 2019
+              Apr 16, 2019
             </div>
 
           </div>
@@ -215,7 +215,7 @@ The lower the cut-off, the more connection will be visible.</p>
 geom_segment(
   data <span style="color:#f92672">=</span> paga_edges,
   aes(x <span style="color:#f92672">=</span> x1, y <span style="color:#f92672">=</span> y1, xend <span style="color:#f92672">=</span> x2, yend <span style="color:#f92672">=</span> y2),
-  size <span style="color:#f92672">=</span> paga_edges<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">4</span>,
+  size <span style="color:#f92672">=</span> paga_edges<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span>,
   colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
   show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
 ) <span style="color:#f92672">+</span>
@@ -376,22 +376,11 @@ mutate(
   y2 <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position<span style="color:#f92672">$</span>y[<span style="color:#66d9ef">match</span>(<span style="color:#ae81ff">.</span><span style="color:#f92672">$</span>group2, <span style="color:#66d9ef">rownames</span>(paga<span style="color:#f92672">$</span>position))]
 )</code></pre></div>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">paga_arrows <span style="color:#f92672">&lt;-</span> tibble(
-  group1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">character</span>(),
-  group2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">character</span>(),
-  weight <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
-  x1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
-  y1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
-  x2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
-  y2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>()
-)</code></pre></div>
-
-<h4 id="generate-directed-arrows">Generate directed arrows</h4>
-
 <p>Next, we need to convert the transition confidences into a format that <code>ggplot2</code>, more precisely the <code>geom_segment</code> function, can handle.
 To do so, we&hellip;</p>
 
 <ul>
+<li>create an empty tibble for the data</li>
 <li>check the transition confidence for every combination of clusters</li>
 <li>check which direction is more confident and store only that value</li>
 <li>skip comparisons between clusters that have already been done</li>
@@ -400,16 +389,22 @@ To do so, we&hellip;</p>
 
 <p>There is probably a more elegant way to do this, perhaps using tools such as <a href="https://briatte.github.io/ggnetwork/"><code>ggnetwork</code></a> or <a href="https://briatte.github.io/ggnet/"><code>ggnet2</code></a>, but this gets the job done for now.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># dimensions of transition confidence matrix</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">paga_arrows <span style="color:#f92672">&lt;-</span> tibble(
+  group1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">character</span>(),
+  group2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">character</span>(),
+  weight <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
+  x1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
+  y1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
+  x2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>(),
+  y2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">double</span>()
+)
+
 paga_arrows_dimensions <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">nrow</span>(paga<span style="color:#f92672">$</span>transitions_confidence)
 
-<span style="color:#75715e"># list of performed comparisons</span>
 comparisons_done <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">c</span>()
 
-<span style="color:#75715e"># gap parameter to avoid plotting arrows on top/behind cluster nodes</span>
 arrow_gap <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">0.5</span>
 
-<span style="color:#75715e"># loop through rows</span>
 <span style="color:#66d9ef">for</span> ( i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>paga_arrows_dimensions ) {
   <span style="color:#75715e"># loop through columns</span>
   <span style="color:#66d9ef">for</span> ( j <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>paga_arrows_dimensions ) {
@@ -513,30 +508,26 @@ These are the steps:</p>
 <li>Save plot to file.</li>
 </ul>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># set up plot</span>
-plot <span style="color:#f92672">&lt;-</span> ggplot()
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">plot <span style="color:#f92672">&lt;-</span> ggplot()
 
-<span style="color:#75715e"># add connectivities between clusters</span>
 plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> geom_segment(
     data <span style="color:#f92672">=</span> paga_edges,
     aes(x <span style="color:#f92672">=</span> x1, y <span style="color:#f92672">=</span> y1, xend <span style="color:#f92672">=</span> x2, yend <span style="color:#f92672">=</span> y2),
-    size <span style="color:#f92672">=</span> paga_edges<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">4</span>,
+    size <span style="color:#f92672">=</span> paga_edges<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span>,
     linetype <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
     colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;grey&#34;</span>,
     alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>,
     show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
   )
 
-<span style="color:#75715e"># add transition arrows between clusters</span>
 plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> geom_segment(
     data <span style="color:#f92672">=</span> paga_arrows,
     aes(x <span style="color:#f92672">=</span> x1, y <span style="color:#f92672">=</span> y1, xend <span style="color:#f92672">=</span> x2, yend <span style="color:#f92672">=</span> y2),
-    size <span style="color:#f92672">=</span> paga_arrows<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">4</span>,
+    size <span style="color:#f92672">=</span> paga_arrows<span style="color:#f92672">$</span>weight<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span>,
     arrow <span style="color:#f92672">=</span> arrow(length <span style="color:#f92672">=</span> unit(<span style="color:#ae81ff">0.02</span>, <span style="color:#e6db74">&#34;npc&#34;</span>), type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;closed&#34;</span>),
     show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
   )
 
-<span style="color:#75715e"># add cluster nodes</span>
 plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> geom_point(
     data <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position,
     aes(x, y, color <span style="color:#f92672">=</span> group),
@@ -544,7 +535,6 @@ plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+
     show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
   )
 
-<span style="color:#75715e"># add cluster number to nodes</span>
 plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> geom_text(
     data <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>position,
     aes(x, y, label <span style="color:#f92672">=</span> group),
@@ -552,7 +542,6 @@ plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+
     fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>
   )
 
-<span style="color:#75715e"># customize cluster color and layout</span>
 plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+</span> scale_color_manual(values <span style="color:#f92672">=</span> paga<span style="color:#f92672">$</span>group_colors) <span style="color:#f92672">+</span>
   labs(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UMAP_1&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UMAP_2&#34;</span>) <span style="color:#f92672">+</span>
   theme_bw() <span style="color:#f92672">+</span>
@@ -566,7 +555,6 @@ plot <span style="color:#f92672">&lt;-</span> plot <span style="color:#f92672">+
     panel.border <span style="color:#f92672">=</span> element_blank()
   )
 
-<span style="color:#75715e"># save plot to file</span>
 ggsave(plot <span style="color:#f92672">=</span> plot, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;r_paga_velocity.pdf&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
 ggsave(plot <span style="color:#f92672">=</span> plot, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;r_paga_velocity.png&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)</code></pre></div>
 
@@ -575,7 +563,7 @@ ggsave(plot <span style="color:#f92672">=</span> plot, filename <span style="col
 <ul>
 <li><code>arrow_gap</code>: How much to shorten the length of the transition arrows.</li>
 <li>Filter threshold for connectivities and transitions, here set to <code>0.15</code>.</li>
-<li>Scaling factors for connectivities (dashed lines) and transitions (arrows), currently set to <code>4</code>.</li>
+<li>Scaling factors for connectivities (dashed lines) and transitions (arrows), currently set to <code>3</code>.</li>
 </ul>
 
 <h4 id="result-1">Result</h4>
