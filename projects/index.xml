@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects on Roman H. - Data Visualization &amp; Bioinformatics</title>
+    <title>Projects on Roman Hillje - Data Visualization &amp; Bioinformatics</title>
     <link>http://romanhaa.github.io/projects/</link>
-    <description>Recent content in Projects on Roman H. - Data Visualization &amp; Bioinformatics</description>
+    <description>Recent content in Projects on Roman Hillje - Data Visualization &amp; Bioinformatics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Roman H. - All rights reserved</copyright>
+    <copyright>Roman Hillje - All rights reserved</copyright>
     <lastBuildDate>Wed, 27 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://romanhaa.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,7 @@
       <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/cerebro/</guid>
-      <description>Transcriptomics data from single cells (scRNA-seq) are generated with unprecedented frequency due to steadily decreasing prices for kits and sequencing. Due to the often exploratory nature of scRNA-seq experiments, extensive knowledge of the biological system is required to properly infer cell types and derive conclusions.</description>
+      <description>Interactive visualization of scRNA-seq data.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Sun, 27 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/epigenetics_in_aging/</guid>
-      <description>Histone modifications in aging.</description>
+      <description>Chromatin organization in aging.</description>
     </item>
     
   </channel>
