@@ -2,15 +2,16 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.57.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/medium.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+  <link href="/css/medium.css" rel="stylesheet">
+  <link href="/css/additional.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
@@ -40,21 +41,14 @@
           <a class="nav-link" href="/blog">Blog</a>
         </li>
         
-        <li class="nav-item ">
-          <a class="nav-link" href="/plots">Plot Gallery</a>
-        </li>
-        
-        <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
-        </li>
-        
       </ul>
     </div>
 
   </div>
 </nav>
 
-<div class="site-content">
+
+    <div class="site-content">   
       <div class="container">
   <div class="main-content">
 
@@ -81,7 +75,7 @@
             <p>At the research institute I currently work at, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System">PBS</a> as a job scheduler for collaborative use and research management of the HPC cluster.
 Just for a little background info, the cluster consists of 14 computers which are connected to make the cluster.
 Two of those 14 are masters, one of them being a backup of the first.
-The master isn't supposed to be used to for computation because its main job is to distribute the work between the other machines.
+The master isn&rsquo;t supposed to be used to for computation because its main job is to distribute the work between the other machines.
 The other 12 computers, also called nodes, are those which we do all our work on.
 The job scheduler runs on the master and assigns jobs to the nodes.
 A job is a set of operation you need to be done and which is saved in a script which you hand over to the job scheduler with the request to execute it.
@@ -89,24 +83,32 @@ In bioinformatics, a good example would be the alignment of reads to a reference
 As mentioned before, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System">PBS</a> but there are others out there, e.g. <a href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine">SGE</a> or <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager">Slurm</a>.
 Which node gets to do which job depends on the resources (number of CPUs and memory) each job requests.
 Ideally, this allows efficient resource usage so that everybody gets their job done the quickest.</p>
-<p>Now you might ask me: <em>&ldquo;But Roman, how does the job scheduler know what resources a job needs?&quot;</em>
+
+<p>Now you might ask me: <em>&ldquo;But Roman, how does the job scheduler know what resources a job needs?&rdquo;</em>
 That is a fantastic question.
-The answer is simple: It doesn't know.
+The answer is simple: It doesn&rsquo;t know.
 The user must specify the required resources.</p>
-<p><em>&ldquo;And what happens if you don't do it?&quot;</em>
+
+<p><em>&ldquo;And what happens if you don&rsquo;t do it?&rdquo;</em>
 Again, great question and very simple answer: The scheduler will treat it as if the jobs only needs the default values (e.g. 1 CPU and no specific memory requirements).
-This is a real problem because if the resources are not specified, the scheduler can't do its job.
+This is a real problem because if the resources are not specified, the scheduler can&rsquo;t do its job.
 And that, finally, brings me to what this article is about.</p>
+
 <p>We had a few users who flooded the cluster with jobs, many of them without properly specified resources, which made the computation for everybody painfully slow.
 Interactive session (which are treated as jobs just like scripts) were almost impossible.</p>
+
 <p>Unfortunately, the <a href="https://en.wikipedia.org/wiki/Portable_Batch_System">PBS</a> job scheduler only offers unsatisfying ways to understand what is going on in a particular moment.
 You can ask for a list of running and queued jobs but you just see the names and status, not the requested resources.
 See below for an example:</p>
+
 <pre><code>Job id            Name             User              Time Use S Queue
 ----------------  ---------------- ----------------  -------- - -----
 job.1             STDIN            user1             xx:xx:xx R turbovnc
 job.2             align_STAR       user2             xx:xx:xx R workq
-</code></pre><p>To see all the details, you must send a query for each job separately (see below).</p>
+</code></pre>
+
+<p>To see all the details, you must send a query for each job separately (see below).</p>
+
 <pre><code>Job Id: &lt;job_id&gt;
     Job_Name = &lt;job_name&gt;
     Job_Owner = &lt;user&gt;@&lt;host&gt;.cluster.local
@@ -150,35 +152,63 @@ job.2             align_STAR       user2             xx:xx:xx R workq
     run_count = 1
     Submit_arguments = &lt;...&gt;
     project = _pbs_project_default
-</code></pre><p>When there are around 50 jobs in the list, you can't do that manually.
-And so I did what every lazy coder would do: Automatize the steps (get a list of currently running or queued jobs and get the details for each of them), parse the details (the details for each job are not in column format), and visualize the results in a nice interface.
+</code></pre>
+
+<p>When there are around 50 jobs in the list, you can&rsquo;t do that manually.
+And so I did what every lazy coder would do: Automize the steps (get a list of currently running or queued jobs and get the details for each of them), parse the details (the details for each job are not in column format), and visualize the results in a nice interface.
 For the lack of a better name, I shall call it &lsquo;PBSviewer&rsquo; for now.
 This allowed me to get a live view of the jobs, and, more importantly, identify those which ask for many resources but use very few, or worse, ask for no resources and use many.
 Also, you can see if there are users who might need a reminder of how important resource management is.
 I also implemented a way to track the resources of each node over time (number of free CPUs and free memory) which was a little tricky to figure out.
 This feature could also be improved (actually, probably every aspect of this tool can be improved) because every time you reload the window the data is reset.
 Data is collected once a minute while the app is running.</p>
+
 <p>Since I wanted to use Shiny for the data visualization, I decided to also perform the first two of those steps in R (and send system commands from inside R).</p>
+
 <p>The tables allow filtering, some values (number of CPUs and memory usage) get color highlighting, plots are interactive and exportable.</p>
+
 <p>In the nodes panel, one can select nodes (single/multiple) to get highlights of just that node.
 Otherwise, the jobs of all nodes are shown.
 The input data for this looks like this:</p>
+
 <pre><code>                                                        mem       ncpus   nmics   ngpus
 vnode           state           njobs   run   susp      f/t        f/t     f/t     f/t   jobs
 --------------- --------------- ------ ----- ------ ------------ ------- ------- ------- -------
 node01          free                 2     2      0   36gb/126gb    8/28     0/0     0/0 job.1,job.2
 node02          free                 0     0      0  126gb/126gb   11/28     0/0     0/0 --
-</code></pre><p>So far I haven't done a great job at documenting the respective <a href="https://github.com/romanhaa/PBSviewer">GitHub repository</a>, but feel free to have a look anyway.</p>
+</code></pre>
+
+<p>So far I haven&rsquo;t done a great job at documenting the respective <a href="https://github.com/romanhaa/PBSviewer">GitHub repository</a>, but feel free to have a look anyway.</p>
+
 <p>Maybe this is of help to anyone.
 I think it would be great to run this as a web service by the administrators, or perhaps a pimped version of it, accessible to all users.</p>
-<p>Since, at least in principle, I wanted this to be readily applicable to other people working with HPC and PBS job schedulers, and because I didn't want to hard-code my user credentials into the app, one must first specify the address of the master, along with user name and password.
+
+<p>Since, at least in principle, I wanted this to be readily applicable to other people working with HPC and PBS job schedulers, and because I didn&rsquo;t want to hard-code my user credentials into the app, one must first specify the address of the master, along with user name and password.
 Beyond that, you might have to adapt the text parsing of the job details since I had to specify widths of columns and length of output which could be different on your system.</p>
+
 <p><a href="https://github.com/romanhaa/PBSviewer">PBSviewer on GitHub</a></p>
+
 <p>Below you can find some screenshots:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+
+<figure>
+  <img src="/images/blog/PBSviewer/login_1.png" alt="login_1"/>
+  <figcaption style="text-align: center">Login panel: You need to provide username and address of the cluster.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/blog/PBSviewer/jobs_1.png" alt="job_1"/>
+  <figcaption style="text-align: center">Table of jobs and plot of number of CPUs over memory usage of each job.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/blog/PBSviewer/nodes_1.png" alt="nodes_1"/>
+  <figcaption style="text-align: center">Overview of nodes and plot of number of CPUs requested (orange) and used (yellow) for each job.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/blog/PBSviewer/nodes_2.png" alt="nodes_2"/>
+  <figcaption style="text-align: center">Example plot of number of available CPUs per node over time.</figcaption>
+</figure>
 
           </div>
 
@@ -191,27 +221,22 @@ Beyond that, you might have to adapt the text parsing of the job details since I
 <footer class="footer">
   <div class="container">
     <div class="row">
-      <div class="col-md-4 col-sm-4 text-center text-lg-left">
+      <div class="col-md-6 col-sm-6 text-center text-lg-left">
         &copy; Copyright Roman Hillje - All rights reserved
       </div>
-      <section class="col-md-4 col-sm-4 text-center">
-        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-      </section>
-      <div class="col-md-4 col-sm-4 text-center text-lg-right">
+      <div class="col-md-6 col-sm-6 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>
       </div>
     </div>
   </div>
 </footer>
-</div>
 
+    </div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="/js/mediumish.js"></script>
-<script src="/js/modernizr.custom.js"></script>
 
   </body>
 </html>

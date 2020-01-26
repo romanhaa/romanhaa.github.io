@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects on Roman Hillje - Data Visualization &amp; Bioinformatics</title>
@@ -19,6 +19,15 @@
       
       <guid>http://romanhaa.github.io/projects/cerebro/</guid>
       <description>Interactive visualization of scRNA-seq data.</description>
+    </item>
+    
+    <item>
+      <title>Epigenetics in aging</title>
+      <link>http://romanhaa.github.io/projects/epigenetics_in_aging/</link>
+      <pubDate>Sun, 27 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/projects/epigenetics_in_aging/</guid>
+      <description>Chromatin organization in aging.</description>
     </item>
     
   </channel>

@@ -72,7 +72,7 @@
 
           
           <div class="article-post">
-            <p>Even though I mainly work with R, I wanted to learn some <a href="https://d3js.org/">D3.js</a> and recently had the idea to visualize German school holidays by region for the year 2018-19.
+            <p>Even though I mainly work with R, I wanted to learn some D3.js and recently had the idea to visualize German school holidays by region for the year 2018-19.
 Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</p>
 
 <p>I took the dates from this website: <a href="https://www.schulferien.org/deutschland/ferien/2019/">https://www.schulferien.org/deutschland/ferien/2019/</a></p>
@@ -125,6 +125,7 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
   <body>
     <div id="graphic"></div>
     <script>
+
       // define data
       var data = [
         {bundesland: "Baden-Württemberg", ferien: "Winterferien", start: "2018-03-04", end: "2018-03-08"},
@@ -217,14 +218,18 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
         {bundesland: "Thüringen", ferien: "Herbstferien", start: "2018-10-07", end: "2018-10-19"},
         {bundesland: "Thüringen", ferien: "Weihnachtsferien", start: "2018-12-21", end: "2019-01-03"},
       ]
+
       // assign colors to types of holidays
       var color = d3.scale.ordinal()
         .domain(["Winterferien","Osterferien","Pfingstferien","Sommerferien","Herbstferien","Weihnachtsferien"])
         .range(["#3498db","#1abc9c","#9b59b6","#fed800","#95a5a6","#34495e"]);
+
       // function to read in dates
       var parseDate = d3.time.format("%Y-%m-%d").parse;
+
       // function to format dates
       var formatDate = d3.time.format("%d.%m.%Y")
+
       // define margins around plotting area
       // we need a lot of space on the left for the region names as well as on
       // on the bottom for the date
@@ -234,9 +239,11 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
         bottom: 100,
         left: 170
       };
+
       // define height and width of the plotting area
       var width = 960 - margin.left - margin.right,
           height = 530 - margin.top - margin.bottom;
+
       // create SVG
       var svg = d3.select("#graphic")
         .append("svg")
@@ -244,6 +251,7 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
       // create border around plotting area
       var borderPath = svg.append("rect")
         .attr("x", 0)
@@ -253,31 +261,37 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
         .style("stroke", "black")
         .style("fill", "none")
         .style("stroke-width", 1);
+
       // tooltip element
       var div = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
+
       // create X axis scale with time scale and manual limits
       var x = d3.time.scale()
         .domain([parseDate("2018-01-01"), parseDate("2019-02-01")])
         .range([0, width])
         .nice(d3.time.month);
+
       // create Y axis scale with region names as categories
       var y = d3.scale.ordinal()
         .rangeRoundBands([0, height], .1)
         .domain(data.map( function(d) {
           return d.bundesland;
         }));
+
       // adjust X axis with 10 ticks
       var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
         .ticks(8)
         .tickFormat(d3.time.format("%m/%Y"));
+
       // adjust Y axis
       var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left");
+
       // add title
       svg.append("text")
         .attr("x", (width / 2))
@@ -286,15 +300,18 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
         .style("font-size", "20px")
         .style("text-decoration", "bold")
         .text("Schulferien in Deutschland für 2018/19");
+
       //
       svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
+
       //
       svg.append("g")
         .attr("class", "axis")
         .call(yAxis);
+
       // draw grid lines
       svg.append("g")
         .attr("class", "grid")
@@ -307,6 +324,7 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
             .tickSize(-height, 0, 0)
             .tickFormat("")
         )
+
       //
       svg.append("g")
         .selectAll("bar")
@@ -342,6 +360,7 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
             .duration(500)
             .style("opacity", 0);
         });
+
     </script>
   </body>
 </html>
@@ -349,8 +368,7 @@ Don&rsquo;t ask me why I chose the school holidays, I don&rsquo;t know either.</
 
 
 <p>Whenever I find the time, I&rsquo;ll have to do this again in D3.js v4 or v5.
-Anyway, you probably already know how to extract the HTML and JavaScript code from this website but I&rsquo;ll make it easier and post it below.
-Please excuse the vague and potentially incorrect comments, I&rsquo;m still in the process of learning the D3.js framework.</p>
+Anyway, you probably already know how to extract the HTML and JavaScript code from this website but I&rsquo;ll make it easier and post it below:</p>
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">html</span>&gt;
   &lt;<span style="color:#f92672">head</span>&gt;
