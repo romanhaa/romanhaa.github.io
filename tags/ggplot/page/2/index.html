@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.62.2" />
+  
+  <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+  
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="/css/medium.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+  <div class="container pr-0">
+
+    
+    <a class="navbar-brand" href="http://romanhaa.github.io/">
+      
+      <span style="font-family:Righteous;">Roman Hillje - Data Visualization &amp; Bioinformatics</span>
+      
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+      
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/">About Me</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/plots">Plot Gallery</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/projects">Projects</a>
+        </li>
+        
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<div class="site-content">
+      <div class="container">
+  <div class="main-content">
+    
+    <section class="recent-posts">
+      <div class="section-title">
+        <h2><span>Posts</span></h2>
+      </div>
+      <div class="row listrecent">
+        
+        
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/plots/scatter_plot_1/">
+        
+          <img class="img-fluid" src="/images/plots/scatter/scatter_plot_1.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/scatter_plot_1/">Scatter plot 1</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) data(iris) p &lt;- ggplot(iris) + geom_point(aes(Sepal.Length, Sepal.Width, color = Petal.Length, size = Petal.Width)) + theme_bw() + labs(x = &#39;Sepal length&#39;, y = &#39;Sepal width&#39;, size = &#39;Petal width&#39;) + scale_color_distiller( palette = &#39;Spectral&#39;, name = &#39;Petal length&#39;, guide = guide_colorbar(frame.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/plots/scatter_plot_2/">
+        
+          <img class="img-fluid" src="/images/plots/scatter/scatter_plot_2.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/scatter_plot_2/">Scatter plot 2</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) data(iris) p &lt;- iris %&gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &#39;black&#39;, show.legend = FALSE) + geom_point(aes(Sepal.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/plots/composition_bar_plots/">
+        
+          <img class="img-fluid" src="/images/plots/composition/flights_by_airport_and_carrier.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/composition_bar_plots/">Showing compositions in a bar plot</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) library(patchwork) library(plyr) library(nycflights13) colors_dutch &lt;- c( &#39;#FFC312&#39;,&#39;#C4E538&#39;,&#39;#12CBC4&#39;,&#39;#FDA7DF&#39;,&#39;#ED4C67&#39;, &#39;#F79F1F&#39;,&#39;#A3CB38&#39;,&#39;#1289A7&#39;,&#39;#D980FA&#39;,&#39;#B53471&#39;, &#39;#EE5A24&#39;,&#39;#009432&#39;,&#39;#0652DD&#39;,&#39;#9980FA&#39;,&#39;#833471&#39;, &#39;#EA2027&#39;,&#39;#006266&#39;,&#39;#1B1464&#39;,&#39;#5758BB&#39;,&#39;#6F1E51&#39; ) colors_spanish &lt;- c( &#39;#40407a&#39;,&#39;#706fd3&#39;,&#39;#f7f1e3&#39;,&#39;#34ace0&#39;,&#39;#33d9b2&#39;, &#39;#2c2c54&#39;,&#39;#474787&#39;,&#39;#aaa69d&#39;,&#39;#227093&#39;,&#39;#218c74&#39;, &#39;#ff5252&#39;,&#39;#ff793f&#39;,&#39;#d1ccc0&#39;,&#39;#ffb142&#39;,&#39;#ffda79&#39;, &#39;#b33939&#39;,&#39;#cd6133&#39;,&#39;#84817a&#39;,&#39;#cc8e35&#39;,&#39;#ccae62&#39; ) custom_colors &lt;- c(colors_dutch, colors_spanish) data(flights) t &lt;- flights %&gt;% dplyr::select(origin, carrier) %&gt;% group_by(origin, carrier) %&gt;% tally() %&gt;% ungroup() %&gt;% filter(n &gt; 2000) %&gt;% mutate(carrier = factor(carrier, levels = carrier %&gt;% unique() %&gt;% sort())) t_labels_number &lt;- t %&gt;% mutate(carrier = as.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/plots/geographical_world_1/">
+        
+          <img class="img-fluid" src="/images/plots/geographical/world_1.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/geographical_world_1/">World map</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) library(cowplot) library(sf) library(lwgeom) library(rworldmap) world_sf &lt;- st_as_sf(getMap(resolution = &#34;low&#34;)) crs_wintri &lt;- &#34;+proj=wintri +datum=WGS84 +no_defs +over&#34; world_wintri &lt;- st_transform_proj(world_sf, crs = crs_wintri) # we will highlight the countries from which people attended our event countries_to_highlight &lt;- c( &#39;Austria&#39;, &#39;Bosnia and Herzegovina&#39;, &#39;China&#39;, &#39;Colombia&#39;, &#39;Croatia&#39;, &#39;Czech Republic&#39;, &#39;Denmark&#39;, &#39;France&#39;, &#39;Germany&#39;, &#39;Greece&#39;, &#39;India&#39;, &#39;Indonesia&#39;, &#39;Iran&#39;, &#39;Ireland&#39;, &#39;Israel&#39;, &#39;Italy&#39;, &#39;Mexico&#39;, &#39;Netherlands&#39;, &#39;Nigeria&#39;, &#39;Poland&#39;, &#39;Romania&#39;, &#39;Russia&#39;, &#39;Serbia&#39;, &#39;Spain&#39;, &#39;Sweden&#39;, &#39;Switzerland&#39;, &#39;UK&#39; ) plot_data &lt;- world_wintri %&gt;% mutate(highlight = NAME %in% countries_to_highlight) grat_wintri &lt;- st_graticule(lat = c(-89.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+      </div>
+    </section>
+<div class="bottompagination">
+  <div class="pointerup"><i class="fa fa-caret-up"></i></div>
+  <span class="navigation" role="navigation">
+    
+      <div class="pagination">
+        
+          <a class="ml-1 mr-1" href="/tags/ggplot/">&laquo; Prev</a>
+          <a class="ml-1 mr-1" href="/tags/ggplot/">1</a>
+        
+        <span class="ml-1 mr-1">2</span>
+        
+          <span>Next &raquo;</span>
+        
+      </div>
+    
+  </span>
+</div></div>
+
+      </div>
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 text-center text-lg-left">
+        &copy; Copyright Roman Hillje - All rights reserved
+      </div>
+      <section class="col-md-4 col-sm-4 text-center">
+        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+      </section>
+      <div class="col-md-4 col-sm-4 text-center text-lg-right">
+        Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="/js/mediumish.js"></script>
+
+  </body>
+</html>

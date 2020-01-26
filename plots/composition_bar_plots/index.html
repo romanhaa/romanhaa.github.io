@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.62.2" />
+  
+  <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+  
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="/css/medium.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+  <div class="container pr-0">
+
+    
+    <a class="navbar-brand" href="http://romanhaa.github.io/">
+      
+      <span style="font-family:Righteous;">Roman Hillje - Data Visualization &amp; Bioinformatics</span>
+      
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+      
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/">About Me</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/plots">Plot Gallery</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/projects">Projects</a>
+        </li>
+        
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<div class="site-content">
+			<div class="container">
+  <div class="main-content">
+
+    
+    <div class="container">
+      <div class="row">
+
+        
+        <div class="col-md-12 flex-first flex-md-unordered">
+          <div class="mainheading">
+
+            
+            <h1 class="posttitle">Showing compositions in a bar plot</h1>
+            <div class="article-post">
+              <p>Category: composition</p>
+            </div>
+          </div>
+
+          
+          
+            <img class="featured-image img-fluid" src="/images/plots/composition/flights_by_airport_and_carrier.png" alt="thumbnail for this post" max-width="400">
+          
+
+          
+          <div class="article-post">
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+<span style="color:#a6e22e">library</span>(patchwork)
+<span style="color:#a6e22e">library</span>(plyr)
+<span style="color:#a6e22e">library</span>(nycflights13)
+
+colors_dutch <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FFC312&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#C4E538&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#12CBC4&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FDA7DF&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ED4C67&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#F79F1F&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#A3CB38&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#1289A7&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#D980FA&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#B53471&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#EE5A24&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#009432&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#0652DD&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#9980FA&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#833471&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#EA2027&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#006266&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#1B1464&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#5758BB&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#6F1E51&#39;</span>
+)
+
+colors_spanish <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#40407a&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#706fd3&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#f7f1e3&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#34ace0&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#33d9b2&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#2c2c54&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#474787&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#aaa69d&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#227093&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#218c74&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ff5252&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ff793f&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#d1ccc0&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ffb142&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ffda79&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#b33939&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#cd6133&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#84817a&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#cc8e35&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ccae62&#39;</span>
+)
+
+custom_colors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(colors_dutch, colors_spanish)
+
+<span style="color:#a6e22e">data</span>(flights)
+
+t <span style="color:#f92672">&lt;-</span> flights <span style="color:#f92672">%&gt;%</span>
+  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">select</span>(origin, carrier) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">group_by</span>(origin, carrier) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2000</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(carrier <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(carrier, levels <span style="color:#f92672">=</span> carrier <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">unique</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">sort</span>()))
+
+t_labels_number <span style="color:#f92672">&lt;-</span> t <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(carrier <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.character</span>(carrier)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(carrier <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(carrier, levels <span style="color:#f92672">=</span> carrier <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">unique</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">sort</span>(decreasing <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">arrange</span>(origin, carrier) <span style="color:#f92672">%&gt;%</span>
+  plyr<span style="color:#f92672">::</span><span style="color:#a6e22e">ddply</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">origin&#39;</span>, transform, pos <span style="color:#f92672">=</span> <span style="color:#a6e22e">cumsum</span>(n) <span style="color:#f92672">-</span> (<span style="color:#ae81ff">0.5</span> <span style="color:#f92672">*</span> n))
+
+p1 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_bar</span>(data <span style="color:#f92672">=</span> t, <span style="color:#a6e22e">aes</span>(origin, n, fill <span style="color:#f92672">=</span> carrier), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">identity&#39;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_label</span>(
+    data <span style="color:#f92672">=</span> t_labels_number,
+    <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> origin, y <span style="color:#f92672">=</span> pos, label <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(carrier, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">: &#39;</span>, scales<span style="color:#f92672">::</span><span style="color:#a6e22e">comma</span>(n)), group <span style="color:#f92672">=</span> carrier),
+    alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>,
+    size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>,
+    fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">white&#39;</span>,
+    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> custom_colors) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_y_continuous</span>(labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span>comma, expand <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Airport of departure&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Number of flights&#39;</span>, fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Carrier&#39;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(
+    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">none&#39;</span>,
+    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
+    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>),
+    panel.grid.major.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>()
+  )
+
+inv_cumsum <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) {
+  <span style="color:#a6e22e">sum</span>(x) <span style="color:#f92672">-</span> <span style="color:#a6e22e">cumsum</span>(x) <span style="color:#f92672">+</span> x
+}
+
+t_labels_percent <span style="color:#f92672">&lt;-</span> plyr<span style="color:#f92672">::</span><span style="color:#a6e22e">ddply</span>(
+  t, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">origin&#39;</span>, plyr<span style="color:#f92672">::</span>mutate,
+  prop <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n),
+  cumprop <span style="color:#f92672">=</span> <span style="color:#a6e22e">inv_cumsum</span>(n) <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n),
+  ylabel <span style="color:#f92672">=</span> (<span style="color:#a6e22e">inv_cumsum</span>(n) <span style="color:#f92672">-</span> n <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n)
+)
+
+p2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_bar</span>(data <span style="color:#f92672">=</span> t, <span style="color:#a6e22e">aes</span>(origin, n, fill <span style="color:#f92672">=</span> carrier), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">fill&#39;</span>, stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">identity&#39;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_label</span>(
+    data <span style="color:#f92672">=</span> t_labels_percent,
+    <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> origin, y <span style="color:#f92672">=</span> ylabel, label <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(carrier, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">: &#39;</span>, scales<span style="color:#f92672">::</span><span style="color:#a6e22e">percent</span>(prop, accuracy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>)), group <span style="color:#f92672">=</span> carrier),
+    alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>,
+    size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>,
+    fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">white&#39;</span>,
+    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> custom_colors) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_y_continuous</span>(labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span><span style="color:#a6e22e">percent_format</span>(), expand <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#39;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Airport of departure&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Percent of flights&#39;</span>, fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Carrier&#39;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(
+    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">none&#39;</span>,
+    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
+    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>),
+    panel.grid.major.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>()
+  )
+
+<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flights_by_airport_and_carrier.png&#39;</span>, p1 <span style="color:#f92672">+</span> p2, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>)
+</code></pre></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+			</div>
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 text-center text-lg-left">
+        &copy; Copyright Roman Hillje - All rights reserved
+      </div>
+      <section class="col-md-4 col-sm-4 text-center">
+        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+      </section>
+      <div class="col-md-4 col-sm-4 text-center text-lg-right">
+        Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="/js/mediumish.js"></script>
+
+	</body>
+</html>
