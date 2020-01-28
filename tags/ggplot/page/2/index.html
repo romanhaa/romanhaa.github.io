@@ -68,6 +68,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="/plots/geographical/trieste_2/">
+        
+          <img class="img-fluid" src="/images/plots/geographical/trieste_2.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/geographical/trieste_2/">Map of Trieste (dark)</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &lt;- read_sf(&#39;gis_osm_buildings_a_free_1.shp&#39;) landuse_a &lt;- read_sf(&#39;gis_osm_landuse_a_free_1.shp&#39;) natural &lt;- read_sf(&#39;gis_osm_natural_free_1.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="/plots/scatter/1/">
         
           <img class="img-fluid" src="/images/plots/scatter/1.png" alt="A thumbnail image">
@@ -160,25 +179,6 @@
 
 
 
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="/plots/geographical/world_1/">
-        
-          <img class="img-fluid" src="/images/plots/geographical/world_1.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/geographical/world_1/">World map</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(cowplot) library(sf) library(lwgeom) library(rworldmap) world_sf &lt;- st_as_sf(getMap(resolution = &#34;low&#34;)) crs_wintri &lt;- &#34;+proj=wintri +datum=WGS84 +no_defs +over&#34; world_wintri &lt;- st_transform_proj(world_sf, crs = crs_wintri) # we will highlight the countries from which people attended our event countries_to_highlight &lt;- c( &#39;Austria&#39;, &#39;Bosnia and Herzegovina&#39;, &#39;China&#39;, &#39;Colombia&#39;, &#39;Croatia&#39;, &#39;Czech Republic&#39;, &#39;Denmark&#39;, &#39;France&#39;, &#39;Germany&#39;, &#39;Greece&#39;, &#39;India&#39;, &#39;Indonesia&#39;, &#39;Iran&#39;, &#39;Ireland&#39;, &#39;Israel&#39;, &#39;Italy&#39;, &#39;Mexico&#39;, &#39;Netherlands&#39;, &#39;Nigeria&#39;, &#39;Poland&#39;, &#39;Romania&#39;, &#39;Russia&#39;, &#39;Serbia&#39;, &#39;Spain&#39;, &#39;Sweden&#39;, &#39;Switzerland&#39;, &#39;UK&#39; ) plot_data &lt;- world_wintri %&gt;% mutate(highlight = NAME %in% countries_to_highlight) grat_wintri &lt;- st_graticule(lat = c(-89.</h4>
-    </div>
-  </div>
-</div>
-
-
-
       </div>
     </section>
 <div class="bottompagination">
@@ -192,7 +192,8 @@
         
         <span class="ml-1 mr-1">2</span>
         
-          <span>Next &raquo;</span>
+          <a class="ml-1 mr-1" href="/tags/ggplot/page/3/">3</a>
+          <a class="ml-1 mr-1" href="/tags/ggplot/page/3/">Next &raquo;</a>
         
       </div>
     

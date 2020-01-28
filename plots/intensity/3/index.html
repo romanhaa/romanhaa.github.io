@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.62.2" />
+  
+  <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+  
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="/css/medium.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+  <div class="container pr-0">
+
+    
+    <a class="navbar-brand" href="http://romanhaa.github.io/">
+      
+      <span style="font-family:Righteous;">Roman Hillje - Data Visualization &amp; Bioinformatics</span>
+      
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+      
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/">About Me</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/plots">Plot Gallery</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/projects">Projects</a>
+        </li>
+        
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<div class="site-content">
+			<div class="container">
+  <div class="main-content">
+
+    
+    <div class="container">
+      <div class="row">
+
+        
+        <div class="col-md-12 flex-first flex-md-unordered">
+          <div class="mainheading">
+
+            
+            <h1 class="posttitle">Intensity plot 3</h1>
+            <div class="article-post">
+              <p>Category: intensity</p>
+            </div>
+          </div>
+
+          
+          
+            <img class="featured-image img-fluid" src="/images/plots/intensity/3.png" alt="thumbnail for this post" max-width="400">
+          
+
+          
+          <div class="article-post">
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+<span style="color:#a6e22e">library</span>(Seurat)
+
+seurat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">seurat.rds&#39;</span>)
+
+genes_to_show <span style="color:#f92672">&lt;-</span> seurat<span style="color:#f92672">@</span>misc<span style="color:#f92672">$</span>marker_genes<span style="color:#f92672">$</span>by_cluster <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">group_by</span>(cluster) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">arrange</span>(<span style="color:#f92672">-</span>avg_logFC) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">pull</span>(gene)
+
+cluster_ids <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">levels</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_clusters)
+
+expression_levels_per_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vapply</span>(
+    cluster_ids, FUN.VALUE <span style="color:#f92672">=</span> <span style="color:#a6e22e">numeric</span>(<span style="color:#a6e22e">length</span>(cluster_ids)), <span style="color:#a6e22e">function</span>(x) {
+      cells_in_current_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">which</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_cluster <span style="color:#f92672">==</span> x)
+      Matrix<span style="color:#f92672">::</span><span style="color:#a6e22e">rowMeans</span>(seurat<span style="color:#f92672">@</span>assays<span style="color:#f92672">$</span>SCT<span style="color:#f92672">@</span>data[genes_to_show,cells_in_current_cluster])
+    }
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">t</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">as.data.frame</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">rownames</span>(.)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(cluster, <span style="color:#a6e22e">everything</span>()) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">pivot_longer</span>(
+    cols <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#a6e22e">ncol</span>(.)),
+    names_to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">gene&#39;</span>
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">rename</span>(expression <span style="color:#f92672">=</span> value) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(id_to_merge <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(cluster, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">_&#39;</span>, gene))
+
+percentage_of_cells_expressing_gene <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vapply</span>(
+    cluster_ids, FUN.VALUE <span style="color:#f92672">=</span> <span style="color:#a6e22e">numeric</span>(<span style="color:#a6e22e">length</span>(cluster_ids)), <span style="color:#a6e22e">function</span>(x) {
+      cells_in_current_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">which</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_cluster <span style="color:#f92672">==</span> x)
+      Matrix<span style="color:#f92672">::</span><span style="color:#a6e22e">rowSums</span>(seurat<span style="color:#f92672">@</span>assays<span style="color:#f92672">$</span>SCT<span style="color:#f92672">@</span>data[genes_to_show,cells_in_current_cluster] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+    }
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">t</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">as.data.frame</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">rownames</span>(.)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(cluster, <span style="color:#a6e22e">everything</span>()) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">pivot_longer</span>(
+    cols <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#a6e22e">ncol</span>(.)),
+    names_to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">gene&#39;</span>
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">rename</span>(cell_count <span style="color:#f92672">=</span> value) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">left_join</span>(
+    .,
+    seurat<span style="color:#f92672">@</span>meta.data <span style="color:#f92672">%&gt;%</span>
+      <span style="color:#a6e22e">group_by</span>(seurat_clusters) <span style="color:#f92672">%&gt;%</span>
+      <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span>
+      <span style="color:#a6e22e">rename</span>(cluster <span style="color:#f92672">=</span> seurat_clusters),
+    by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">cluster&#39;</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(
+    id_to_merge <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(cluster, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">_&#39;</span>, gene),
+    percent_cells <span style="color:#f92672">=</span> cell_count <span style="color:#f92672">/</span> n
+  )
+
+p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">left_join</span>(
+    expression_levels_per_cluster,
+    percentage_of_cells_expressing_gene <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(id_to_merge, percent_cells),
+    by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">id_to_merge&#39;</span>
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(cluster, levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">rev</span>(cluster_ids))) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(gene, cluster)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> expression, size <span style="color:#f92672">=</span> percent_cells)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_color_distiller</span>(
+    palette <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Reds&#39;</span>,
+    direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Log-normalised\nexpression&#39;</span>,
+    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">black&#34;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">black&#34;</span>)
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_size</span>(name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Percent\nof cells&#39;</span>, labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span>percent) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Cluster&#39;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Expression&#39;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">coord_fixed</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(
+    axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+    axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+  )
+<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">3.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
+</code></pre></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+			</div>
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 text-center text-lg-left">
+        &copy; Copyright Roman Hillje - All rights reserved
+      </div>
+      <section class="col-md-4 col-sm-4 text-center">
+        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+      </section>
+      <div class="col-md-4 col-sm-4 text-center text-lg-right">
+        Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="/js/mediumish.js"></script>
+
+	</body>
+</html>

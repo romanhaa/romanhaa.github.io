@@ -58,6 +58,15 @@
     </item>
     
     <item>
+      <title>Intensity plot 3</title>
+      <link>http://romanhaa.github.io/plots/intensity/3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/intensity/3/</guid>
+      <description>library(tidyverse) library(Seurat) seurat &amp;lt;- readRDS(&amp;#39;seurat.rds&amp;#39;) genes_to_show &amp;lt;- seurat@misc$marker_genes$by_cluster %&amp;gt;% group_by(cluster) %&amp;gt;% arrange(-avg_logFC) %&amp;gt;% slice(1) %&amp;gt;% pull(gene) cluster_ids &amp;lt;- levels(seurat@meta.data$seurat_clusters) expression_levels_per_cluster &amp;lt;- vapply( cluster_ids, FUN.VALUE = numeric(length(cluster_ids)), function(x) { cells_in_current_cluster &amp;lt;- which(seurat@meta.</description>
+    </item>
+    
+    <item>
       <title>Map of Trieste</title>
       <link>http://romanhaa.github.io/plots/geographical/trieste_1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
