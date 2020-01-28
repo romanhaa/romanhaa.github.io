@@ -72,11 +72,11 @@
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/distributions_1/</loc>
+    <loc>http://romanhaa.github.io/plots/distributions/1/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/distributions_2/</loc>
+    <loc>http://romanhaa.github.io/plots/distributions/2/</loc>
   </url>
   
   <url>
@@ -84,39 +84,43 @@
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/intensity_1/</loc>
+    <loc>http://romanhaa.github.io/plots/intensity/1/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/intensity_2/</loc>
+    <loc>http://romanhaa.github.io/plots/intensity/2/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/geographical_trieste_1/</loc>
+    <loc>http://romanhaa.github.io/plots/geographical/trieste_1/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/geographical_trieste_2/</loc>
+    <loc>http://romanhaa.github.io/plots/geographical/trieste_2/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/scatter_plot_1/</loc>
+    <loc>http://romanhaa.github.io/plots/scatter/1/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/scatter_plot_2/</loc>
+    <loc>http://romanhaa.github.io/plots/scatter/2/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/composition_bar_plots/</loc>
+    <loc>http://romanhaa.github.io/plots/scatter/3/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/geographical_time_zones/</loc>
+    <loc>http://romanhaa.github.io/plots/composition/1/</loc>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/geographical_world_1/</loc>
+    <loc>http://romanhaa.github.io/plots/geographical/time_zones/</loc>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/plots/geographical/world_1/</loc>
   </url>
   
 </urlset>

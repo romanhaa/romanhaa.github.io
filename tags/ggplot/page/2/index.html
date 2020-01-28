@@ -68,14 +68,14 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
-      <a href="/plots/scatter_plot_1/">
+      <a href="/plots/scatter/1/">
         
-          <img class="img-fluid" src="/images/plots/scatter/scatter_plot_1.png" alt="A thumbnail image">
+          <img class="img-fluid" src="/images/plots/scatter/1.png" alt="A thumbnail image">
         
       </a>
     </div>
     <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/scatter_plot_1/">Scatter plot 1</a></h2>
+      <h2 class="card-title"><a class="text-dark" href="/plots/scatter/1/">Scatter plot 1</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) data(iris) p &lt;- ggplot(iris) + geom_point(aes(Sepal.Length, Sepal.Width, color = Petal.Length, size = Petal.Width)) + theme_bw() + labs(x = &#39;Sepal length&#39;, y = &#39;Sepal width&#39;, size = &#39;Petal width&#39;) + scale_color_distiller( palette = &#39;Spectral&#39;, name = &#39;Petal length&#39;, guide = guide_colorbar(frame.</h4>
     </div>
@@ -87,14 +87,14 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
-      <a href="/plots/scatter_plot_2/">
+      <a href="/plots/scatter/2/">
         
-          <img class="img-fluid" src="/images/plots/scatter/scatter_plot_2.png" alt="A thumbnail image">
+          <img class="img-fluid" src="/images/plots/scatter/2.png" alt="A thumbnail image">
         
       </a>
     </div>
     <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/scatter_plot_2/">Scatter plot 2</a></h2>
+      <h2 class="card-title"><a class="text-dark" href="/plots/scatter/2/">Scatter plot 2</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) data(iris) p &lt;- iris %&gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &#39;black&#39;, show.legend = FALSE) + geom_point(aes(Sepal.</h4>
     </div>
@@ -106,14 +106,33 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
-      <a href="/plots/composition_bar_plots/">
+      <a href="/plots/scatter/3/">
+        
+          <img class="img-fluid" src="/images/plots/scatter/3.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/scatter/3/">Scatter plot 3</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) library(MASS) # download differential expression data from EBI Expression Atlas database # https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7445/Results t &lt;- read_tsv(&#39;E-MTAB-7445-query-results.tsv&#39;, skip = 3) %&gt;% rename( gene_id = 1, gene_name = 2, comparison_1_fold_change = 3, comparison_1_p_value = 4, comparison_2_fold_change = 5, comparison_2_p_value = 6 ) t_filtered &lt;- t %&gt;% filter( comparison_1_p_value &lt;= 0.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/plots/composition/1/">
         
           <img class="img-fluid" src="/images/plots/composition/flights_by_airport_and_carrier.png" alt="A thumbnail image">
         
       </a>
     </div>
     <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/composition_bar_plots/">Showing compositions in a bar plot</a></h2>
+      <h2 class="card-title"><a class="text-dark" href="/plots/composition/1/">Showing compositions in a bar plot</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(patchwork) library(plyr) library(nycflights13) colors_dutch &lt;- c( &#39;#FFC312&#39;,&#39;#C4E538&#39;,&#39;#12CBC4&#39;,&#39;#FDA7DF&#39;,&#39;#ED4C67&#39;, &#39;#F79F1F&#39;,&#39;#A3CB38&#39;,&#39;#1289A7&#39;,&#39;#D980FA&#39;,&#39;#B53471&#39;, &#39;#EE5A24&#39;,&#39;#009432&#39;,&#39;#0652DD&#39;,&#39;#9980FA&#39;,&#39;#833471&#39;, &#39;#EA2027&#39;,&#39;#006266&#39;,&#39;#1B1464&#39;,&#39;#5758BB&#39;,&#39;#6F1E51&#39; ) colors_spanish &lt;- c( &#39;#40407a&#39;,&#39;#706fd3&#39;,&#39;#f7f1e3&#39;,&#39;#34ace0&#39;,&#39;#33d9b2&#39;, &#39;#2c2c54&#39;,&#39;#474787&#39;,&#39;#aaa69d&#39;,&#39;#227093&#39;,&#39;#218c74&#39;, &#39;#ff5252&#39;,&#39;#ff793f&#39;,&#39;#d1ccc0&#39;,&#39;#ffb142&#39;,&#39;#ffda79&#39;, &#39;#b33939&#39;,&#39;#cd6133&#39;,&#39;#84817a&#39;,&#39;#cc8e35&#39;,&#39;#ccae62&#39; ) custom_colors &lt;- c(colors_dutch, colors_spanish) data(flights) t &lt;- flights %&gt;% dplyr::select(origin, carrier) %&gt;% group_by(origin, carrier) %&gt;% tally() %&gt;% ungroup() %&gt;% filter(n &gt; 2000) %&gt;% mutate(carrier = factor(carrier, levels = carrier %&gt;% unique() %&gt;% sort())) t_labels_number &lt;- t %&gt;% mutate(carrier = as.</h4>
     </div>
@@ -125,14 +144,14 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
-      <a href="/plots/geographical_time_zones/">
+      <a href="/plots/geographical/time_zones/">
         
           <img class="img-fluid" src="/images/plots/geographical/time_zones_1.png" alt="A thumbnail image">
         
       </a>
     </div>
     <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/geographical_time_zones/">Time zones</a></h2>
+      <h2 class="card-title"><a class="text-dark" href="/plots/geographical/time_zones/">Time zones</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(sf) library(lwgeom) library(patchwork) blankbg &lt;- theme( axis.line = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(), axis.title.y = element_blank(), panel.</h4>
     </div>
@@ -144,14 +163,14 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
-      <a href="/plots/geographical_world_1/">
+      <a href="/plots/geographical/world_1/">
         
           <img class="img-fluid" src="/images/plots/geographical/world_1.png" alt="A thumbnail image">
         
       </a>
     </div>
     <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/geographical_world_1/">World map</a></h2>
+      <h2 class="card-title"><a class="text-dark" href="/plots/geographical/world_1/">World map</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(cowplot) library(sf) library(lwgeom) library(rworldmap) world_sf &lt;- st_as_sf(getMap(resolution = &#34;low&#34;)) crs_wintri &lt;- &#34;+proj=wintri +datum=WGS84 +no_defs +over&#34; world_wintri &lt;- st_transform_proj(world_sf, crs = crs_wintri) # we will highlight the countries from which people attended our event countries_to_highlight &lt;- c( &#39;Austria&#39;, &#39;Bosnia and Herzegovina&#39;, &#39;China&#39;, &#39;Colombia&#39;, &#39;Croatia&#39;, &#39;Czech Republic&#39;, &#39;Denmark&#39;, &#39;France&#39;, &#39;Germany&#39;, &#39;Greece&#39;, &#39;India&#39;, &#39;Indonesia&#39;, &#39;Iran&#39;, &#39;Ireland&#39;, &#39;Israel&#39;, &#39;Italy&#39;, &#39;Mexico&#39;, &#39;Netherlands&#39;, &#39;Nigeria&#39;, &#39;Poland&#39;, &#39;Romania&#39;, &#39;Russia&#39;, &#39;Serbia&#39;, &#39;Spain&#39;, &#39;Sweden&#39;, &#39;Switzerland&#39;, &#39;UK&#39; ) plot_data &lt;- world_wintri %&gt;% mutate(highlight = NAME %in% countries_to_highlight) grat_wintri &lt;- st_graticule(lat = c(-89.</h4>
     </div>

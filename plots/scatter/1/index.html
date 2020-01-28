@@ -57,114 +57,51 @@
 <div class="site-content">
 			<div class="container">
   <div class="main-content">
-    <div class="section-title">
-      <h2><span>Compositions</span></h2>
-    </div>
-    <ul id="plots-composition" class="og-grid">
-      
-      <li>
-        <a href="/plots/composition/1/" data-largesrc="/images/plots/composition/flights_by_airport_and_carrier.png" data-buttontext="">
-          <img src="/images/plots/composition/flights_by_airport_and_carrier.png" alt="Showing compositions in a bar plot" height="250">
-        </a>
-      </li>
-      
-    </ul>
 
-    <div class="section-title">
-      <h2><span>Scatter plots</span></h2>
-    </div>
-    <ul id="plots-scatter" class="og-grid">
-      
-      <li>
-        <a href="/plots/scatter/1/" data-largesrc="/images/plots/scatter/1.png" data-buttontext="">
-          <img src="/images/plots/scatter/1.png" alt="Scatter plot 1" height="250">
-        </a>
-      </li>
-      
-      <li>
-        <a href="/plots/scatter/2/" data-largesrc="/images/plots/scatter/2.png" data-buttontext="">
-          <img src="/images/plots/scatter/2.png" alt="Scatter plot 2" height="250">
-        </a>
-      </li>
-      
-      <li>
-        <a href="/plots/scatter/3/" data-largesrc="/images/plots/scatter/3.png" data-buttontext="">
-          <img src="/images/plots/scatter/3.png" alt="Scatter plot 3" height="250">
-        </a>
-      </li>
-      
-    </ul>
+    
+    <div class="container">
+      <div class="row">
 
-    <div class="section-title">
-      <h2><span>Distributions</span></h2>
-    </div>
-    <ul id="plots-distribution" class="og-grid">
-      
-      <li>
-        <a href="/plots/distributions/1/" data-largesrc="/images/plots/distributions/1.png" data-buttontext="">
-          <img src="/images/plots/distributions/1.png" alt="Distributions plot 1" height="250">
-        </a>
-      </li>
-      
-      <li>
-        <a href="/plots/distributions/2/" data-largesrc="/images/plots/distributions/2.png" data-buttontext="">
-          <img src="/images/plots/distributions/2.png" alt="Distributions plot 2" height="250">
-        </a>
-      </li>
-      
-    </ul>
+        
+        <div class="col-md-12 flex-first flex-md-unordered">
+          <div class="mainheading">
 
-    <div class="section-title">
-      <h2><span>Intensities</span></h2>
+            
+            <h1 class="posttitle">Scatter plot 1</h1>
+            <div class="article-post">
+              <p>Category: scatter</p>
+            </div>
+          </div>
+
+          
+          
+            <img class="featured-image img-fluid" src="/images/plots/scatter/1.png" alt="thumbnail for this post" max-width="400">
+          
+
+          
+          <div class="article-post">
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+
+<span style="color:#a6e22e">data</span>(iris)
+
+p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(iris) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(Sepal.Length, Sepal.Width, color <span style="color:#f92672">=</span> Petal.Length, size <span style="color:#f92672">=</span> Petal.Width)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sepal length&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sepal width&#39;</span>, size <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Petal width&#39;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_color_distiller</span>(
+    palette <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Spectral&#39;</span>, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Petal length&#39;</span>,
+    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>)
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right&#39;</span>)
+
+<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">scatter_plot_1.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <ul id="plots-intensity" class="og-grid">
-      
-      <li>
-        <a href="/plots/intensity/1/" data-largesrc="/images/plots/intensity/1.png" data-buttontext="">
-          <img src="/images/plots/intensity/1.png" alt="Intensity plot 1" height="250">
-        </a>
-      </li>
-      
-      <li>
-        <a href="/plots/intensity/2/" data-largesrc="/images/plots/intensity/2.png" data-buttontext="">
-          <img src="/images/plots/intensity/2.png" alt="Intensity plot 2" height="250">
-        </a>
-      </li>
-      
-    </ul>
   </div>
-
-  <div class="section-title">
-    <h2><span>Geographical</span></h2>
-  </div>
-  <ul id="plots-geographical" class="og-grid">
-    
-    <li>
-      <a href="/plots/geographical/trieste_1/" data-largesrc="/images/plots/geographical/trieste_1.png" data-buttontext="">
-        <img src="/images/plots/geographical/trieste_1.png" alt="Map of Trieste" height="250">
-      </a>
-    </li>
-    
-    <li>
-      <a href="/plots/geographical/trieste_2/" data-largesrc="/images/plots/geographical/trieste_2.png" data-buttontext="">
-        <img src="/images/plots/geographical/trieste_2.png" alt="Map of Trieste (dark)" height="250">
-      </a>
-    </li>
-    
-    <li>
-      <a href="/plots/geographical/time_zones/" data-largesrc="/images/plots/geographical/time_zones_1.png" data-buttontext="">
-        <img src="/images/plots/geographical/time_zones_1.png" alt="Time zones" height="250">
-      </a>
-    </li>
-    
-    <li>
-      <a href="/plots/geographical/world_1/" data-largesrc="/images/plots/geographical/world_1.png" data-buttontext="">
-        <img src="/images/plots/geographical/world_1.png" alt="World map" height="250">
-      </a>
-    </li>
-    
-  </ul>
-</div>
 
 			</div>
 <footer class="footer">

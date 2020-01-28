@@ -13,100 +13,109 @@
     
     <item>
       <title>Distribution plot 1</title>
-      <link>http://romanhaa.github.io/plots/distributions_1/</link>
+      <link>http://romanhaa.github.io/plots/distributions/1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/distributions_1/</guid>
+      <guid>http://romanhaa.github.io/plots/distributions/1/</guid>
       <description>library(tidyverse) library(wesanderson) data(iris) p &amp;lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Width, color = Species), alpha = 0.75, size = 1, show.legend = FALSE) + geom_violin(aes(Species, Sepal.Width, fill = Species), alpha = 0.</description>
     </item>
     
     <item>
       <title>Distribution plot 2</title>
-      <link>http://romanhaa.github.io/plots/distributions_2/</link>
+      <link>http://romanhaa.github.io/plots/distributions/2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/distributions_2/</guid>
+      <guid>http://romanhaa.github.io/plots/distributions/2/</guid>
       <description>library(tidyverse) library(gghalves) library(wesanderson) data(iris) p &amp;lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Length, color = Species), alpha = 0.75, size = 1, show.legend = FALSE) + gghalves::geom_half_violin(aes(Species, Sepal.Length, fill = Species), side = &amp;#39;l&amp;#39;, alpha = 0.</description>
     </item>
     
     <item>
       <title>Intensity plot 1</title>
-      <link>http://romanhaa.github.io/plots/intensity_1/</link>
+      <link>http://romanhaa.github.io/plots/intensity/1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/intensity_1/</guid>
+      <guid>http://romanhaa.github.io/plots/intensity/1/</guid>
       <description>library(tidyverse) library(wesanderson) data(iris) p &amp;lt;- ggplot(iris) + stat_density_2d(aes(Sepal.Length, Sepal.Width, fill = stat(level)), geom = &amp;#39;polygon&amp;#39;) + theme_bw() + labs(x = &amp;#39;Sepal length&amp;#39;, y = &amp;#39;Sepal width&amp;#39;, size = &amp;#39;Petal width&amp;#39;) + scale_fill_gradientn( colours = wes_palette(&amp;#39;Zissou1&amp;#39;, 21, type = &amp;#39;continuous&amp;#39;), guide = guide_colorbar(frame.</description>
     </item>
     
     <item>
       <title>Intensity plot 2</title>
-      <link>http://romanhaa.github.io/plots/intensity_2/</link>
+      <link>http://romanhaa.github.io/plots/intensity/2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/intensity_2/</guid>
+      <guid>http://romanhaa.github.io/plots/intensity/2/</guid>
       <description>library(tidyverse) library(viridis) n &amp;lt;- 15000 data &amp;lt;- bind_rows( tibble(x = rnorm(n, 5, 2), y = rnorm(n, 7.5, 4)), tibble(x = rnorm(n, 10, 3), y = rnorm(n, 2.</description>
     </item>
     
     <item>
       <title>Map of Trieste</title>
-      <link>http://romanhaa.github.io/plots/geographical_trieste_1/</link>
+      <link>http://romanhaa.github.io/plots/geographical/trieste_1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/geographical_trieste_1/</guid>
+      <guid>http://romanhaa.github.io/plots/geographical/trieste_1/</guid>
       <description>library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &amp;lt;- read_sf(&amp;#39;gis_osm_buildings_a_free_1.shp&amp;#39;) landuse_a &amp;lt;- read_sf(&amp;#39;gis_osm_landuse_a_free_1.shp&amp;#39;) natural &amp;lt;- read_sf(&amp;#39;gis_osm_natural_free_1.</description>
     </item>
     
     <item>
       <title>Map of Trieste (dark)</title>
-      <link>http://romanhaa.github.io/plots/geographical_trieste_2/</link>
+      <link>http://romanhaa.github.io/plots/geographical/trieste_2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/geographical_trieste_2/</guid>
+      <guid>http://romanhaa.github.io/plots/geographical/trieste_2/</guid>
       <description>library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &amp;lt;- read_sf(&amp;#39;gis_osm_buildings_a_free_1.shp&amp;#39;) landuse_a &amp;lt;- read_sf(&amp;#39;gis_osm_landuse_a_free_1.shp&amp;#39;) natural &amp;lt;- read_sf(&amp;#39;gis_osm_natural_free_1.</description>
     </item>
     
     <item>
       <title>Scatter plot 1</title>
-      <link>http://romanhaa.github.io/plots/scatter_plot_1/</link>
+      <link>http://romanhaa.github.io/plots/scatter/1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/scatter_plot_1/</guid>
+      <guid>http://romanhaa.github.io/plots/scatter/1/</guid>
       <description>library(tidyverse) data(iris) p &amp;lt;- ggplot(iris) + geom_point(aes(Sepal.Length, Sepal.Width, color = Petal.Length, size = Petal.Width)) + theme_bw() + labs(x = &amp;#39;Sepal length&amp;#39;, y = &amp;#39;Sepal width&amp;#39;, size = &amp;#39;Petal width&amp;#39;) + scale_color_distiller( palette = &amp;#39;Spectral&amp;#39;, name = &amp;#39;Petal length&amp;#39;, guide = guide_colorbar(frame.</description>
     </item>
     
     <item>
       <title>Scatter plot 2</title>
-      <link>http://romanhaa.github.io/plots/scatter_plot_2/</link>
+      <link>http://romanhaa.github.io/plots/scatter/2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/scatter_plot_2/</guid>
+      <guid>http://romanhaa.github.io/plots/scatter/2/</guid>
       <description>library(tidyverse) data(iris) p &amp;lt;- iris %&amp;gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&amp;gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &amp;#39;black&amp;#39;, show.legend = FALSE) + geom_point(aes(Sepal.</description>
     </item>
     
     <item>
-      <title>Showing compositions in a bar plot</title>
-      <link>http://romanhaa.github.io/plots/composition_bar_plots/</link>
+      <title>Scatter plot 3</title>
+      <link>http://romanhaa.github.io/plots/scatter/3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/composition_bar_plots/</guid>
+      <guid>http://romanhaa.github.io/plots/scatter/3/</guid>
+      <description>library(tidyverse) library(MASS) # download differential expression data from EBI Expression Atlas database # https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7445/Results t &amp;lt;- read_tsv(&amp;#39;E-MTAB-7445-query-results.tsv&amp;#39;, skip = 3) %&amp;gt;% rename( gene_id = 1, gene_name = 2, comparison_1_fold_change = 3, comparison_1_p_value = 4, comparison_2_fold_change = 5, comparison_2_p_value = 6 ) t_filtered &amp;lt;- t %&amp;gt;% filter( comparison_1_p_value &amp;lt;= 0.</description>
+    </item>
+    
+    <item>
+      <title>Showing compositions in a bar plot</title>
+      <link>http://romanhaa.github.io/plots/composition/1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/composition/1/</guid>
       <description>library(tidyverse) library(patchwork) library(plyr) library(nycflights13) colors_dutch &amp;lt;- c( &amp;#39;#FFC312&amp;#39;,&amp;#39;#C4E538&amp;#39;,&amp;#39;#12CBC4&amp;#39;,&amp;#39;#FDA7DF&amp;#39;,&amp;#39;#ED4C67&amp;#39;, &amp;#39;#F79F1F&amp;#39;,&amp;#39;#A3CB38&amp;#39;,&amp;#39;#1289A7&amp;#39;,&amp;#39;#D980FA&amp;#39;,&amp;#39;#B53471&amp;#39;, &amp;#39;#EE5A24&amp;#39;,&amp;#39;#009432&amp;#39;,&amp;#39;#0652DD&amp;#39;,&amp;#39;#9980FA&amp;#39;,&amp;#39;#833471&amp;#39;, &amp;#39;#EA2027&amp;#39;,&amp;#39;#006266&amp;#39;,&amp;#39;#1B1464&amp;#39;,&amp;#39;#5758BB&amp;#39;,&amp;#39;#6F1E51&amp;#39; ) colors_spanish &amp;lt;- c( &amp;#39;#40407a&amp;#39;,&amp;#39;#706fd3&amp;#39;,&amp;#39;#f7f1e3&amp;#39;,&amp;#39;#34ace0&amp;#39;,&amp;#39;#33d9b2&amp;#39;, &amp;#39;#2c2c54&amp;#39;,&amp;#39;#474787&amp;#39;,&amp;#39;#aaa69d&amp;#39;,&amp;#39;#227093&amp;#39;,&amp;#39;#218c74&amp;#39;, &amp;#39;#ff5252&amp;#39;,&amp;#39;#ff793f&amp;#39;,&amp;#39;#d1ccc0&amp;#39;,&amp;#39;#ffb142&amp;#39;,&amp;#39;#ffda79&amp;#39;, &amp;#39;#b33939&amp;#39;,&amp;#39;#cd6133&amp;#39;,&amp;#39;#84817a&amp;#39;,&amp;#39;#cc8e35&amp;#39;,&amp;#39;#ccae62&amp;#39; ) custom_colors &amp;lt;- c(colors_dutch, colors_spanish) data(flights) t &amp;lt;- flights %&amp;gt;% dplyr::select(origin, carrier) %&amp;gt;% group_by(origin, carrier) %&amp;gt;% tally() %&amp;gt;% ungroup() %&amp;gt;% filter(n &amp;gt; 2000) %&amp;gt;% mutate(carrier = factor(carrier, levels = carrier %&amp;gt;% unique() %&amp;gt;% sort())) t_labels_number &amp;lt;- t %&amp;gt;% mutate(carrier = as.</description>
     </item>
     
     <item>
       <title>Time zones</title>
-      <link>http://romanhaa.github.io/plots/geographical_time_zones/</link>
+      <link>http://romanhaa.github.io/plots/geographical/time_zones/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/geographical_time_zones/</guid>
+      <guid>http://romanhaa.github.io/plots/geographical/time_zones/</guid>
       <description>library(tidyverse) library(sf) library(lwgeom) library(patchwork) blankbg &amp;lt;- theme( axis.line = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(), axis.title.y = element_blank(), panel.</description>
     </item>
     
     <item>
       <title>World map</title>
-      <link>http://romanhaa.github.io/plots/geographical_world_1/</link>
+      <link>http://romanhaa.github.io/plots/geographical/world_1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/geographical_world_1/</guid>
+      <guid>http://romanhaa.github.io/plots/geographical/world_1/</guid>
       <description>library(tidyverse) library(cowplot) library(sf) library(lwgeom) library(rworldmap) world_sf &amp;lt;- st_as_sf(getMap(resolution = &amp;#34;low&amp;#34;)) crs_wintri &amp;lt;- &amp;#34;+proj=wintri +datum=WGS84 +no_defs +over&amp;#34; world_wintri &amp;lt;- st_transform_proj(world_sf, crs = crs_wintri) # we will highlight the countries from which people attended our event countries_to_highlight &amp;lt;- c( &amp;#39;Austria&amp;#39;, &amp;#39;Bosnia and Herzegovina&amp;#39;, &amp;#39;China&amp;#39;, &amp;#39;Colombia&amp;#39;, &amp;#39;Croatia&amp;#39;, &amp;#39;Czech Republic&amp;#39;, &amp;#39;Denmark&amp;#39;, &amp;#39;France&amp;#39;, &amp;#39;Germany&amp;#39;, &amp;#39;Greece&amp;#39;, &amp;#39;India&amp;#39;, &amp;#39;Indonesia&amp;#39;, &amp;#39;Iran&amp;#39;, &amp;#39;Ireland&amp;#39;, &amp;#39;Israel&amp;#39;, &amp;#39;Italy&amp;#39;, &amp;#39;Mexico&amp;#39;, &amp;#39;Netherlands&amp;#39;, &amp;#39;Nigeria&amp;#39;, &amp;#39;Poland&amp;#39;, &amp;#39;Romania&amp;#39;, &amp;#39;Russia&amp;#39;, &amp;#39;Serbia&amp;#39;, &amp;#39;Spain&amp;#39;, &amp;#39;Sweden&amp;#39;, &amp;#39;Switzerland&amp;#39;, &amp;#39;UK&amp;#39; ) plot_data &amp;lt;- world_wintri %&amp;gt;% mutate(highlight = NAME %in% countries_to_highlight) grat_wintri &amp;lt;- st_graticule(lat = c(-89.</description>
     </item>
     
