@@ -80,7 +80,9 @@
 
           
           <div class="article-post">
-            <pre><code class="language-r">library(tidyverse)
+            <p>{{ highlight r }}</p>
+
+<pre><code class="language-r">library(tidyverse)
 library(wesanderson)
 
 data(iris)
@@ -97,6 +99,8 @@ p &lt;- ggplot(iris) +
   theme(axis.title.x = element_blank())
 ggsave('1.png', p, height = 5, width = 6)
 </code></pre>
+
+<p>{{ / highlight }}</p>
 
           </div>
 
