@@ -144,6 +144,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="/plots/scatter/5/">
+        
+          <img class="img-fluid" src="/images/plots/scatter/5.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/scatter/5/">Scatter plot 5</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) library(Seurat) library(ComplexHeatmap) library(circlize) library(gridExtra) library(ggplotify) # create color palette from flatuicolors.com colors_dutch &lt;- c( '#FFC312','#C4E538','#12CBC4','#FDA7DF','#ED4C67', '#F79F1F','#A3CB38','#1289A7','#D980FA','#B53471', '#EE5A24','#009432','#0652DD','#9980FA','#833471', '#EA2027','#006266','#1B1464','#5758BB','#6F1E51' ) colors_spanish &lt;- c( '#40407a','#706fd3','#f7f1e3','#34ace0','#33d9b2', '#2c2c54','#474787','#aaa69d','#227093','#218c74', '#ff5252','#ff793f','#d1ccc0','#ffb142','#ffda79', '#b33939','#cd6133','#84817a','#cc8e35','#ccae62' ) custom_colors &lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &lt;- readRDS('seurat.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="/plots/composition/1/">
         
           <img class="img-fluid" src="/images/plots/composition/flights_by_airport_and_carrier.png" alt="A thumbnail image">
@@ -154,25 +173,6 @@
       <h2 class="card-title"><a class="text-dark" href="/plots/composition/1/">Showing compositions in a bar plot</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(patchwork) library(plyr) library(nycflights13) colors_dutch &lt;- c( '#FFC312','#C4E538','#12CBC4','#FDA7DF','#ED4C67', '#F79F1F','#A3CB38','#1289A7','#D980FA','#B53471', '#EE5A24','#009432','#0652DD','#9980FA','#833471', '#EA2027','#006266','#1B1464','#5758BB','#6F1E51' ) colors_spanish &lt;- c( '#40407a','#706fd3','#f7f1e3','#34ace0','#33d9b2', '#2c2c54','#474787','#aaa69d','#227093','#218c74', '#ff5252','#ff793f','#d1ccc0','#ffb142','#ffda79', '#b33939','#cd6133','#84817a','#cc8e35','#ccae62' ) custom_colors &lt;- c(colors_dutch, colors_spanish) data(flights) t &lt;- flights %&gt;% dplyr::select(origin, carrier) %&gt;% group_by(origin, carrier) %&gt;% tally() %&gt;% ungroup() %&gt;% filter(n &gt; 2000) %&gt;% mutate(carrier = factor(carrier, levels = carrier %&gt;% unique() %&gt;% sort())) t_labels_number &lt;- t %&gt;% mutate(carrier = as.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="/plots/geographical/time_zones/">
-        
-          <img class="img-fluid" src="/images/plots/geographical/time_zones_1.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/geographical/time_zones/">Time zones</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(sf) library(lwgeom) library(patchwork) blankbg &lt;- theme( axis.line = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(), axis.title.y = element_blank(), panel.</h4>
     </div>
   </div>
 </div>

@@ -102,6 +102,15 @@
     </item>
     
     <item>
+      <title>Scatter plot 5</title>
+      <link>http://romanhaa.github.io/plots/scatter/5/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/scatter/5/</guid>
+      <description>library(tidyverse) library(Seurat) library(ComplexHeatmap) library(circlize) library(gridExtra) library(ggplotify) # create color palette from flatuicolors.com colors_dutch &amp;lt;- c( &#39;#FFC312&#39;,&#39;#C4E538&#39;,&#39;#12CBC4&#39;,&#39;#FDA7DF&#39;,&#39;#ED4C67&#39;, &#39;#F79F1F&#39;,&#39;#A3CB38&#39;,&#39;#1289A7&#39;,&#39;#D980FA&#39;,&#39;#B53471&#39;, &#39;#EE5A24&#39;,&#39;#009432&#39;,&#39;#0652DD&#39;,&#39;#9980FA&#39;,&#39;#833471&#39;, &#39;#EA2027&#39;,&#39;#006266&#39;,&#39;#1B1464&#39;,&#39;#5758BB&#39;,&#39;#6F1E51&#39; ) colors_spanish &amp;lt;- c( &#39;#40407a&#39;,&#39;#706fd3&#39;,&#39;#f7f1e3&#39;,&#39;#34ace0&#39;,&#39;#33d9b2&#39;, &#39;#2c2c54&#39;,&#39;#474787&#39;,&#39;#aaa69d&#39;,&#39;#227093&#39;,&#39;#218c74&#39;, &#39;#ff5252&#39;,&#39;#ff793f&#39;,&#39;#d1ccc0&#39;,&#39;#ffb142&#39;,&#39;#ffda79&#39;, &#39;#b33939&#39;,&#39;#cd6133&#39;,&#39;#84817a&#39;,&#39;#cc8e35&#39;,&#39;#ccae62&#39; ) custom_colors &amp;lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&#39;seurat.</description>
+    </item>
+    
+    <item>
       <title>Showing compositions in a bar plot</title>
       <link>http://romanhaa.github.io/plots/composition/1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
