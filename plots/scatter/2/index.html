@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.57.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -80,25 +80,26 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+            <pre><code class="language-r">library(tidyverse)
 
-<span style="color:#a6e22e">data</span>(iris)
+data(iris)
 
-p <span style="color:#f92672">&lt;-</span> iris <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(Petal.Width.larger <span style="color:#f92672">=</span> Petal.Width <span style="color:#f92672">*</span> <span style="color:#ae81ff">1.5</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(Sepal.Length, Sepal.Width, size <span style="color:#f92672">=</span> Petal.Width.larger), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(Sepal.Length, Sepal.Width, color <span style="color:#f92672">=</span> Petal.Length, size <span style="color:#f92672">=</span> Petal.Width)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sepal length&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sepal width&#39;</span>, size <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Petal width&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_distiller</span>(
-    palette <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Spectral&#39;</span>, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Petal length&#39;</span>,
-    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>)
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right&#39;</span>)
+p &lt;- iris %&gt;%
+  mutate(Petal.Width.larger = Petal.Width * 1.5) %&gt;%
+  ggplot() +
+  geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = 'black', show.legend = FALSE) +
+  geom_point(aes(Sepal.Length, Sepal.Width, color = Petal.Length, size = Petal.Width)) +
+  theme_bw() +
+  labs(x = 'Sepal length', y = 'Sepal width', size = 'Petal width') +
+  scale_color_distiller(
+    palette = 'Spectral', name = 'Petal length',
+    guide = guide_colorbar(frame.colour = 'black', ticks.colour = 'black')
+  ) +
+  theme(legend.position = 'right')
 
-<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">2.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div>
+ggsave('2.png', p, height = 5, width = 6)
+</code></pre>
+
           </div>
 
         </div>

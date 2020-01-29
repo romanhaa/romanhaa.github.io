@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.57.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -80,28 +80,29 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
-<span style="color:#a6e22e">library</span>(viridis)
+            <pre><code class="language-r">library(tidyverse)
+library(viridis)
 
-n <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">15000</span>
+n &lt;- 15000
 
-data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(
-  <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">2</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">7.5</span>, <span style="color:#ae81ff">4</span>)),
-  <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">3</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">2.5</span>, <span style="color:#ae81ff">3</span>)),
-  <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">4</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">5</span>))
+data &lt;- bind_rows(
+  tibble(x = rnorm(n, 5, 2), y = rnorm(n, 7.5, 4)),
+  tibble(x = rnorm(n, 10, 3), y = rnorm(n, 2.5, 3)),
+  tibble(x = rnorm(n, 15, 4), y = rnorm(n, 10, 5))
 )
 
-p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(data) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_hex</span>(<span style="color:#a6e22e">aes</span>(x, y), bins <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">X&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Y&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_viridis</span>(
-    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Count&#39;</span>,
-    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>)
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right&#39;</span>)
-<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">2.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div>
+p &lt;- ggplot(data) +
+  geom_hex(aes(x, y), bins = 50) +
+  theme_bw() +
+  labs(x = 'X', y = 'Y') +
+  scale_fill_viridis(
+    name = 'Count',
+    guide = guide_colorbar(frame.colour = 'black', ticks.colour = 'black')
+  ) +
+  theme(legend.position = 'right')
+ggsave('2.png', p, height = 5, width = 6)
+</code></pre>
+
           </div>
 
         </div>

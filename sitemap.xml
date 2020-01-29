@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
@@ -92,15 +92,7 @@
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/intensity/3/</loc>
-  </url>
-  
-  <url>
     <loc>http://romanhaa.github.io/plots/geographical/trieste_1/</loc>
-  </url>
-  
-  <url>
-    <loc>http://romanhaa.github.io/plots/geographical/trieste_2/</loc>
   </url>
   
   <url>
@@ -113,6 +105,10 @@
   
   <url>
     <loc>http://romanhaa.github.io/plots/scatter/3/</loc>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/plots/scatter/4/</loc>
   </url>
   
   <url>

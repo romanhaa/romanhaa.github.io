@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.57.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -77,7 +77,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/distributions/1/">Distribution plot 1</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(wesanderson) data(iris) p &lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Width, color = Species), alpha = 0.75, size = 1, show.legend = FALSE) + geom_violin(aes(Species, Sepal.Width, fill = Species), alpha = 0.</h4>
+      <h4 class="card-text">library(tidyverse) library(wesanderson) data(iris) p &lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Width, color = Species), alpha = 0.75, size = 3, show.legend = FALSE) + geom_violin(aes(Species, Sepal.Width, fill = Species), alpha = 0.</h4>
     </div>
   </div>
 </div>
@@ -96,7 +96,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/distributions/2/">Distribution plot 2</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(gghalves) library(wesanderson) data(iris) p &lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Length, color = Species), alpha = 0.75, size = 1, show.legend = FALSE) + gghalves::geom_half_violin(aes(Species, Sepal.Length, fill = Species), side = &#39;l&#39;, alpha = 0.</h4>
+      <h4 class="card-text">library(tidyverse) library(gghalves) library(wesanderson) data(iris) p &lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Length, color = Species), alpha = 0.75, size = 3, show.legend = FALSE) + gghalves::geom_half_violin(aes(Species, Sepal.Length, fill = Species), side = 'l', alpha = 0.</h4>
     </div>
   </div>
 </div>
@@ -115,7 +115,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/intensity/1/">Intensity plot 1</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(wesanderson) data(iris) p &lt;- ggplot(iris) + stat_density_2d(aes(Sepal.Length, Sepal.Width, fill = stat(level)), geom = &#39;polygon&#39;) + theme_bw() + labs(x = &#39;Sepal length&#39;, y = &#39;Sepal width&#39;, size = &#39;Petal width&#39;) + scale_fill_gradientn( colours = wes_palette(&#39;Zissou1&#39;, 21, type = &#39;continuous&#39;), guide = guide_colorbar(frame.</h4>
+      <h4 class="card-text">library(tidyverse) library(wesanderson) data(iris) p &lt;- ggplot(iris) + stat_density_2d(aes(Sepal.Length, Sepal.Width, fill = stat(level)), geom = 'polygon') + theme_bw() + labs(x = 'Sepal length', y = 'Sepal width', size = 'Petal width') + scale_fill_gradientn( colours = wes_palette('Zissou1', 21, type = 'continuous'), guide = guide_colorbar(frame.</h4>
     </div>
   </div>
 </div>
@@ -144,25 +144,6 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
-      <a href="/plots/intensity/3/">
-        
-          <img class="img-fluid" src="/images/plots/intensity/3.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/intensity/3/">Intensity plot 3</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(Seurat) seurat &lt;- readRDS(&#39;seurat.rds&#39;) genes_to_show &lt;- seurat@misc$marker_genes$by_cluster %&gt;% group_by(cluster) %&gt;% arrange(-avg_logFC) %&gt;% slice(1) %&gt;% pull(gene) cluster_ids &lt;- levels(seurat@meta.data$seurat_clusters) expression_levels_per_cluster &lt;- vapply( cluster_ids, FUN.VALUE = numeric(length(cluster_ids)), function(x) { cells_in_current_cluster &lt;- which(seurat@meta.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
       <a href="/plots/geographical/trieste_1/">
         
           <img class="img-fluid" src="/images/plots/geographical/trieste_1.png" alt="A thumbnail image">
@@ -172,7 +153,26 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/geographical/trieste_1/">Map of Trieste</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &lt;- read_sf(&#39;gis_osm_buildings_a_free_1.shp&#39;) landuse_a &lt;- read_sf(&#39;gis_osm_landuse_a_free_1.shp&#39;) natural &lt;- read_sf(&#39;gis_osm_natural_free_1.</h4>
+      <h4 class="card-text">library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &lt;- read_sf('gis_osm_buildings_a_free_1.shp') landuse_a &lt;- read_sf('gis_osm_landuse_a_free_1.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/plots/scatter/1/">
+        
+          <img class="img-fluid" src="/images/plots/scatter/1.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/scatter/1/">Scatter plot 1</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) data(iris) p &lt;- ggplot(iris) + geom_point(aes(Sepal.Length, Sepal.Width, color = Petal.Length, size = Petal.Width)) + theme_bw() + labs(x = 'Sepal length', y = 'Sepal width', size = 'Petal width') + scale_color_distiller( palette = 'Spectral', name = 'Petal length', guide = guide_colorbar(frame.</h4>
     </div>
   </div>
 </div>

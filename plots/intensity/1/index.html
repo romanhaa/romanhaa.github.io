@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.57.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -80,22 +80,23 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
-<span style="color:#a6e22e">library</span>(wesanderson)
+            <pre><code class="language-r">library(tidyverse)
+library(wesanderson)
 
-<span style="color:#a6e22e">data</span>(iris)
+data(iris)
 
-p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(iris) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">stat_density_2d</span>(<span style="color:#a6e22e">aes</span>(Sepal.Length, Sepal.Width, fill <span style="color:#f92672">=</span> <span style="color:#a6e22e">stat</span>(level)), geom <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">polygon&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sepal length&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sepal width&#39;</span>, size <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Petal width&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_gradientn</span>(
-    colours <span style="color:#f92672">=</span> <span style="color:#a6e22e">wes_palette</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Zissou1&#39;</span>, <span style="color:#ae81ff">21</span>, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">continuous&#39;</span>),
-    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>)
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right&#39;</span>)
-<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">1.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div>
+p &lt;- ggplot(iris) +
+  stat_density_2d(aes(Sepal.Length, Sepal.Width, fill = stat(level)), geom = 'polygon') +
+  theme_bw() +
+  labs(x = 'Sepal length', y = 'Sepal width', size = 'Petal width') +
+  scale_fill_gradientn(
+    colours = wes_palette('Zissou1', 21, type = 'continuous'),
+    guide = guide_colorbar(frame.colour = 'black', ticks.colour = 'black')
+  ) +
+  theme(legend.position = 'right')
+ggsave('1.png', p, height = 5, width = 6)
+</code></pre>
+
           </div>
 
         </div>

@@ -67,18 +67,109 @@
           <div class="mainheading">
 
             
-            <h1 class="posttitle">Dummy</h1>
+            <h1 class="posttitle">Scatter plot 4</h1>
             <div class="article-post">
-              <p>Category: </p>
+              <p>Category: scatter</p>
             </div>
           </div>
 
           
           
+            <img class="featured-image img-fluid" src="/images/plots/scatter/4.png" alt="thumbnail for this post" max-width="400">
+          
 
           
           <div class="article-post">
-            <p>Apparently I need this file to create the plots page&hellip;</p>
+            <pre><code class="language-r">library(tidyverse)
+library(Seurat)
+
+# load a single cell expression data set (generated in the lab I work at)
+seurat &lt;- readRDS('seurat.rds')
+
+# cells will be grouped by clusters that they have been assigned to
+cluster_ids &lt;- levels(seurat@meta.data$seurat_clusters)
+
+# select a set of genes for which we want to show expression
+genes_to_show &lt;- seurat@misc$marker_genes$by_cluster %&gt;%
+  group_by(cluster) %&gt;%
+  arrange(-avg_logFC) %&gt;%
+  slice(1) %&gt;%
+  pull(gene)
+
+# for every cluster-gene combination, calculate the average expression across
+# all cells and then transform the data into a data frame
+expression_levels_per_cluster &lt;- vapply(
+    cluster_ids, FUN.VALUE = numeric(length(cluster_ids)), function(x) {
+      cells_in_current_cluster &lt;- which(seurat@meta.data$seurat_cluster == x)
+      Matrix::rowMeans(seurat@assays$SCT@data[genes_to_show,cells_in_current_cluster])
+    }
+  ) %&gt;%
+  t() %&gt;%
+  as.data.frame() %&gt;%
+  mutate(cluster = rownames(.)) %&gt;%
+  select(cluster, everything()) %&gt;%
+  pivot_longer(
+    cols = c(2:ncol(.)),
+    names_to = 'gene'
+  ) %&gt;%
+  rename(expression = value) %&gt;%
+  mutate(id_to_merge = paste0(cluster, '_', gene))
+
+# for every cluster-gene combination, calculate the percentage of cells in the
+# respective group that has at least 1 transcript (this means we consider it
+# as expressing the gene) and then transform the data into a data frame
+percentage_of_cells_expressing_gene &lt;- vapply(
+    cluster_ids, FUN.VALUE = numeric(length(cluster_ids)), function(x) {
+      cells_in_current_cluster &lt;- which(seurat@meta.data$seurat_cluster == x)
+      Matrix::rowSums(seurat@assays$SCT@data[genes_to_show,cells_in_current_cluster] != 0)
+    }
+  ) %&gt;%
+  t() %&gt;%
+  as.data.frame() %&gt;%
+  mutate(cluster = rownames(.)) %&gt;%
+  select(cluster, everything()) %&gt;%
+  pivot_longer(
+    cols = c(2:ncol(.)),
+    names_to = 'gene'
+  ) %&gt;%
+  rename(cell_count = value) %&gt;%
+  left_join(
+    .,
+    seurat@meta.data %&gt;%
+      group_by(seurat_clusters) %&gt;%
+      tally() %&gt;%
+      rename(cluster = seurat_clusters),
+    by = 'cluster') %&gt;%
+  mutate(
+    id_to_merge = paste0(cluster, '_', gene),
+    percent_cells = cell_count / n
+  )
+
+# merge the two data frames created before and plot the data
+p &lt;- left_join(
+    expression_levels_per_cluster,
+    percentage_of_cells_expressing_gene %&gt;% select(id_to_merge, percent_cells),
+    by = 'id_to_merge'
+  ) %&gt;%
+  mutate(cluster = factor(cluster, levels = rev(cluster_ids))) %&gt;%
+  ggplot(aes(gene, cluster)) +
+  geom_point(aes(color = expression, size = percent_cells)) +
+  scale_color_distiller(
+    palette = 'Reds',
+    direction = 1,
+    name = 'Log-normalised\nexpression',
+    guide = guide_colorbar(frame.colour = &quot;black&quot;, ticks.colour = &quot;black&quot;)
+  ) +
+  scale_size(name = 'Percent\nof cells', labels = scales::percent) +
+  labs(y = 'Cluster', color = 'Expression') +
+  coord_fixed() +
+  theme_bw() +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+ggsave('4.png', p, height = 7, width = 8)
+</code></pre>
 
           </div>
 
