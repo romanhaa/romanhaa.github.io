@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.57.2" />
+  
+  <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+  
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="/css/medium.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+  <div class="container pr-0">
+
+    
+    <a class="navbar-brand" href="http://romanhaa.github.io/">
+      
+      <span style="font-family:Righteous;">Roman Hillje - Data Visualization &amp; Bioinformatics</span>
+      
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+      
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/">About Me</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/plots">Plot Gallery</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/projects">Projects</a>
+        </li>
+        
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<div class="site-content">
+			<div class="container">
+  <div class="main-content">
+
+    
+    <div class="container">
+      <div class="row">
+
+        
+        <div class="col-md-12 flex-first flex-md-unordered">
+          <div class="mainheading">
+
+            
+            <h1 class="posttitle">Heatmap 1</h1>
+            <div class="article-post">
+              <p>Category: heatmap</p>
+            </div>
+          </div>
+
+          
+          
+            <img class="featured-image img-fluid" src="/images/plots/heatmap/1.png" alt="thumbnail for this post" max-width="400">
+          
+
+          
+          <div class="article-post">
+            <pre><code class="language-r">library(tidyverse)
+library(Seurat)
+library(ComplexHeatmap)
+library(circlize)
+library(gridExtra)
+library(ggplotify)
+
+# create color palette from flatuicolors.com
+colors_dutch &lt;- c(
+  '#FFC312','#C4E538','#12CBC4','#FDA7DF','#ED4C67',
+  '#F79F1F','#A3CB38','#1289A7','#D980FA','#B53471',
+  '#EE5A24','#009432','#0652DD','#9980FA','#833471',
+  '#EA2027','#006266','#1B1464','#5758BB','#6F1E51'
+)
+colors_spanish &lt;- c(
+  '#40407a','#706fd3','#f7f1e3','#34ace0','#33d9b2',
+  '#2c2c54','#474787','#aaa69d','#227093','#218c74',
+  '#ff5252','#ff793f','#d1ccc0','#ffb142','#ffda79',
+  '#b33939','#cd6133','#84817a','#cc8e35','#ccae62'
+)
+custom_colors &lt;- c(colors_dutch, colors_spanish)
+
+# load a single cell expression data set (generated in the lab I work at)
+seurat &lt;- readRDS('seurat.rds')
+
+# calculate average expression value for all variable genes for each cluster
+average_expression_profiles_by_cluster &lt;- seurat@assays$RNA@data[seurat@assays$RNA@var.features,] %&gt;%
+  t() %&gt;%
+  as.matrix() %&gt;%
+  as_tibble() %&gt;%
+  mutate(cluster = seurat@meta.data$seurat_clusters) %&gt;%
+  select(cluster, everything()) %&gt;%
+  group_by(cluster) %&gt;%
+  summarize_all(funs(mean))
+
+# calculate Spearman correlation matrix
+correlation_matrix &lt;- average_expression_profiles_by_cluster %&gt;%
+  select(-1) %&gt;%
+  as.matrix() %&gt;%
+  t() %&gt;%
+  cor(method = 'spearman')
+
+# assign row and column names
+rownames(correlation_matrix) &lt;- levels(seurat@meta.data$seurat_clusters)
+colnames(correlation_matrix) &lt;- levels(seurat@meta.data$seurat_clusters)
+
+# save cluster names for later
+cluster &lt;- rownames(correlation_matrix)
+
+# assign a color to each cluster
+colors_for_clusters &lt;- c(custom_colors$discrete[1:length(cluster)])
+names(colors_for_clusters) &lt;- cluster
+
+# create annotation function
+func_cell_cluster &lt;- function(i, j, x, y, width, height, fill) {
+  grid.text(cluster[j], x = x, y = y, gp = gpar(fontsize = 8))
+}
+
+# create main heatmap
+ht_matrix &lt;- Heatmap(
+  correlation_matrix,
+  name = 'Spearman\ncorrelation',
+  col = colorRamp2(
+    c(-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1),
+    c('#00007F', 'blue', '#007FFF', 'cyan', '#7FFF7F', 'yellow', '#FF7F00', 'red', '#7F0000')
+  ),
+  cluster_rows = TRUE,
+  cluster_columns = TRUE,
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  heatmap_legend_param = list(
+    title = 'Spearman correlation',
+    legend_height = unit(6, 'cm'),
+    legend_width = unit(1, 'cm'),
+    title_position = 'lefttop-rot',
+    border = 'black'
+  )
+)
+
+# create heatmap for annotation of clusters
+ht_cluster &lt;- Heatmap(
+  cluster,
+  name = 'Cluster',
+  cell_fun = func_cell_cluster,
+  show_row_names = FALSE,
+  show_column_names = FALSE,
+  width = unit(15, 'mm'),
+  col = colors_for_clusters,
+  show_heatmap_legend = FALSE,
+  top_annotation = HeatmapAnnotation(
+    cn = anno_text('Cluster', rot = 0, just = 'center', gp = gpar(fontface = 'bold')),
+    height = max_text_height('Cluster')
+  )
+)
+
+# plot
+p &lt;- as.ggplot(grid.grabExpr(draw(ht_matrix + ht_cluster)))
+ggsave('1.png', p, height = 6, width = 7)
+</code></pre>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+			</div>
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 text-center text-lg-left">
+        &copy; Copyright Roman Hillje - All rights reserved
+      </div>
+      <section class="col-md-4 col-sm-4 text-center">
+        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+      </section>
+      <div class="col-md-4 col-sm-4 text-center text-lg-right">
+        Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="/js/mediumish.js"></script>
+
+	</body>
+</html>

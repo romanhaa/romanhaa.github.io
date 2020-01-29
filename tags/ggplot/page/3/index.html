@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.57.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -77,7 +77,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/geographical/world_1/">World map</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(cowplot) library(sf) library(lwgeom) library(rworldmap) world_sf &lt;- st_as_sf(getMap(resolution = &#34;low&#34;)) crs_wintri &lt;- &#34;+proj=wintri +datum=WGS84 +no_defs +over&#34; world_wintri &lt;- st_transform_proj(world_sf, crs = crs_wintri) # we will highlight the countries from which people attended our event countries_to_highlight &lt;- c( &#39;Austria&#39;, &#39;Bosnia and Herzegovina&#39;, &#39;China&#39;, &#39;Colombia&#39;, &#39;Croatia&#39;, &#39;Czech Republic&#39;, &#39;Denmark&#39;, &#39;France&#39;, &#39;Germany&#39;, &#39;Greece&#39;, &#39;India&#39;, &#39;Indonesia&#39;, &#39;Iran&#39;, &#39;Ireland&#39;, &#39;Israel&#39;, &#39;Italy&#39;, &#39;Mexico&#39;, &#39;Netherlands&#39;, &#39;Nigeria&#39;, &#39;Poland&#39;, &#39;Romania&#39;, &#39;Russia&#39;, &#39;Serbia&#39;, &#39;Spain&#39;, &#39;Sweden&#39;, &#39;Switzerland&#39;, &#39;UK&#39; ) plot_data &lt;- world_wintri %&gt;% mutate(highlight = NAME %in% countries_to_highlight) grat_wintri &lt;- st_graticule(lat = c(-89.</h4>
+      <h4 class="card-text">library(tidyverse) library(cowplot) library(sf) library(lwgeom) library(rworldmap) world_sf &lt;- st_as_sf(getMap(resolution = &quot;low&quot;)) crs_wintri &lt;- &quot;+proj=wintri +datum=WGS84 +no_defs +over&quot; world_wintri &lt;- st_transform_proj(world_sf, crs = crs_wintri) # we will highlight the countries from which people attended our event countries_to_highlight &lt;- c( 'Austria', 'Bosnia and Herzegovina', 'China', 'Colombia', 'Croatia', 'Czech Republic', 'Denmark', 'France', 'Germany', 'Greece', 'India', 'Indonesia', 'Iran', 'Ireland', 'Israel', 'Italy', 'Mexico', 'Netherlands', 'Nigeria', 'Poland', 'Romania', 'Russia', 'Serbia', 'Spain', 'Sweden', 'Switzerland', 'UK' ) plot_data &lt;- world_wintri %&gt;% mutate(highlight = NAME %in% countries_to_highlight) grat_wintri &lt;- st_graticule(lat = c(-89.</h4>
     </div>
   </div>
 </div>
