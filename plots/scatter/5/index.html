@@ -82,10 +82,6 @@
           <div class="article-post">
             <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(Seurat)
-<span style="color:#900;font-weight:bold">library</span>(ComplexHeatmap)
-<span style="color:#900;font-weight:bold">library</span>(circlize)
-<span style="color:#900;font-weight:bold">library</span>(gridExtra)
-<span style="color:#900;font-weight:bold">library</span>(ggplotify)
 
 <span style="color:#998;font-style:italic"># create color palette from flatuicolors.com</span>
 colors_dutch <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
@@ -129,11 +125,12 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
     show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
   ) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">labs</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">guides</span>(colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_legend</span>(override.aes <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_fixed</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">guides</span>(colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_legend</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, override.aes <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>))) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">right&#39;</span>)
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">5.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">5.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
 </code></pre></div>
           </div>
 

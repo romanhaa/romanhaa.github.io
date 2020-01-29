@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.63.2" />
+  
+  <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+  
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="/css/medium.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+  <div class="container pr-0">
+
+    
+    <a class="navbar-brand" href="http://romanhaa.github.io/">
+      
+      <span style="font-family:Righteous;">Roman Hillje - Data Visualization &amp; Bioinformatics</span>
+      
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+      
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/">About Me</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/plots">Plot Gallery</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/projects">Projects</a>
+        </li>
+        
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<div class="site-content">
+			<div class="container">
+  <div class="main-content">
+
+    
+    <div class="container">
+      <div class="row">
+
+        
+        <div class="col-md-12 flex-first flex-md-unordered">
+          <div class="mainheading">
+
+            
+            <h1 class="posttitle">Alluvial plot</h1>
+            <div class="article-post">
+              <p>Category: other_not_ready</p>
+            </div>
+          </div>
+
+          
+          
+            <img class="featured-image img-fluid" src="/images/plots/other/alluvial.png" alt="thumbnail for this post" max-width="400">
+          
+
+          
+          <div class="article-post">
+            <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(ggalluvial)
+
+states_all
+<span style="color:#998;font-style:italic"># A tibble: 13,168,874 x 5</span>
+<span style="color:#998;font-style:italic">#    bin            `SD 3m` `SD 6m` `SD 12m` `CR 12m`</span>
+<span style="color:#998;font-style:italic">#    &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span style="color:#998;font-style:italic">#  1 chr1:0-200           8       8        8        8</span>
+<span style="color:#998;font-style:italic">#  2 chr1:200-400         8       8        8        8</span>
+<span style="color:#998;font-style:italic">#  3 chr1:400-600         8       8        8        8</span>
+<span style="color:#998;font-style:italic">#  4 chr1:600-800         8       8        8        8</span>
+<span style="color:#998;font-style:italic">#  5 chr1:800-1000        8       8        8        8</span>
+<span style="color:#998;font-style:italic">#  6 chr1:1000-1200       8       8        8        8</span>
+<span style="color:#998;font-style:italic">#  7 chr1:1200-1400       8       8        8        8</span>
+<span style="color:#998;font-style:italic">#  8 chr1:1400-1600       8       8        8        8</span>
+<span style="color:#998;font-style:italic">#  9 chr1:1600-1800       8       8        8        8</span>
+<span style="color:#998;font-style:italic"># 10 chr1:1800-2000       8       8        8        8</span>
+<span style="color:#998;font-style:italic"># … with 13,168,864 more rows</span>
+
+state_transition_lodes <span style="color:#000;font-weight:bold">&lt;-</span> states_all <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(`SD 3m`, `SD 12m`, `CR 12m`) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">tally</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ungroup</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(
+    `SD 3m` <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(`SD 3m`, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">1&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">2&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">4&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">5&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">6&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">7&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">8&#39;</span>)),
+    `SD 12m` <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(`SD 12m`, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">1&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">2&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">4&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">5&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">6&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">7&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">8&#39;</span>)),
+    `CR 12m` <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(`CR 12m`, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">1&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">2&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">4&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">5&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">6&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">7&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">8&#39;</span>)),
+    alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ifelse</span>((`SD 3m` <span style="color:#000;font-weight:bold">==</span> `SD 12m` <span style="color:#000;font-weight:bold">&amp;</span> `SD 3m` <span style="color:#000;font-weight:bold">==</span> `CR 12m`), <span style="color:#099">0</span>, <span style="color:#099">0.5</span>)
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">to_lodes_form</span>(key <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Demographic&#39;</span>, axes <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">3</span>)
+
+state_transition_lodes
+<span style="color:#998;font-style:italic"># A tibble: 1,290 x 5</span>
+<span style="color:#998;font-style:italic">#        n alpha alluvium Demographic stratum</span>
+<span style="color:#998;font-style:italic">#    &lt;int&gt; &lt;dbl&gt;    &lt;int&gt; &lt;fct&gt;       &lt;fct&gt;</span>
+<span style="color:#998;font-style:italic">#  1 25324   0          1 SD 3m       1</span>
+<span style="color:#998;font-style:italic">#  2  2792   0.5        2 SD 3m       1</span>
+<span style="color:#998;font-style:italic">#  3  1482   0.5        3 SD 3m       1</span>
+<span style="color:#998;font-style:italic">#  4  3040   0.5        4 SD 3m       1</span>
+<span style="color:#998;font-style:italic">#  5   187   0.5        5 SD 3m       1</span>
+<span style="color:#998;font-style:italic">#  6    74   0.5        6 SD 3m       1</span>
+<span style="color:#998;font-style:italic">#  7   254   0.5        7 SD 3m       1</span>
+<span style="color:#998;font-style:italic">#  8   237   0.5        8 SD 3m       1</span>
+<span style="color:#998;font-style:italic">#  9   872   0.5        9 SD 3m       1</span>
+<span style="color:#998;font-style:italic"># 10  1053   0.5       10 SD 3m       1</span>
+<span style="color:#998;font-style:italic"># … with 1,280 more rows</span>
+
+fig_4C <span style="color:#000;font-weight:bold">&lt;-</span>
+  state_transition_lodes <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> Demographic, stratum <span style="color:#000;font-weight:bold">=</span> stratum, alluvium <span style="color:#000;font-weight:bold">=</span> alluvium, y <span style="color:#000;font-weight:bold">=</span> n,
+    label <span style="color:#000;font-weight:bold">=</span> stratum)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(labels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">SD 3m&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">SD 12m&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">CR 12m&#39;</span>), position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">top&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_alluvium</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> stratum, alpha <span style="color:#000;font-weight:bold">=</span> alpha), width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">3</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_stratum</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> stratum, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>), width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">3</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_label</span>(stat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">stratum&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_brewer</span>(palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Dark2&#39;</span>, direction <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">&#39;</span>, title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    plot.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(face <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">20</span>),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(face <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>, colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">15</span>),
+    axis.text.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.ticks.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.ticks.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">figure_4/C.pdf&#39;</span>, fig_4C)
+
+
+
+
+
+
+
+
+
+
+
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(
+    data <span style="color:#000;font-weight:bold">=</span> titanic_wide,
+    <span style="color:#900;font-weight:bold">aes</span>(
+      axis1 <span style="color:#000;font-weight:bold">=</span> Class,
+      axis2 <span style="color:#000;font-weight:bold">=</span> Sex,
+      axis3 <span style="color:#000;font-weight:bold">=</span> Age,
+      y <span style="color:#000;font-weight:bold">=</span> Freq
+    )
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Class&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">Sex&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">Age&#39;</span>), expand <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.1</span>, <span style="color:#099">0</span>), position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">top&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_alluvium</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> Survived)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_stratum</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_jcolors</span>(palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">default&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_text</span>(stat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">stratum&#39;</span>, label.strata <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    plot.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(face <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">20</span>),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(face <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>, colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">15</span>),
+    axis.text.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.ticks.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.ticks.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+
+
+
+
+</code></pre></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+			</div>
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 text-center text-lg-left">
+        &copy; Copyright Roman Hillje - All rights reserved
+      </div>
+      <section class="col-md-4 col-sm-4 text-center">
+        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+      </section>
+      <div class="col-md-4 col-sm-4 text-center text-lg-right">
+        Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="/js/mediumish.js"></script>
+
+	</body>
+</html>

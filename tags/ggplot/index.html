@@ -68,6 +68,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="/plots/other/alluvial/">
+        
+          <img class="img-fluid" src="/images/plots/other/alluvial.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/other/alluvial/">Alluvial plot</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) library(ggalluvial) states_all # A tibble: 13,168,874 x 5 # bin `SD 3m` `SD 6m` `SD 12m` `CR 12m` # &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; # 1 chr1:0-200 8 8 8 8 # 2 chr1:200-400 8 8 8 8 # 3 chr1:400-600 8 8 8 8 # 4 chr1:600-800 8 8 8 8 # 5 chr1:800-1000 8 8 8 8 # 6 chr1:1000-1200 8 8 8 8 # 7 chr1:1200-1400 8 8 8 8 # 8 chr1:1400-1600 8 8 8 8 # 9 chr1:1600-1800 8 8 8 8 # 10 chr1:1800-2000 8 8 8 8 # … with 13,168,864 more rows state_transition_lodes &lt;- states_all %&gt;% group_by(`SD 3m`, `SD 12m`, `CR 12m`) %&gt;% tally() %&gt;% ungroup() %&gt;% mutate( `SD 3m` = factor(`SD 3m`, levels = c(&#39;1&#39;,&#39;2&#39;,&#39;3&#39;,&#39;4&#39;,&#39;5&#39;,&#39;6&#39;,&#39;7&#39;,&#39;8&#39;)), `SD 12m` = factor(`SD 12m`, levels = c(&#39;1&#39;,&#39;2&#39;,&#39;3&#39;,&#39;4&#39;,&#39;5&#39;,&#39;6&#39;,&#39;7&#39;,&#39;8&#39;)), `CR 12m` = factor(`CR 12m`, levels = c(&#39;1&#39;,&#39;2&#39;,&#39;3&#39;,&#39;4&#39;,&#39;5&#39;,&#39;6&#39;,&#39;7&#39;,&#39;8&#39;)), alpha = ifelse((`SD 3m` == `SD 12m` &amp; `SD 3m` == `CR 12m`), 0, 0.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="/plots/distributions/1/">
         
           <img class="img-fluid" src="/images/plots/distributions/1.png" alt="A thumbnail image">
@@ -154,25 +173,6 @@
       <h2 class="card-title"><a class="text-dark" href="/plots/intensity/2/">Intensity plot 2</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(viridis) n &lt;- 15000 data &lt;- bind_rows( tibble(x = rnorm(n, 5, 2), y = rnorm(n, 7.5, 4)), tibble(x = rnorm(n, 10, 3), y = rnorm(n, 2.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="/plots/geographical/trieste_1/">
-        
-          <img class="img-fluid" src="/images/plots/geographical/trieste_1.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/geographical/trieste_1/">Map of Trieste</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">Light version library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &lt;- read_sf(&#39;gis_osm_buildings_a_free_1.shp&#39;) landuse_a &lt;- read_sf(&#39;gis_osm_landuse_a_free_1.</h4>
     </div>
   </div>
 </div>

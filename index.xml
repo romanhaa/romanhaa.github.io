@@ -67,6 +67,15 @@
     </item>
     
     <item>
+      <title>Alluvial plot</title>
+      <link>http://romanhaa.github.io/plots/other/alluvial/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/other/alluvial/</guid>
+      <description>library(tidyverse) library(ggalluvial) states_all # A tibble: 13,168,874 x 5 # bin `SD 3m` `SD 6m` `SD 12m` `CR 12m` # &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; # 1 chr1:0-200 8 8 8 8 # 2 chr1:200-400 8 8 8 8 # 3 chr1:400-600 8 8 8 8 # 4 chr1:600-800 8 8 8 8 # 5 chr1:800-1000 8 8 8 8 # 6 chr1:1000-1200 8 8 8 8 # 7 chr1:1200-1400 8 8 8 8 # 8 chr1:1400-1600 8 8 8 8 # 9 chr1:1600-1800 8 8 8 8 # 10 chr1:1800-2000 8 8 8 8 # … with 13,168,864 more rows state_transition_lodes &amp;lt;- states_all %&amp;gt;% group_by(`SD 3m`, `SD 12m`, `CR 12m`) %&amp;gt;% tally() %&amp;gt;% ungroup() %&amp;gt;% mutate( `SD 3m` = factor(`SD 3m`, levels = c(&amp;#39;1&amp;#39;,&amp;#39;2&amp;#39;,&amp;#39;3&amp;#39;,&amp;#39;4&amp;#39;,&amp;#39;5&amp;#39;,&amp;#39;6&amp;#39;,&amp;#39;7&amp;#39;,&amp;#39;8&amp;#39;)), `SD 12m` = factor(`SD 12m`, levels = c(&amp;#39;1&amp;#39;,&amp;#39;2&amp;#39;,&amp;#39;3&amp;#39;,&amp;#39;4&amp;#39;,&amp;#39;5&amp;#39;,&amp;#39;6&amp;#39;,&amp;#39;7&amp;#39;,&amp;#39;8&amp;#39;)), `CR 12m` = factor(`CR 12m`, levels = c(&amp;#39;1&amp;#39;,&amp;#39;2&amp;#39;,&amp;#39;3&amp;#39;,&amp;#39;4&amp;#39;,&amp;#39;5&amp;#39;,&amp;#39;6&amp;#39;,&amp;#39;7&amp;#39;,&amp;#39;8&amp;#39;)), alpha = ifelse((`SD 3m` == `SD 12m` &amp;amp; `SD 3m` == `CR 12m`), 0, 0.</description>
+    </item>
+    
+    <item>
       <title>Distribution plot 1</title>
       <link>http://romanhaa.github.io/plots/distributions/1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -171,7 +180,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/scatter/5/</guid>
-      <description>library(tidyverse) library(Seurat) library(ComplexHeatmap) library(circlize) library(gridExtra) library(ggplotify) # create color palette from flatuicolors.com colors_dutch &amp;lt;- c( &amp;#39;#FFC312&amp;#39;,&amp;#39;#C4E538&amp;#39;,&amp;#39;#12CBC4&amp;#39;,&amp;#39;#FDA7DF&amp;#39;,&amp;#39;#ED4C67&amp;#39;, &amp;#39;#F79F1F&amp;#39;,&amp;#39;#A3CB38&amp;#39;,&amp;#39;#1289A7&amp;#39;,&amp;#39;#D980FA&amp;#39;,&amp;#39;#B53471&amp;#39;, &amp;#39;#EE5A24&amp;#39;,&amp;#39;#009432&amp;#39;,&amp;#39;#0652DD&amp;#39;,&amp;#39;#9980FA&amp;#39;,&amp;#39;#833471&amp;#39;, &amp;#39;#EA2027&amp;#39;,&amp;#39;#006266&amp;#39;,&amp;#39;#1B1464&amp;#39;,&amp;#39;#5758BB&amp;#39;,&amp;#39;#6F1E51&amp;#39; ) colors_spanish &amp;lt;- c( &amp;#39;#40407a&amp;#39;,&amp;#39;#706fd3&amp;#39;,&amp;#39;#f7f1e3&amp;#39;,&amp;#39;#34ace0&amp;#39;,&amp;#39;#33d9b2&amp;#39;, &amp;#39;#2c2c54&amp;#39;,&amp;#39;#474787&amp;#39;,&amp;#39;#aaa69d&amp;#39;,&amp;#39;#227093&amp;#39;,&amp;#39;#218c74&amp;#39;, &amp;#39;#ff5252&amp;#39;,&amp;#39;#ff793f&amp;#39;,&amp;#39;#d1ccc0&amp;#39;,&amp;#39;#ffb142&amp;#39;,&amp;#39;#ffda79&amp;#39;, &amp;#39;#b33939&amp;#39;,&amp;#39;#cd6133&amp;#39;,&amp;#39;#84817a&amp;#39;,&amp;#39;#cc8e35&amp;#39;,&amp;#39;#ccae62&amp;#39; ) custom_colors &amp;lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&amp;#39;seurat.</description>
+      <description>library(tidyverse) library(Seurat) # create color palette from flatuicolors.com colors_dutch &amp;lt;- c( &amp;#39;#FFC312&amp;#39;,&amp;#39;#C4E538&amp;#39;,&amp;#39;#12CBC4&amp;#39;,&amp;#39;#FDA7DF&amp;#39;,&amp;#39;#ED4C67&amp;#39;, &amp;#39;#F79F1F&amp;#39;,&amp;#39;#A3CB38&amp;#39;,&amp;#39;#1289A7&amp;#39;,&amp;#39;#D980FA&amp;#39;,&amp;#39;#B53471&amp;#39;, &amp;#39;#EE5A24&amp;#39;,&amp;#39;#009432&amp;#39;,&amp;#39;#0652DD&amp;#39;,&amp;#39;#9980FA&amp;#39;,&amp;#39;#833471&amp;#39;, &amp;#39;#EA2027&amp;#39;,&amp;#39;#006266&amp;#39;,&amp;#39;#1B1464&amp;#39;,&amp;#39;#5758BB&amp;#39;,&amp;#39;#6F1E51&amp;#39; ) colors_spanish &amp;lt;- c( &amp;#39;#40407a&amp;#39;,&amp;#39;#706fd3&amp;#39;,&amp;#39;#f7f1e3&amp;#39;,&amp;#39;#34ace0&amp;#39;,&amp;#39;#33d9b2&amp;#39;, &amp;#39;#2c2c54&amp;#39;,&amp;#39;#474787&amp;#39;,&amp;#39;#aaa69d&amp;#39;,&amp;#39;#227093&amp;#39;,&amp;#39;#218c74&amp;#39;, &amp;#39;#ff5252&amp;#39;,&amp;#39;#ff793f&amp;#39;,&amp;#39;#d1ccc0&amp;#39;,&amp;#39;#ffb142&amp;#39;,&amp;#39;#ffda79&amp;#39;, &amp;#39;#b33939&amp;#39;,&amp;#39;#cd6133&amp;#39;,&amp;#39;#84817a&amp;#39;,&amp;#39;#cc8e35&amp;#39;,&amp;#39;#ccae62&amp;#39; ) custom_colors &amp;lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&amp;#39;seurat.</description>
     </item>
     
     <item>
