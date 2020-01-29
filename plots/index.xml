@@ -27,8 +27,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/distributions/1/</guid>
-      <description>{{ highlight r }}
-library(tidyverse) library(wesanderson) data(iris) p &amp;lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Width, color = Species), alpha = 0.75, size = 3, show.legend = FALSE) + geom_violin(aes(Species, Sepal.</description>
+      <description>```r library(tidyverse) library(wesanderson) data(iris) p &amp;lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Width, color = Species), alpha = 0.75, size = 3, show.legend = FALSE) + geom_violin(aes(Species, Sepal.Width, fill = Species), alpha = 0.</description>
     </item>
     
     <item>
