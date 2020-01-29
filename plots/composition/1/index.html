@@ -80,100 +80,100 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
-<span style="color:#a6e22e">library</span>(patchwork)
-<span style="color:#a6e22e">library</span>(plyr)
-<span style="color:#a6e22e">library</span>(nycflights13)
+            <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(patchwork)
+<span style="color:#900;font-weight:bold">library</span>(plyr)
+<span style="color:#900;font-weight:bold">library</span>(nycflights13)
 
-colors_dutch <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FFC312&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#C4E538&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#12CBC4&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FDA7DF&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ED4C67&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#F79F1F&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#A3CB38&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#1289A7&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#D980FA&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#B53471&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#EE5A24&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#009432&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#0652DD&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#9980FA&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#833471&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#EA2027&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#006266&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#1B1464&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#5758BB&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#6F1E51&#39;</span>
+colors_dutch <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#FFC312&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#C4E538&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#12CBC4&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#FDA7DF&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ED4C67&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#F79F1F&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#A3CB38&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#1289A7&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#D980FA&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#B53471&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#EE5A24&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#009432&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#0652DD&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#9980FA&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#833471&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#EA2027&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#006266&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#1B1464&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#5758BB&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#6F1E51&#39;</span>
 )
 
-colors_spanish <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#40407a&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#706fd3&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#f7f1e3&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#34ace0&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#33d9b2&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#2c2c54&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#474787&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#aaa69d&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#227093&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#218c74&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ff5252&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ff793f&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#d1ccc0&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ffb142&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ffda79&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#b33939&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#cd6133&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#84817a&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#cc8e35&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ccae62&#39;</span>
+colors_spanish <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#40407a&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#706fd3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#f7f1e3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#34ace0&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#33d9b2&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#2c2c54&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#474787&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#aaa69d&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#227093&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#218c74&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#ff5252&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ff793f&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#d1ccc0&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ffb142&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ffda79&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#b33939&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#cd6133&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#84817a&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#cc8e35&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ccae62&#39;</span>
 )
 
-custom_colors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(colors_dutch, colors_spanish)
+custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(colors_dutch, colors_spanish)
 
-<span style="color:#a6e22e">data</span>(flights)
+<span style="color:#900;font-weight:bold">data</span>(flights)
 
-t <span style="color:#f92672">&lt;-</span> flights <span style="color:#f92672">%&gt;%</span>
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">select</span>(origin, carrier) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">group_by</span>(origin, carrier) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">filter</span>(n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2000</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(carrier <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(carrier, levels <span style="color:#f92672">=</span> carrier <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">unique</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">sort</span>()))
+t <span style="color:#000;font-weight:bold">&lt;-</span> flights <span style="color:#000;font-weight:bold">%&gt;%</span>
+  dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(origin, carrier) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(origin, carrier) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">tally</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ungroup</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">filter</span>(n <span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#099">2000</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(carrier <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(carrier, levels <span style="color:#000;font-weight:bold">=</span> carrier <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">unique</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">sort</span>()))
 
-t_labels_number <span style="color:#f92672">&lt;-</span> t <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(carrier <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.character</span>(carrier)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(carrier <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(carrier, levels <span style="color:#f92672">=</span> carrier <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">unique</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">sort</span>(decreasing <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">arrange</span>(origin, carrier) <span style="color:#f92672">%&gt;%</span>
-  plyr<span style="color:#f92672">::</span><span style="color:#a6e22e">ddply</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">origin&#39;</span>, transform, pos <span style="color:#f92672">=</span> <span style="color:#a6e22e">cumsum</span>(n) <span style="color:#f92672">-</span> (<span style="color:#ae81ff">0.5</span> <span style="color:#f92672">*</span> n))
+t_labels_number <span style="color:#000;font-weight:bold">&lt;-</span> t <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(carrier <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.character</span>(carrier)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(carrier <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(carrier, levels <span style="color:#000;font-weight:bold">=</span> carrier <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">unique</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">sort</span>(decreasing <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>))) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">arrange</span>(origin, carrier) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  plyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">ddply</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">origin&#39;</span>, transform, pos <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">cumsum</span>(n) <span style="color:#000;font-weight:bold">-</span> (<span style="color:#099">0.5</span> <span style="color:#000;font-weight:bold">*</span> n))
 
-p1 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_bar</span>(data <span style="color:#f92672">=</span> t, <span style="color:#a6e22e">aes</span>(origin, n, fill <span style="color:#f92672">=</span> carrier), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">identity&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(
-    data <span style="color:#f92672">=</span> t_labels_number,
-    <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> origin, y <span style="color:#f92672">=</span> pos, label <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(carrier, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">: &#39;</span>, scales<span style="color:#f92672">::</span><span style="color:#a6e22e">comma</span>(n)), group <span style="color:#f92672">=</span> carrier),
-    alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>,
-    size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>,
-    fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">white&#39;</span>,
-    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> custom_colors) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_y_continuous</span>(labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span>comma, expand <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Airport of departure&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Number of flights&#39;</span>, fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Carrier&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">none&#39;</span>,
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>),
-    panel.grid.major.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-    panel.grid.minor.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>()
+p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_bar</span>(data <span style="color:#000;font-weight:bold">=</span> t, <span style="color:#900;font-weight:bold">aes</span>(origin, n, fill <span style="color:#000;font-weight:bold">=</span> carrier), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, stat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">identity&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_label</span>(
+    data <span style="color:#000;font-weight:bold">=</span> t_labels_number,
+    <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> origin, y <span style="color:#000;font-weight:bold">=</span> pos, label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(carrier, <span style="color:#d14">&#39;</span><span style="color:#d14">: &#39;</span>, scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">comma</span>(n)), group <span style="color:#000;font-weight:bold">=</span> carrier),
+    alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>,
+    size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>,
+    fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">white&#39;</span>,
+    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma, expand <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.01</span>,<span style="color:#099">0</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Airport of departure&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of flights&#39;</span>, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Carrier&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    plot.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>),
+    text <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">16</span>),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
   )
 
-inv_cumsum <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) {
-  <span style="color:#a6e22e">sum</span>(x) <span style="color:#f92672">-</span> <span style="color:#a6e22e">cumsum</span>(x) <span style="color:#f92672">+</span> x
+inv_cumsum <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(x) {
+  <span style="color:#900;font-weight:bold">sum</span>(x) <span style="color:#000;font-weight:bold">-</span> <span style="color:#900;font-weight:bold">cumsum</span>(x) <span style="color:#000;font-weight:bold">+</span> x
 }
 
-t_labels_percent <span style="color:#f92672">&lt;-</span> plyr<span style="color:#f92672">::</span><span style="color:#a6e22e">ddply</span>(
-  t, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">origin&#39;</span>, plyr<span style="color:#f92672">::</span>mutate,
-  prop <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n),
-  cumprop <span style="color:#f92672">=</span> <span style="color:#a6e22e">inv_cumsum</span>(n) <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n),
-  ylabel <span style="color:#f92672">=</span> (<span style="color:#a6e22e">inv_cumsum</span>(n) <span style="color:#f92672">-</span> n <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n)
+t_labels_percent <span style="color:#000;font-weight:bold">&lt;-</span> plyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">ddply</span>(
+  t, <span style="color:#d14">&#39;</span><span style="color:#d14">origin&#39;</span>, plyr<span style="color:#000;font-weight:bold">::</span>mutate,
+  prop <span style="color:#000;font-weight:bold">=</span> n <span style="color:#000;font-weight:bold">/</span> <span style="color:#900;font-weight:bold">sum</span>(n),
+  cumprop <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">inv_cumsum</span>(n) <span style="color:#000;font-weight:bold">/</span> <span style="color:#900;font-weight:bold">sum</span>(n),
+  ylabel <span style="color:#000;font-weight:bold">=</span> (<span style="color:#900;font-weight:bold">inv_cumsum</span>(n) <span style="color:#000;font-weight:bold">-</span> n <span style="color:#000;font-weight:bold">/</span> <span style="color:#099">2</span>) <span style="color:#000;font-weight:bold">/</span> <span style="color:#900;font-weight:bold">sum</span>(n)
 )
 
-p2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_bar</span>(data <span style="color:#f92672">=</span> t, <span style="color:#a6e22e">aes</span>(origin, n, fill <span style="color:#f92672">=</span> carrier), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">fill&#39;</span>, stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">identity&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(
-    data <span style="color:#f92672">=</span> t_labels_percent,
-    <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> origin, y <span style="color:#f92672">=</span> ylabel, label <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(carrier, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">: &#39;</span>, scales<span style="color:#f92672">::</span><span style="color:#a6e22e">percent</span>(prop, accuracy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>)), group <span style="color:#f92672">=</span> carrier),
-    alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>,
-    size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>,
-    fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">white&#39;</span>,
-    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> custom_colors) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_y_continuous</span>(labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span><span style="color:#a6e22e">percent_format</span>(), expand <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Airport of departure&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Percent of flights&#39;</span>, fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Carrier&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">none&#39;</span>,
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>),
-    panel.grid.major.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-    panel.grid.minor.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>()
+p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_bar</span>(data <span style="color:#000;font-weight:bold">=</span> t, <span style="color:#900;font-weight:bold">aes</span>(origin, n, fill <span style="color:#000;font-weight:bold">=</span> carrier), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">fill&#39;</span>, stat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">identity&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_label</span>(
+    data <span style="color:#000;font-weight:bold">=</span> t_labels_percent,
+    <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> origin, y <span style="color:#000;font-weight:bold">=</span> ylabel, label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(carrier, <span style="color:#d14">&#39;</span><span style="color:#d14">: &#39;</span>, scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">percent</span>(prop, accuracy <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.1</span>)), group <span style="color:#000;font-weight:bold">=</span> carrier),
+    alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>,
+    size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>,
+    fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">white&#39;</span>,
+    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">percent_format</span>(), expand <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.01</span>,<span style="color:#099">0</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">ggtitle</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Airport of departure&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Percent of flights&#39;</span>, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Carrier&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    plot.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>),
+    text <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">16</span>),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
   )
 
-<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flights_by_airport_and_carrier.png&#39;</span>, p1 <span style="color:#f92672">+</span> p2, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">flights_by_airport_and_carrier.png&#39;</span>, p1 <span style="color:#000;font-weight:bold">+</span> p2, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">9</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)
 </code></pre></div>
           </div>
 

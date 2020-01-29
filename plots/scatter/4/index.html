@@ -80,95 +80,95 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
-<span style="color:#a6e22e">library</span>(Seurat)
+            <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(Seurat)
 
-<span style="color:#75715e"># load a single cell expression data set (generated in the lab I work at)</span>
-seurat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">seurat.rds&#39;</span>)
+<span style="color:#998;font-style:italic"># load a single cell expression data set (generated in the lab I work at)</span>
+seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">seurat.rds&#39;</span>)
 
-<span style="color:#75715e"># cells will be grouped by clusters that they have been assigned to</span>
-cluster_ids <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">levels</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_clusters)
+<span style="color:#998;font-style:italic"># cells will be grouped by clusters that they have been assigned to</span>
+cluster_ids <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
 
-<span style="color:#75715e"># select a set of genes for which we want to show expression</span>
-genes_to_show <span style="color:#f92672">&lt;-</span> seurat<span style="color:#f92672">@</span>misc<span style="color:#f92672">$</span>marker_genes<span style="color:#f92672">$</span>by_cluster <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">group_by</span>(cluster) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">arrange</span>(<span style="color:#f92672">-</span>avg_logFC) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">pull</span>(gene)
+<span style="color:#998;font-style:italic"># select a set of genes for which we want to show expression</span>
+genes_to_show <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>marker_genes<span style="color:#000;font-weight:bold">$</span>by_cluster <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(cluster) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">arrange</span>(<span style="color:#000;font-weight:bold">-</span>avg_logFC) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">slice</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">pull</span>(gene)
 
-<span style="color:#75715e"># for every cluster-gene combination, calculate the average expression across</span>
-<span style="color:#75715e"># all cells and then transform the data into a data frame</span>
-expression_levels_per_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vapply</span>(
-    cluster_ids, FUN.VALUE <span style="color:#f92672">=</span> <span style="color:#a6e22e">numeric</span>(<span style="color:#a6e22e">length</span>(cluster_ids)), <span style="color:#a6e22e">function</span>(x) {
-      cells_in_current_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">which</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_cluster <span style="color:#f92672">==</span> x)
-      Matrix<span style="color:#f92672">::</span><span style="color:#a6e22e">rowMeans</span>(seurat<span style="color:#f92672">@</span>assays<span style="color:#f92672">$</span>SCT<span style="color:#f92672">@</span>data[genes_to_show,cells_in_current_cluster])
+<span style="color:#998;font-style:italic"># for every cluster-gene combination, calculate the average expression across</span>
+<span style="color:#998;font-style:italic"># all cells and then transform the data into a data frame</span>
+expression_levels_per_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">vapply</span>(
+    cluster_ids, FUN.VALUE <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(<span style="color:#900;font-weight:bold">length</span>(cluster_ids)), <span style="color:#900;font-weight:bold">function</span>(x) {
+      cells_in_current_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">which</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_cluster <span style="color:#000;font-weight:bold">==</span> x)
+      Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rowMeans</span>(seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data[genes_to_show,cells_in_current_cluster])
     }
-  ) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">t</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">as.data.frame</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">rownames</span>(.)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">select</span>(cluster, <span style="color:#a6e22e">everything</span>()) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">pivot_longer</span>(
-    cols <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#a6e22e">ncol</span>(.)),
-    names_to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">gene&#39;</span>
-  ) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">rename</span>(expression <span style="color:#f92672">=</span> value) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(id_to_merge <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(cluster, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">_&#39;</span>, gene))
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">as.data.frame</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(cluster <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rownames</span>(.)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">select</span>(cluster, <span style="color:#900;font-weight:bold">everything</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">pivot_longer</span>(
+    cols <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">2</span><span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">ncol</span>(.)),
+    names_to <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">gene&#39;</span>
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">rename</span>(expression <span style="color:#000;font-weight:bold">=</span> value) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(id_to_merge <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(cluster, <span style="color:#d14">&#39;</span><span style="color:#d14">_&#39;</span>, gene))
 
-<span style="color:#75715e"># for every cluster-gene combination, calculate the percentage of cells in the</span>
-<span style="color:#75715e"># respective group that has at least 1 transcript (this means we consider it</span>
-<span style="color:#75715e"># as expressing the gene) and then transform the data into a data frame</span>
-percentage_of_cells_expressing_gene <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vapply</span>(
-    cluster_ids, FUN.VALUE <span style="color:#f92672">=</span> <span style="color:#a6e22e">numeric</span>(<span style="color:#a6e22e">length</span>(cluster_ids)), <span style="color:#a6e22e">function</span>(x) {
-      cells_in_current_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">which</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_cluster <span style="color:#f92672">==</span> x)
-      Matrix<span style="color:#f92672">::</span><span style="color:#a6e22e">rowSums</span>(seurat<span style="color:#f92672">@</span>assays<span style="color:#f92672">$</span>SCT<span style="color:#f92672">@</span>data[genes_to_show,cells_in_current_cluster] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+<span style="color:#998;font-style:italic"># for every cluster-gene combination, calculate the percentage of cells in the</span>
+<span style="color:#998;font-style:italic"># respective group that has at least 1 transcript (this means we consider it</span>
+<span style="color:#998;font-style:italic"># as expressing the gene) and then transform the data into a data frame</span>
+percentage_of_cells_expressing_gene <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">vapply</span>(
+    cluster_ids, FUN.VALUE <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(<span style="color:#900;font-weight:bold">length</span>(cluster_ids)), <span style="color:#900;font-weight:bold">function</span>(x) {
+      cells_in_current_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">which</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_cluster <span style="color:#000;font-weight:bold">==</span> x)
+      Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rowSums</span>(seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data[genes_to_show,cells_in_current_cluster] <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span>)
     }
-  ) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">t</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">as.data.frame</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">rownames</span>(.)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">select</span>(cluster, <span style="color:#a6e22e">everything</span>()) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">pivot_longer</span>(
-    cols <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#a6e22e">ncol</span>(.)),
-    names_to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">gene&#39;</span>
-  ) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">rename</span>(cell_count <span style="color:#f92672">=</span> value) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">left_join</span>(
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">as.data.frame</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(cluster <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rownames</span>(.)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">select</span>(cluster, <span style="color:#900;font-weight:bold">everything</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">pivot_longer</span>(
+    cols <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">2</span><span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">ncol</span>(.)),
+    names_to <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">gene&#39;</span>
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">rename</span>(cell_count <span style="color:#000;font-weight:bold">=</span> value) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">left_join</span>(
     .,
-    seurat<span style="color:#f92672">@</span>meta.data <span style="color:#f92672">%&gt;%</span>
-      <span style="color:#a6e22e">group_by</span>(seurat_clusters) <span style="color:#f92672">%&gt;%</span>
-      <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span>
-      <span style="color:#a6e22e">rename</span>(cluster <span style="color:#f92672">=</span> seurat_clusters),
-    by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">cluster&#39;</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(
-    id_to_merge <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(cluster, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">_&#39;</span>, gene),
-    percent_cells <span style="color:#f92672">=</span> cell_count <span style="color:#f92672">/</span> n
+    seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+      <span style="color:#900;font-weight:bold">group_by</span>(seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
+      <span style="color:#900;font-weight:bold">tally</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+      <span style="color:#900;font-weight:bold">rename</span>(cluster <span style="color:#000;font-weight:bold">=</span> seurat_clusters),
+    by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">cluster&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(
+    id_to_merge <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(cluster, <span style="color:#d14">&#39;</span><span style="color:#d14">_&#39;</span>, gene),
+    percent_cells <span style="color:#000;font-weight:bold">=</span> cell_count <span style="color:#000;font-weight:bold">/</span> n
   )
 
-<span style="color:#75715e"># merge the two data frames created before and plot the data</span>
-p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">left_join</span>(
+<span style="color:#998;font-style:italic"># merge the two data frames created before and plot the data</span>
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">left_join</span>(
     expression_levels_per_cluster,
-    percentage_of_cells_expressing_gene <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(id_to_merge, percent_cells),
-    by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">id_to_merge&#39;</span>
-  ) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(cluster, levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">rev</span>(cluster_ids))) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(gene, cluster)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> expression, size <span style="color:#f92672">=</span> percent_cells)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_distiller</span>(
-    palette <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Reds&#39;</span>,
-    direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
-    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Log-normalised\nexpression&#39;</span>,
-    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">black&#34;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">black&#34;</span>)
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_size</span>(name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Percent\nof cells&#39;</span>, labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span>percent) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Cluster&#39;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Expression&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">coord_fixed</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-    axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+    percentage_of_cells_expressing_gene <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">select</span>(id_to_merge, percent_cells),
+    by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">id_to_merge&#39;</span>
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(cluster <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(cluster, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(cluster_ids))) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(gene, cluster)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> expression, size <span style="color:#000;font-weight:bold">=</span> percent_cells)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_distiller</span>(
+    palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Reds&#39;</span>,
+    direction <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>,
+    name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Log-normalised\nexpression&#39;</span>,
+    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">black&#34;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">black&#34;</span>)
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_size</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Percent\nof cells&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>percent) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Expression&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_fixed</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(angle <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">45</span>, hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>)
   )
-<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">4.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">4.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
 </code></pre></div>
           </div>
 

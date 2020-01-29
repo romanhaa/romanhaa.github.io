@@ -80,27 +80,27 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
-<span style="color:#a6e22e">library</span>(viridis)
+            <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(viridis)
 
-n <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">15000</span>
+n <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#099">15000</span>
 
-data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(
-  <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">2</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">7.5</span>, <span style="color:#ae81ff">4</span>)),
-  <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">3</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">2.5</span>, <span style="color:#ae81ff">3</span>)),
-  <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">4</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(n, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">5</span>))
+data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_rows</span>(
+  <span style="color:#900;font-weight:bold">tibble</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rnorm</span>(n, <span style="color:#099">5</span>, <span style="color:#099">2</span>), y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rnorm</span>(n, <span style="color:#099">7.5</span>, <span style="color:#099">4</span>)),
+  <span style="color:#900;font-weight:bold">tibble</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rnorm</span>(n, <span style="color:#099">10</span>, <span style="color:#099">3</span>), y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rnorm</span>(n, <span style="color:#099">2.5</span>, <span style="color:#099">3</span>)),
+  <span style="color:#900;font-weight:bold">tibble</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rnorm</span>(n, <span style="color:#099">15</span>, <span style="color:#099">4</span>), y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rnorm</span>(n, <span style="color:#099">10</span>, <span style="color:#099">5</span>))
 )
 
-p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(data) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_hex</span>(<span style="color:#a6e22e">aes</span>(x, y), bins <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">X&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Y&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_viridis</span>(
-    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Count&#39;</span>,
-    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>)
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right&#39;</span>)
-<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">2.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_hex</span>(<span style="color:#900;font-weight:bold">aes</span>(x, y), bins <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">X&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Y&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_viridis</span>(
+    name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Count&#39;</span>,
+    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>)
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">right&#39;</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">2.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
           </div>
 

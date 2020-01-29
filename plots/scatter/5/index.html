@@ -80,60 +80,60 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
-<span style="color:#a6e22e">library</span>(Seurat)
-<span style="color:#a6e22e">library</span>(ComplexHeatmap)
-<span style="color:#a6e22e">library</span>(circlize)
-<span style="color:#a6e22e">library</span>(gridExtra)
-<span style="color:#a6e22e">library</span>(ggplotify)
+            <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(Seurat)
+<span style="color:#900;font-weight:bold">library</span>(ComplexHeatmap)
+<span style="color:#900;font-weight:bold">library</span>(circlize)
+<span style="color:#900;font-weight:bold">library</span>(gridExtra)
+<span style="color:#900;font-weight:bold">library</span>(ggplotify)
 
-<span style="color:#75715e"># create color palette from flatuicolors.com</span>
-colors_dutch <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FFC312&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#C4E538&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#12CBC4&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FDA7DF&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ED4C67&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#F79F1F&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#A3CB38&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#1289A7&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#D980FA&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#B53471&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#EE5A24&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#009432&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#0652DD&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#9980FA&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#833471&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#EA2027&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#006266&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#1B1464&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#5758BB&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#6F1E51&#39;</span>
+<span style="color:#998;font-style:italic"># create color palette from flatuicolors.com</span>
+colors_dutch <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#FFC312&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#C4E538&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#12CBC4&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#FDA7DF&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ED4C67&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#F79F1F&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#A3CB38&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#1289A7&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#D980FA&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#B53471&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#EE5A24&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#009432&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#0652DD&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#9980FA&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#833471&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#EA2027&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#006266&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#1B1464&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#5758BB&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#6F1E51&#39;</span>
 )
-colors_spanish <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#40407a&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#706fd3&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#f7f1e3&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#34ace0&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#33d9b2&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#2c2c54&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#474787&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#aaa69d&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#227093&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#218c74&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ff5252&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ff793f&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#d1ccc0&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ffb142&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ffda79&#39;</span>,
-  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#b33939&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#cd6133&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#84817a&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#cc8e35&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ccae62&#39;</span>
+colors_spanish <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#40407a&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#706fd3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#f7f1e3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#34ace0&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#33d9b2&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#2c2c54&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#474787&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#aaa69d&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#227093&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#218c74&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#ff5252&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ff793f&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#d1ccc0&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ffb142&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ffda79&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#b33939&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#cd6133&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#84817a&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#cc8e35&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ccae62&#39;</span>
 )
-custom_colors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(colors_dutch, colors_spanish)
+custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(colors_dutch, colors_spanish)
 
-<span style="color:#75715e"># load a single cell expression data set (generated in the lab I work at)</span>
-seurat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">seurat.rds&#39;</span>)
+<span style="color:#998;font-style:italic"># load a single cell expression data set (generated in the lab I work at)</span>
+seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">seurat.rds&#39;</span>)
 
-<span style="color:#75715e"># calculate center position for each cluster</span>
-UMAP_centers_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(
-    UMAP_1 <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.data.frame</span>(seurat<span style="color:#f92672">@</span>reductions<span style="color:#f92672">$</span>UMAP<span style="color:#f92672">@</span>cell.embeddings)<span style="color:#f92672">$</span>UMAP_1,
-    UMAP_2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.data.frame</span>(seurat<span style="color:#f92672">@</span>reductions<span style="color:#f92672">$</span>UMAP<span style="color:#f92672">@</span>cell.embeddings)<span style="color:#f92672">$</span>UMAP_2,
-    cluster <span style="color:#f92672">=</span> seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_clusters
-  ) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">group_by</span>(cluster) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">summarize</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">median</span>(UMAP_1), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">median</span>(UMAP_2))
+<span style="color:#998;font-style:italic"># calculate center position for each cluster</span>
+UMAP_centers_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+    UMAP_1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_1,
+    UMAP_2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_2,
+    cluster <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(cluster) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarize</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">median</span>(UMAP_1), y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">median</span>(UMAP_2))
 
-<span style="color:#75715e"># plot</span>
-p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_cols</span>(seurat<span style="color:#f92672">@</span>meta.data, <span style="color:#a6e22e">as.data.frame</span>(seurat<span style="color:#f92672">@</span>reductions<span style="color:#f92672">$</span>UMAP<span style="color:#f92672">@</span>cell.embeddings)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(UMAP_1, UMAP_2, color <span style="color:#f92672">=</span> seurat_clusters)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(
-    data <span style="color:#f92672">=</span> UMAP_centers_cluster,
-    mapping <span style="color:#f92672">=</span> <span style="color:#a6e22e">aes</span>(x, y, label <span style="color:#f92672">=</span> cluster),
-    size <span style="color:#f92672">=</span> <span style="color:#ae81ff">4.5</span>,
-    fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">white&#39;</span>,
-    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>,
-    fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">bold&#39;</span>,
-    alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
-    show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_manual</span>(values <span style="color:#f92672">=</span> custom_colors<span style="color:#f92672">$</span>discrete) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Cluster&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(colour <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_legend</span>(override.aes <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>))) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right&#39;</span>)
-<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">5.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
+<span style="color:#998;font-style:italic"># plot</span>
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(UMAP_1, UMAP_2, color <span style="color:#000;font-weight:bold">=</span> seurat_clusters)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.2</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_label</span>(
+    data <span style="color:#000;font-weight:bold">=</span> UMAP_centers_cluster,
+    mapping <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">aes</span>(x, y, label <span style="color:#000;font-weight:bold">=</span> cluster),
+    size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4.5</span>,
+    fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">white&#39;</span>,
+    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>,
+    fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>,
+    alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>,
+    show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">guides</span>(colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_legend</span>(override.aes <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">right&#39;</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">5.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
 </code></pre></div>
           </div>
 

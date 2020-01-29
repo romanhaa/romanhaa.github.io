@@ -72,7 +72,16 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/geographical/trieste_1/</guid>
-      <description>library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &amp;lt;- read_sf(&amp;#39;gis_osm_buildings_a_free_1.shp&amp;#39;) landuse_a &amp;lt;- read_sf(&amp;#39;gis_osm_landuse_a_free_1.shp&amp;#39;) natural &amp;lt;- read_sf(&amp;#39;gis_osm_natural_free_1.</description>
+      <description>Light version library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &amp;lt;- read_sf(&amp;#39;gis_osm_buildings_a_free_1.shp&amp;#39;) landuse_a &amp;lt;- read_sf(&amp;#39;gis_osm_landuse_a_free_1.</description>
+    </item>
+    
+    <item>
+      <title>Phylogenetic tree</title>
+      <link>http://romanhaa.github.io/plots/other/phylogenetic_tree/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/other/phylogenetic_tree/</guid>
+      <description>library(tidyverse) library(jcolors) library(ggtree) # load data data(mtcars) # choose number of carburetors as group groups &amp;lt;- mtcars$carb %&amp;gt;% as.character() %&amp;gt;% unique() %&amp;gt;% sort() # group data by carburetor and calculate means for all features temp_data &amp;lt;- mtcars %&amp;gt;% group_by(carb) %&amp;gt;% summarise_all(list(mean = mean)) %&amp;gt;% as.</description>
     </item>
     
     <item>

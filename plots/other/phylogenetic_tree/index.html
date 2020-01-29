@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.63.2" />
+  
+  <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+  
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="/css/medium.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+  <div class="container pr-0">
+
+    
+    <a class="navbar-brand" href="http://romanhaa.github.io/">
+      
+      <span style="font-family:Righteous;">Roman Hillje - Data Visualization &amp; Bioinformatics</span>
+      
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="collapse navbar-collapse" id="navbarMediumish">
+      
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/">About Me</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/plots">Plot Gallery</a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="/projects">Projects</a>
+        </li>
+        
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<div class="site-content">
+			<div class="container">
+  <div class="main-content">
+
+    
+    <div class="container">
+      <div class="row">
+
+        
+        <div class="col-md-12 flex-first flex-md-unordered">
+          <div class="mainheading">
+
+            
+            <h1 class="posttitle">Phylogenetic tree</h1>
+            <div class="article-post">
+              <p>Category: other</p>
+            </div>
+          </div>
+
+          
+          
+            <img class="featured-image img-fluid" src="/images/plots/other/phylogenetic_tree.png" alt="thumbnail for this post" max-width="400">
+          
+
+          
+          <div class="article-post">
+            <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(jcolors)
+<span style="color:#900;font-weight:bold">library</span>(ggtree)
+
+<span style="color:#998;font-style:italic"># load data</span>
+<span style="color:#900;font-weight:bold">data</span>(mtcars)
+
+<span style="color:#998;font-style:italic"># choose number of carburetors as group</span>
+groups <span style="color:#000;font-weight:bold">&lt;-</span> mtcars<span style="color:#000;font-weight:bold">$</span>carb <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.character</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">unique</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">sort</span>()
+
+<span style="color:#998;font-style:italic"># group data by carburetor and calculate means for all features</span>
+temp_data <span style="color:#000;font-weight:bold">&lt;-</span> mtcars <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(carb) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarise_all</span>(<span style="color:#900;font-weight:bold">list</span>(mean <span style="color:#000;font-weight:bold">=</span> mean)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">as.matrix</span>()
+<span style="color:#900;font-weight:bold">rownames</span>(temp_data) <span style="color:#000;font-weight:bold">&lt;-</span> groups
+
+<span style="color:#998;font-style:italic"># calculate distance matrix</span>
+distance_matrix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">dist</span>(temp_data)
+
+<span style="color:#998;font-style:italic"># calculate phylogenetic tree</span>
+tree <span style="color:#000;font-weight:bold">&lt;-</span> ape<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">as.phylo</span>(<span style="color:#900;font-weight:bold">hclust</span>(distance_matrix))
+
+<span style="color:#998;font-style:italic"># plot</span>
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggtree</span>(tree, <span style="color:#900;font-weight:bold">aes</span>(x, y)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_reverse</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_tree</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_tree</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_tiplab</span>(offset <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_tippoint</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">jcolors</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">pal5&#39;</span>), shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">16</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_cartesian</span>(clip <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">off&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(plot.margin <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">0.5</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>), <span style="color:#d14">&#39;</span><span style="color:#d14">cm&#39;</span>))
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">phylogenetic_tree.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>)
+</code></pre></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+			</div>
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 text-center text-lg-left">
+        &copy; Copyright Roman Hillje - All rights reserved
+      </div>
+      <section class="col-md-4 col-sm-4 text-center">
+        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+      </section>
+      <div class="col-md-4 col-sm-4 text-center text-lg-right">
+        Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="/js/mediumish.js"></script>
+
+	</body>
+</html>

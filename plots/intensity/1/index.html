@@ -80,21 +80,21 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
-<span style="color:#a6e22e">library</span>(wesanderson)
+            <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(wesanderson)
 
-<span style="color:#a6e22e">data</span>(iris)
+<span style="color:#900;font-weight:bold">data</span>(iris)
 
-p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(iris) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">stat_density_2d</span>(<span style="color:#a6e22e">aes</span>(Sepal.Length, Sepal.Width, fill <span style="color:#f92672">=</span> <span style="color:#a6e22e">stat</span>(level)), geom <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">polygon&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sepal length&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sepal width&#39;</span>, size <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Petal width&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_gradientn</span>(
-    colours <span style="color:#f92672">=</span> <span style="color:#a6e22e">wes_palette</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Zissou1&#39;</span>, <span style="color:#ae81ff">21</span>, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">continuous&#39;</span>),
-    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>)
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">right&#39;</span>)
-<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">1.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(iris) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">stat_density_2d</span>(<span style="color:#900;font-weight:bold">aes</span>(Sepal.Length, Sepal.Width, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">stat</span>(level)), geom <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">polygon&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Sepal length&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Sepal width&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Petal width&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_gradientn</span>(
+    colours <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wes_palette</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Zissou1&#39;</span>, <span style="color:#099">21</span>, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">continuous&#39;</span>),
+    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>)
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">right&#39;</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">1.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
           </div>
 
