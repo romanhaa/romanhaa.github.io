@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.57.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -80,97 +80,96 @@
 
           
           <div class="article-post">
-            <pre><code class="language-r">library(tidyverse)
-library(Seurat)
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+<span style="color:#a6e22e">library</span>(Seurat)
 
-# load a single cell expression data set (generated in the lab I work at)
-seurat &lt;- readRDS('seurat.rds')
+<span style="color:#75715e"># load a single cell expression data set (generated in the lab I work at)</span>
+seurat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">seurat.rds&#39;</span>)
 
-# cells will be grouped by clusters that they have been assigned to
-cluster_ids &lt;- levels(seurat@meta.data$seurat_clusters)
+<span style="color:#75715e"># cells will be grouped by clusters that they have been assigned to</span>
+cluster_ids <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">levels</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_clusters)
 
-# select a set of genes for which we want to show expression
-genes_to_show &lt;- seurat@misc$marker_genes$by_cluster %&gt;%
-  group_by(cluster) %&gt;%
-  arrange(-avg_logFC) %&gt;%
-  slice(1) %&gt;%
-  pull(gene)
+<span style="color:#75715e"># select a set of genes for which we want to show expression</span>
+genes_to_show <span style="color:#f92672">&lt;-</span> seurat<span style="color:#f92672">@</span>misc<span style="color:#f92672">$</span>marker_genes<span style="color:#f92672">$</span>by_cluster <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">group_by</span>(cluster) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">arrange</span>(<span style="color:#f92672">-</span>avg_logFC) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">pull</span>(gene)
 
-# for every cluster-gene combination, calculate the average expression across
-# all cells and then transform the data into a data frame
-expression_levels_per_cluster &lt;- vapply(
-    cluster_ids, FUN.VALUE = numeric(length(cluster_ids)), function(x) {
-      cells_in_current_cluster &lt;- which(seurat@meta.data$seurat_cluster == x)
-      Matrix::rowMeans(seurat@assays$SCT@data[genes_to_show,cells_in_current_cluster])
+<span style="color:#75715e"># for every cluster-gene combination, calculate the average expression across</span>
+<span style="color:#75715e"># all cells and then transform the data into a data frame</span>
+expression_levels_per_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vapply</span>(
+    cluster_ids, FUN.VALUE <span style="color:#f92672">=</span> <span style="color:#a6e22e">numeric</span>(<span style="color:#a6e22e">length</span>(cluster_ids)), <span style="color:#a6e22e">function</span>(x) {
+      cells_in_current_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">which</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_cluster <span style="color:#f92672">==</span> x)
+      Matrix<span style="color:#f92672">::</span><span style="color:#a6e22e">rowMeans</span>(seurat<span style="color:#f92672">@</span>assays<span style="color:#f92672">$</span>SCT<span style="color:#f92672">@</span>data[genes_to_show,cells_in_current_cluster])
     }
-  ) %&gt;%
-  t() %&gt;%
-  as.data.frame() %&gt;%
-  mutate(cluster = rownames(.)) %&gt;%
-  select(cluster, everything()) %&gt;%
-  pivot_longer(
-    cols = c(2:ncol(.)),
-    names_to = 'gene'
-  ) %&gt;%
-  rename(expression = value) %&gt;%
-  mutate(id_to_merge = paste0(cluster, '_', gene))
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">t</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">as.data.frame</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">rownames</span>(.)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(cluster, <span style="color:#a6e22e">everything</span>()) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">pivot_longer</span>(
+    cols <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#a6e22e">ncol</span>(.)),
+    names_to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">gene&#39;</span>
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">rename</span>(expression <span style="color:#f92672">=</span> value) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(id_to_merge <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(cluster, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">_&#39;</span>, gene))
 
-# for every cluster-gene combination, calculate the percentage of cells in the
-# respective group that has at least 1 transcript (this means we consider it
-# as expressing the gene) and then transform the data into a data frame
-percentage_of_cells_expressing_gene &lt;- vapply(
-    cluster_ids, FUN.VALUE = numeric(length(cluster_ids)), function(x) {
-      cells_in_current_cluster &lt;- which(seurat@meta.data$seurat_cluster == x)
-      Matrix::rowSums(seurat@assays$SCT@data[genes_to_show,cells_in_current_cluster] != 0)
+<span style="color:#75715e"># for every cluster-gene combination, calculate the percentage of cells in the</span>
+<span style="color:#75715e"># respective group that has at least 1 transcript (this means we consider it</span>
+<span style="color:#75715e"># as expressing the gene) and then transform the data into a data frame</span>
+percentage_of_cells_expressing_gene <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vapply</span>(
+    cluster_ids, FUN.VALUE <span style="color:#f92672">=</span> <span style="color:#a6e22e">numeric</span>(<span style="color:#a6e22e">length</span>(cluster_ids)), <span style="color:#a6e22e">function</span>(x) {
+      cells_in_current_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">which</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_cluster <span style="color:#f92672">==</span> x)
+      Matrix<span style="color:#f92672">::</span><span style="color:#a6e22e">rowSums</span>(seurat<span style="color:#f92672">@</span>assays<span style="color:#f92672">$</span>SCT<span style="color:#f92672">@</span>data[genes_to_show,cells_in_current_cluster] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
     }
-  ) %&gt;%
-  t() %&gt;%
-  as.data.frame() %&gt;%
-  mutate(cluster = rownames(.)) %&gt;%
-  select(cluster, everything()) %&gt;%
-  pivot_longer(
-    cols = c(2:ncol(.)),
-    names_to = 'gene'
-  ) %&gt;%
-  rename(cell_count = value) %&gt;%
-  left_join(
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">t</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">as.data.frame</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">rownames</span>(.)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(cluster, <span style="color:#a6e22e">everything</span>()) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">pivot_longer</span>(
+    cols <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#a6e22e">ncol</span>(.)),
+    names_to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">gene&#39;</span>
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">rename</span>(cell_count <span style="color:#f92672">=</span> value) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">left_join</span>(
     .,
-    seurat@meta.data %&gt;%
-      group_by(seurat_clusters) %&gt;%
-      tally() %&gt;%
-      rename(cluster = seurat_clusters),
-    by = 'cluster') %&gt;%
-  mutate(
-    id_to_merge = paste0(cluster, '_', gene),
-    percent_cells = cell_count / n
+    seurat<span style="color:#f92672">@</span>meta.data <span style="color:#f92672">%&gt;%</span>
+      <span style="color:#a6e22e">group_by</span>(seurat_clusters) <span style="color:#f92672">%&gt;%</span>
+      <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span>
+      <span style="color:#a6e22e">rename</span>(cluster <span style="color:#f92672">=</span> seurat_clusters),
+    by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">cluster&#39;</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(
+    id_to_merge <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(cluster, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">_&#39;</span>, gene),
+    percent_cells <span style="color:#f92672">=</span> cell_count <span style="color:#f92672">/</span> n
   )
 
-# merge the two data frames created before and plot the data
-p &lt;- left_join(
+<span style="color:#75715e"># merge the two data frames created before and plot the data</span>
+p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">left_join</span>(
     expression_levels_per_cluster,
-    percentage_of_cells_expressing_gene %&gt;% select(id_to_merge, percent_cells),
-    by = 'id_to_merge'
-  ) %&gt;%
-  mutate(cluster = factor(cluster, levels = rev(cluster_ids))) %&gt;%
-  ggplot(aes(gene, cluster)) +
-  geom_point(aes(color = expression, size = percent_cells)) +
-  scale_color_distiller(
-    palette = 'Reds',
-    direction = 1,
-    name = 'Log-normalised\nexpression',
-    guide = guide_colorbar(frame.colour = &quot;black&quot;, ticks.colour = &quot;black&quot;)
-  ) +
-  scale_size(name = 'Percent\nof cells', labels = scales::percent) +
-  labs(y = 'Cluster', color = 'Expression') +
-  coord_fixed() +
-  theme_bw() +
-  theme(
-    axis.title.x = element_blank(),
-    axis.text.x = element_text(angle = 45, hjust = 1)
+    percentage_of_cells_expressing_gene <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(id_to_merge, percent_cells),
+    by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">id_to_merge&#39;</span>
+  ) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(cluster, levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">rev</span>(cluster_ids))) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(gene, cluster)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> expression, size <span style="color:#f92672">=</span> percent_cells)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_color_distiller</span>(
+    palette <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Reds&#39;</span>,
+    direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Log-normalised\nexpression&#39;</span>,
+    guide <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(frame.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">black&#34;</span>, ticks.colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">black&#34;</span>)
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_size</span>(name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Percent\nof cells&#39;</span>, labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span>percent) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Cluster&#39;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Expression&#39;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">coord_fixed</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_bw</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(
+    axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+    axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
   )
-ggsave('4.png', p, height = 7, width = 8)
-</code></pre>
-
+<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">4.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
+</code></pre></div>
           </div>
 
         </div>

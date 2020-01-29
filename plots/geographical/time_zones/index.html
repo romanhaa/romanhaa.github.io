@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.57.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -80,49 +80,48 @@
 
           
           <div class="article-post">
-            <pre><code class="language-r">library(tidyverse)
-library(sf)
-library(lwgeom)
-library(patchwork)
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+<span style="color:#a6e22e">library</span>(sf)
+<span style="color:#a6e22e">library</span>(lwgeom)
+<span style="color:#a6e22e">library</span>(patchwork)
 
-blankbg &lt;- theme(
-  axis.line = element_blank(),
-  axis.text.x = element_blank(),
-  axis.text.y = element_blank(),
-  axis.ticks = element_blank(),
-  axis.title.x = element_blank(),
-  axis.title.y = element_blank(),
-  panel.background = element_blank(),
-  panel.border = element_blank(),
-  panel.grid.major = element_blank(),
-  panel.grid.minor = element_blank(),
-  plot.background = element_blank(),
+blankbg <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">theme</span>(
+  axis.line <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  axis.text.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  axis.ticks <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  axis.title.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  panel.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  panel.border <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  panel.grid.major <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  panel.grid.minor <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+  plot.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
 )
 
-# download SHP files for country borders and time zones from
-# https://www.naturalearthdata.com/downloads/
-countries &lt;- read_sf('ne_10m_admin_0_countries.shp')
-time_zones &lt;- read_sf('ne_10m_time_zones.shp')
+<span style="color:#75715e"># download SHP files for country borders and time zones from</span>
+<span style="color:#75715e"># https://www.naturalearthdata.com/downloads/</span>
+countries <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_sf</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">ne_10m_admin_0_countries.shp&#39;</span>)
+time_zones <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_sf</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">ne_10m_time_zones.shp&#39;</span>)
 
-p &lt;-
-  ggplot() +
-  geom_sf(
-    data = countries, fill = 'grey', color = 'black', alpha = 1, size = 0.1,
-    show.legend = FALSE
-  ) +
-  geom_sf(
-    data = time_zones %&gt;% mutate(name = as.integer(name)), aes(fill = name),
-    alpha = 0.8, color = 'black', size = 0.35, show.legend = FALSE
-  ) +
-  blankbg +
-  scale_fill_gradientn(
-    colours = wes_palette('Zissou1', 21, type = 'continuous')
-  ) +
-  theme(plot.background = element_rect(fill = 'white', color = NA))
+p <span style="color:#f92672">&lt;-</span>
+  <span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_sf</span>(
+    data <span style="color:#f92672">=</span> countries, fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">grey&#39;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>,
+    show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_sf</span>(
+    data <span style="color:#f92672">=</span> time_zones <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(name <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.integer</span>(name)), <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> name),
+    alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.35</span>, show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+  ) <span style="color:#f92672">+</span>
+  blankbg <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_gradientn</span>(
+    colours <span style="color:#f92672">=</span> <span style="color:#a6e22e">wes_palette</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Zissou1&#39;</span>, <span style="color:#ae81ff">21</span>, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">continuous&#39;</span>)
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">white&#39;</span>, color <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>))
 
-ggsave('time_zones_1.png',p , width = 9.5, height = 5)
-</code></pre>
-
+<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">time_zones_1.png&#39;</span>,p , width <span style="color:#f92672">=</span> <span style="color:#ae81ff">9.5</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>)
+</code></pre></div>
           </div>
 
         </div>

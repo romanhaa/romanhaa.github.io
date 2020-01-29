@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.57.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -80,52 +80,51 @@
 
           
           <div class="article-post">
-            <pre><code class="language-r">library(tidyverse)
-library(cowplot)
-library(sf)
-library(lwgeom)
-library(rworldmap)
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+<span style="color:#a6e22e">library</span>(cowplot)
+<span style="color:#a6e22e">library</span>(sf)
+<span style="color:#a6e22e">library</span>(lwgeom)
+<span style="color:#a6e22e">library</span>(rworldmap)
 
-world_sf &lt;- st_as_sf(getMap(resolution = &quot;low&quot;))
+world_sf <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">st_as_sf</span>(<span style="color:#a6e22e">getMap</span>(resolution <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">low&#34;</span>))
 
-crs_wintri &lt;- &quot;+proj=wintri +datum=WGS84 +no_defs +over&quot;
-world_wintri &lt;- st_transform_proj(world_sf, crs = crs_wintri)
+crs_wintri <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">+proj=wintri +datum=WGS84 +no_defs +over&#34;</span>
+world_wintri <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">st_transform_proj</span>(world_sf, crs <span style="color:#f92672">=</span> crs_wintri)
 
-# we will highlight the countries from which people attended our event
-countries_to_highlight &lt;- c(
-  'Austria', 'Bosnia and Herzegovina', 'China', 'Colombia', 'Croatia',
-  'Czech Republic', 'Denmark', 'France', 'Germany', 'Greece', 'India',
-  'Indonesia', 'Iran', 'Ireland', 'Israel', 'Italy', 'Mexico', 'Netherlands',
-  'Nigeria', 'Poland', 'Romania', 'Russia', 'Serbia', 'Spain', 'Sweden',
-  'Switzerland', 'UK'
+<span style="color:#75715e"># we will highlight the countries from which people attended our event</span>
+countries_to_highlight <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Austria&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Bosnia and Herzegovina&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">China&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Colombia&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Croatia&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Czech Republic&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Denmark&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">France&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Germany&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Greece&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">India&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Indonesia&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Iran&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Ireland&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Israel&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Italy&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Mexico&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Netherlands&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Nigeria&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Poland&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Romania&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Russia&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Serbia&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Spain&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Sweden&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Switzerland&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">UK&#39;</span>
 )
 
-plot_data &lt;- world_wintri %&gt;%
-  mutate(highlight = NAME %in% countries_to_highlight)
+plot_data <span style="color:#f92672">&lt;-</span> world_wintri <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(highlight <span style="color:#f92672">=</span> NAME <span style="color:#f92672">%in%</span> countries_to_highlight)
 
-grat_wintri &lt;-
-  st_graticule(lat = c(-89.9, seq(-80, 80, 20), 89.9)) %&gt;%
-  st_transform_proj(crs = crs_wintri)
+grat_wintri <span style="color:#f92672">&lt;-</span>
+  <span style="color:#a6e22e">st_graticule</span>(lat <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-89.9</span>, <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">-80</span>, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">20</span>), <span style="color:#ae81ff">89.9</span>)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">st_transform_proj</span>(crs <span style="color:#f92672">=</span> crs_wintri)
 
-p &lt;- ggplot() +
-  geom_sf(data = grat_wintri, color = &quot;gray30&quot;, size = 0.1) +
-  geom_sf(
-    data = subset(plot_data, highlight == FALSE),
-    aes(fill = highlight),
-    color = &quot;#1e92bd&quot;, size = 0.2, show.legend = FALSE
-  ) +
-  geom_sf(
-    data = subset(plot_data, highlight == TRUE),
-    aes(fill = highlight),
-    color = 'white', size = 0.3, show.legend = FALSE
-  ) +
-  coord_sf(datum = NULL) +
-  scale_fill_manual(values = c(&quot;#9fd4e1&quot;, &quot;#1e92bd&quot;)) +
-  scale_color_manual(values = c(&quot;#1e92bd&quot;, &quot;white&quot;)) +
-  theme_map()
-ggsave('world_1.png', p, height = 4, width = 6.43)
-</code></pre>
-
+p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_sf</span>(data <span style="color:#f92672">=</span> grat_wintri, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">gray30&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_sf</span>(
+    data <span style="color:#f92672">=</span> <span style="color:#a6e22e">subset</span>(plot_data, highlight <span style="color:#f92672">==</span> <span style="color:#66d9ef">FALSE</span>),
+    <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> highlight),
+    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#1e92bd&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>, show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_sf</span>(
+    data <span style="color:#f92672">=</span> <span style="color:#a6e22e">subset</span>(plot_data, highlight <span style="color:#f92672">==</span> <span style="color:#66d9ef">TRUE</span>),
+    <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> highlight),
+    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">white&#39;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>, show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+  ) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">coord_sf</span>(datum <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#9fd4e1&#34;</span>, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#1e92bd&#34;</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_color_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#1e92bd&#34;</span>, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">white&#34;</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_map</span>()
+<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">world_1.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6.43</span>)
+</code></pre></div>
           </div>
 
         </div>

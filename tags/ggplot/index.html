@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.57.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -96,7 +96,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/distributions/2/">Distribution plot 2</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(gghalves) library(wesanderson) data(iris) p &lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Length, color = Species), alpha = 0.75, size = 3, show.legend = FALSE) + gghalves::geom_half_violin(aes(Species, Sepal.Length, fill = Species), side = 'l', alpha = 0.</h4>
+      <h4 class="card-text">library(tidyverse) library(gghalves) library(wesanderson) data(iris) p &lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Length, color = Species), alpha = 0.75, size = 3, show.legend = FALSE) + gghalves::geom_half_violin(aes(Species, Sepal.Length, fill = Species), side = &#39;l&#39;, alpha = 0.</h4>
     </div>
   </div>
 </div>
@@ -115,7 +115,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/heatmap/1/">Heatmap 1</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(Seurat) library(ComplexHeatmap) library(circlize) library(gridExtra) library(ggplotify) # create color palette from flatuicolors.com colors_dutch &lt;- c( '#FFC312','#C4E538','#12CBC4','#FDA7DF','#ED4C67', '#F79F1F','#A3CB38','#1289A7','#D980FA','#B53471', '#EE5A24','#009432','#0652DD','#9980FA','#833471', '#EA2027','#006266','#1B1464','#5758BB','#6F1E51' ) colors_spanish &lt;- c( '#40407a','#706fd3','#f7f1e3','#34ace0','#33d9b2', '#2c2c54','#474787','#aaa69d','#227093','#218c74', '#ff5252','#ff793f','#d1ccc0','#ffb142','#ffda79', '#b33939','#cd6133','#84817a','#cc8e35','#ccae62' ) custom_colors &lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &lt;- readRDS('seurat.</h4>
+      <h4 class="card-text">library(tidyverse) library(Seurat) library(ComplexHeatmap) library(circlize) library(gridExtra) library(ggplotify) # create color palette from flatuicolors.com colors_dutch &lt;- c( &#39;#FFC312&#39;,&#39;#C4E538&#39;,&#39;#12CBC4&#39;,&#39;#FDA7DF&#39;,&#39;#ED4C67&#39;, &#39;#F79F1F&#39;,&#39;#A3CB38&#39;,&#39;#1289A7&#39;,&#39;#D980FA&#39;,&#39;#B53471&#39;, &#39;#EE5A24&#39;,&#39;#009432&#39;,&#39;#0652DD&#39;,&#39;#9980FA&#39;,&#39;#833471&#39;, &#39;#EA2027&#39;,&#39;#006266&#39;,&#39;#1B1464&#39;,&#39;#5758BB&#39;,&#39;#6F1E51&#39; ) colors_spanish &lt;- c( &#39;#40407a&#39;,&#39;#706fd3&#39;,&#39;#f7f1e3&#39;,&#39;#34ace0&#39;,&#39;#33d9b2&#39;, &#39;#2c2c54&#39;,&#39;#474787&#39;,&#39;#aaa69d&#39;,&#39;#227093&#39;,&#39;#218c74&#39;, &#39;#ff5252&#39;,&#39;#ff793f&#39;,&#39;#d1ccc0&#39;,&#39;#ffb142&#39;,&#39;#ffda79&#39;, &#39;#b33939&#39;,&#39;#cd6133&#39;,&#39;#84817a&#39;,&#39;#cc8e35&#39;,&#39;#ccae62&#39; ) custom_colors &lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &lt;- readRDS(&#39;seurat.</h4>
     </div>
   </div>
 </div>
@@ -134,7 +134,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/intensity/1/">Intensity plot 1</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(wesanderson) data(iris) p &lt;- ggplot(iris) + stat_density_2d(aes(Sepal.Length, Sepal.Width, fill = stat(level)), geom = 'polygon') + theme_bw() + labs(x = 'Sepal length', y = 'Sepal width', size = 'Petal width') + scale_fill_gradientn( colours = wes_palette('Zissou1', 21, type = 'continuous'), guide = guide_colorbar(frame.</h4>
+      <h4 class="card-text">library(tidyverse) library(wesanderson) data(iris) p &lt;- ggplot(iris) + stat_density_2d(aes(Sepal.Length, Sepal.Width, fill = stat(level)), geom = &#39;polygon&#39;) + theme_bw() + labs(x = &#39;Sepal length&#39;, y = &#39;Sepal width&#39;, size = &#39;Petal width&#39;) + scale_fill_gradientn( colours = wes_palette(&#39;Zissou1&#39;, 21, type = &#39;continuous&#39;), guide = guide_colorbar(frame.</h4>
     </div>
   </div>
 </div>
@@ -172,7 +172,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/geographical/trieste_1/">Map of Trieste</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &lt;- read_sf('gis_osm_buildings_a_free_1.shp') landuse_a &lt;- read_sf('gis_osm_landuse_a_free_1.</h4>
+      <h4 class="card-text">library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &lt;- read_sf(&#39;gis_osm_buildings_a_free_1.shp&#39;) landuse_a &lt;- read_sf(&#39;gis_osm_landuse_a_free_1.shp&#39;) natural &lt;- read_sf(&#39;gis_osm_natural_free_1.</h4>
     </div>
   </div>
 </div>

@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.57.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -80,106 +80,105 @@
 
           
           <div class="article-post">
-            <pre><code class="language-r">library(tidyverse)
-library(Seurat)
-library(ComplexHeatmap)
-library(circlize)
-library(gridExtra)
-library(ggplotify)
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+<span style="color:#a6e22e">library</span>(Seurat)
+<span style="color:#a6e22e">library</span>(ComplexHeatmap)
+<span style="color:#a6e22e">library</span>(circlize)
+<span style="color:#a6e22e">library</span>(gridExtra)
+<span style="color:#a6e22e">library</span>(ggplotify)
 
-# create color palette from flatuicolors.com
-colors_dutch &lt;- c(
-  '#FFC312','#C4E538','#12CBC4','#FDA7DF','#ED4C67',
-  '#F79F1F','#A3CB38','#1289A7','#D980FA','#B53471',
-  '#EE5A24','#009432','#0652DD','#9980FA','#833471',
-  '#EA2027','#006266','#1B1464','#5758BB','#6F1E51'
+<span style="color:#75715e"># create color palette from flatuicolors.com</span>
+colors_dutch <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FFC312&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#C4E538&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#12CBC4&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FDA7DF&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ED4C67&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#F79F1F&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#A3CB38&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#1289A7&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#D980FA&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#B53471&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#EE5A24&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#009432&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#0652DD&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#9980FA&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#833471&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#EA2027&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#006266&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#1B1464&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#5758BB&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#6F1E51&#39;</span>
 )
-colors_spanish &lt;- c(
-  '#40407a','#706fd3','#f7f1e3','#34ace0','#33d9b2',
-  '#2c2c54','#474787','#aaa69d','#227093','#218c74',
-  '#ff5252','#ff793f','#d1ccc0','#ffb142','#ffda79',
-  '#b33939','#cd6133','#84817a','#cc8e35','#ccae62'
+colors_spanish <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#40407a&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#706fd3&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#f7f1e3&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#34ace0&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#33d9b2&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#2c2c54&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#474787&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#aaa69d&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#227093&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#218c74&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ff5252&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ff793f&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#d1ccc0&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ffb142&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ffda79&#39;</span>,
+  <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#b33939&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#cd6133&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#84817a&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#cc8e35&#39;</span>,<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#ccae62&#39;</span>
 )
-custom_colors &lt;- c(colors_dutch, colors_spanish)
+custom_colors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(colors_dutch, colors_spanish)
 
-# load a single cell expression data set (generated in the lab I work at)
-seurat &lt;- readRDS('seurat.rds')
+<span style="color:#75715e"># load a single cell expression data set (generated in the lab I work at)</span>
+seurat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">seurat.rds&#39;</span>)
 
-# calculate average expression value for all variable genes for each cluster
-average_expression_profiles_by_cluster &lt;- seurat@assays$RNA@data[seurat@assays$RNA@var.features,] %&gt;%
-  t() %&gt;%
-  as.matrix() %&gt;%
-  as_tibble() %&gt;%
-  mutate(cluster = seurat@meta.data$seurat_clusters) %&gt;%
-  select(cluster, everything()) %&gt;%
-  group_by(cluster) %&gt;%
-  summarize_all(funs(mean))
+<span style="color:#75715e"># calculate average expression value for all variable genes for each cluster</span>
+average_expression_profiles_by_cluster <span style="color:#f92672">&lt;-</span> seurat<span style="color:#f92672">@</span>assays<span style="color:#f92672">$</span>RNA<span style="color:#f92672">@</span>data[seurat<span style="color:#f92672">@</span>assays<span style="color:#f92672">$</span>RNA<span style="color:#f92672">@</span>var.features,] <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">t</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">as.matrix</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">as_tibble</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_clusters) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(cluster, <span style="color:#a6e22e">everything</span>()) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">group_by</span>(cluster) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">summarize_all</span>(<span style="color:#a6e22e">funs</span>(mean))
 
-# calculate Spearman correlation matrix
-correlation_matrix &lt;- average_expression_profiles_by_cluster %&gt;%
-  select(-1) %&gt;%
-  as.matrix() %&gt;%
-  t() %&gt;%
-  cor(method = 'spearman')
+<span style="color:#75715e"># calculate Spearman correlation matrix</span>
+correlation_matrix <span style="color:#f92672">&lt;-</span> average_expression_profiles_by_cluster <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(<span style="color:#ae81ff">-1</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">as.matrix</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">t</span>() <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">cor</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">spearman&#39;</span>)
 
-# assign row and column names
-rownames(correlation_matrix) &lt;- levels(seurat@meta.data$seurat_clusters)
-colnames(correlation_matrix) &lt;- levels(seurat@meta.data$seurat_clusters)
+<span style="color:#75715e"># assign row and column names</span>
+<span style="color:#a6e22e">rownames</span>(correlation_matrix) <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">levels</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_clusters)
+<span style="color:#a6e22e">colnames</span>(correlation_matrix) <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">levels</span>(seurat<span style="color:#f92672">@</span>meta.data<span style="color:#f92672">$</span>seurat_clusters)
 
-# save cluster names for later
-cluster &lt;- rownames(correlation_matrix)
+<span style="color:#75715e"># save cluster names for later</span>
+cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rownames</span>(correlation_matrix)
 
-# assign a color to each cluster
-colors_for_clusters &lt;- c(custom_colors$discrete[1:length(cluster)])
-names(colors_for_clusters) &lt;- cluster
+<span style="color:#75715e"># assign a color to each cluster</span>
+colors_for_clusters <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(custom_colors<span style="color:#f92672">$</span>discrete[1<span style="color:#f92672">:</span><span style="color:#a6e22e">length</span>(cluster)])
+<span style="color:#a6e22e">names</span>(colors_for_clusters) <span style="color:#f92672">&lt;-</span> cluster
 
-# create annotation function
-func_cell_cluster &lt;- function(i, j, x, y, width, height, fill) {
-  grid.text(cluster[j], x = x, y = y, gp = gpar(fontsize = 8))
+<span style="color:#75715e"># create annotation function</span>
+func_cell_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(i, j, x, y, width, height, fill) {
+  <span style="color:#a6e22e">grid.text</span>(cluster[j], x <span style="color:#f92672">=</span> x, y <span style="color:#f92672">=</span> y, gp <span style="color:#f92672">=</span> <span style="color:#a6e22e">gpar</span>(fontsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>))
 }
 
-# create main heatmap
-ht_matrix &lt;- Heatmap(
+<span style="color:#75715e"># create main heatmap</span>
+ht_matrix <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">Heatmap</span>(
   correlation_matrix,
-  name = 'Spearman\ncorrelation',
-  col = colorRamp2(
-    c(-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1),
-    c('#00007F', 'blue', '#007FFF', 'cyan', '#7FFF7F', 'yellow', '#FF7F00', 'red', '#7F0000')
+  name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Spearman\ncorrelation&#39;</span>,
+  col <span style="color:#f92672">=</span> <span style="color:#a6e22e">colorRamp2</span>(
+    <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-1</span>, <span style="color:#ae81ff">-0.75</span>, <span style="color:#ae81ff">-0.5</span>, <span style="color:#ae81ff">-0.25</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0.25</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.75</span>, <span style="color:#ae81ff">1</span>),
+    <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#00007F&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">blue&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#007FFF&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">cyan&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#7FFF7F&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">yellow&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#FF7F00&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">red&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">#7F0000&#39;</span>)
   ),
-  cluster_rows = TRUE,
-  cluster_columns = TRUE,
-  show_row_names = TRUE,
-  show_column_names = TRUE,
-  heatmap_legend_param = list(
-    title = 'Spearman correlation',
-    legend_height = unit(6, 'cm'),
-    legend_width = unit(1, 'cm'),
-    title_position = 'lefttop-rot',
-    border = 'black'
+  cluster_rows <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
+  cluster_columns <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
+  show_row_names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
+  show_column_names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
+  heatmap_legend_param <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Spearman correlation&#39;</span>,
+    legend_height <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">6</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">cm&#39;</span>),
+    legend_width <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">cm&#39;</span>),
+    title_position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">lefttop-rot&#39;</span>,
+    border <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">black&#39;</span>
   )
 )
 
-# create heatmap for annotation of clusters
-ht_cluster &lt;- Heatmap(
+<span style="color:#75715e"># create heatmap for annotation of clusters</span>
+ht_cluster <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">Heatmap</span>(
   cluster,
-  name = 'Cluster',
-  cell_fun = func_cell_cluster,
-  show_row_names = FALSE,
-  show_column_names = FALSE,
-  width = unit(15, 'mm'),
-  col = colors_for_clusters,
-  show_heatmap_legend = FALSE,
-  top_annotation = HeatmapAnnotation(
-    cn = anno_text('Cluster', rot = 0, just = 'center', gp = gpar(fontface = 'bold')),
-    height = max_text_height('Cluster')
+  name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Cluster&#39;</span>,
+  cell_fun <span style="color:#f92672">=</span> func_cell_cluster,
+  show_row_names <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,
+  show_column_names <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,
+  width <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">15</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">mm&#39;</span>),
+  col <span style="color:#f92672">=</span> colors_for_clusters,
+  show_heatmap_legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,
+  top_annotation <span style="color:#f92672">=</span> <span style="color:#a6e22e">HeatmapAnnotation</span>(
+    cn <span style="color:#f92672">=</span> <span style="color:#a6e22e">anno_text</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Cluster&#39;</span>, rot <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, just <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">center&#39;</span>, gp <span style="color:#f92672">=</span> <span style="color:#a6e22e">gpar</span>(fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">bold&#39;</span>)),
+    height <span style="color:#f92672">=</span> <span style="color:#a6e22e">max_text_height</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Cluster&#39;</span>)
   )
 )
 
-# plot
-p &lt;- as.ggplot(grid.grabExpr(draw(ht_matrix + ht_cluster)))
-ggsave('1.png', p, height = 6, width = 7)
-</code></pre>
-
+<span style="color:#75715e"># plot</span>
+p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.ggplot</span>(<span style="color:#a6e22e">grid.grabExpr</span>(<span style="color:#a6e22e">draw</span>(ht_matrix <span style="color:#f92672">+</span> ht_cluster)))
+<span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">1.png&#39;</span>, p, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
+</code></pre></div>
           </div>
 
         </div>
