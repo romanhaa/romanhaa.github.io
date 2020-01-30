@@ -27,7 +27,7 @@
       <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/blog/d3js_bar_chart_league_of_legends_ranks/</guid>
-      <description>Still experimenting with D3.js, this time I wanted to make a simple bar chart. Since it&#39;s always nice to show actual, informative data, I decided to reproduce the distribution of players in the different ranks in League of Legends as shown on this website: https://www.</description>
+      <description>Still experimenting with D3.js, this time I wanted to make a simple bar chart. Since it&amp;rsquo;s always nice to show actual, informative data, I decided to reproduce the distribution of players in the different ranks in League of Legends as shown on this website: https://www.</description>
     </item>
     
     <item>
@@ -94,6 +94,15 @@
     </item>
     
     <item>
+      <title>Dot plot</title>
+      <link>http://romanhaa.github.io/plots/other/dot_plot/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/other/dot_plot/</guid>
+      <description>library(tidyverse) library(Seurat) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&amp;#39;seurat.rds&amp;#39;) # cells will be grouped by clusters that they have been assigned to cluster_ids &amp;lt;- levels(seurat@meta.</description>
+    </item>
+    
+    <item>
       <title>Heatmap 1</title>
       <link>http://romanhaa.github.io/plots/heatmap/1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -144,7 +153,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/scatter/1/</guid>
-      <description>library(tidyverse) data(iris) p &amp;lt;- ggplot(iris) + geom_point(aes(Sepal.Length, Sepal.Width, color = Petal.Length, size = Petal.Width)) + theme_bw() + labs(x = &amp;#39;Sepal length&amp;#39;, y = &amp;#39;Sepal width&amp;#39;, size = &amp;#39;Petal width&amp;#39;) + scale_color_distiller( palette = &amp;#39;Spectral&amp;#39;, name = &amp;#39;Petal length&amp;#39;, guide = guide_colorbar(frame.</description>
+      <description>library(tidyverse) data(iris) p &amp;lt;- iris %&amp;gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&amp;gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &amp;#39;black&amp;#39;, show.legend = FALSE) + geom_point(aes(Sepal.</description>
     </item>
     
     <item>
@@ -153,7 +162,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/scatter/2/</guid>
-      <description>library(tidyverse) data(iris) p &amp;lt;- iris %&amp;gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&amp;gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &amp;#39;black&amp;#39;, show.legend = FALSE) + geom_point(aes(Sepal.</description>
+      <description>library(tidyverse) library(MASS) # download differential expression data from EBI Expression Atlas database # https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7445/Results t &amp;lt;- read_tsv(&amp;#39;E-MTAB-7445-query-results.tsv&amp;#39;, skip = 3) %&amp;gt;% rename( gene_id = 1, gene_name = 2, comparison_1_fold_change = 3, comparison_1_p_value = 4, comparison_2_fold_change = 5, comparison_2_p_value = 6 ) # filter genes which have p-values lower than 0.</description>
     </item>
     
     <item>
@@ -162,7 +171,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/scatter/3/</guid>
-      <description>library(tidyverse) library(MASS) # download differential expression data from EBI Expression Atlas database # https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7445/Results t &amp;lt;- read_tsv(&amp;#39;E-MTAB-7445-query-results.tsv&amp;#39;, skip = 3) %&amp;gt;% rename( gene_id = 1, gene_name = 2, comparison_1_fold_change = 3, comparison_1_p_value = 4, comparison_2_fold_change = 5, comparison_2_p_value = 6 ) # filter genes which have p-values lower than 0.</description>
+      <description>library(tidyverse) library(Seurat) # create color palette from flatuicolors.com colors_dutch &amp;lt;- c( &amp;#39;#FFC312&amp;#39;,&amp;#39;#C4E538&amp;#39;,&amp;#39;#12CBC4&amp;#39;,&amp;#39;#FDA7DF&amp;#39;,&amp;#39;#ED4C67&amp;#39;, &amp;#39;#F79F1F&amp;#39;,&amp;#39;#A3CB38&amp;#39;,&amp;#39;#1289A7&amp;#39;,&amp;#39;#D980FA&amp;#39;,&amp;#39;#B53471&amp;#39;, &amp;#39;#EE5A24&amp;#39;,&amp;#39;#009432&amp;#39;,&amp;#39;#0652DD&amp;#39;,&amp;#39;#9980FA&amp;#39;,&amp;#39;#833471&amp;#39;, &amp;#39;#EA2027&amp;#39;,&amp;#39;#006266&amp;#39;,&amp;#39;#1B1464&amp;#39;,&amp;#39;#5758BB&amp;#39;,&amp;#39;#6F1E51&amp;#39; ) colors_spanish &amp;lt;- c( &amp;#39;#40407a&amp;#39;,&amp;#39;#706fd3&amp;#39;,&amp;#39;#f7f1e3&amp;#39;,&amp;#39;#34ace0&amp;#39;,&amp;#39;#33d9b2&amp;#39;, &amp;#39;#2c2c54&amp;#39;,&amp;#39;#474787&amp;#39;,&amp;#39;#aaa69d&amp;#39;,&amp;#39;#227093&amp;#39;,&amp;#39;#218c74&amp;#39;, &amp;#39;#ff5252&amp;#39;,&amp;#39;#ff793f&amp;#39;,&amp;#39;#d1ccc0&amp;#39;,&amp;#39;#ffb142&amp;#39;,&amp;#39;#ffda79&amp;#39;, &amp;#39;#b33939&amp;#39;,&amp;#39;#cd6133&amp;#39;,&amp;#39;#84817a&amp;#39;,&amp;#39;#cc8e35&amp;#39;,&amp;#39;#ccae62&amp;#39; ) custom_colors &amp;lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&amp;#39;seurat.</description>
     </item>
     
     <item>
@@ -171,24 +180,6 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/scatter/4/</guid>
-      <description>library(tidyverse) library(Seurat) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&amp;#39;seurat.rds&amp;#39;) # cells will be grouped by clusters that they have been assigned to cluster_ids &amp;lt;- levels(seurat@meta.</description>
-    </item>
-    
-    <item>
-      <title>Scatter plot 5</title>
-      <link>http://romanhaa.github.io/plots/scatter/5/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://romanhaa.github.io/plots/scatter/5/</guid>
-      <description>library(tidyverse) library(Seurat) # create color palette from flatuicolors.com colors_dutch &amp;lt;- c( &amp;#39;#FFC312&amp;#39;,&amp;#39;#C4E538&amp;#39;,&amp;#39;#12CBC4&amp;#39;,&amp;#39;#FDA7DF&amp;#39;,&amp;#39;#ED4C67&amp;#39;, &amp;#39;#F79F1F&amp;#39;,&amp;#39;#A3CB38&amp;#39;,&amp;#39;#1289A7&amp;#39;,&amp;#39;#D980FA&amp;#39;,&amp;#39;#B53471&amp;#39;, &amp;#39;#EE5A24&amp;#39;,&amp;#39;#009432&amp;#39;,&amp;#39;#0652DD&amp;#39;,&amp;#39;#9980FA&amp;#39;,&amp;#39;#833471&amp;#39;, &amp;#39;#EA2027&amp;#39;,&amp;#39;#006266&amp;#39;,&amp;#39;#1B1464&amp;#39;,&amp;#39;#5758BB&amp;#39;,&amp;#39;#6F1E51&amp;#39; ) colors_spanish &amp;lt;- c( &amp;#39;#40407a&amp;#39;,&amp;#39;#706fd3&amp;#39;,&amp;#39;#f7f1e3&amp;#39;,&amp;#39;#34ace0&amp;#39;,&amp;#39;#33d9b2&amp;#39;, &amp;#39;#2c2c54&amp;#39;,&amp;#39;#474787&amp;#39;,&amp;#39;#aaa69d&amp;#39;,&amp;#39;#227093&amp;#39;,&amp;#39;#218c74&amp;#39;, &amp;#39;#ff5252&amp;#39;,&amp;#39;#ff793f&amp;#39;,&amp;#39;#d1ccc0&amp;#39;,&amp;#39;#ffb142&amp;#39;,&amp;#39;#ffda79&amp;#39;, &amp;#39;#b33939&amp;#39;,&amp;#39;#cd6133&amp;#39;,&amp;#39;#84817a&amp;#39;,&amp;#39;#cc8e35&amp;#39;,&amp;#39;#ccae62&amp;#39; ) custom_colors &amp;lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&amp;#39;seurat.</description>
-    </item>
-    
-    <item>
-      <title>Scatter plot 6</title>
-      <link>http://romanhaa.github.io/plots/scatter/6/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://romanhaa.github.io/plots/scatter/6/</guid>
       <description>library(tidyverse) data(iris) correlation_pearson &amp;lt;- cor(iris$Sepal.Length, iris$Petal.Length, method = &amp;#39;pearson&amp;#39;) correlation_spearman &amp;lt;- cor(iris$Sepal.Length, iris$Petal.Length, method = &amp;#39;spearman&amp;#39;) label &amp;lt;- list( paste0(&amp;#39;Pearson~italic(R)^2 == &amp;#39;, round(correlation_pearson, 3)), paste0(&amp;#39;Spearman~italic(R)^2 == &amp;#39;, round(correlation_spearman, 3)) ) p &amp;lt;- iris %&amp;gt;% mutate(Petal.</description>
     </item>
     

@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -68,6 +68,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="/plots/intensity/2/">
+        
+          <img class="img-fluid" src="/images/plots/intensity/2.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/intensity/2/">Intensity plot 2</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) library(viridis) n &lt;- 15000 data &lt;- bind_rows( tibble(x = rnorm(n, 5, 2), y = rnorm(n, 7.5, 4)), tibble(x = rnorm(n, 10, 3), y = rnorm(n, 2.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="/plots/geographical/trieste_1/">
         
           <img class="img-fluid" src="/images/plots/geographical/trieste_1.png" alt="A thumbnail image">
@@ -115,7 +134,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/scatter/1/">Scatter plot 1</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) data(iris) p &lt;- ggplot(iris) + geom_point(aes(Sepal.Length, Sepal.Width, color = Petal.Length, size = Petal.Width)) + theme_bw() + labs(x = &#39;Sepal length&#39;, y = &#39;Sepal width&#39;, size = &#39;Petal width&#39;) + scale_color_distiller( palette = &#39;Spectral&#39;, name = &#39;Petal length&#39;, guide = guide_colorbar(frame.</h4>
+      <h4 class="card-text">library(tidyverse) data(iris) p &lt;- iris %&gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &#39;black&#39;, show.legend = FALSE) + geom_point(aes(Sepal.</h4>
     </div>
   </div>
 </div>
@@ -134,7 +153,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/scatter/2/">Scatter plot 2</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) data(iris) p &lt;- iris %&gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &#39;black&#39;, show.legend = FALSE) + geom_point(aes(Sepal.</h4>
+      <h4 class="card-text">library(tidyverse) library(MASS) # download differential expression data from EBI Expression Atlas database # https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7445/Results t &lt;- read_tsv(&#39;E-MTAB-7445-query-results.tsv&#39;, skip = 3) %&gt;% rename( gene_id = 1, gene_name = 2, comparison_1_fold_change = 3, comparison_1_p_value = 4, comparison_2_fold_change = 5, comparison_2_p_value = 6 ) # filter genes which have p-values lower than 0.</h4>
     </div>
   </div>
 </div>
@@ -153,26 +172,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="/plots/scatter/3/">Scatter plot 3</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(MASS) # download differential expression data from EBI Expression Atlas database # https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7445/Results t &lt;- read_tsv(&#39;E-MTAB-7445-query-results.tsv&#39;, skip = 3) %&gt;% rename( gene_id = 1, gene_name = 2, comparison_1_fold_change = 3, comparison_1_p_value = 4, comparison_2_fold_change = 5, comparison_2_p_value = 6 ) # filter genes which have p-values lower than 0.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="/plots/scatter/4/">
-        
-          <img class="img-fluid" src="/images/plots/scatter/4.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/scatter/4/">Scatter plot 4</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(Seurat) # load a single cell expression data set (generated in the lab I work at) seurat &lt;- readRDS(&#39;seurat.rds&#39;) # cells will be grouped by clusters that they have been assigned to cluster_ids &lt;- levels(seurat@meta.</h4>
+      <h4 class="card-text">library(tidyverse) library(Seurat) # create color palette from flatuicolors.com colors_dutch &lt;- c( &#39;#FFC312&#39;,&#39;#C4E538&#39;,&#39;#12CBC4&#39;,&#39;#FDA7DF&#39;,&#39;#ED4C67&#39;, &#39;#F79F1F&#39;,&#39;#A3CB38&#39;,&#39;#1289A7&#39;,&#39;#D980FA&#39;,&#39;#B53471&#39;, &#39;#EE5A24&#39;,&#39;#009432&#39;,&#39;#0652DD&#39;,&#39;#9980FA&#39;,&#39;#833471&#39;, &#39;#EA2027&#39;,&#39;#006266&#39;,&#39;#1B1464&#39;,&#39;#5758BB&#39;,&#39;#6F1E51&#39; ) colors_spanish &lt;- c( &#39;#40407a&#39;,&#39;#706fd3&#39;,&#39;#f7f1e3&#39;,&#39;#34ace0&#39;,&#39;#33d9b2&#39;, &#39;#2c2c54&#39;,&#39;#474787&#39;,&#39;#aaa69d&#39;,&#39;#227093&#39;,&#39;#218c74&#39;, &#39;#ff5252&#39;,&#39;#ff793f&#39;,&#39;#d1ccc0&#39;,&#39;#ffb142&#39;,&#39;#ffda79&#39;, &#39;#b33939&#39;,&#39;#cd6133&#39;,&#39;#84817a&#39;,&#39;#cc8e35&#39;,&#39;#ccae62&#39; ) custom_colors &lt;- c(colors_dutch, colors_spanish) # load a single cell expression data set (generated in the lab I work at) seurat &lt;- readRDS(&#39;seurat.</h4>
     </div>
   </div>
 </div>

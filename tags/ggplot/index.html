@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -125,6 +125,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="/plots/other/dot_plot/">
+        
+          <img class="img-fluid" src="/images/plots/other/dot_plot.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="/plots/other/dot_plot/">Dot plot</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) library(Seurat) # load a single cell expression data set (generated in the lab I work at) seurat &lt;- readRDS(&#39;seurat.rds&#39;) # cells will be grouped by clusters that they have been assigned to cluster_ids &lt;- levels(seurat@meta.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="/plots/heatmap/1/">
         
           <img class="img-fluid" src="/images/plots/heatmap/1.png" alt="A thumbnail image">
@@ -154,25 +173,6 @@
       <h2 class="card-title"><a class="text-dark" href="/plots/intensity/1/">Intensity plot 1</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(wesanderson) data(iris) p &lt;- ggplot(iris) + stat_density_2d(aes(Sepal.Length, Sepal.Width, fill = stat(level)), geom = &#39;polygon&#39;) + theme_bw() + labs(x = &#39;Sepal length&#39;, y = &#39;Sepal width&#39;, size = &#39;Petal width&#39;) + scale_fill_gradientn( colours = wes_palette(&#39;Zissou1&#39;, 21, type = &#39;continuous&#39;), guide = guide_colorbar(frame.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="/plots/intensity/2/">
-        
-          <img class="img-fluid" src="/images/plots/intensity/2.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="/plots/intensity/2/">Intensity plot 2</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(viridis) n &lt;- 15000 data &lt;- bind_rows( tibble(x = rnorm(n, 5, 2), y = rnorm(n, 7.5, 4)), tibble(x = rnorm(n, 10, 3), y = rnorm(n, 2.</h4>
     </div>
   </div>
 </div>

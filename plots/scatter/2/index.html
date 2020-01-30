@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -81,23 +81,60 @@
           
           <div class="article-post">
             <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(MASS)
 
-<span style="color:#900;font-weight:bold">data</span>(iris)
+<span style="color:#998;font-style:italic"># download differential expression data from EBI Expression Atlas database</span>
+<span style="color:#998;font-style:italic"># https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7445/Results</span>
+t <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">E-MTAB-7445-query-results.tsv&#39;</span>, skip <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">rename</span>(
+    gene_id <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>,
+    gene_name <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>,
+    comparison_1_fold_change <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>,
+    comparison_1_p_value <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>,
+    comparison_2_fold_change <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>,
+    comparison_2_p_value <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>
+  )
 
-p <span style="color:#000;font-weight:bold">&lt;-</span> iris <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">mutate</span>(Petal.Width.larger <span style="color:#000;font-weight:bold">=</span> Petal.Width <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">1.5</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<span style="color:#998;font-style:italic"># filter genes which have p-values lower than 0.1 im both comparisons</span>
+t_filtered <span style="color:#000;font-weight:bold">&lt;-</span> t <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">filter</span>(
+    comparison_1_p_value <span style="color:#000;font-weight:bold">&lt;=</span> <span style="color:#099">0.1</span>,
+    comparison_2_p_value <span style="color:#000;font-weight:bold">&lt;=</span> <span style="color:#099">0.1</span>
+  )
+
+<span style="color:#998;font-style:italic"># calculate density of dots as described on:</span>
+<span style="color:#998;font-style:italic"># https://slowkow.com/notes/ggplot2-color-by-density/</span>
+get_density <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(x, y, <span style="color:#000;font-weight:bold">...</span>) {
+  dens <span style="color:#000;font-weight:bold">&lt;-</span> MASS<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">kde2d</span>(x, y, <span style="color:#000;font-weight:bold">...</span>)
+  ix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">findInterval</span>(x, dens<span style="color:#000;font-weight:bold">$</span>x)
+  iy <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">findInterval</span>(y, dens<span style="color:#000;font-weight:bold">$</span>y)
+  ii <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cbind</span>(ix, iy)
+  <span style="color:#900;font-weight:bold">return</span>(dens<span style="color:#000;font-weight:bold">$</span>z[ii])
+}
+
+t_filtered<span style="color:#000;font-weight:bold">$</span>density <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">get_density</span>(
+  t_filtered<span style="color:#000;font-weight:bold">$</span>comparison_1_fold_change,
+  t_filtered<span style="color:#000;font-weight:bold">$</span>comparison_2_fold_change,
+  n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">100</span>
+)
+
+<span style="color:#998;font-style:italic"># build color palette on https://gka.github.io/palettes</span>
+colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">#7ac6e7&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#6badd9&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#5c95cb&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#4e7ebd&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#3f66af&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#314fa2&#39;</span>,
+  <span style="color:#d14">&#39;</span><span style="color:#d14">#223894&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#132086&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#000275&#39;</span>)
+
+p <span style="color:#000;font-weight:bold">&lt;-</span> t_filtered <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">arrange</span>(density) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(Sepal.Length, Sepal.Width, size <span style="color:#000;font-weight:bold">=</span> Petal.Width.larger), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(Sepal.Length, Sepal.Width, color <span style="color:#000;font-weight:bold">=</span> Petal.Length, size <span style="color:#000;font-weight:bold">=</span> Petal.Width)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Sepal length&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Sepal width&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Petal width&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_color_distiller</span>(
-    palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Spectral&#39;</span>, name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Petal length&#39;</span>,
-    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>)
+  <span style="color:#900;font-weight:bold">geom_point</span>(
+    <span style="color:#900;font-weight:bold">aes</span>(comparison_1_fold_change, comparison_2_fold_change, color <span style="color:#000;font-weight:bold">=</span> density),
+    size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
   ) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">right&#39;</span>)
-
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">2.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
+  <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_vline</span>(xintercept <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">logFC - comparison A&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">logFC - comparison B&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_gradientn</span>(colors <span style="color:#000;font-weight:bold">=</span> colors)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">2.png&#39;</span>, p, scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
           </div>
 

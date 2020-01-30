@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -108,10 +108,10 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
   <span style="color:#900;font-weight:bold">scale_y_reverse</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_tree</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_tree</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_tiplab</span>(offset <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_tiplab</span>(label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(tree<span style="color:#000;font-weight:bold">$</span>tip.label, <span style="color:#d14">&#39;</span><span style="color:#d14"> carbs&#39;</span>), offset <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_tippoint</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">jcolors</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">pal5&#39;</span>), shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">16</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">coord_cartesian</span>(clip <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">off&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(plot.margin <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">0.5</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>), <span style="color:#d14">&#39;</span><span style="color:#d14">cm&#39;</span>))
+  <span style="color:#900;font-weight:bold">theme</span>(plot.margin <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>), <span style="color:#d14">&#39;</span><span style="color:#d14">cm&#39;</span>))
 <span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">phylogenetic_tree.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>)
 </code></pre></div>
           </div>
