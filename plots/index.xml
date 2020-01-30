@@ -139,6 +139,15 @@
     </item>
     
     <item>
+      <title>Scatter plot 6</title>
+      <link>http://romanhaa.github.io/plots/scatter/6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/scatter/6/</guid>
+      <description>library(tidyverse) data(iris) correlation_pearson &amp;lt;- cor(iris$Sepal.Length, iris$Petal.Length, method = &amp;#39;pearson&amp;#39;) correlation_spearman &amp;lt;- cor(iris$Sepal.Length, iris$Petal.Length, method = &amp;#39;spearman&amp;#39;) label &amp;lt;- list( paste0(&amp;#39;Pearson~italic(R)^2 == &amp;#39;, round(correlation_pearson, 3)), paste0(&amp;#39;Spearman~italic(R)^2 == &amp;#39;, round(correlation_spearman, 3)) ) p &amp;lt;- iris %&amp;gt;% mutate(Petal.</description>
+    </item>
+    
+    <item>
       <title>Showing compositions in a bar plot</title>
       <link>http://romanhaa.github.io/plots/composition/1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
