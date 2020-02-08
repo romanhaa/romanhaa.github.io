@@ -2,18 +2,18 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.63.2" />
+  <meta name="generator" content="Hugo 0.62.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css"/>
   <link rel="stylesheet" href="/css/medium.css">
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+<body><nav class="navbar navbar-expand-lg navbar-light bg-white mediumnavigation nav-down navbar-static-top">
   <div class="container pr-0">
 
     
@@ -53,7 +53,6 @@
 
   </div>
 </nav>
-
 <div class="site-content">
       <div class="container">
   <div class="main-content">
@@ -80,7 +79,7 @@
             <nav id="TableOfContents">
   <ul>
     <li><a href="#requirements">Requirements</a></li>
-    <li><a href="#lets-get-started">Let&rsquo;s get started</a></li>
+    <li><a href="#lets-get-started">Let's get started</a></li>
     <li><a href="#without-rna-velocity-data">Without RNA velocity data</a>
       <ul>
         <li><a href="#apply-paga-and-umap">Apply PAGA and UMAP</a></li>
@@ -110,17 +109,17 @@
 Most of the methods frequently used in the literature are available in both toolkits and the workflow is essentially the same.
 However, Fabian Theis and his group (with special credit to Alex Wolf) have recently published their <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1663-x">PAGA</a> algorithm that attempts to harmonize dimensional reduction with clustering and trajectory analysis.
 This is very exciting and a step in the right direction as tSNE and UMAP are known to have limitations in this regard.
-However, if you are a heavy Seurat/R user, you will be bummed to hear that for now (at least to my knowledge) no R port of PAGA exists and I&rsquo;m not sure the authors have intentions to change this.
+However, if you are a heavy Seurat/R user, you will be bummed to hear that for now (at least to my knowledge) no R port of PAGA exists and I'm not sure the authors have intentions to change this.
 As far as I know, Cole Trapnell and his lab are working on implementing something similar, if not precisely the PAGA algorithm, in <a href="http://cole-trapnell-lab.github.io/monocle-release/monocle3/">Monocle 3</a>.</p>
-<p>For those of you who do most of their analysis in Seurat and want to perform PAGA analysis (and/or can&rsquo;t wait for Monocle 3), I explain here how to do so.</p>
+<p>For those of you who do most of their analysis in Seurat and want to perform PAGA analysis (and/or can't wait for Monocle 3), I explain here how to do so.</p>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li><code>Seurat</code> <strong>v2</strong>.x; unfortunately, the <code>Convert()</code> function in Seurat v3 doesn&rsquo;t seem to be able yet to export the Seurat object to the anndata format (which is what we need).</li>
+<li><code>Seurat</code> <strong>v2</strong>.x; unfortunately, the <code>Convert()</code> function in Seurat v3 doesn't seem to be able yet to export the Seurat object to the anndata format (which is what we need).</li>
 <li>The <code>reticulate</code> R package for communication  between R and Python.</li>
 <li><code>scanpy</code>; I installed it using <code>pip3</code>.</li>
 </ul>
 <p>I also use the <code>tidyverse</code> R meta package but they are not technically required as the respective commands can be replaced.</p>
-<h2 id="lets-get-started">Let&rsquo;s get started</h2>
+<h2 id="lets-get-started">Let's get started</h2>
 <p>First we load the packages mentioned above.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">Seurat&#34;</span>)
 <span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">tidyverse&#34;</span>)
@@ -180,7 +179,7 @@ sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;fo
 </ul>
 <h3 id="export-results-and-store-in-seurat-object">Export results and store in Seurat object</h3>
 <p>Next, we store the results in our Seurat object.
-This is technically not necessary but I think it&rsquo;s good practice to keep all results in a single file.</p>
+This is technically not necessary but I think it's good practice to keep all results in a single file.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>leiden <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>obs<span style="color:#000;font-weight:bold">$</span>leiden)
 
 paga <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
@@ -305,8 +304,8 @@ umap_plot <span style="color:#000;font-weight:bold">&lt;-</span> umap <span styl
 
 <h2 id="adaptation-for-rna-velocity-based-transitions-between-clusters">Adaptation for RNA velocity-based transitions between clusters</h2>
 <p><code>scanpy</code> offers to use RNA velocity information to predict transitions between clusters in the PAGA results.
-I won&rsquo;t go into detail on how to do that but can recommend to use <a href="https://scvelo.readthedocs.io/en/latest/#"><code>scVelo</code></a> which directly integrates into the <code>scanpy</code> framework.
-Here, I&rsquo;ll assume you have already generated the PAGA using RNA velocity data, e.g. as shown below.</p>
+I won't go into detail on how to do that but can recommend to use <a href="https://scvelo.readthedocs.io/en/latest/#"><code>scVelo</code></a> which directly integrates into the <code>scanpy</code> framework.
+Here, I'll assume you have already generated the PAGA using RNA velocity data, e.g. as shown below.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(adata, groups <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">leiden&#34;</span>, use_rna_velocity <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>)
 sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(
   adata,
@@ -470,7 +469,7 @@ arrow_gap <span style="color:#000;font-weight:bold">&lt;-</span> <span style="co
   }
 }
 </code></pre></div><h3 id="filter-connections">Filter connections</h3>
-<p>Similar to what we&rsquo;ve done before, we remove connections and arrows below a threshold of confidence.
+<p>Similar to what we've done before, we remove connections and arrows below a threshold of confidence.
 Here, this threshold is <code>0.15</code>.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_edges <span style="color:#000;font-weight:bold">&lt;-</span> paga_edges <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(weight <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0.15</span>)
@@ -557,7 +556,7 @@ plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="co
 
 <p>From here you can tweak the plots as you prefer, for example by scaling the point size in the PAGA results by the number of cells in that group/cluster.</p>
 <p>Parameter optimization is another topic, but I find this analysis very useful to understand the relationship between identified clusters.</p>
-<p><strong>That&rsquo;s it for now.</strong>
+<p><strong>That's it for now.</strong>
 You can use the same process explained here to perform other analysis provided by <code>scanpy</code>, such as diffusion pseudotime (<code>tl.dpt()</code>).</p>
 <p>If you have questions, comments, point out improvements/errors or simply reach out, please do so on Twitter <a href="https://twitter.com/fakechek1">@fakechek1</a></p>
 <h2 id="session-info">Session info</h2>
@@ -668,6 +667,8 @@ Python <span style="color:#099">3.7</span><span style="color:#099">.3</span>rc1
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="/js/mediumish.js"></script>
+<script src="/js/tabbed_content.js"></script>
+<script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
 
   </body>
 </html>

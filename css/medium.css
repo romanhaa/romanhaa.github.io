@@ -39,8 +39,8 @@ pre {
 }
 .site-content {
   min-height: 60vh;
-  padding-top: 1.5rem;
-  margin-top: 57px;
+  padding-top: 0.5rem;
+  margin-top: 10px;
   transition: all 0.4s;
 }
 section {
@@ -82,6 +82,7 @@ section.recent-posts {
     padding-left: 0.8rem;
   }
 }
+
 .listfeaturedtag {
   border: 1px solid rgba(0,0,0,.125);
   border-radius: .25rem;
@@ -178,50 +179,50 @@ span.post-name a,span.post-read-more a:hover {
 }
 .dot:after {
   content:"·";
-  margin-left:3px;
-  margin-right:3px;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 .mediumnavigation .form-control {
-  font-size:0.8rem;
-  border-radius:30px;
-  overflow:hidden;
-  border:1px solid rgba(0,0,0,0.04);
+  font-size: 0.8rem;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.04);
 }
 .mediumnavigation .form-inline {
-  margin-left:15px;
+  margin-left: 15px;
 }
 .mediumnavigation .form-inline .btn {
-  margin-left:-50px;
-  border:0;
-  border-radius:30px;
-  cursor:pointer;
+  margin-left: -50px;
+  border: 0;
+  border-radius: 30px;
+  cursor: pointer;
 }
 .mediumnavigation .form-inline .btn:hover,.mediumnavigation .form-inline .btn:active {
-  background:transparent;
-  color:green;
+  background: transparent;
+  color: green;
 }
 .mediumnavigation .navbar-brand {
-  font-weight:500;
+  font-weight: 500;
 }
 .mediumnavigation .dropdown-menu {
-  border:1px solid rgba(0,0,0,0.08);
-  margin:.5rem 0 0;
+  border: 1px solid rgba(0,0,0,0.08);
+  margin: .5rem 0 0;
 }
 .mediumnavigation .nav-item,.dropdown-menu {
-  font-size:0.9rem;
+  font-size: 0.9rem;
 }
 .mediumnavigation .search-icon {
-  margin-left:-40px;
-  display:inline-block;
-  margin-top:3px;
-  cursor:pointer;
+  margin-left: -40px;
+  display: inline-block;
+  margin-top: 3px;
+  cursor: pointer;
 }
 .mediumnavigation .navbar-brand img {
-  max-height:30px;
-  margin-right:5px;
+  max-height: 30px;
+  margin-right: 5px;
 }
 .mainheading h1.sitetitle {
-  font-family:Righteous;
+  font-family: Righteous;
 }
 .mainheading h1.posttitle {
   font-weight:700;
@@ -243,7 +244,7 @@ span.post-name a,span.post-read-more a:hover {
 }
 .article-post {
   font-family: Merriweather;
-  font-size: 1.1rem;
+  font-size: 1.0rem;
   line-height: 1.84;
   color: rgba(0,0,0,.8);
 }
@@ -414,8 +415,8 @@ ul.tags li a:hover {
   color: rgba(0,0,0,.5);
 }
 .authorpage h1 {
-  font-weight:700;
-  font-size:30px;
+  font-weight: 700;
+  font-size: 30px;
 }
 .post-top-meta.authorpage .author-thumb {
   float:none;
@@ -447,6 +448,7 @@ ul.tags li a:hover {
 }
 .article-post .h1, .article-post .h2, .article-post .h3, .article-post .h4, .article-post .h5, .article-post .h6, .article-post h1, .article-post h2, .article-post h3, .article-post h4, .article-post h5, .article-post h6 {
   font-weight: 700;
+  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
 .article-post img.shadow {
@@ -591,4 +593,83 @@ iframe {
 	0% { background: #ddd; }
 	33% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ccc, -15px 30px 1px #ddd; }
 	66% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ddd, -15px 30px 1px #ccc; }
+}
+
+/* stuff for tabbed content */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 12px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* stuff for tabbed content - second attempt */
+.tabs {
+	display: flex;
+	flex-wrap: wrap;
+}
+.tabs label {
+	order: 1;
+	display: block;
+	padding: 1rem 2rem;
+	cursor: pointer;
+  background: rgb(156, 156, 156);
+  font-weight: bold;
+  transition: background ease 0.2s;
+}
+.tabs .tab {
+  order: 99;
+  flex-grow: 1;
+	width: 100%;
+	display: none;
+  padding: 0.5rem;
+  background: #fff;
+  margin-bottom: 1.5em;
+}
+.tabs input[type="radio"] {
+	display: none;
+}
+.tabs input[type="radio"]:checked + label {
+	background: rgb(236, 236, 236);
+}
+.tabs input[type="radio"]:checked + label + .tab {
+	display: block;
 }

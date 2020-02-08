@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://romanhaa.github.io/projects/</loc>
+    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/</loc>
+    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/projects/scrnaseq_workflow/</loc>
+    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://romanhaa.github.io/tags/dataviz/</loc>
     <lastmod>2020-01-01T00:00:00+00:00</lastmod>
   </url>
@@ -14,11 +29,6 @@
   
   <url>
     <loc>http://romanhaa.github.io/plots/</loc>
-    <lastmod>2020-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://romanhaa.github.io/</loc>
     <lastmod>2020-01-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -59,11 +69,6 @@
   
   <url>
     <loc>http://romanhaa.github.io/projects/cerebro/</loc>
-    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://romanhaa.github.io/projects/</loc>
     <lastmod>2019-03-27T00:00:00+00:00</lastmod>
   </url>
   
