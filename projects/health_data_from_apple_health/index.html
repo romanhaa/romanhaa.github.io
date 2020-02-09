@@ -37,7 +37,7 @@
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a class="nav-link" href="/projects">Projects</a>
         </li>
         
         <li class="nav-item ">
@@ -45,7 +45,7 @@
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a class="nav-link" href="/blog">Blog</a>
         </li>
         
       </ul>
@@ -68,7 +68,7 @@
         
           <div class="mainheading">
             
-            <h1 class="posttitle">Health data from Xiaomi Mi Band</h1>
+            <h1 class="posttitle">Visualize health data from Apple Health</h1>
             <div class="article-post">
               Last update: Feb 9, 2020
             </div>
@@ -238,21 +238,11 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
     value <span style="color:#000;font-weight:bold">=</span> value <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.character</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.numeric</span>(),
     creationDate <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ymd_hms</span>(creationDate, tz <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Europe/Amsterdam&#39;</span>),
     startDate <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ymd_hms</span>(startDate, tz <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Europe/Amsterdam&#39;</span>),
-    start_month <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(startDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%m&#39;</span>),
-    start_year <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(startDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%Y&#39;</span>),
     start_date <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(startDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%Y-%m-%d&#39;</span>),
-    start_dayofweek <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wday</span>(startDate, label <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>, abbr <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>),
-    start_hour <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(startDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%H&#39;</span>),
-    start_minute <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(startDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%M&#39;</span>),
-    start_hour_minute <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.integer</span>(start_hour) <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">as.integer</span>(start_minute)<span style="color:#000;font-weight:bold">/</span><span style="color:#099">60</span>,
+    start_hour_minute <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.integer</span>(<span style="color:#900;font-weight:bold">format</span>(startDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%H&#39;</span>)) <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">as.integer</span>(<span style="color:#900;font-weight:bold">format</span>(startDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%M&#39;</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">60</span>,
     endDate <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ymd_hms</span>(endDate, tz <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Europe/Amsterdam&#39;</span>),
-    end_month <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%m&#39;</span>),
-    end_year <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%Y&#39;</span>),
     end_date <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%Y-%m-%d&#39;</span>),
-    end_dayofweek <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wday</span>(endDate, label <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>, abbr <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>),
-    end_hour <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%H&#39;</span>),
-    end_minute <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%M&#39;</span>),
-    end_hour_minute <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.integer</span>(end_hour) <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">as.integer</span>(end_minute)<span style="color:#000;font-weight:bold">/</span><span style="color:#099">60</span>
+    end_hour_minute <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.integer</span>(<span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%H&#39;</span>)) <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">as.integer</span>(<span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%M&#39;</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">60</span>
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(startDate)
 </code></pre></div><h2 id="total-steps-per-day">Total steps per day</h2>
