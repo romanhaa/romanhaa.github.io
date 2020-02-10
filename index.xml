@@ -31,6 +31,15 @@
     </item>
     
     <item>
+      <title>Cerebro</title>
+      <link>http://romanhaa.github.io/projects/cerebro/</link>
+      <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/projects/cerebro/</guid>
+      <description>Interactive visualization of scRNA-seq data.</description>
+    </item>
+    
+    <item>
       <title>Dummy</title>
       <link>http://romanhaa.github.io/plots/dummy/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
@@ -73,15 +82,6 @@
       
       <guid>http://romanhaa.github.io/blog/paga_to_r/</guid>
       <description>Seurat and scanpy are both great frameworks to analyze single-cell RNA-seq data, the main difference being the language they are designed for. Most of the methods frequently used in the literature are available in both toolkits and the workflow is essentially the same.</description>
-    </item>
-    
-    <item>
-      <title>Cerebro</title>
-      <link>http://romanhaa.github.io/projects/cerebro/</link>
-      <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://romanhaa.github.io/projects/cerebro/</guid>
-      <description>Interactive visualization of scRNA-seq data.</description>
     </item>
     
     <item>

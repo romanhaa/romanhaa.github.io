@@ -601,10 +601,10 @@ iframe {
 	flex-wrap: wrap;
 }
 .tabs label {
-	order: 1;
-	display: block;
-	padding: 1rem 2rem;
-	cursor: pointer;
+  order: 1;
+  display: block;
+  padding: 0.75rem 2rem;
+  cursor: pointer;
   background: rgb(156, 156, 156);
   font-weight: bold;
   transition: background ease 0.2s;
@@ -612,18 +612,29 @@ iframe {
 .tabs .tab {
   order: 99;
   flex-grow: 1;
-	width: 100%;
-	display: none;
+  width: 100%;
+  display: none;
   padding: 0.5rem;
   background: #fff;
   margin-bottom: 1.5em;
 }
 .tabs input[type="radio"] {
-	display: none;
+  display: none;
 }
 .tabs input[type="radio"]:checked + label {
-	background: rgb(236, 236, 236);
+  background: rgb(236, 236, 236);
 }
 .tabs input[type="radio"]:checked + label + .tab {
-	display: block;
+  display: block;
+}
+
+/* code folding box */
+.code-folding-btn {
+  margin-bottom: 3px;
+  font-family: "Monaco";
+  border: 1px solid grey;
+  background: #F0F0F0;
+  font-size: 14px;
+  padding: 5px;
+  cursor: pointer;
 }

@@ -103,10 +103,17 @@ We will use three samples from a public data set <a href="https://www.ncbi.nlm.n
 
 
 <h1 id="preparation">Preparation</h1>
+
+<hr>
 <h2 id="load-r-packages">Load R packages</h2>
 
+<hr>
 
-<details><summary>Code:</summary>
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_load_libraries" aria-controls="code_load_libraries">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_load_libraries" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(Seurat)
@@ -116,17 +123,23 @@ We will use three samples from a public data set <a href="https://www.ncbi.nlm.n
 <span style="color:#900;font-weight:bold">library</span>(ggforce)
 <span style="color:#900;font-weight:bold">library</span>(gghalves)
 <span style="color:#900;font-weight:bold">library</span>(ggridges)
+<span style="color:#900;font-weight:bold">library</span>(scDblFinder)
 <span style="color:#900;font-weight:bold">library</span>(SingleR)
 </code></pre></div>
 
-</details>
+</div>
 
 <h2 id="define-colors">Define colors</h2>
+
+<hr>
 <p>I have a custom color set that I like to use for discrete color scales.
 It's two color palettes from <a href="https://flatuicolors.com">https://flatuicolors.com</a> merged together.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_define_colors" aria-controls="code_define_colors">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_define_colors" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>()
 
@@ -152,30 +165,42 @@ custom_colors<span style="color:#000;font-weight:bold">$</span>cell_cycle <span 
 )
 </code></pre></div>
 
-</details>
+</div>
 
 <h2 id="helper-functions">Helper functions</h2>
+
+<hr>
 <h3 id="format-numbers">Format numbers</h3>
+
+<hr>
 <p>This is a function that will format numbers so they are easier to look at.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_function_nice_format" aria-controls="code_function_nice_format">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_function_nice_format" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">niceFormat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(number) {
   <span style="color:#900;font-weight:bold">formatC</span>(number, format <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">f&#39;</span>, big.mark <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">,&#39;</span>, digits <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>)
 }
 </code></pre></div>
 
-</details>
+</div>
 
 <h3 id="load-transcript-count-matrix">Load transcript count matrix</h3>
+
+<hr>
 <p>This function allows us to load transcript count matrices stored in <code>.mtx</code> format, such as the output from Cell Ranger.
 Importantly, this function collapses the counts from genes with the same name (they usually have different gene IDs which is why they were reported separately).
 It is not always done like this.
 Others keep the genes separate by adding a suffix to the duplicate gene names.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_function_load_data" aria-controls="code_function_load_data">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_function_load_data" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">load10xData <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(sample_name, path, max_number_of_cells <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">NULL</span>) {
   transcript_counts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list.files</span>(
@@ -235,14 +260,19 @@ Others keep the genes separate by adding a suffix to the duplicate gene names.</
 }
 </code></pre></div>
 
-</details>
+</div>
 
 <h3 id="table-of-ncount-and-nfeature-by-sample">Table of nCount and nFeature by sample</h3>
 
-
-<details><summary>Code:</summary>
-
+<hr>
 <p>This function outputs a table of mean and median transcripts and expressed genes for every sample in our data set.</p>
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_function_count_table" aria-controls="code_function_count_table">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_function_count_table" aria-expanded="true">
+
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">averagenCountnFeature <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(cells) {
   output <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     <span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(),
@@ -265,27 +295,39 @@ Others keep the genes separate by adding a suffix to the duplicate gene names.</
 }
 </code></pre></div>
 
-</details>
+</div>
 
 <h2 id="create-output-directories">Create output directories</h2>
+
+<hr>
 <p>Every output of this workflow is either stored in <code>data</code> or <code>plots</code>.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_create_directories" aria-controls="code_create_directories">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_create_directories" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">dir.create</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">data&#39;</span>)
 <span style="color:#900;font-weight:bold">dir.create</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots&#39;</span>)
 </code></pre></div>
 
-</details>
+</div>
 
 <h1 id="load-data">Load data</h1>
+
+<hr>
 <p>First, we load every sample by itself using the previously specified <code>load10xData()</code> function.
 We will randomly down-sample each sample to 2,000 cells for faster processing.</p>
 <h2 id="sample-wise">Sample-wise</h2>
 
+<hr>
 
-<details><summary>Code:</summary>
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_load_samples" aria-controls="code_load_samples">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_load_samples" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sample_names <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list.dirs</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">data/GSE120221_RAW&#39;</span>, recursive <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">basename</span>()
 
@@ -299,18 +341,23 @@ transcripts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="
     max_number_of_cells <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2000</span>
   )
 }
-<span style="color:#998;font-style:italic">#  [2020-02-06 08:34:32] Loaded counts for A with 2,000 cells and 33,660 genes</span>
-<span style="color:#998;font-style:italic">#  [2020-02-06 08:34:43] Loaded counts for B with 2,000 cells and 33,660 genes</span>
-<span style="color:#998;font-style:italic">#  [2020-02-06 08:34:59] Loaded counts for E with 2,000 cells and 33,660 genes</span>
+<span style="color:#998;font-style:italic"># [2020-02-06 08:34:32] Loaded counts for A with 2,000 cells and 33,660 genes</span>
+<span style="color:#998;font-style:italic"># [2020-02-06 08:34:43] Loaded counts for B with 2,000 cells and 33,660 genes</span>
+<span style="color:#998;font-style:italic"># [2020-02-06 08:34:59] Loaded counts for E with 2,000 cells and 33,660 genes</span>
 </code></pre></div>
 
-</details>
+</div>
 
 <h2 id="merge-samples">Merge samples</h2>
+
+<hr>
 <p>Now, we merge the transcript counts from every sample by gene name.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_merge_samples" aria-controls="code_merge_samples">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_merge_samples" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">full_join</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>A, transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>B, by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">gene&#34;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">full_join</span>(., transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>E, by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">gene&#34;</span>)
@@ -326,17 +373,24 @@ transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="col
 <span style="color:#900;font-weight:bold">rownames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged) <span style="color:#000;font-weight:bold">&lt;-</span> genes
 </code></pre></div>
 
-</details>
+</div>
 
 <h1 id="quality-control">Quality control</h1>
 <p>Before we start the analysis, we will remove low-quality cells, duplicates, as well as weakly expressed genes from the merged transcript count matrix.</p>
 <h2 id="filter-cells">Filter cells</h2>
+
+<hr>
 <p>We start with the cells.</p>
 <h3 id="prepare-data">Prepare data</h3>
+
+<hr>
 <p>First, we collect the transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_prepare_data_for_qc" aria-controls="code_prepare_data_for_qc">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_prepare_data_for_qc" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   cell <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colnames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
@@ -353,16 +407,22 @@ mitochondrial_genes <span style="color:#000;font-weight:bold">&lt;-</span> <span
 mitochondrial_genes_here <span style="color:#000;font-weight:bold">&lt;-</span> mitochondrial_genes<span style="color:#900;font-weight:bold">[which</span>(mitochondrial_genes <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">rownames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged))]
 
 cells<span style="color:#000;font-weight:bold">$</span>percent_MT <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged[mitochondrial_genes_here,]) <span style="color:#000;font-weight:bold">/</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">colSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged)
-</code></pre></div><p>We use our <code>averagenCountnFeature()</code> function to get an idea of the metrics per sample.</p>
+</code></pre></div>
+
+</div>
+
+<p>We use our <code>averagenCountnFeature()</code> function to get an idea of the metrics per sample.</p>
 
 
-</details>
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_table_average_count_per_sample" aria-controls="code_table_average_count_per_sample">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_table_average_count_per_sample" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">averagenCountnFeature</span>(cells) <span style="color:#000;font-weight:bold">%&gt;%</span> knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">kable</span>()
 </code></pre></div>
 
-</details>
+</div>
 
 <table>
 <thead>
@@ -398,7 +458,149 @@ cells<span style="color:#000;font-weight:bold">$</span>percent_MT <span style="c
 </tr>
 </tbody>
 </table>
+<h3 id="doublets">Doublets</h3>
+
+<hr>
+<p>To identify doublets, we will use the <a href="https://bioconductor.org/packages/release/bioc/html/scDblFinder.html"><code>scDblFinder</code></a> package.</p>
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_doublet_detection_counts" aria-controls="code_doublet_detection_counts">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_doublet_detection_counts" aria-expanded="true">
+
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(assays <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged))
+sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">scDblFinder</span>(sce)
+
+cells<span style="color:#000;font-weight:bold">$</span>multiplet_class <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colData</span>(sce)<span style="color:#000;font-weight:bold">$</span>scDblFinder.class
+
+p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>multiplet_class))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of transcripts&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">linear scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>multiplet_class))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_log10</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of transcripts&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">log-scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+p3 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nFeature, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>multiplet_class))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of expressed genes&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">linear scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+p4 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nFeature, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>multiplet_class))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_log10</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of expressed genes&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">log-scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+<span style="color:#900;font-weight:bold">ggsave</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">plots/qc_nCount_nFeature_by_multiplet_class.png&#39;</span>,
+  p1 <span style="color:#000;font-weight:bold">+</span> p3 <span style="color:#000;font-weight:bold">+</span>
+  p2 <span style="color:#000;font-weight:bold">+</span> p4 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>),
+  height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>
+)
+</code></pre></div>
+
+</div>
+
+
+
+<figure>
+  <img src="/images/projects/scrnaseq_workflow/qc_nCount_nFeature_by_multiplet_class.png" style="width: 100%"/>
+</figure>
+
+<p>How many doublets do we find in each sample?</p>
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_doublets_per_sample" aria-controls="code_doublets_per_sample">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_doublets_per_sample" aria-expanded="true">
+
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">filter</span>(multiplet_class <span style="color:#000;font-weight:bold">!=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">singlet&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarize</span>(count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> count, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_col</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>sample))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of doublets&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+<span style="color:#900;font-weight:bold">ggsave</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">plots/qc_number_of_doublets_by_sample.png&#39;</span>,
+  p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>
+)
+</code></pre></div>
+
+</div>
+
+
+
+<figure>
+  <img src="/images/projects/scrnaseq_workflow/qc_number_of_doublets_by_sample.png" style="width: 100%"/>
+</figure>
+
+<p>Now, we remove the doublets.</p>
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_remove_doublets" aria-controls="code_remove_doublets">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_remove_doublets" aria-expanded="true">
+
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(cells, multiplet_class <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">singlet&#39;</span>)
+</code></pre></div>
+
+</div>
+
 <h3 id="before-filtering">Before filtering</h3>
+
+<hr>
 <p>Before removing any cell, let's look at the distribution of transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.
 These distributions can be represented in different ways.
 Which of them looks best depends on taste and dataset.</p>
@@ -408,7 +610,13 @@ Which of them looks best depends on taste and dataset.</p>
   <input type="radio" name="qc_1" id="qc_1_1" checked="checked">
   <label for="qc_1_1">Option 1</label>
   <div class="tab">
-    <details><summary>Code:</summary>
+
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_before_filtering_1" aria-controls="code_qc_before_filtering_1">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_before_filtering_1" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -488,7 +696,10 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
-    </details>
+</div>
+
+
+
     <figure>
       <img src="/images/projects/scrnaseq_workflow/qc_histogram_nCount_nFeature_percentMT_before_filtering_1.png" style="width: 100%"/>
     </figure>
@@ -496,7 +707,13 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
   <input type="radio" name="qc_1" id="qc_1_2">
   <label for="qc_1_2">Option 2</label>
   <div class="tab">
-    <details><summary>Code:</summary>
+
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_before_filtering_2" aria-controls="code_qc_before_filtering_2">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_before_filtering_2" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -566,6 +783,10 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
+</div>
+
+
+
     </details>
     <figure>
       <img src="/images/projects/scrnaseq_workflow/qc_histogram_nCount_nFeature_percentMT_before_filtering_2.png" style="width: 100%"/>
@@ -574,7 +795,13 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
   <input type="radio" name="qc_1" id="qc_1_3">
   <label for="qc_1_3">Option 3</label>
   <div class="tab">
-    <details><summary>Code:</summary>
+
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_before_filtering_3" aria-controls="code_qc_before_filtering_3">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_before_filtering_3" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_histogram</span>(bins <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">200</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -619,7 +846,10 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
-    </details>
+</div>
+
+
+
     <figure>
       <img src="/images/projects/scrnaseq_workflow/qc_histogram_nCount_nFeature_percentMT_before_filtering_3.png" style="width: 100%"/>
     </figure>
@@ -627,7 +857,13 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
   <input type="radio" name="qc_1" id="qc_1_4">
   <label for="qc_1_4">Option 4</label>
   <div class="tab">
-    <details><summary>Code:</summary>
+
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_before_filtering_4" aria-controls="code_qc_before_filtering_4">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_before_filtering_4" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> nCount, y <span style="color:#000;font-weight:bold">=</span> sample, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_density_ridges</span>(rel_min_height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.01</span>, scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.9</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.8</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -681,7 +917,10 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
-    </details>
+</div>
+
+
+
     <figure>
       <img src="/images/projects/scrnaseq_workflow/qc_histogram_nCount_nFeature_percentMT_before_filtering_4.png" style="width: 100%"/>
     </figure>
@@ -693,7 +932,10 @@ This usually results in a curve as the one shown below.
 Sometimes there are a number of cells with a particular pattern, i.e. many expressed genes for the number of transcripts they have, which could be dying cells.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_before_filtering_ncount_over_nfeature" aria-controls="code_qc_before_filtering_ncount_over_nfeature">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_before_filtering_ncount_over_nfeature" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -705,22 +947,29 @@ Sometimes there are a number of cells with a particular pattern, i.e. many expre
 <span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/qc_nFeature_over_nCount_before_filtering.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
 
-</details>
+</div>
+
+
+
 <figure>
   <img src="/images/projects/scrnaseq_workflow/qc_nFeature_over_nCount_before_filtering.png" style="width: 100%"/>
 </figure>
 
 <h3 id="define-thresholds">Define thresholds</h3>
+
+<hr>
 <p>Now, we want to define lower and upper boundaries for the metrics we looked at.
 There are different ways to do that.
 One way is to go by eye, another to calculate median and MAD (median absolute deviation).
 If you decide to go with option 2, it is generally advised to stay within 3-5 MADs around the median [2].
 Here, we will be generous and accept anything below median plus 5 times the MAD.
-We don't need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.
-Median and thresholds are shown in the plots below.</p>
+We don't need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_define_thresholds" aria-controls="code_qc_define_thresholds">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_define_thresholds" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">median_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">median</span>(cells<span style="color:#000;font-weight:bold">$</span>nCount)
 <span style="color:#998;font-style:italic"># 4377.5</span>
@@ -745,11 +994,15 @@ thresholds_percent_MT <span style="color:#000;font-weight:bold">&lt;-</span> <sp
 <span style="color:#998;font-style:italic"># 0.0000000 0.1296007</span>
 </code></pre></div>
 
-</details>
+</div>
+
+<p>Median and thresholds are shown in the plots below.</p>
 
 
-
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_with_thresholds" aria-controls="code_qc_with_thresholds">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_with_thresholds" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -839,7 +1092,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -850,7 +1103,10 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <p>Same thresholds in the other representation.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_ncount_over_nfeature_with_thresholds" aria-controls="code_qc_ncount_over_nfeature_with_thresholds">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_ncount_over_nfeature_with_thresholds" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -864,7 +1120,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/qc_nFeature_over_nCount_thresholds.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -873,12 +1129,17 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 </figure>
 
 <h3 id="after-filtering">After filtering</h3>
+
+<hr>
 <p>Now we identify cells which meet the thresholds we identified.
 Note that the violin plots extending beyond the indicated cut-offs does not mean that the filtering didn't work.
 The reason they do that is because the distribution is smoothened and I switched off trimming in the <code>geom_violin()</code> call.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_after_filtering" aria-controls="code_qc_after_filtering">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_after_filtering" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells_filtered <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">filter</span>(
@@ -978,7 +1239,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -989,7 +1250,10 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <p>And again, another representation that now clearly highlights the lower boundaries that have been used to filter the cells in the samples.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_qc_ncount_over_nfeature_after_filtering" aria-controls="code_qc_ncount_over_nfeature_after_filtering">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_qc_ncount_over_nfeature_after_filtering" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells_filtered, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1003,7 +1267,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/qc_nFeature_over_nCount_filtered.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1013,21 +1277,29 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_remove_cells" aria-controls="code_remove_cells">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_remove_cells" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells_to_keep <span style="color:#000;font-weight:bold">&lt;-</span> cells_filtered<span style="color:#000;font-weight:bold">$</span>cell
 <span style="color:#900;font-weight:bold">length</span>(cells_to_keep)
 <span style="color:#998;font-style:italic"># 5697</span>
 </code></pre></div>
 
-</details>
+</div>
 
 <p>Out of the 6,000 cells we loaded from the three samples, we have 5,697 cells left after filtering.</p>
 <h2 id="filter-genes">Filter genes</h2>
+
+<hr>
 <p>As mentioned earlier, we will also remove genes which are expressed in fewer than 5 cells.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_filter_genes" aria-controls="code_filter_genes">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_filter_genes" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">genes <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   gene <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rownames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
@@ -1040,14 +1312,19 @@ genes_to_keep <span style="color:#000;font-weight:bold">&lt;-</span> genes <span
 <span style="color:#998;font-style:italic"># 16457</span>
 </code></pre></div>
 
-</details>
+</div>
 
 <p>Applying this filter reduces the number of genes from ~33,000 to 16,457 genes.</p>
 <h2 id="generate-filtered-transcript-matrix">Generate filtered transcript matrix</h2>
+
+<hr>
 <p>Here, we generate the new, filtered transcript count matrix.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_make_filtered_matrix" aria-controls="code_make_filtered_matrix">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_make_filtered_matrix" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>filtered <span style="color:#000;font-weight:bold">&lt;-</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged[genes_to_keep,cells_to_keep]
 
@@ -1069,7 +1346,7 @@ cells_per_sample_after_filtering <span style="color:#000;font-weight:bold">&lt;-
 knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">kable</span>(cells_per_sample_after_filtering)
 </code></pre></div>
 
-</details>
+</div>
 
 <p>In the table below we see how many cells we had in every sample before and after filtering:</p>
 <table>
@@ -1099,11 +1376,16 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 </tbody>
 </table>
 <h1 id="create-seurat-object">Create Seurat object</h1>
+
+<hr>
 <p>Having the transcript count matrix ready, we can now initialize our Seurat object.
 Right after, we store the sample assignment for every cell in the meta data.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_make_seurat_object" aria-controls="code_make_seurat_object">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_make_seurat_object" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">CreateSeuratObject</span>(
   counts <span style="color:#000;font-weight:bold">=</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>filtered,
@@ -1117,12 +1399,15 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
   <span style="color:#900;font-weight:bold">factor</span>(levels <span style="color:#000;font-weight:bold">=</span> sample_names)
 </code></pre></div>
 
-</details>
+</div>
 
 <p>Just to be sure, let's look at the distribution of number of transcripts and expressed genes per cell by sample once more.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_ncount_nfeature_by_sample" aria-controls="code_ncount_nfeature_by_sample">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_ncount_nfeature_by_sample" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_jitter</span>(data <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">aes</span>(sample, nCount_RNA, color <span style="color:#000;font-weight:bold">=</span> sample), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.25</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.3</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1148,7 +1433,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1157,9 +1442,11 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 </figure>
 
 <h1 id="normalize-expression-data">Normalize expression data</h1>
+
+<hr>
 <p>Next, we normalize the raw transcript counts (so that every cell has the same number of transcripts) and apply a log-scale.
 This can be done in different ways with different tools.
-I particularly like the <code>SCTransform()</code> method from the <a href="https://satijalab.org/seurat/">Seurat</a> package and the <code>logNormCounts()</code> function from <a href="https://bioconductor.org/packages/release/bioc/html/scran.html"><code>scran</code></a>.</p>
+The <code>SCTransform()</code> and <code>NormalizeData()</code> methods from the <a href="https://satijalab.org/seurat/">Seurat</a> package and the <code>logNormCounts()</code> function from <a href="https://bioconductor.org/packages/release/bioc/html/scran.html"><code>scran</code></a> seem to work well.</p>
 
 
 <div class="tabs">
@@ -1167,47 +1454,110 @@ I particularly like the <code>SCTransform()</code> method from the <a href="http
   <label for="sctransform">sctransform</label>
   <div class="tab">
 
-
-
-<details><summary>Code:</summary>
-
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SCTransform</span>(seurat, assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">RNA&#39;</span>)
 </code></pre></div>
-
-</details>
-
-
 
   </div>
   <input type="radio" name="normalization" id="scran">
   <label for="scran">scran</label>
   <div class="tab">
 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(<span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>counts))
+sce <span style="color:#000;font-weight:bold">&lt;-</span> scater<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">logNormCounts</span>(sce)
 
+seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as</span>(<span style="color:#900;font-weight:bold">logcounts</span>(sce), <span style="color:#d14">&#39;</span><span style="color:#d14">dgCMatrix&#39;</span>)
+</code></pre></div>
 
-<details><summary>Code:</summary>
+  </div>
+  <input type="radio" name="normalization" id="seurat">
+  <label for="seurat">Seurat</label>
+  <div class="tab">
 
-<pre><code class="language-rsce" data-lang="rsce">sce &lt;- scater::logNormCounts(sce)
-
-seurat@assays$RNA@data &lt;- as(logcounts(sce), 'dgCMatrix')
-</code></pre>
-
-</details>
-
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">NormalizeData</span>(
+  seurat,
+  assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">RNA&#39;</span>,
+  normalization.method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">LogNormalize&#39;</span>,
+  scale.factor <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">median</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>nCount_RNA)
+)
+</code></pre></div>
 
   </div>
 </div>
 
 <h1 id="optional-data-integration">(Optional) Data integration</h1>
+
+<hr>
 <p>In some cases, e.g. when there are evident batch effects due to different preparation techniques, it might make sense to integrate data sets.
 Again, many methods exist to perform this task.
 The data integration procedure built into the <a href="https://satijalab.org/seurat/">Seurat</a> package has proven to work well [3] and I've personally had good experience with it.
 For the samples analyzed here, we don't need it though and will skip this part.</p>
-<h3 id="sct--pca">SCT + PCA</h3>
 
 
-<details><summary>Code:</summary>
+<div class="tabs">
+  <input type="radio" name="data_integration" id="sct" checked="checked">
+  <label for="sct">SCT</label>
+  <div class="tab">
+
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_data_integration_sct" aria-controls="code_data_integration_sct">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_data_integration_sct" aria-expanded="true">
+
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SplitObject</span>(seurat, split.by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span>)
+
+seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">lapply</span>(
+  X <span style="color:#000;font-weight:bold">=</span> seurat_list,
+  FUN <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">function</span>(x) {
+    x <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SCTransform</span>(x)
+  }
+)
+
+seurat_features <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SelectIntegrationFeatures</span>(
+  seurat_list,
+  nfeatures <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3000</span>
+)
+
+seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">PrepSCTIntegration</span>(
+  seurat_list,
+  anchor.features <span style="color:#000;font-weight:bold">=</span> seurat_features
+)
+
+seurat_anchors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindIntegrationAnchors</span>(
+  object.list <span style="color:#000;font-weight:bold">=</span> seurat_list,
+  anchor.features <span style="color:#000;font-weight:bold">=</span> seurat_features,
+  normalization.method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">SCT&#39;</span>,
+  reference <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">which</span>(<span style="color:#900;font-weight:bold">grepl</span>(<span style="color:#900;font-weight:bold">names</span>(seurat_list), pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">AML&#39;</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">FALSE</span>)
+)
+
+seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">IntegrateData</span>(
+  anchorset <span style="color:#000;font-weight:bold">=</span> seurat_anchors,
+  normalization.method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">SCT&#39;</span>
+)
+
+seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">Cells</span>(seurat) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">strsplit</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">-&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">vapply</span>(`[`, <span style="color:#099">2</span>, FUN.VALUE <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(<span style="color:#099">1</span>))
+seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">factor</span>(levels <span style="color:#000;font-weight:bold">=</span> sample_names<span style="color:#900;font-weight:bold">[which</span>(sample_names <span style="color:#000;font-weight:bold">%in%</span> .)])
+</code></pre></div>
+
+</div>
+
+
+
+  </div>
+  <input type="radio" name="data_integration" id="sct_pca">
+  <label for="sct_pca">SCT + PCA</label>
+  <div class="tab">
+
+
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_data_integration_sct_pca" aria-controls="code_data_integration_sct_pca">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_data_integration_sct_pca" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SplitObject</span>(seurat, split.by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span>)
 
@@ -1255,9 +1605,16 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
   <span style="color:#900;font-weight:bold">factor</span>(levels <span style="color:#000;font-weight:bold">=</span> sample_names<span style="color:#900;font-weight:bold">[which</span>(sample_names <span style="color:#000;font-weight:bold">%in%</span> .)])
 </code></pre></div>
 
-</details>
+</div>
+
+
+
+  </div>
+</div>
 
 <h1 id="principal-component-analysis">Principal component analysis</h1>
+
+<hr>
 <p>Principal component analysis (PCA) is frequently used as a first step to reduce the dimensionality of the data set.
 Here, we calculate the first 50 principal components.
 Then, we must choose how many to continue the analysis with.
@@ -1269,7 +1626,10 @@ In my opinion, that is an underestimation so I will proceed with the first 15 PC
 Also, it is generally better to be generous with PCs as compared to using too few.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_pca" aria-controls="code_pca">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_pca" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">RunPCA</span>(seurat, assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">SCT&#39;</span>, npcs <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50</span>)
 
@@ -1289,7 +1649,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/principal_components.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>)
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1298,24 +1658,36 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 </figure>
 
 <h1 id="clustering">Clustering</h1>
+
+<hr>
 <p>Time to identify clusters of cells with relatively homogeneous transcription profiles.</p>
 <h2 id="define-cluster">Define cluster</h2>
+
+<hr>
 <p>We use the <code>FindNeighbors()</code> and <code>FindClusters()</code> functions built into <a href="https://satijalab.org/seurat/">Seurat</a> to cluster the cells in our data set.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_clustering" aria-controls="code_clustering">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_clustering" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindNeighbors</span>(seurat, reduction <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">pca&#39;</span>, dims <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>)
 seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindClusters</span>(seurat, resolution <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.8</span>)
 </code></pre></div>
 
-</details>
+</div>
 
 <h2 id="number-of-transcripts-and-expressed-genes">Number of transcripts and expressed genes</h2>
+
+<hr>
 <p>As we did for the samples, we check the average number of transcripts and expressed genes for every cluster.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_ncount_nfeature_by_cluster" aria-controls="code_ncount_nfeature_by_cluster">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_ncount_nfeature_by_cluster" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_jitter</span>(data <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">aes</span>(seurat_clusters, nCount_RNA, color <span style="color:#000;font-weight:bold">=</span> seurat_clusters), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.25</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.1</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1342,7 +1714,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1351,11 +1723,16 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 </figure>
 
 <h2 id="cluster-tree">Cluster tree</h2>
+
+<hr>
 <p>The relationship (similarity) between clusters can be represented in a cluster tree.
 I find this useful to identify which clusters might be candidates for merging.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_cluster_tree" aria-controls="code_cluster_tree">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_cluster_tree" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">BuildClusterTree</span>(
   seurat,
@@ -1377,7 +1754,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/cluster_tree.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1386,11 +1763,17 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 </figure>
 
 <h2 id="composition-of-samples-and-clusters">Composition of samples and clusters</h2>
+
+<hr>
 <p>Having two major groupings for our cells (sample and cluster), we can now check the composition of each with respect to the other, i.e. how are samples composed by clusters and how are cluster composed by samples?
 This gives us an idea whether some clusters are specific to one sample.</p>
+<p>Samples:</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_table_samples_by_cluster" aria-controls="code_table_samples_by_cluster">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_table_samples_by_cluster" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_clusters <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample, seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1409,11 +1792,15 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <span style="color:#998;font-style:italic"># |E      |             1975| 338| 162| 368| 282|  47| 170|  47|  48| 94| 116| 123|  40|  31|  13| 27| 22| 18|  7| 22|</span>
 </code></pre></div>
 
-</details>
+</div>
+
+<p>Clusters:</p>
 
 
-
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_table_clusters_by_sample" aria-controls="code_table_clusters_by_sample">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_table_clusters_by_sample" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_clusters_by_samples <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rename</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">cluster&#39;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">seurat_clusters&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1449,13 +1836,18 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <span style="color:#998;font-style:italic"># |18      |               49|  11|  16|  22|</span>
 </code></pre></div>
 
-</details>
+</div>
 
 <h3 id="number-of-cells">Number of cells</h3>
+
+<hr>
 <p>Shown below is the composition of samples/clusters by actual number of cells.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_composition_samples_clusters_as_number" aria-controls="code_composition_samples_clusters_as_number">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_composition_samples_clusters_as_number" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> table_samples_by_clusters <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">select</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cell_count&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1505,7 +1897,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1514,10 +1906,15 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 </figure>
 
 <h3 id="percent-of-cells">Percent of cells</h3>
+
+<hr>
 <p>Shown below is the composition of samples/clusters by percent of cells (normalized to each sample/cluster).</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_composition_samples_clusters_as_percent" aria-controls="code_composition_samples_clusters_as_percent">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_composition_samples_clusters_as_percent" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> table_samples_by_clusters <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">select</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cell_count&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1567,7 +1964,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1576,11 +1973,18 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 </figure>
 
 <h1 id="cell-cycle-analysis">Cell cycle analysis</h1>
+
+<hr>
 <p>Using the <code>CellCycleScoring()</code> function of <a href="https://satijalab.org/seurat/">Seurat</a>, we can assign a cell cycle phase (G1, S, G2M) to every cell.</p>
 <h2 id="infer-cell-cycle-status">Infer cell cycle status</h2>
 
+<hr>
 
-<details><summary>Code:</summary>
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_cell_cycle_analysis" aria-controls="code_cell_cycle_analysis">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_cell_cycle_analysis" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">CellCycleScoring</span>(
   seurat,
@@ -1596,13 +2000,19 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
 )
 </code></pre></div>
 
-</details>
+</div>
 
 <h2 id="composition-of-samples-and-clusters-by-cell-cycle">Composition of samples and clusters by cell cycle</h2>
+
+<hr>
 <p>Now check the cell cycle phase distribution for every sample and cluster.</p>
+<p>Samples:</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_table_samples_by_cell_cycle" aria-controls="code_table_samples_by_cell_cycle">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_table_samples_by_cell_cycle" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample, cell_cycle_seurat) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1621,11 +2031,15 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <span style="color:#998;font-style:italic"># |E      |             1975| 1407| 314| 254|</span>
 </code></pre></div>
 
-</details>
+</div>
+
+<p>Clusters:</p>
 
 
-
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_table_clusters_by_cell_cycle" aria-controls="code_table_clusters_by_cell_cycle">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_table_clusters_by_cell_cycle" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_clusters_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rename</span>(cluster <span style="color:#000;font-weight:bold">=</span> seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1661,13 +2075,18 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <span style="color:#998;font-style:italic"># |18      |               49|  46|   3|   0|</span>
 </code></pre></div>
 
-</details>
+</div>
 
 <h3 id="number-of-cells-1">Number of cells</h3>
+
+<hr>
 <p>First, we show the actual cell count in each group.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_composition_cell_cycle_as_number" aria-controls="code_composition_cell_cycle_as_number">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_composition_cell_cycle_as_number" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> table_samples_by_cell_cycle <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">select</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cell_count&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1717,7 +2136,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1727,8 +2146,13 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 
 <h3 id="percent-of-cells-1">Percent of cells</h3>
 
+<hr>
 
-<details><summary>Code:</summary>
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_composition_cell_cycle_as_percent" aria-controls="code_composition_cell_cycle_as_percent">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_composition_cell_cycle_as_percent" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> table_samples_by_cell_cycle <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">select</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cell_count&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1778,7 +2202,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1787,13 +2211,22 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 </figure>
 
 <h1 id="dimensional-reduction">Dimensional reduction</h1>
+
+<hr>
 <p>Here, we represent the transcription profiles of all cells in the data set in a 2D or 3D projection, typically using the t-SNE or UMAP methods.</p>
 <h2 id="umap">UMAP</h2>
+
+<hr>
 <h3 id="calculate-umap">Calculate UMAP</h3>
+
+<hr>
 <p>He we calculate the UMAP using the same 15 PCs we have also used for clustering.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_calculate_umap" aria-controls="code_calculate_umap">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_calculate_umap" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">RunUMAP</span>(
   seurat,
@@ -1805,13 +2238,18 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 )
 </code></pre></div>
 
-</details>
+</div>
 
 <h3 id="overview">Overview</h3>
+
+<hr>
 <p>After calculation of the UMAP, we plot it while coloring the cells by the number of transcripts, sample, cluster, and cell cycle.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_umap_overview" aria-controls="code_umap_overview">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_umap_overview" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">plot_umap_by_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(UMAP_1, UMAP_2, color <span style="color:#000;font-weight:bold">=</span> nCount_RNA)) <span style="color:#000;font-weight:bold">+</span>
@@ -1863,7 +2301,7 @@ plot_umap_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> <
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1872,11 +2310,16 @@ plot_umap_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> <
 </figure>
 
 <h3 id="samples">Samples</h3>
+
+<hr>
 <p>To understand how much the samples overlap, we plot the UMAP again and split the samples in different panels.
 Evidently, they overlap very well.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_umap_samples_split" aria-controls="code_umap_samples_split">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_umap_samples_split" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(UMAP_1, UMAP_2, color <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
@@ -1895,7 +2338,7 @@ Evidently, they overlap very well.</p>
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1904,10 +2347,15 @@ Evidently, they overlap very well.</p>
 </figure>
 
 <h3 id="clusters">Clusters</h3>
+
+<hr>
 <p>Instead, for the clusters we simply add a label to the geometric center of each cluster.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_umap_clusters" aria-controls="code_umap_clusters">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_umap_clusters" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">UMAP_centers_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     UMAP_1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_1,
@@ -1944,7 +2392,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -1953,14 +2401,21 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 </figure>
 
 <h1 id="cell-type-annotation-with-singler">Cell type annotation with SingleR</h1>
+
+<hr>
 <p>Cell inference can be performed with many tools.
 Personally, I find <a href="https://bioconductor.org/packages/3.11/bioc/html/SingleR.html"><code>SingleR</code></a> very useful because it has given good results in my experiments and because it provides multiple pre-trained reference data sets.</p>
 <h2 id="assign-labels">Assign labels</h2>
+
+<hr>
 <p>First, we assign a label to each cell using the <code>BlueprintEncodeData()</code> data as a reference.
 We then extract the labels and assignment scores and add them to the Seurat object.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_assign_cell_type" aria-controls="code_assign_cell_type">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_assign_cell_type" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(SingleR)
 
@@ -2000,7 +2455,7 @@ singler_scores <span style="color:#000;font-weight:bold">&lt;-</span> singler_re
 seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main_score <span style="color:#000;font-weight:bold">&lt;-</span> singler_scores<span style="color:#000;font-weight:bold">$</span>assigned_score
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -2009,10 +2464,15 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
 </figure>
 
 <h2 id="assignment-score-by-sample-cluster-and-cell-type">Assignment score by sample, cluster and cell type</h2>
+
+<hr>
 <p>Here, we plot the assignment score for every sample, cluster, and cell type.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_assignment_score_by_sample_cluster_cell_type" aria-controls="code_assignment_score_by_sample_cluster_cell_type">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_assignment_score_by_sample_cluster_cell_type" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_jitter</span>(data <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">aes</span>(sample, cell_type_singler_blueprintencode_main_score, color <span style="color:#000;font-weight:bold">=</span> sample), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.25</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.1</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -2051,7 +2511,7 @@ p3 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -2060,10 +2520,15 @@ p3 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 </figure>
 
 <h2 id="composition-of-samples-and-clusters-by-cell-type">Composition of samples and clusters by cell type</h2>
+
+<hr>
 <p>Then, we check how samples and clusters are composed in terms of identified cell types.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_table_composition_cell_type" aria-controls="code_table_composition_cell_type">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_table_composition_cell_type" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_cell_type <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">group_by</span>(sample, cell_type_singler_blueprintencode_main) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2113,12 +2578,17 @@ table_clusters_by_cell_type <span style="color:#000;font-weight:bold">%&gt;%</sp
 <span style="color:#998;font-style:italic"># |18      |               49|          0|      39|            0|            0|            1|   7|         2|        0|</span>
 </code></pre></div>
 
-</details>
+</div>
 
 <h3 id="number-of-cells-2">Number of cells</h3>
 
+<hr>
 
-<details><summary>Code:</summary>
+
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_plot_composition_cell_type_as_number" aria-controls="code_plot_composition_cell_type_as_number">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_plot_composition_cell_type_as_number" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> table_samples_by_cell_type <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">select</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cell_count&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2168,7 +2638,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -2176,9 +2646,15 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
   <img src="/images/projects/scrnaseq_workflow/composition_samples_clusters_by_cell_type_singler_blueprintencode_main_by_number.png" style="width: 100%"/>
 </figure>
 
+<h3 id="percent-of-cells-2">Percent of cells</h3>
+
+<hr>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_plot_composition_cell_type_as_percent" aria-controls="code_plot_composition_cell_type_as_percent">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_plot_composition_cell_type_as_percent" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> table_samples_by_cell_type <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">select</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cell_count&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2228,7 +2704,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -2237,10 +2713,15 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 </figure>
 
 <h2 id="umap-by-cell-type">UMAP by cell type</h2>
+
+<hr>
 <p>Similar to the UMAP plot of clusters, we add cell type labels to the UMAP.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_umap_by_cell_type" aria-controls="code_umap_by_cell_type">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_umap_by_cell_type" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">UMAP_centers_cell_type <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     UMAP_1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_1,
@@ -2278,7 +2759,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -2289,7 +2770,10 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <p>To understand whether cell types overlap in the UMAP (which would be hard to see in the previous plot), we also plot the same and split the panels by cell type.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_umap_by_cell_type_split" aria-controls="code_umap_by_cell_type_split">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_umap_by_cell_type_split" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(UMAP_1, UMAP_2, color <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main)) <span style="color:#000;font-weight:bold">+</span>
@@ -2308,7 +2792,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -2317,10 +2801,15 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 </figure>
 
 <h2 id="umap-by-assignment-score">UMAP by assignment score</h2>
+
+<hr>
 <p>Lastly, we make another UMAP with the cells colored by their assignment score.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_umap_by_assignment_score" aria-controls="code_umap_by_assignment_score">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_umap_by_assignment_score" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(UMAP_1, UMAP_2, color <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main_score)) <span style="color:#000;font-weight:bold">+</span>
@@ -2342,7 +2831,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 )
 </code></pre></div>
 
-</details>
+</div>
 
 
 
@@ -2351,10 +2840,15 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 </figure>
 
 <h1 id="perform-analysis-for-cerebro">Perform analysis for Cerebro</h1>
+
+<hr>
 <p>To allow further investigation of the data set in <a href="https://github.com/romanhaa/Cerebro">Cerebro</a> [4], we now add some more meta data, calculate marker genes, pathway enrichment of the marker genes, and export the data set.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_analysis_cerebro" aria-controls="code_analysis_cerebro">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_analysis_cerebro" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>experiment <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
   experiment_name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">references_and_AML_patients&#39;</span>,
@@ -2427,24 +2921,34 @@ cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:
 )
 </code></pre></div>
 
-</details>
+</div>
 
 <h1 id="store-data">Store data</h1>
+
+<hr>
 <p>Finally, we store our Seurat object so we can continue the analysis later.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_save_data" aria-controls="code_save_data">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_save_data" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">saveRDS</span>(seurat, <span style="color:#d14">&#39;</span><span style="color:#d14">data/seurat.rds&#39;</span>)
 </code></pre></div>
 
-</details>
+</div>
 
 <h1 id="session-info">Session info</h1>
+
+<hr>
 <p>Here we report information about the version of R and R packages we used.</p>
 
 
-<details><summary>Code:</summary>
+<button type="button" class="btn btn-default btn-xs code-folding-btn" data-toggle="collapse" data-target="#code_session_info" aria-controls="code_session_info">
+<span>Show code</span>
+</button>
+<div class="code-collapse collapse in" id="code_session_info" aria-expanded="true">
 
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">devtools<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">session_info</span>()
 <span style="color:#998;font-style:italic"># ─ Session info ───────────────────────────────────────────────────────────────────────────────────</span>
@@ -2665,17 +3169,20 @@ cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:
 <span style="color:#998;font-style:italic"># [2] /usr/local/lib/R/library</span>
 </code></pre></div>
 
-</details>
+</div>
 
 <h1 id="to-do">To do</h1>
+
+<hr>
 <ul>
-<li>Doublet detection.</li>
 <li>Silhouette plots.</li>
 <li>Cluster stability.</li>
 <li>Differential expression analysis with muscat.</li>
 <li>Cluster on diffusion map components?</li>
 </ul>
 <h1 id="references">References</h1>
+
+<hr>
 
 
 
@@ -2721,6 +3228,7 @@ cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="/js/mediumish.js"></script>
 <script src="/js/tabbed_content.js"></script>
+<script src="/js/fold_code_boxes.js"></script>
 <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
 
   </body>
