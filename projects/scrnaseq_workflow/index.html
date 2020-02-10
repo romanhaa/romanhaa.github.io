@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -116,6 +116,7 @@ We will use three samples from a public data set <a href="https://www.ncbi.nlm.n
 <span style="color:#900;font-weight:bold">library</span>(ggforce)
 <span style="color:#900;font-weight:bold">library</span>(gghalves)
 <span style="color:#900;font-weight:bold">library</span>(ggridges)
+<span style="color:#900;font-weight:bold">library</span>(scDblFinder)
 <span style="color:#900;font-weight:bold">library</span>(SingleR)
 </code></pre></div>
 
@@ -123,7 +124,7 @@ We will use three samples from a public data set <a href="https://www.ncbi.nlm.n
 
 <h2 id="define-colors">Define colors</h2>
 <p>I have a custom color set that I like to use for discrete color scales.
-It's two color palettes from <a href="https://flatuicolors.com">https://flatuicolors.com</a> merged together.</p>
+It&rsquo;s two color palettes from <a href="https://flatuicolors.com">https://flatuicolors.com</a> merged together.</p>
 
 
 <details><summary>Code:</summary>
@@ -299,9 +300,9 @@ transcripts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="
     max_number_of_cells <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2000</span>
   )
 }
-<span style="color:#998;font-style:italic">#  [2020-02-06 08:34:32] Loaded counts for A with 2,000 cells and 33,660 genes</span>
-<span style="color:#998;font-style:italic">#  [2020-02-06 08:34:43] Loaded counts for B with 2,000 cells and 33,660 genes</span>
-<span style="color:#998;font-style:italic">#  [2020-02-06 08:34:59] Loaded counts for E with 2,000 cells and 33,660 genes</span>
+<span style="color:#998;font-style:italic"># [2020-02-06 08:34:32] Loaded counts for A with 2,000 cells and 33,660 genes</span>
+<span style="color:#998;font-style:italic"># [2020-02-06 08:34:43] Loaded counts for B with 2,000 cells and 33,660 genes</span>
+<span style="color:#998;font-style:italic"># [2020-02-06 08:34:59] Loaded counts for E with 2,000 cells and 33,660 genes</span>
 </code></pre></div>
 
 </details>
@@ -398,8 +399,131 @@ cells<span style="color:#000;font-weight:bold">$</span>percent_MT <span style="c
 </tr>
 </tbody>
 </table>
+<h3 id="doublets">Doublets</h3>
+<p>To identify doublets, we will use the <a href="https://bioconductor.org/packages/release/bioc/html/scDblFinder.html"><code>scDblFinder</code></a> package.</p>
+
+
+<details><summary>Code:</summary>
+
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(assays <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged))
+sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">scDblFinder</span>(sce)
+
+cells<span style="color:#000;font-weight:bold">$</span>multiplet_class <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colData</span>(sce)<span style="color:#000;font-weight:bold">$</span>scDblFinder.class
+
+p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>multiplet_class))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of transcripts&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">linear scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>multiplet_class))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_log10</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of transcripts&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">log-scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+p3 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nFeature, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>multiplet_class))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of expressed genes&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">linear scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+p4 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nFeature, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>multiplet_class))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_log10</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of expressed genes&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">log-scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+<span style="color:#900;font-weight:bold">ggsave</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">plots/qc_nCount_nFeature_by_multiplet_class.png&#39;</span>,
+  p1 <span style="color:#000;font-weight:bold">+</span> p3 <span style="color:#000;font-weight:bold">+</span>
+  p2 <span style="color:#000;font-weight:bold">+</span> p4 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>),
+  height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>
+)
+</code></pre></div>
+
+</details>
+<figure>
+  <img src="/images/projects/scrnaseq_workflow/qc_nCount_nFeature_by_multiplet_class.png" style="width: 100%"/>
+</figure>
+
+<p>How many doublets do we find in each sample?</p>
+
+
+<details><summary>Code:</summary>
+
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">filter</span>(multiplet_class <span style="color:#000;font-weight:bold">!=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">singlet&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarize</span>(count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> count, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_col</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(<span style="color:#900;font-weight:bold">levels</span>(cells<span style="color:#000;font-weight:bold">$</span>sample))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of doublets&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_flip</span>()
+<span style="color:#900;font-weight:bold">ggsave</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">plots/qc_number_of_doublets_by_sample.png&#39;</span>,
+  p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>
+)
+</code></pre></div>
+
+</details>
+<figure>
+  <img src="/images/projects/scrnaseq_workflow/qc_number_of_doublets_by_sample.png" style="width: 100%"/>
+</figure>
+
+<p>Now, we remove the doublets.</p>
+
+
+<details><summary>Code:</summary>
+
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(cells, multiplet_class <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">singlet&#39;</span>)
+</code></pre></div>
+
+</details>
+
 <h3 id="before-filtering">Before filtering</h3>
-<p>Before removing any cell, let's look at the distribution of transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.
+<p>Before removing any cell, let&rsquo;s look at the distribution of transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.
 These distributions can be represented in different ways.
 Which of them looks best depends on taste and dataset.</p>
 
@@ -716,7 +840,7 @@ There are different ways to do that.
 One way is to go by eye, another to calculate median and MAD (median absolute deviation).
 If you decide to go with option 2, it is generally advised to stay within 3-5 MADs around the median [2].
 Here, we will be generous and accept anything below median plus 5 times the MAD.
-We don't need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.
+We don&rsquo;t need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.
 Median and thresholds are shown in the plots below.</p>
 
 
@@ -874,7 +998,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 <h3 id="after-filtering">After filtering</h3>
 <p>Now we identify cells which meet the thresholds we identified.
-Note that the violin plots extending beyond the indicated cut-offs does not mean that the filtering didn't work.
+Note that the violin plots extending beyond the indicated cut-offs does not mean that the filtering didn&rsquo;t work.
 The reason they do that is because the distribution is smoothened and I switched off trimming in the <code>geom_violin()</code> call.</p>
 
 
@@ -1119,7 +1243,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
 
 </details>
 
-<p>Just to be sure, let's look at the distribution of number of transcripts and expressed genes per cell by sample once more.</p>
+<p>Just to be sure, let&rsquo;s look at the distribution of number of transcripts and expressed genes per cell by sample once more.</p>
 
 
 <details><summary>Code:</summary>
@@ -1159,7 +1283,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <h1 id="normalize-expression-data">Normalize expression data</h1>
 <p>Next, we normalize the raw transcript counts (so that every cell has the same number of transcripts) and apply a log-scale.
 This can be done in different ways with different tools.
-I particularly like the <code>SCTransform()</code> method from the <a href="https://satijalab.org/seurat/">Seurat</a> package and the <code>logNormCounts()</code> function from <a href="https://bioconductor.org/packages/release/bioc/html/scran.html"><code>scran</code></a>.</p>
+The <code>SCTransform()</code> and <code>NormalizeData()</code> methods from the <a href="https://satijalab.org/seurat/">Seurat</a> package and the <code>logNormCounts()</code> function from <a href="https://bioconductor.org/packages/release/bioc/html/scran.html"><code>scran</code></a> seem to work well.</p>
 
 
 <div class="tabs">
@@ -1167,34 +1291,32 @@ I particularly like the <code>SCTransform()</code> method from the <a href="http
   <label for="sctransform">sctransform</label>
   <div class="tab">
 
-
-
-<details><summary>Code:</summary>
-
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SCTransform</span>(seurat, assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">RNA&#39;</span>)
 </code></pre></div>
-
-</details>
-
-
 
   </div>
   <input type="radio" name="normalization" id="scran">
   <label for="scran">scran</label>
   <div class="tab">
 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(<span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>counts))
+sce <span style="color:#000;font-weight:bold">&lt;-</span> scater<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">logNormCounts</span>(sce)
 
+seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as</span>(<span style="color:#900;font-weight:bold">logcounts</span>(sce), <span style="color:#d14">&#39;</span><span style="color:#d14">dgCMatrix&#39;</span>)
+</code></pre></div>
 
-<details><summary>Code:</summary>
+  </div>
+  <input type="radio" name="normalization" id="seurat">
+  <label for="seurat">Seurat</label>
+  <div class="tab">
 
-<pre><code class="language-rsce" data-lang="rsce">sce &lt;- scater::logNormCounts(sce)
-
-seurat@assays$RNA@data &lt;- as(logcounts(sce), 'dgCMatrix')
-</code></pre>
-
-</details>
-
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">NormalizeData</span>(
+  seurat,
+  assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">RNA&#39;</span>,
+  normalization.method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">LogNormalize&#39;</span>,
+  scale.factor <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">median</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>nCount_RNA)
+)
+</code></pre></div>
 
   </div>
 </div>
@@ -1202,9 +1324,66 @@ seurat@assays$RNA@data &lt;- as(logcounts(sce), 'dgCMatrix')
 <h1 id="optional-data-integration">(Optional) Data integration</h1>
 <p>In some cases, e.g. when there are evident batch effects due to different preparation techniques, it might make sense to integrate data sets.
 Again, many methods exist to perform this task.
-The data integration procedure built into the <a href="https://satijalab.org/seurat/">Seurat</a> package has proven to work well [3] and I've personally had good experience with it.
-For the samples analyzed here, we don't need it though and will skip this part.</p>
-<h3 id="sct--pca">SCT + PCA</h3>
+The data integration procedure built into the <a href="https://satijalab.org/seurat/">Seurat</a> package has proven to work well [3] and I&rsquo;ve personally had good experience with it.
+For the samples analyzed here, we don&rsquo;t need it though and will skip this part.</p>
+
+
+<div class="tabs">
+  <input type="radio" name="data_integration" id="sct" checked="checked">
+  <label for="sct">SCT</label>
+  <div class="tab">
+
+
+
+<details><summary>Code:</summary>
+
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SplitObject</span>(seurat, split.by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span>)
+
+seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">lapply</span>(
+  X <span style="color:#000;font-weight:bold">=</span> seurat_list,
+  FUN <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">function</span>(x) {
+    x <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SCTransform</span>(x)
+  }
+)
+
+seurat_features <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SelectIntegrationFeatures</span>(
+  seurat_list,
+  nfeatures <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3000</span>
+)
+
+seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">PrepSCTIntegration</span>(
+  seurat_list,
+  anchor.features <span style="color:#000;font-weight:bold">=</span> seurat_features
+)
+
+seurat_anchors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindIntegrationAnchors</span>(
+  object.list <span style="color:#000;font-weight:bold">=</span> seurat_list,
+  anchor.features <span style="color:#000;font-weight:bold">=</span> seurat_features,
+  normalization.method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">SCT&#39;</span>,
+  reference <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">which</span>(<span style="color:#900;font-weight:bold">grepl</span>(<span style="color:#900;font-weight:bold">names</span>(seurat_list), pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">AML&#39;</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">FALSE</span>)
+)
+
+seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">IntegrateData</span>(
+  anchorset <span style="color:#000;font-weight:bold">=</span> seurat_anchors,
+  normalization.method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">SCT&#39;</span>
+)
+
+seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">Cells</span>(seurat) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">strsplit</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">-&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">vapply</span>(`[`, <span style="color:#099">2</span>, FUN.VALUE <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(<span style="color:#099">1</span>))
+seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">factor</span>(levels <span style="color:#000;font-weight:bold">=</span> sample_names<span style="color:#900;font-weight:bold">[which</span>(sample_names <span style="color:#000;font-weight:bold">%in%</span> .)])
+</code></pre></div>
+
+</details>
+
+
+
+  </div>
+  <input type="radio" name="data_integration" id="sct_pca">
+  <label for="sct_pca">SCT + PCA</label>
+  <div class="tab">
+
 
 
 <details><summary>Code:</summary>
@@ -1256,6 +1435,11 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
 </code></pre></div>
 
 </details>
+
+
+
+  </div>
+</div>
 
 <h1 id="principal-component-analysis">Principal component analysis</h1>
 <p>Principal component analysis (PCA) is frequently used as a first step to reduce the dimensionality of the data set.
@@ -2669,7 +2853,6 @@ cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:
 
 <h1 id="to-do">To do</h1>
 <ul>
-<li>Doublet detection.</li>
 <li>Silhouette plots.</li>
 <li>Cluster stability.</li>
 <li>Differential expression analysis with muscat.</li>

@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -84,7 +84,7 @@
             <p>At the research institute I currently work at, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System">PBS</a> as a job scheduler for collaborative use and research management of the HPC cluster.
 Just for a little background info, the cluster consists of 14 computers which are connected to make the cluster.
 Two of those 14 are masters, one of them being a backup of the first.
-The master isn't supposed to be used to for computation because its main job is to distribute the work between the other machines.
+The master isn&rsquo;t supposed to be used to for computation because its main job is to distribute the work between the other machines.
 The other 12 computers, also called nodes, are those which we do all our work on.
 The job scheduler runs on the master and assigns jobs to the nodes.
 A job is a set of operation you need to be done and which is saved in a script which you hand over to the job scheduler with the request to execute it.
@@ -94,11 +94,11 @@ Which node gets to do which job depends on the resources (number of CPUs and mem
 Ideally, this allows efficient resource usage so that everybody gets their job done the quickest.</p>
 <p>Now you might ask me: <em>&ldquo;But Roman, how does the job scheduler know what resources a job needs?&quot;</em>
 That is a fantastic question.
-The answer is simple: It doesn't know.
+The answer is simple: It doesn&rsquo;t know.
 The user must specify the required resources.</p>
-<p><em>&ldquo;And what happens if you don't do it?&quot;</em>
+<p><em>&ldquo;And what happens if you don&rsquo;t do it?&quot;</em>
 Again, great question and very simple answer: The scheduler will treat it as if the jobs only needs the default values (e.g. 1 CPU and no specific memory requirements).
-This is a real problem because if the resources are not specified, the scheduler can't do its job.
+This is a real problem because if the resources are not specified, the scheduler can&rsquo;t do its job.
 And that, finally, brings me to what this article is about.</p>
 <p>We had a few users who flooded the cluster with jobs, many of them without properly specified resources, which made the computation for everybody painfully slow.
 Interactive session (which are treated as jobs just like scripts) were almost impossible.</p>
@@ -153,7 +153,7 @@ job.2             align_STAR       user2             xx:xx:xx R workq
     run_count = 1
     Submit_arguments = &lt;...&gt;
     project = _pbs_project_default
-</code></pre><p>When there are around 50 jobs in the list, you can't do that manually.
+</code></pre><p>When there are around 50 jobs in the list, you can&rsquo;t do that manually.
 And so I did what every lazy coder would do: Automatize the steps (get a list of currently running or queued jobs and get the details for each of them), parse the details (the details for each job are not in column format), and visualize the results in a nice interface.
 For the lack of a better name, I shall call it &lsquo;PBSviewer&rsquo; for now.
 This allowed me to get a live view of the jobs, and, more importantly, identify those which ask for many resources but use very few, or worse, ask for no resources and use many.
@@ -171,10 +171,10 @@ vnode           state           njobs   run   susp      f/t        f/t     f/t  
 --------------- --------------- ------ ----- ------ ------------ ------- ------- ------- -------
 node01          free                 2     2      0   36gb/126gb    8/28     0/0     0/0 job.1,job.2
 node02          free                 0     0      0  126gb/126gb   11/28     0/0     0/0 --
-</code></pre><p>So far I haven't done a great job at documenting the respective <a href="https://github.com/romanhaa/PBSviewer">GitHub repository</a>, but feel free to have a look anyway.</p>
+</code></pre><p>So far I haven&rsquo;t done a great job at documenting the respective <a href="https://github.com/romanhaa/PBSviewer">GitHub repository</a>, but feel free to have a look anyway.</p>
 <p>Maybe this is of help to anyone.
 I think it would be great to run this as a web service by the administrators, or perhaps a pimped version of it, accessible to all users.</p>
-<p>Since, at least in principle, I wanted this to be readily applicable to other people working with HPC and PBS job schedulers, and because I didn't want to hard-code my user credentials into the app, one must first specify the address of the master, along with user name and password.
+<p>Since, at least in principle, I wanted this to be readily applicable to other people working with HPC and PBS job schedulers, and because I didn&rsquo;t want to hard-code my user credentials into the app, one must first specify the address of the master, along with user name and password.
 Beyond that, you might have to adapt the text parsing of the job details since I had to specify widths of columns and length of output which could be different on your system.</p>
 <p><a href="https://github.com/romanhaa/PBSviewer">PBSviewer on GitHub</a></p>
 <p>Below you can find some screenshots:</p>
