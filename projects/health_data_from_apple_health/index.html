@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -55,14 +55,15 @@
 </nav>
 <div class="site-content">
       <div class="container">
-  <body data-spy="scroll" data-target="#toc">
+  <link rel="stylesheet" href="/css/numbered_headers.css">
   
+  <div class="main-content">
     
     <div class="container">
       <div class="row">
         
         <div class="col-sm-3">
-          <nav id="toc" data-toggle="toc" class="sticky-top" style="padding-top: 50px;"></nav>
+          <nav id="toc" class="sticky-top" style="padding-top: 50px;"></nav>
         </div>
         <div class="col-sm-9">
         
@@ -78,13 +79,18 @@
             <img class="featured-image img-fluid" src="/images/projects/health_data/title.png" alt="thumbnail for this post">
           
           
-          <div class="article-post">
-            <p>The goal is to visualize health data recorded by a Xiaomi Mi Band (in this case model 4) after syncing it to the Apple Health app and exporting it from there.
+          <body>
+            <div class="article-post">
+              <p>The goal is to visualize health data recorded by a Xiaomi Mi Band (in this case model 4) after syncing it to the Apple Health app and exporting it from there.
 You will receive all the data in a file called <code>export.zip</code>, which, when decompressed, creates two files:</p>
 <ul>
 <li><code>export_cda.xml</code></li>
 <li><code>export.xml</code></li>
 </ul>
+<h2 id="preparation">Preparation</h2>
+
+<hr>
+
 <p>Depending on the amount of data that is stored in Apple Health, these files can become quite large.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(lubridate)
@@ -94,7 +100,10 @@ You will receive all the data in a file called <code>export.zip</code>, which, w
 Then, we transform it into a tibble using the <code>XML::xmlAttrsToDataFrame()</code> function.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">xml <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">xmlParse</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">export.xml&#39;</span>)
 data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="color:#000;font-weight:bold">:::</span><span style="color:#900;font-weight:bold">xmlAttrsToDataFrame</span>(xml[<span style="color:#d14">&#39;</span><span style="color:#d14">//Record&#39;</span>]) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as_tibble</span>()
-</code></pre></div><h1 id="heart-rate">Heart rate</h1>
+</code></pre></div><h2 id="heart-rate">Heart rate</h2>
+
+<hr>
+
 <p>My heart rate is recorded once a minute.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_heart_rate <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">filter</span>(
@@ -111,7 +120,10 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="colo
     hour_minute <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.integer</span>(<span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%H&#39;</span>)) <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">as.integer</span>(<span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%M&#39;</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">60</span>,
     value <span style="color:#000;font-weight:bold">=</span> value <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.character</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.numeric</span>()
   )
-</code></pre></div><h2 id="profile-over-the-day">Profile over the day</h2>
+</code></pre></div><h3 id="profile-over-the-day">Profile over the day</h3>
+
+<hr>
+
 <p>We use different values for <code>k</code> in the <code>geom_smooth()</code> call to control how smooth the line of the GAM should be.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(date <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">2020-02-03&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">2020-02-07&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -137,7 +149,11 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="colo
   <img src="/images/projects/health_data/heart_rate_profile_day.png" style="width: 100%"/>
 </figure>
 
-<h2 id="heatmap">Heatmap</h2>
+
+<h3 id="heatmap">Heatmap</h3>
+
+<hr>
+
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(<span style="color:#900;font-weight:bold">grepl</span>(date, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">2020-02&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(hour_minute, <span style="color:#900;font-weight:bold">reorder</span>(date, <span style="color:#900;font-weight:bold">desc</span>(date)))) <span style="color:#000;font-weight:bold">+</span>
@@ -160,7 +176,11 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="colo
   <img src="/images/projects/health_data/heart_rate_heatmap.png" style="width: 100%"/>
 </figure>
 
-<h1 id="sleep-stats">Sleep stats</h1>
+
+<h2 id="sleep-stats">Sleep stats</h2>
+
+<hr>
+
 <p>To show sleeping blocks, we need to do some extra parsing.
 With this technique, we cut the day into two parts: The part before 18:00, and the part after 18:00.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_sleep <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -228,7 +248,11 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
   <img src="/images/projects/health_data/sleep_by_night.png" style="width: 100%"/>
 </figure>
 
-<h1 id="steps">Steps</h1>
+
+<h2 id="steps">Steps</h2>
+
+<hr>
+
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_steps <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(
     type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">HKQuantityTypeIdentifierStepCount&#39;</span>,
@@ -245,7 +269,10 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
     end_hour_minute <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.integer</span>(<span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%H&#39;</span>)) <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">as.integer</span>(<span style="color:#900;font-weight:bold">format</span>(endDate, <span style="color:#d14">&#39;</span><span style="color:#d14">%M&#39;</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">60</span>
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(startDate)
-</code></pre></div><h2 id="total-steps-per-day">Total steps per day</h2>
+</code></pre></div><h3 id="total-steps-per-day">Total steps per day</h3>
+
+<hr>
+
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(startDate) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(start_date) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -267,7 +294,11 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
   <img src="/images/projects/health_data/total_steps_by_day.png" style="width: 100%"/>
 </figure>
 
-<h2 id="profile-for-selected-days">Profile for selected days</h2>
+
+<h3 id="profile-for-selected-days">Profile for selected days</h3>
+
+<hr>
+
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(startDate <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">2020-02-03&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
@@ -301,7 +332,11 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
   <img src="/images/projects/health_data/steps_in_time_by_day.png" style="width: 100%"/>
 </figure>
 
-<h2 id="profile-across-all-days">Profile across all days</h2>
+
+<h3 id="profile-across-all-days">Profile across all days</h3>
+
+<hr>
+
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(start_hour_minute, end_hour_minute) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(value <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(value)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -334,7 +369,11 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
   <img src="/images/projects/health_data/steps_in_time_collapsed_by_day.png" style="width: 100%"/>
 </figure>
 
-<h1 id="to-do">To do</h1>
+
+<h2 id="to-do">To do</h2>
+
+<hr>
+
 <ul>
 <li>Heart rate
 <ul>
@@ -360,12 +399,15 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 </li>
 </ul>
 
-          </div>
+            </div>
+        </body>
         </div>
       </div>
     </div>
-  
-  </body>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="/js/fold_code_boxes.js"></script>
+  <script src="/js/line_under_header.js"></script>
 
       </div>
 <footer class="footer">
@@ -391,9 +433,8 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="/js/mediumish.js"></script>
-<script src="/js/tabbed_content.js"></script>
-<script src="/js/fold_code_boxes.js"></script>
 <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
+<script src="/js/toc.js"></script>
 
   </body>
 </html>

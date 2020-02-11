@@ -18,7 +18,7 @@ a:hover {
 pre {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  margin: 0 0 1.75em 0;
+  margin: 0 0 0 0;
   border: #E3EDF3 1px solid;
   width: 100%;
   padding: 10px;
@@ -254,8 +254,9 @@ blockquote {
   font-style:italic;
   color:rgba(0,0,0,.5);
 }
-.article-post p,.article-post blockquote {
-  margin: 0 0 1.5rem 0;
+.article-post p,
+.article-post blockquote {
+  margin: 0.5rem 0 0.5rem 0;
 }
 .featured-image {
   display:block;
@@ -628,13 +629,13 @@ iframe {
   display: block;
 }
 
-/* code folding box */
+/* code folding button */
 .code-folding-btn {
   margin-bottom: 3px;
   font-family: "Monaco";
   border: 1px solid grey;
   background: #F0F0F0;
   font-size: 14px;
-  padding: 5px;
+  padding: 2px 5px 2px 5px;
   cursor: pointer;
 }
