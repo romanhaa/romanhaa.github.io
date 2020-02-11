@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.63.2" />
+  <meta name="generator" content="Hugo 0.62.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -88,9 +88,6 @@ You will receive all the data in a file called <code>export.zip</code>, which, w
 <li><code>export.xml</code></li>
 </ul>
 <h2 id="preparation">Preparation</h2>
-
-<hr>
-
 <p>Depending on the amount of data that is stored in Apple Health, these files can become quite large.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(lubridate)
@@ -101,9 +98,6 @@ Then, we transform it into a tibble using the <code>XML::xmlAttrsToDataFrame()</
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">xml <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">xmlParse</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">export.xml&#39;</span>)
 data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="color:#000;font-weight:bold">:::</span><span style="color:#900;font-weight:bold">xmlAttrsToDataFrame</span>(xml[<span style="color:#d14">&#39;</span><span style="color:#d14">//Record&#39;</span>]) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as_tibble</span>()
 </code></pre></div><h2 id="heart-rate">Heart rate</h2>
-
-<hr>
-
 <p>My heart rate is recorded once a minute.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_heart_rate <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">filter</span>(
@@ -121,9 +115,6 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="colo
     value <span style="color:#000;font-weight:bold">=</span> value <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.character</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.numeric</span>()
   )
 </code></pre></div><h3 id="profile-over-the-day">Profile over the day</h3>
-
-<hr>
-
 <p>We use different values for <code>k</code> in the <code>geom_smooth()</code> call to control how smooth the line of the GAM should be.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(date <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">2020-02-03&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">2020-02-07&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -151,9 +142,6 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="colo
 
 
 <h3 id="heatmap">Heatmap</h3>
-
-<hr>
-
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(<span style="color:#900;font-weight:bold">grepl</span>(date, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">2020-02&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(hour_minute, <span style="color:#900;font-weight:bold">reorder</span>(date, <span style="color:#900;font-weight:bold">desc</span>(date)))) <span style="color:#000;font-weight:bold">+</span>
@@ -178,9 +166,6 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="colo
 
 
 <h2 id="sleep-stats">Sleep stats</h2>
-
-<hr>
-
 <p>To show sleeping blocks, we need to do some extra parsing.
 With this technique, we cut the day into two parts: The part before 18:00, and the part after 18:00.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_sleep <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -250,9 +235,6 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h2 id="steps">Steps</h2>
-
-<hr>
-
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_steps <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(
     type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">HKQuantityTypeIdentifierStepCount&#39;</span>,
@@ -270,9 +252,6 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(startDate)
 </code></pre></div><h3 id="total-steps-per-day">Total steps per day</h3>
-
-<hr>
-
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(startDate) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(start_date) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -296,9 +275,6 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h3 id="profile-for-selected-days">Profile for selected days</h3>
-
-<hr>
-
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(startDate <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">2020-02-03&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
@@ -334,9 +310,6 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h3 id="profile-across-all-days">Profile across all days</h3>
-
-<hr>
-
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(start_hour_minute, end_hour_minute) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(value <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(value)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -371,9 +344,6 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h2 id="to-do">To do</h2>
-
-<hr>
-
 <ul>
 <li>Heart rate
 <ul>

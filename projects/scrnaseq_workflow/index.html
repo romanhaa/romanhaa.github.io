@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.63.2" />
+  <meta name="generator" content="Hugo 0.62.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -135,7 +135,7 @@ We will use three samples from a public data set <a href="https://www.ncbi.nlm.n
 <span style="color:#900;font-weight:bold">library</span>(SingleR)
 </code></pre></div><h3 id="define-colors">Define colors</h3>
 <p>I have a custom color set that I like to use for discrete color scales.
-It&rsquo;s two color palettes from <a href="https://flatuicolors.com">https://flatuicolors.com</a> merged together.
+It's two color palettes from <a href="https://flatuicolors.com">https://flatuicolors.com</a> merged together.
 We also define some colors for the cell cycle phases.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>()
 
@@ -455,7 +455,7 @@ p4 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <p>Now, we remove the doublets.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(cells, multiplet_class <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">singlet&#39;</span>)
 </code></pre></div><h4 id="before-filtering">Before filtering</h4>
-<p>Before removing any cell, let&rsquo;s look at the distribution of transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.
+<p>Before removing any cell, let's look at the distribution of transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.
 These distributions can be represented in different ways.
 Which of them looks best depends on taste and dataset.</p>
 
@@ -791,7 +791,7 @@ There are different ways to do that.
 One way is to go by eye, another to calculate median and MAD (median absolute deviation).
 If you decide to go with option 2, it is generally advised to stay within 3-5 MADs around the median [2].
 Here, we will be generous and accept anything below median plus 5 times the MAD.
-We don&rsquo;t need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.</p>
+We don't need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">median_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">median</span>(cells<span style="color:#000;font-weight:bold">$</span>nCount)
 <span style="color:#998;font-style:italic"># 4377.5</span>
 mad_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">mad</span>(cells<span style="color:#000;font-weight:bold">$</span>nCount)
@@ -931,7 +931,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 <h4 id="after-filtering">After filtering</h4>
 <p>Now we identify cells which meet the thresholds we identified.
-Note that the violin plots extending beyond the indicated cut-offs does not mean that the filtering didn&rsquo;t work.
+Note that the violin plots extending beyond the indicated cut-offs does not mean that the filtering didn't work.
 The reason they do that is because the distribution is smoothened and I switched off trimming in the <code>geom_violin()</code> call.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells_filtered <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">filter</span>(
@@ -1134,7 +1134,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
   <span style="color:#900;font-weight:bold">strsplit</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">-&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">vapply</span>(`[`, <span style="color:#099">2</span>, FUN.VALUE <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(<span style="color:#099">1</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">factor</span>(levels <span style="color:#000;font-weight:bold">=</span> sample_names)
-</code></pre></div><p>Just to be sure, let&rsquo;s look at the distribution of number of transcripts and expressed genes per cell by sample once more.</p>
+</code></pre></div><p>Just to be sure, let's look at the distribution of number of transcripts and expressed genes per cell by sample once more.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_jitter</span>(data <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">aes</span>(sample, nCount_RNA, color <span style="color:#000;font-weight:bold">=</span> sample), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.25</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.3</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
   gghalves<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">geom_half_violin</span>(data <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">aes</span>(sample, nCount_RNA, fill <span style="color:#000;font-weight:bold">=</span> sample), side <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">l&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.4</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1214,8 +1214,8 @@ seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color
 <h2 id="optional-data-integration">(Optional) Data integration</h2>
 <p>In some cases, e.g. when there are evident batch effects due to different preparation techniques, it might make sense to integrate data sets.
 Again, many methods exist to perform this task.
-The data integration procedure built into the <a href="https://satijalab.org/seurat/">Seurat</a> package has proven to work well [3] and I&rsquo;ve personally had good experience with it.
-For the samples analyzed here, we don&rsquo;t need it though and will skip this part.</p>
+The data integration procedure built into the <a href="https://satijalab.org/seurat/">Seurat</a> package has proven to work well [3] and I've personally had good experience with it.
+For the samples analyzed here, we don't need it though and will skip this part.</p>
 
 
 <div class="tabs">
