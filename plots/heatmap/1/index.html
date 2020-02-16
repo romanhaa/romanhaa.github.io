@@ -112,7 +112,7 @@ average_expression_profiles_by_cluster <span style="color:#000;font-weight:bold"
   <span style="color:#900;font-weight:bold">mutate</span>(cluster <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">select</span>(cluster, <span style="color:#900;font-weight:bold">everything</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(cluster) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">summarize_all</span>(<span style="color:#900;font-weight:bold">funs</span>(mean))
+  <span style="color:#900;font-weight:bold">summarize_all</span>(<span style="color:#000;font-weight:bold">~</span><span style="color:#900;font-weight:bold">mean</span>(.))
 
 <span style="color:#998;font-style:italic"># calculate Spearman correlation matrix</span>
 correlation_matrix <span style="color:#000;font-weight:bold">&lt;-</span> average_expression_profiles_by_cluster <span style="color:#000;font-weight:bold">%&gt;%</span>
