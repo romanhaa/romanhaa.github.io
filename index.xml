@@ -216,7 +216,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/geographical/time_zones/</guid>
-      <description>library(tidyverse) library(sf) library(lwgeom) library(patchwork) blankbg &amp;lt;- theme( axis.line = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(), axis.title.y = element_blank(), panel.</description>
+      <description>library(tidyverse) library(sf) library(lwgeom) library(patchwork) library(wesanderson) blankbg &amp;lt;- theme( axis.line = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(), axis.title.y = element_blank(), panel.</description>
     </item>
     
     <item>

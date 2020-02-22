@@ -405,6 +405,79 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 </figure>
 
 
+<h3 id="total-number-of-steps-by-weekday">Total number of steps by weekday</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">arrange</span>(startDate) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(start_date) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarize</span>(total_steps <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(value)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(
+    weekday <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">weekdays</span>(<span style="color:#900;font-weight:bold">as.Date</span>(start_date, <span style="color:#d14">&#39;</span><span style="color:#d14">%Y-%m-%d&#39;</span>)),
+    weekday <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(weekday, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Monday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Tuesday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Wednesday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Thursday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Friday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Saturday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Sunday&#39;</span>))
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(weekday, total_steps)) <span style="color:#000;font-weight:bold">+</span>
+  gghalves<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">geom_half_violin</span>(fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, side <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">l&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
+  gghalves<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">geom_half_boxplot</span>(fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, side <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">r&#39;</span>, outlier.size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_jitter</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of steps&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_number_of_steps_by_weekday.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+</code></pre></div>
+<figure >
+  
+      <img src="/images/projects/health_data/total_number_of_steps_by_weekday.png"  style="width: 100%;" />
+  
+  
+</figure>
+
+
+<h3 id="distribution-of-steps-by-weekday">Distribution of steps by weekday</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(
+    weekday <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">weekdays</span>(<span style="color:#900;font-weight:bold">as.Date</span>(start_date, <span style="color:#d14">&#39;</span><span style="color:#d14">%Y-%m-%d&#39;</span>)),
+    weekday <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(weekday, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Monday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Tuesday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Wednesday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Thursday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Friday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Saturday&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Sunday&#39;</span>))
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(weekday, start_hour_minute, end_hour_minute) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarize</span>(value <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(value)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_rect</span>(
+    <span style="color:#900;font-weight:bold">aes</span>(
+      xmin <span style="color:#000;font-weight:bold">=</span> start_hour_minute,
+      xmax <span style="color:#000;font-weight:bold">=</span> end_hour_minute,
+      ymin <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>,
+      ymax <span style="color:#000;font-weight:bold">=</span> value
+    ),
+    show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_continuous</span>(
+    name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Hour of the day&#39;</span>, limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">24</span>), breaks <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">seq</span>(<span style="color:#099">0</span>, <span style="color:#099">24</span>, <span style="color:#099">2</span>), expand <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.01</span>,<span style="color:#099">0</span>)
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(
+    name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of steps&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma, expand <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.01</span>,<span style="color:#099">0</span>)
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    strip.text <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(face <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>),
+    panel.grid.minor <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">facet_wrap</span>(<span style="color:#000;font-weight:bold">~</span>weekday, ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">step_profile_by_weekday.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+</code></pre></div>
+<figure >
+  
+      <img src="/images/projects/health_data/step_profile_by_weekday.png"  style="width: 100%;" />
+  
+  
+</figure>
+
+
 <h2 id="workouts">Workouts</h2>
 <h3 id="calendar">Calendar</h3>
 <p>To plot highlight the days we worked in calendar style, we take advantage of the <code>ggcal()</code> function made by <a href="https://github.com/jayjacobs/ggcal"><code>jayjaycobs</code></a>.
@@ -431,13 +504,13 @@ However, we slightly modify it, e.g. so that the week starts on Monday instead o
     <span style="color:#900;font-weight:bold">mutate</span>(monlabel <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">fct_inorder</span>(monlabel)) <span style="color:#000;font-weight:bold">%&gt;%</span>
     <span style="color:#900;font-weight:bold">mutate</span>(monthweek <span style="color:#000;font-weight:bold">=</span> woy <span style="color:#000;font-weight:bold">-</span> <span style="color:#900;font-weight:bold">min</span>(woy), y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">max</span>(monthweek) <span style="color:#000;font-weight:bold">-</span> monthweek <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>)
   weekdays <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">M&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">T&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">W&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">T&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">F&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">S&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">S&#39;</span>)
-  
+
   <span style="color:#900;font-weight:bold">if </span>( <span style="color:#900;font-weight:bold">is.numeric</span>(fills) ) {
     fill_scale <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">scale_fill_distiller</span>(palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">OrRd&#39;</span>, direction <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, na.value <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">#C8C8C8&#39;</span>)
   } else <span style="color:#900;font-weight:bold">if </span>( <span style="color:#900;font-weight:bold">is.character</span>(fills) <span style="color:#000;font-weight:bold">|</span> <span style="color:#900;font-weight:bold">is.factor</span>(fills) ) {
     fill_scale <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#000;font-weight:bold">NULL</span>
   }
-  
+
   <span style="color:#900;font-weight:bold">ggplot</span>(t2, <span style="color:#900;font-weight:bold">aes</span>(dow, y, fill <span style="color:#000;font-weight:bold">=</span> fill)) <span style="color:#000;font-weight:bold">+</span>
     <span style="color:#900;font-weight:bold">geom_tile</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">#505050&#39;</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
     <span style="color:#900;font-weight:bold">facet_wrap</span>(<span style="color:#000;font-weight:bold">~</span>monlabel, ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, scales <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">free&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -471,13 +544,60 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 
 <p>Color reflects the workout length.</p>
-<h2 id="to-do">To do</h2>
+<h2 id="running-sessions">Running sessions</h2>
+<p><strong>WORK IN PROGRESS</strong></p>
+<p>I took parts of code from this article: <a href="https://rpubs.com/ials2un/gpx1">https://rpubs.com/ials2un/gpx1</a></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(ggmap)
+<span style="color:#900;font-weight:bold">library</span>(plotKML)
+<span style="color:#900;font-weight:bold">library</span>(geosphere)
+
+gpx_file <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readGPX</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">runs/2020-02-16.gpx&#39;</span>)
+
+df <span style="color:#000;font-weight:bold">&lt;-</span> gpx_file<span style="color:#000;font-weight:bold">$</span>tracks[[1]][[1]] <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(time <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.POSIXct</span>(time, format <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">%Y-%m-%dT%H:%M:%OSZ&#34;</span>)))
+
+<span style="color:#900;font-weight:bold">for </span>( i in <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span>(<span style="color:#900;font-weight:bold">nrow</span>(df)<span style="color:#099">-1</span>)) {
+  df<span style="color:#000;font-weight:bold">$</span>distance[i] <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">distm</span>(
+    <span style="color:#900;font-weight:bold">c</span>(df<span style="color:#000;font-weight:bold">$</span>lon[i], df<span style="color:#000;font-weight:bold">$</span>lat[i]), <span style="color:#900;font-weight:bold">c</span>(df<span style="color:#000;font-weight:bold">$</span>lon[i<span style="color:#099">+1</span>], df<span style="color:#000;font-weight:bold">$</span>lat[i<span style="color:#099">+1</span>]), fun <span style="color:#000;font-weight:bold">=</span> distHaversine
+  )
+  df<span style="color:#000;font-weight:bold">$</span>speed[i] <span style="color:#000;font-weight:bold">&lt;-</span> ( df<span style="color:#000;font-weight:bold">$</span>distance[i] <span style="color:#000;font-weight:bold">/</span> <span style="color:#900;font-weight:bold">as.numeric</span>(<span style="color:#900;font-weight:bold">difftime</span>(df<span style="color:#000;font-weight:bold">$</span>time[i<span style="color:#099">+1</span>], df<span style="color:#000;font-weight:bold">$</span>time[i], units <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">secs&#39;</span>)) ) <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">3.6</span>
+}
+
+<span style="color:#900;font-weight:bold">ggplot</span>(df) <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> time, y <span style="color:#000;font-weight:bold">=</span> speed, color <span style="color:#000;font-weight:bold">=</span> speed)) <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">geom_smooth</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> time, y <span style="color:#000;font-weight:bold">=</span> speed), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">loess&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, span <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>) <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">scale_color_distiller</span>(
+  name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Speed&#39;</span>,
+  palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Spectral&#39;</span>,
+  direction <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>,
+  limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#900;font-weight:bold">min</span>(df<span style="color:#000;font-weight:bold">$</span>speed), <span style="color:#900;font-weight:bold">quantile</span>(df<span style="color:#000;font-weight:bold">$</span>speed, probs <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.95</span>)),
+  oob <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>squish,
+  guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>)
+) <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">theme_bw</span>()
+
+map_of_Milan <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">get_stamenmap</span>(bbox <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(left <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">9.146976</span>, bottom <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">45.438092</span>, right <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">9.229717</span>, top <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">45.490344</span>), zoom <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">14</span>, maptype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">toner-lines&#34;</span>)
+
+<span style="color:#900;font-weight:bold">ggmap</span>(map_of_Milan) <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">geom_point</span>(data <span style="color:#000;font-weight:bold">=</span> df, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> lon, y <span style="color:#000;font-weight:bold">=</span> lat, color <span style="color:#000;font-weight:bold">=</span> speed), size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>) <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">theme</span>(
+  axis.line <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  axis.text.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  axis.ticks <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  axis.title.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  panel.background <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  panel.grid.major <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  panel.grid.minor <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+  plot.background <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+)
+
+df
+</code></pre></div><h2 id="to-do">To do</h2>
 <ul>
-<li>Heart rate
-<ul>
-<li>Removal of outliers/incorrect measurements.</li>
-</ul>
-</li>
 <li>Sleep
 <ul>
 <li>Handle sleep blocks over 18:00.</li>

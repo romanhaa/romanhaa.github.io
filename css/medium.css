@@ -525,7 +525,11 @@ iframe {
   }
 }
 .card .img-fluid {
-  width:100%;
+  display: block;
+  max-height: 300px;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .index-title{
