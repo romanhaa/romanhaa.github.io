@@ -173,16 +173,16 @@ data_predicted<span style="color:#000;font-weight:bold">$</span>predicted <span 
 )
 
 p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_segment</span>(
+    data <span style="color:#000;font-weight:bold">=</span> lines_to_highlight_ec50,
+    <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x, y <span style="color:#000;font-weight:bold">=</span> y, xend <span style="color:#000;font-weight:bold">=</span> xend, yend <span style="color:#000;font-weight:bold">=</span> yend),
+    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
+  ) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_line</span>(data <span style="color:#000;font-weight:bold">=</span> data_predicted, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> concentration, y <span style="color:#000;font-weight:bold">=</span> predicted), size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(
     data <span style="color:#000;font-weight:bold">=</span> data_measured,
     <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> concentration, y <span style="color:#000;font-weight:bold">=</span> viable_cells, fill <span style="color:#000;font-weight:bold">=</span> replicate),
     shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">21</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">white&#39;</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
-  ) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_segment</span>(
-    data <span style="color:#000;font-weight:bold">=</span> lines_to_highlight_ec50,
-    <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x, y <span style="color:#000;font-weight:bold">=</span> y, xend <span style="color:#000;font-weight:bold">=</span> xend, yend <span style="color:#000;font-weight:bold">=</span> yend),
-    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
   ) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">annotate</span>(
     <span style="color:#d14">&#39;</span><span style="color:#d14">text&#39;</span>, x <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.01</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">EC50: &#39;</span>, <span style="color:#900;font-weight:bold">round</span>(ec50, digits <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>), <span style="color:#d14">&#39;</span><span style="color:#d14"> mM&#39;</span>),
