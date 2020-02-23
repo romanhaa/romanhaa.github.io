@@ -91,7 +91,7 @@ cluster_ids <span style="color:#000;font-weight:bold">&lt;-</span> <span style="
 <span style="color:#998;font-style:italic"># select a set of genes for which we want to show expression</span>
 genes_to_show <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>marker_genes<span style="color:#000;font-weight:bold">$</span>by_cluster <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(cluster) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">arrange</span>(<span style="color:#000;font-weight:bold">-</span>avg_logFC) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">arrange</span>(p_val_adj) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">slice</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">pull</span>(gene)
 

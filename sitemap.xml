@@ -3,12 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://romanhaa.github.io/projects/</loc>
-    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+    <loc>http://romanhaa.github.io/blog/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/blog/dose_response_curve/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/tags/dataviz/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://romanhaa.github.io/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/tags/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/projects/</loc>
     <lastmod>2020-02-09T00:00:00+00:00</lastmod>
   </url>
   
@@ -28,11 +48,6 @@
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/tags/dataviz/</loc>
-    <lastmod>2020-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://romanhaa.github.io/plots/dummy/</loc>
     <lastmod>2020-01-01T00:00:00+00:00</lastmod>
   </url>
@@ -40,16 +55,6 @@
   <url>
     <loc>http://romanhaa.github.io/plots/</loc>
     <lastmod>2020-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://romanhaa.github.io/tags/</loc>
-    <lastmod>2020-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://romanhaa.github.io/blog/</loc>
-    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -135,6 +140,10 @@
   
   <url>
     <loc>http://romanhaa.github.io/plots/scatter/4/</loc>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/plots/scatter/5/</loc>
   </url>
   
   <url>

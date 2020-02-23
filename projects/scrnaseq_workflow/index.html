@@ -2536,76 +2536,8 @@ cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:
   column_cell_cycle_seurat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">cell_cycle_seurat&#39;</span>,
   add_all_meta_data <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>
 )
-</code></pre></div><h2 id="expression-of-custom-gene-sets">Expression of custom gene sets</h2>
-<p>Let's check the expression of the genes in the GO term &ldquo;B_CELL_ACTIVATION&rdquo; downloaded from the <a href="https://www.gsea-msigdb.org/gsea/msigdb/cards/GO_B_CELL_ACTIVATION.html">MSigDB</a> by cell type.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">gene_set <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">geneset.txt&#39;</span>, skip <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">pull</span>(X1)
-gene_set_present <span style="color:#000;font-weight:bold">&lt;-</span> gene_set<span style="color:#900;font-weight:bold">[which</span>(gene_set <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">rownames</span>(seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data))]
-
-<span style="color:#900;font-weight:bold">head</span>(gene_set_present)
-<span style="color:#998;font-style:italic"># [1] &#34;ABL1&#34;    &#34;ADA&#34;     &#34;ADAM17&#34;  &#34;ADGRG3&#34;  &#34;AHR&#34;     &#34;AKAP17A&#34;</span>
-</code></pre></div><h3 id="mean-log-expression">Mean log-expression</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
-  cell_type <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main,
-  mean_expression <span style="color:#000;font-weight:bold">=</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">colMeans</span>(seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data[gene_set_present,])
-  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> cell_type, y <span style="color:#000;font-weight:bold">=</span> mean_expression, fill <span style="color:#000;font-weight:bold">=</span> cell_type)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_x_discrete</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Mean log expression&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">GO term &#39;B_CELL_ACTIVATION&#39;&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(
-    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
-    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(angle <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">45</span>, hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>),
-    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
-    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
-    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
-  )
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/gene_set_expression_B_CELL_ACTIVATION_mean.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
-</code></pre></div>
-<figure >
-  
-      <img src="/images/projects/scrnaseq_workflow/gene_set_expression_B_CELL_ACTIVATION_mean.png"  style="width: 100%;" />
-  
-  
-</figure>
-
-
-<h3 id="module-score">Module score</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">AddModuleScore</span>(
-  seurat,
-  features <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(gene_set_present),
-  name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">GO_B_CELL_ACTIVATION&#39;</span>,
-  assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">SCT&#39;</span>
-)
-
-p <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main, y <span style="color:#000;font-weight:bold">=</span> GO_B_CELL_ACTIVATION1, fill <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_x_discrete</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Module score&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">GO term &#39;B_CELL_ACTIVATION&#39;&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(
-    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
-    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(angle <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">45</span>, hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>),
-    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
-    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
-    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
-  )
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/gene_set_expression_B_CELL_ACTIVATION_module_score.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
-</code></pre></div>
-<figure >
-  
-      <img src="/images/projects/scrnaseq_workflow/gene_set_expression_B_CELL_ACTIVATION_module_score.png"  style="width: 100%;" />
-  
-  
-</figure>
-
-
-<h2 id="expression-of-top-marker-genes">Expression of top marker genes</h2>
+</code></pre></div><h2 id="expression-of-individual-genes">Expression of individual genes</h2>
+<p>As an example, we will use the marker genes that we detected for cell types and clusters.</p>
 <h3 id="by-cell-type">By cell type</h3>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic"># cells will be grouped by samples that they have been assigned to</span>
 group_ids <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">unique</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main)
@@ -2793,6 +2725,75 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 </figure>
 
 
+<h2 id="expression-of-gene-sets">Expression of gene sets</h2>
+<p>Let's check the expression of the genes in the GO term &ldquo;B_CELL_ACTIVATION&rdquo; downloaded from the <a href="https://www.gsea-msigdb.org/gsea/msigdb/cards/GO_B_CELL_ACTIVATION.html">MSigDB</a> by cell type.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">gene_set <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">geneset.txt&#39;</span>, skip <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">pull</span>(X1)
+gene_set_present <span style="color:#000;font-weight:bold">&lt;-</span> gene_set<span style="color:#900;font-weight:bold">[which</span>(gene_set <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">rownames</span>(seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data))]
+
+<span style="color:#900;font-weight:bold">head</span>(gene_set_present)
+<span style="color:#998;font-style:italic"># [1] &#34;ABL1&#34;    &#34;ADA&#34;     &#34;ADAM17&#34;  &#34;ADGRG3&#34;  &#34;AHR&#34;     &#34;AKAP17A&#34;</span>
+</code></pre></div><h3 id="mean-log-expression">Mean log-expression</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+  cell_type <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main,
+  mean_expression <span style="color:#000;font-weight:bold">=</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">colMeans</span>(seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data[gene_set_present,])
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> cell_type, y <span style="color:#000;font-weight:bold">=</span> mean_expression, fill <span style="color:#000;font-weight:bold">=</span> cell_type)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Mean log expression&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">GO term &#39;B_CELL_ACTIVATION&#39;&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(angle <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">45</span>, hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  )
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/gene_set_expression_B_CELL_ACTIVATION_mean.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+</code></pre></div>
+<figure >
+  
+      <img src="/images/projects/scrnaseq_workflow/gene_set_expression_B_CELL_ACTIVATION_mean.png"  style="width: 100%;" />
+  
+  
+</figure>
+
+
+<h3 id="module-score">Module score</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">AddModuleScore</span>(
+  seurat,
+  features <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(gene_set_present),
+  name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">GO_B_CELL_ACTIVATION&#39;</span>,
+  assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">SCT&#39;</span>
+)
+
+p <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main, y <span style="color:#000;font-weight:bold">=</span> GO_B_CELL_ACTIVATION1, fill <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Module score&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">GO term &#39;B_CELL_ACTIVATION&#39;&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(angle <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">45</span>, hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>
+  )
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/gene_set_expression_B_CELL_ACTIVATION_module_score.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+</code></pre></div>
+<figure >
+  
+      <img src="/images/projects/scrnaseq_workflow/gene_set_expression_B_CELL_ACTIVATION_module_score.png"  style="width: 100%;" />
+  
+  
+</figure>
+
+
 <h2 id="gene-set-enrichment-analysis">Gene set enrichment analysis</h2>
 <h3 id="gsva">GSVA</h3>
 <p>For illustrative reasons, we will use the <a href="https://www.gsea-msigdb.org/gsea/msigdb/index.jsp">50 hallmark gene sets from MSigDB</a> and compare monocytes to hematopoietic stem cells (HSC; control).</p>
@@ -2904,10 +2905,10 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#
 p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data <span style="color:#000;font-weight:bold">=</span> data, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> gene_set, y <span style="color:#000;font-weight:bold">=</span> t, fill <span style="color:#000;font-weight:bold">=</span> t)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_col</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">-5</span>,<span style="color:#099">5</span>), linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey80&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_text</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> gene_set, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, label <span style="color:#000;font-weight:bold">=</span> gene_set, hjust <span style="color:#000;font-weight:bold">=</span> just, color <span style="color:#000;font-weight:bold">=</span> color), nudge_y <span style="color:#000;font-weight:bold">=</span> data<span style="color:#000;font-weight:bold">$</span>nudge_y, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>)<span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_text</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> gene_set, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, label <span style="color:#000;font-weight:bold">=</span> gene_set, hjust <span style="color:#000;font-weight:bold">=</span> just, color <span style="color:#000;font-weight:bold">=</span> color), nudge_y <span style="color:#000;font-weight:bold">=</span> data<span style="color:#000;font-weight:bold">$</span>nudge_y, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_x_discrete</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">NULL</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">t-value&#39;</span>, limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">-55</span>,<span style="color:#099">55</span>)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_fill_distiller</span>(palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Spectral&#39;</span>, limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">max</span>(data<span style="color:#000;font-weight:bold">$</span>t),<span style="color:#900;font-weight:bold">max</span>(data<span style="color:#000;font-weight:bold">$</span>t))) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_distiller</span>(palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Spectral&#39;</span>, limits <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">max</span>(data<span style="color:#000;font-weight:bold">$</span>t), <span style="color:#900;font-weight:bold">max</span>(data<span style="color:#000;font-weight:bold">$</span>t))) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">coord_flip</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>

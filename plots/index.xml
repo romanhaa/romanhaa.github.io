@@ -139,6 +139,15 @@
     </item>
     
     <item>
+      <title>Scatter plot 5</title>
+      <link>http://romanhaa.github.io/plots/scatter/5/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/scatter/5/</guid>
+      <description>library(tidyverse) library(ggExtra) library(MASS) library(viridis) cells &amp;lt;- tibble( cell = colnames(transcripts$raw$merged), nCount = colSums(transcripts$raw$merged), nFeature = colSums(transcripts$raw$merged != 0) ) cells %&amp;gt;% glimpse() # Observations: 6,000 # Variables: 3 # $ cell &amp;lt;chr&amp;gt; &amp;#34;TGCCCATGTGTTCGAT-A&amp;#34;, &amp;#34;ACGGCCACAAGAAGAG-A&amp;#34;, &amp;#34;CTGTGCTGTCAGAAG… # $ nCount &amp;lt;dbl&amp;gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113… # $ nFeature &amp;lt;dbl&amp;gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27… # calculate density of dots as described on: # https://slowkow.</description>
+    </item>
+    
+    <item>
       <title>Showing compositions in a bar plot</title>
       <link>http://romanhaa.github.io/plots/composition/1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

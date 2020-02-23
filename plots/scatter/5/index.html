@@ -8,12 +8,12 @@
   
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css"/>
   <link rel="stylesheet" href="/css/medium.css">
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+<body><nav class="navbar navbar-expand-lg navbar-light bg-white mediumnavigation nav-down navbar-static-top">
   <div class="container pr-0">
 
     
@@ -37,7 +37,7 @@
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a class="nav-link" href="/projects">Projects</a>
         </li>
         
         <li class="nav-item ">
@@ -45,7 +45,7 @@
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a class="nav-link" href="/blog">Blog</a>
         </li>
         
       </ul>
@@ -53,7 +53,6 @@
 
   </div>
 </nav>
-
 <div class="site-content">
 			<div class="container">
   <div class="main-content">
@@ -81,56 +80,54 @@
           
           <div class="article-post">
             <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
-<span style="color:#900;font-weight:bold">library</span>(Seurat)
+<span style="color:#900;font-weight:bold">library</span>(ggExtra)
+<span style="color:#900;font-weight:bold">library</span>(MASS)
+<span style="color:#900;font-weight:bold">library</span>(viridis)
 
-<span style="color:#998;font-style:italic"># create color palette from flatuicolors.com</span>
-colors_dutch <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#FFC312&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#C4E538&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#12CBC4&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#FDA7DF&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ED4C67&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#F79F1F&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#A3CB38&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#1289A7&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#D980FA&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#B53471&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#EE5A24&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#009432&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#0652DD&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#9980FA&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#833471&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#EA2027&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#006266&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#1B1464&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#5758BB&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#6F1E51&#39;</span>
+cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+  cell <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colnames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
+  nCount <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
+  nFeature <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span>)
 )
-colors_spanish <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#40407a&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#706fd3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#f7f1e3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#34ace0&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#33d9b2&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#2c2c54&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#474787&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#aaa69d&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#227093&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#218c74&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#ff5252&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ff793f&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#d1ccc0&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ffb142&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ffda79&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#b33939&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#cd6133&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#84817a&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#cc8e35&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ccae62&#39;</span>
-)
-custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(colors_dutch, colors_spanish)
 
-<span style="color:#998;font-style:italic"># load a single cell expression data set (generated in the lab I work at)</span>
-seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">seurat.rds&#39;</span>)
+cells <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">glimpse</span>()
+<span style="color:#998;font-style:italic"># Observations: 6,000</span>
+<span style="color:#998;font-style:italic"># Variables: 3</span>
+<span style="color:#998;font-style:italic"># $ cell     &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG…</span>
+<span style="color:#998;font-style:italic"># $ nCount   &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113…</span>
+<span style="color:#998;font-style:italic"># $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27…</span>
 
-<span style="color:#998;font-style:italic"># calculate center position for each cluster</span>
-UMAP_centers_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
-    UMAP_1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_1,
-    UMAP_2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_2,
-    cluster <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters
-  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">group_by</span>(cluster) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">summarize</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">median</span>(UMAP_1), y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">median</span>(UMAP_2))
+<span style="color:#998;font-style:italic"># calculate density of dots as described on:</span>
+<span style="color:#998;font-style:italic"># https://slowkow.com/notes/ggplot2-color-by-density/</span>
+get_density <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(x, y, <span style="color:#000;font-weight:bold">...</span>) {
+  dens <span style="color:#000;font-weight:bold">&lt;-</span> MASS<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">kde2d</span>(x, y, <span style="color:#000;font-weight:bold">...</span>)
+  ix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">findInterval</span>(x, dens<span style="color:#000;font-weight:bold">$</span>x)
+  iy <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">findInterval</span>(y, dens<span style="color:#000;font-weight:bold">$</span>y)
+  ii <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cbind</span>(ix, iy)
+  <span style="color:#900;font-weight:bold">return</span>(dens<span style="color:#000;font-weight:bold">$</span>z[ii])
+}
 
-<span style="color:#998;font-style:italic"># plot</span>
-p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(UMAP_1, UMAP_2, color <span style="color:#000;font-weight:bold">=</span> seurat_clusters)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.2</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_label</span>(
-    data <span style="color:#000;font-weight:bold">=</span> UMAP_centers_cluster,
-    mapping <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">aes</span>(x, y, label <span style="color:#000;font-weight:bold">=</span> cluster),
-    size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4.5</span>,
-    fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">white&#39;</span>,
-    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>,
-    fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>,
-    alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>,
-    show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
-  ) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">coord_fixed</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">guides</span>(colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_legend</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, override.aes <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>))) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">right&#39;</span>)
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">5.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+cells <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(density <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">get_density</span>(nCount, nFeature, n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">100</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">arrange</span>(density)
+
+cells <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">glimpse</span>()
+<span style="color:#998;font-style:italic"># Observations: 6,000</span>
+<span style="color:#998;font-style:italic"># Variables: 4</span>
+<span style="color:#998;font-style:italic"># $ cell     &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG…</span>
+<span style="color:#998;font-style:italic"># $ nCount   &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113…</span>
+<span style="color:#998;font-style:italic"># $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27…</span>
+<span style="color:#998;font-style:italic"># $ density  &lt;dbl&gt; 5.143103e-08, 8.837126e-08, 1.707788e-07, 3.781027e-10, 6.79…</span>
+
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> density), show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of transcripts&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Numner of expressed genes&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_viridis</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>()
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggMarginal</span>(p, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">histogram&#39;</span>, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, bins <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50</span>)
+
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">5.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
           </div>
 
@@ -163,6 +160,8 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="/js/mediumish.js"></script>
+<script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
+<script src="/js/toc.js"></script>
 
 	</body>
 </html>
