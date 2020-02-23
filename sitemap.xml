@@ -99,7 +99,15 @@
   </url>
   
   <url>
+    <loc>http://romanhaa.github.io/plots/other/dose_response_curve/</loc>
+  </url>
+  
+  <url>
     <loc>http://romanhaa.github.io/plots/other/dot_plot/</loc>
+  </url>
+  
+  <url>
+    <loc>http://romanhaa.github.io/plots/bar/gsva_hallmark_gene_sets/</loc>
   </url>
   
   <url>
@@ -147,7 +155,7 @@
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/plots/composition/1/</loc>
+    <loc>http://romanhaa.github.io/plots/bar/flights_by_airport_and_carrier/</loc>
   </url>
   
   <url>

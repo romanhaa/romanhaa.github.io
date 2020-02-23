@@ -121,12 +121,31 @@
     </item>
     
     <item>
+      <title>Dose-response curve</title>
+      <link>http://romanhaa.github.io/plots/other/dose_response_curve/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/other/dose_response_curve/</guid>
+      <description>The code for this plot can be found in this blog post.</description>
+    </item>
+    
+    <item>
       <title>Dot plot</title>
       <link>http://romanhaa.github.io/plots/other/dot_plot/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/other/dot_plot/</guid>
-      <description>library(tidyverse) library(Seurat) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&amp;#39;seurat.rds&amp;#39;) # cells will be grouped by clusters that they have been assigned to cluster_ids &amp;lt;- levels(seurat@meta.</description>
+      <description>More context (and code) for this plot can be found in my scRNA-seq workflow in the chapter &amp;ldquo;Expression of individual genes&amp;rdquo;.
+library(tidyverse) library(Seurat) # load a single cell expression data set (generated in the lab I work at) seurat &amp;lt;- readRDS(&amp;#39;seurat.</description>
+    </item>
+    
+    <item>
+      <title>Gene set enrichment results</title>
+      <link>http://romanhaa.github.io/plots/bar/gsva_hallmark_gene_sets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/bar/gsva_hallmark_gene_sets/</guid>
+      <description>Context and code for this plot can be found in my scRNA-seq workflow in the chapter &amp;ldquo;Gene set enrichment analysis&amp;rdquo;.</description>
     </item>
     
     <item>
@@ -221,10 +240,10 @@
     
     <item>
       <title>Showing compositions in a bar plot</title>
-      <link>http://romanhaa.github.io/plots/composition/1/</link>
+      <link>http://romanhaa.github.io/plots/bar/flights_by_airport_and_carrier/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://romanhaa.github.io/plots/composition/1/</guid>
+      <guid>http://romanhaa.github.io/plots/bar/flights_by_airport_and_carrier/</guid>
       <description>library(tidyverse) library(patchwork) library(plyr) library(nycflights13) colors_dutch &amp;lt;- c( &amp;#39;#FFC312&amp;#39;,&amp;#39;#C4E538&amp;#39;,&amp;#39;#12CBC4&amp;#39;,&amp;#39;#FDA7DF&amp;#39;,&amp;#39;#ED4C67&amp;#39;, &amp;#39;#F79F1F&amp;#39;,&amp;#39;#A3CB38&amp;#39;,&amp;#39;#1289A7&amp;#39;,&amp;#39;#D980FA&amp;#39;,&amp;#39;#B53471&amp;#39;, &amp;#39;#EE5A24&amp;#39;,&amp;#39;#009432&amp;#39;,&amp;#39;#0652DD&amp;#39;,&amp;#39;#9980FA&amp;#39;,&amp;#39;#833471&amp;#39;, &amp;#39;#EA2027&amp;#39;,&amp;#39;#006266&amp;#39;,&amp;#39;#1B1464&amp;#39;,&amp;#39;#5758BB&amp;#39;,&amp;#39;#6F1E51&amp;#39; ) colors_spanish &amp;lt;- c( &amp;#39;#40407a&amp;#39;,&amp;#39;#706fd3&amp;#39;,&amp;#39;#f7f1e3&amp;#39;,&amp;#39;#34ace0&amp;#39;,&amp;#39;#33d9b2&amp;#39;, &amp;#39;#2c2c54&amp;#39;,&amp;#39;#474787&amp;#39;,&amp;#39;#aaa69d&amp;#39;,&amp;#39;#227093&amp;#39;,&amp;#39;#218c74&amp;#39;, &amp;#39;#ff5252&amp;#39;,&amp;#39;#ff793f&amp;#39;,&amp;#39;#d1ccc0&amp;#39;,&amp;#39;#ffb142&amp;#39;,&amp;#39;#ffda79&amp;#39;, &amp;#39;#b33939&amp;#39;,&amp;#39;#cd6133&amp;#39;,&amp;#39;#84817a&amp;#39;,&amp;#39;#cc8e35&amp;#39;,&amp;#39;#ccae62&amp;#39; ) custom_colors &amp;lt;- c(colors_dutch, colors_spanish) data(flights) t &amp;lt;- flights %&amp;gt;% dplyr::select(origin, carrier) %&amp;gt;% group_by(origin, carrier) %&amp;gt;% tally() %&amp;gt;% ungroup() %&amp;gt;% filter(n &amp;gt; 2000) %&amp;gt;% mutate(carrier = factor(carrier, levels = carrier %&amp;gt;% unique() %&amp;gt;% sort())) t_labels_number &amp;lt;- t %&amp;gt;% mutate(carrier = as.</description>
     </item>
     
