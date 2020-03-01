@@ -141,7 +141,9 @@ Then, we use that temporary name for the intermediate map (in PDF format) and ce
                     plotPoincareDisc(np<span style="color:#000;font-weight:bold">.</span>transpose(d), labels, temp_fout, titlename, color_dict<span style="color:#000;font-weight:bold">=</span>color_dict)
                     np<span style="color:#000;font-weight:bold">.</span>savetxt(temp_fout <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14"></span><span style="color:#d14">&#39;</span><span style="color:#d14">.csv</span><span style="color:#d14">&#39;</span>, d, delimiter<span style="color:#000;font-weight:bold">=</span><span style="color:#d14"></span><span style="color:#d14">&#34;</span><span style="color:#d14">,</span><span style="color:#d14">&#34;</span>)
 <span style="color:#998;font-style:italic"># ...</span>
-</code></pre></div><h2 id="learn-poincaré-map">Learn Poincaré map</h2>
+</code></pre></div><p>I think this is a quite ugly approach but it gets the job done for now.
+If the developers think this is useful, I would think about a way to store intermediate results without creating many separate files.</p>
+<h2 id="learn-poincaré-map">Learn Poincaré map</h2>
 <p>Now, we can start training the Poincaré map using the same parameters as documented for some of the examples in the GitHub repository.
 By default, this process will run for 5,000 epochs (<code>--epochs</code>) or until epsilon (loss) goes below <code>0.0001</code> (<code>--earlystop</code>).
 I did my early tests on my private laptop which doesn't have a GPU, which means I had to set <code>--cuda</code> to <code>0</code>.
@@ -373,7 +375,7 @@ Just be warned, it is <strong>16 MB</strong> in size.</p>
 <p>I must say that I'm quite impressed overall.</p>
 <p>Firstly, the <code>plotly</code> framework can create amazing animations for decently large data sets, which apparently make <code>ggplot2</code> struggle.</p>
 <p>Secondly, even though we used non-adjusted parameters and didn't let the training process finish (it might've finished early but I'm not sure), the resulting map has the hematopoietic stem cells (HSC) at its center.
-This makes biological sense since these should give rise to the other cell types shown in the map.
+While these results are preliminary, they do make biological sense since these cells should give rise to the other cell types shown in the map.
 This is an exciting result and makes me look forward to additional tests (hopefully with access to a GPU).</p>
 
             </div>
