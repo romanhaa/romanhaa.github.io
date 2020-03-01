@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman Hillje - All rights reserved</copyright>
-    <lastBuildDate>Sun, 23 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://romanhaa.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Animating the dynamics of training a Poincaré map</title>
+      <link>http://romanhaa.github.io/blog/dynamics_of_training_a_poincare_map/</link>
+      <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/blog/dynamics_of_training_a_poincare_map/</guid>
+      <description>Preface Last Friday, I came across an interesting method called &amp;ldquo;Poincaré map&amp;rdquo; to visualize the relationship of cells in single cell RNA-seq data. During the weekend, I had the chance to experiment with this method to the data set I used in the scRNA-seq workflow.</description>
+    </item>
     
     <item>
       <title>Calculate EC50 and plot dose response curve</title>

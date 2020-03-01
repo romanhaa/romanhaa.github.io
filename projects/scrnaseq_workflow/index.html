@@ -1954,6 +1954,45 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 
 <h2 id="dimensional-reduction">Dimensional reduction</h2>
 <p>Here, we represent the transcription profiles of all cells in the data set in a 2D or 3D projection, typically using the t-SNE or UMAP methods.</p>
+<h3 id="snn-graph">SNN graph</h3>
+<p>The SNN graph was calculated earlier in the <code>FindNeighbors()</code> function.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(ggnetwork)
+
+SCT_snn <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>graphs<span style="color:#000;font-weight:bold">$</span>SCT_snn <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">as.matrix</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggnetwork</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">left_join</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">mutate</span>(vertex.names <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rownames</span>(.)), by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">vertex.names&#39;</span>)
+
+p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(SCT_snn, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x, y <span style="color:#000;font-weight:bold">=</span> y, xend <span style="color:#000;font-weight:bold">=</span> xend, yend <span style="color:#000;font-weight:bold">=</span> yend)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_edges</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey50&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.05</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_nodes</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> sample), size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_manual</span>(
+    name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Sample&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete,
+    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_legend</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, override.aes <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>))
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_blank</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">left&#39;</span>)
+
+p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(SCT_snn, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x, y <span style="color:#000;font-weight:bold">=</span> y, xend <span style="color:#000;font-weight:bold">=</span> xend, yend <span style="color:#000;font-weight:bold">=</span> yend)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_edges</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey50&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.05</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_nodes</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> seurat_clusters), size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_manual</span>(
+    name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete,
+    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_legend</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, override.aes <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>))
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_blank</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">right&#39;</span>)
+
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">plots/SNN_graph_by_sample_cluster.png&#39;</span>, p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>), height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">11</span>)
+</code></pre></div>
+<figure >
+  
+    <img src="/images/projects/scrnaseq_workflow/SNN_graph_by_sample_cluster.png"  style="width: 100%;" />
+  
+  
+</figure>
+
+
 <h3 id="umap">UMAP</h3>
 <h4 id="calculate-umap">Calculate UMAP</h4>
 <p>He we calculate the UMAP using the same 15 PCs we have also used for clustering.</p>
@@ -2095,6 +2134,8 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 </figure>
 
 
+<h3 id="poincaré-map-work-in-progress">Poincaré map (work-in-progress)</h3>
+<p>For now, please check my blog article <a href="http://romanhaa.github.io/blog/dynamics_of_training_a_poincare_map/">&ldquo;Animating the dynamics of training a Poincaré map&rdquo;</a>.</p>
 <h2 id="cell-type-annotation-with-singler">Cell type annotation with SingleR</h2>
 <p>Cell inference can be performed with many tools.
 Personally, I find <a href="https://bioconductor.org/packages/3.11/bioc/html/SingleR.html"><code>SingleR</code></a> very useful because it has given good results in my experiments and because it provides multiple pre-trained reference data sets.</p>
