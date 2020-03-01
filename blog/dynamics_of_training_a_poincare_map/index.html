@@ -75,7 +75,8 @@
           <body>
             <div class="article-post">
               <h2 id="preface">Preface</h2>
-<p>Last Friday, I came across an interesting method called <a href="https://www.biorxiv.org/content/10.1101/689547v2">&ldquo;Poincaré map&rdquo;</a> to visualize the relationship of cells in single cell RNA-seq data.
+<p>Last Friday, I came across an interesting method called <a href="https://www.biorxiv.org/content/10.1101/689547v2">&ldquo;Poincaré map&rdquo;</a> to visualize the relationship of cells in single cell RNA-seq data using hyperbolic space.
+Check <a href="https://dmishin.github.io/hyperbolic-ca-simulator/index.html">this page</a> for an intuitive representation of what hyperbolic space is.
 During the weekend, I had the chance to experiment with this method to the data set I used in the <a href="http://romanhaa.github.io/projects/scrnaseq_workflow/">scRNA-seq workflow</a>.
 This article is not about finding the right parameters, even if it might help doing so.
 Instead, it is about (1) finally getting a chance to make animated plots, and (2) visualize what happens during the training process of the Poincaré map.</p>
@@ -364,7 +365,7 @@ And it's actually also quite easy to set up, using a similar syntax as <code>gga
     )
   )
 
-htmlwidgets<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">saveWidget</span>(fig, <span style="color:#d14">&#39;</span><span style="color:#d14">poincare_all_cells.html&#39;</span>)
+htmlwidgets<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">saveWidget</span>(fig, <span style="color:#d14">&#39;</span><span style="color:#d14">poincare_map.html&#39;</span>)
 </code></pre></div><p>Below you find a link to the interactive result, including all cells.
 Just be warned, it is <strong>16 MB</strong> in size.</p>
 <p><a href="/images/blog/dynamics_of_training_a_poincare_map/poincare_map.html">Link to Poincaré map (16MB in size)</a></p>
