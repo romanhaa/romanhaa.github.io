@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.63.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -112,7 +112,7 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="colo
   )
 </code></pre></div><h2 id="heart-rate">Heart rate</h2>
 <p>Ideally, my heart rate is recorded once a minute.
-However, there are some missing values because sometimes the band is placed in a way that it can't measure the heart rate.</p>
+However, there are some missing values because sometimes the band is placed in a way that it can&rsquo;t measure the heart rate.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_heart_rate <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">filter</span>(
     type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">HKQuantityTypeIdentifierHeartRate&#39;</span>,
