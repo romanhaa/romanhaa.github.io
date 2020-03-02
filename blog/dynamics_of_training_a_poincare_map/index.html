@@ -370,12 +370,16 @@ And it's actually also quite easy to set up, using a similar syntax as <code>gga
 htmlwidgets<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">saveWidget</span>(fig, <span style="color:#d14">&#39;</span><span style="color:#d14">poincare_map.html&#39;</span>)
 </code></pre></div><p>Below you find a link to the interactive result, including all cells.
 Just be warned, it is <strong>16 MB</strong> in size.</p>
-<p><a href="/images/blog/dynamics_of_training_a_poincare_map/poincare_map.html">Link to Poincaré map (16MB in size)</a></p>
+
+
+<a href="/images/blog/dynamics_of_training_a_poincare_map/poincare_map.html"><img src="/images/blog/dynamics_of_training_a_poincare_map/poincare_map.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto;" /><a/>
+
+
 <h2 id="conclusion">Conclusion</h2>
 <p>I must say that I'm quite impressed overall.</p>
 <p>Firstly, the <code>plotly</code> framework can create amazing animations for decently large data sets, which apparently make <code>ggplot2</code> struggle.</p>
 <p>Secondly, even though we used non-adjusted parameters and didn't let the training process finish (it might've finished early but I'm not sure), the resulting map has the hematopoietic stem cells (HSC) at its center.
-While these results are preliminary, they do make biological sense since these cells should give rise to the other cell types shown in the map.
+While these results are <strong>very</strong> preliminary, they do make biological sense since these cells should give rise to the other cell types shown in the map.
 This is an exciting result and makes me look forward to additional tests (hopefully with access to a GPU).</p>
 
             </div>
