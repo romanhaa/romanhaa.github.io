@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.63.2" />
+  <meta name="generator" content="Hugo 0.62.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -135,7 +135,7 @@ We will use three samples from a public data set <a href="https://www.ncbi.nlm.n
 <span style="color:#900;font-weight:bold">library</span>(SingleR)
 </code></pre></div><h3 id="define-colors">Define colors</h3>
 <p>I have a custom color set that I like to use for discrete color scales.
-It&rsquo;s two color palettes from <a href="https://flatuicolors.com">https://flatuicolors.com</a> merged together.
+It's two color palettes from <a href="https://flatuicolors.com">https://flatuicolors.com</a> merged together.
 We also define some colors for the cell cycle phases.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>()
 
@@ -509,7 +509,7 @@ p4 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <p>Now, we remove the doublets.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(cells, multiplet_class <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">singlet&#39;</span>)
 </code></pre></div><h4 id="before-filtering">Before filtering</h4>
-<p>Before removing any cell, let&rsquo;s look at the distribution of transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.
+<p>Before removing any cell, let's look at the distribution of transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.
 These distributions can be represented in different ways.
 Which of them looks best depends on taste and dataset.</p>
 
@@ -845,7 +845,7 @@ There are different ways to do that.
 One way is to go by eye, another to calculate median and MAD (median absolute deviation).
 If you decide to go with option 2, it is generally advised to stay within 3-5 MADs around the median [2].
 Here, we will be generous and accept anything below median plus 5 times the MAD.
-We don&rsquo;t need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.</p>
+We don't need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">median_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">median</span>(cells<span style="color:#000;font-weight:bold">$</span>nCount)
 <span style="color:#998;font-style:italic"># 4377.5</span>
 mad_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">mad</span>(cells<span style="color:#000;font-weight:bold">$</span>nCount)
@@ -985,7 +985,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 <h4 id="after-filtering">After filtering</h4>
 <p>Now we identify cells which meet the thresholds we identified.
-Note that the violin plots extending beyond the indicated cut-offs does not mean that the filtering didn&rsquo;t work.
+Note that the violin plots extending beyond the indicated cut-offs does not mean that the filtering didn't work.
 The reason they do that is because the distribution is smoothened and I switched off trimming in the <code>geom_violin()</code> call.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells_filtered <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">filter</span>(
@@ -1188,7 +1188,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
   <span style="color:#900;font-weight:bold">strsplit</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">-&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">vapply</span>(FUN.VALUE <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(<span style="color:#099">1</span>), `[`, <span style="color:#099">2</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">factor</span>(levels <span style="color:#000;font-weight:bold">=</span> sample_names)
-</code></pre></div><p>Just to be sure, let&rsquo;s look at the distribution of number of transcripts and expressed genes per cell by sample once more.</p>
+</code></pre></div><p>Just to be sure, let's look at the distribution of number of transcripts and expressed genes per cell by sample once more.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_jitter</span>(data <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">aes</span>(sample, nCount_RNA, color <span style="color:#000;font-weight:bold">=</span> sample), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.25</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.3</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
   gghalves<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">geom_half_violin</span>(data <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">aes</span>(sample, nCount_RNA, fill <span style="color:#000;font-weight:bold">=</span> sample), side <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">l&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.4</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1268,8 +1268,8 @@ seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color
 <h2 id="optional-data-integration">(Optional) Data integration</h2>
 <p>In some cases, e.g. when there are evident batch effects due to different preparation techniques, it might make sense to integrate data sets.
 Again, many methods exist to perform this task.
-The data integration procedure built into the <a href="https://satijalab.org/seurat/">Seurat</a> package has proven to work well [3] and I&rsquo;ve personally had good experience with it.
-For the samples analyzed here, we don&rsquo;t need it though and will skip this part.</p>
+The data integration procedure built into the <a href="https://satijalab.org/seurat/">Seurat</a> package has proven to work well [3] and I've personally had good experience with it.
+For the samples analyzed here, we don't need it though and will skip this part.</p>
 
 
 <div class="tabs">
@@ -2393,6 +2393,127 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 </figure>
 
 
+<h4 id="alluvial-plots">Alluvial plots</h4>
+<p>Samples by clusters.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">samples <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample)
+clusters <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
+
+color_assignments <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">setNames</span>(
+  <span style="color:#900;font-weight:bold">c</span>(custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(samples)], custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(clusters)]),
+  <span style="color:#900;font-weight:bold">c</span>(samples,clusters)
+)
+
+data <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(sample,seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">tally</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ungroup</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">gather_set_data</span>(<span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">2</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">mutate</span>(
+    x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(x, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(x)),
+    y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(y, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(y))
+  )
+
+data_labels <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+    group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(
+      <span style="color:#900;font-weight:bold">rep</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span>, <span style="color:#900;font-weight:bold">length</span>(samples)),
+      <span style="color:#900;font-weight:bold">rep</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">seurat_clusters&#39;</span>, <span style="color:#900;font-weight:bold">length</span>(clusters))
+    )
+ ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(
+    hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ifelse</span>(group <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span>, <span style="color:#099">1</span>, <span style="color:#099">0</span>),
+    nudge_x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ifelse</span>(group <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span>, <span style="color:#099">-0.1</span>, <span style="color:#099">0.1</span>)
+  )
+
+p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data, <span style="color:#900;font-weight:bold">aes</span>(x, id <span style="color:#000;font-weight:bold">=</span> id, split <span style="color:#000;font-weight:bold">=</span> y, value <span style="color:#000;font-weight:bold">=</span> n)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_parallel_sets</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> seurat_clusters), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>, axis.width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.15</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_parallel_sets_axes</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> y), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, axis.width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.1</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_text</span>(
+    <span style="color:#900;font-weight:bold">aes</span>(y <span style="color:#000;font-weight:bold">=</span> n, split <span style="color:#000;font-weight:bold">=</span> y), stat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">parallel_sets_axes&#39;</span>, fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>,
+    hjust <span style="color:#000;font-weight:bold">=</span> data_labels<span style="color:#000;font-weight:bold">$</span>hjust, nudge_x <span style="color:#000;font-weight:bold">=</span> data_labels<span style="color:#000;font-weight:bold">$</span>nudge_x
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(labels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Sample&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> color_assignments) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(face <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>, colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">15</span>),
+    axis.text.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.ticks <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+</code></pre></div><p>Clusters by cell types.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">clusters <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
+cell_types <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">sort</span>(<span style="color:#900;font-weight:bold">unique</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main))
+
+color_assignments <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">setNames</span>(
+  <span style="color:#900;font-weight:bold">c</span>(custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(clusters)], custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(cell_types)]),
+  <span style="color:#900;font-weight:bold">c</span>(clusters,cell_types)
+)
+
+data <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+  dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rename</span>(cell_type <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">mutate</span>(cell_type <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(cell_type, levels <span style="color:#000;font-weight:bold">=</span> cell_types)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(seurat_clusters, cell_type) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">tally</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ungroup</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">gather_set_data</span>(<span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">2</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">mutate</span>(
+    x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(x, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(x)),
+    y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(y, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(clusters,cell_types))
+  )
+
+data_labels <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+    group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(
+      <span style="color:#900;font-weight:bold">rep</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">seurat_clusters&#39;</span>, <span style="color:#900;font-weight:bold">length</span>(clusters)),
+      <span style="color:#900;font-weight:bold">rep</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">cell_type&#39;</span>, <span style="color:#900;font-weight:bold">length</span>(cell_types))
+    )
+ ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(
+    hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ifelse</span>(group <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">seurat_clusters&#39;</span>, <span style="color:#099">1</span>, <span style="color:#099">0</span>),
+    nudge_x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ifelse</span>(group <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">seurat_clusters&#39;</span>, <span style="color:#099">-0.1</span>, <span style="color:#099">0.1</span>)
+  )
+
+p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data, <span style="color:#900;font-weight:bold">aes</span>(x, id <span style="color:#000;font-weight:bold">=</span> id, split <span style="color:#000;font-weight:bold">=</span> y, value <span style="color:#000;font-weight:bold">=</span> n)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_parallel_sets</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> seurat_clusters), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>, axis.width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.15</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_parallel_sets_axes</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> y), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, axis.width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.1</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_text</span>(
+    <span style="color:#900;font-weight:bold">aes</span>(y <span style="color:#000;font-weight:bold">=</span> n, split <span style="color:#000;font-weight:bold">=</span> y), stat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">parallel_sets_axes&#39;</span>, fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>,
+    hjust <span style="color:#000;font-weight:bold">=</span> data_labels<span style="color:#000;font-weight:bold">$</span>hjust, nudge_x <span style="color:#000;font-weight:bold">=</span> data_labels<span style="color:#000;font-weight:bold">$</span>nudge_x
+  ) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_discrete</span>(labels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">Cell type&#39;</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> color_assignments) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(face <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>, colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">15</span>),
+    axis.text.y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    axis.ticks <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+</code></pre></div><p>Combine the two plots.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">ggsave</span>(
+  <span style="color:#d14">&#39;</span><span style="color:#d14">plots/samples_clusters_cell_types_alluvial.png&#39;</span>,
+  p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>),
+  height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>
+)
+</code></pre></div>
+<figure >
+  
+    <img src="/images/projects/scrnaseq_workflow/samples_clusters_cell_types_alluvial.png"  style="width: 100%;" />
+  
+  
+</figure>
+
+
+<p><strong>Notes:</strong> It's currently not possible to scale the columns to equal heights with <code>ggforce</code>.
+For example, I would expect the &ldquo;Samples&rdquo; columns to reach equal height as the &ldquo;Cluster&rdquo; column by increasing the gap size since it's the same number of total cells.
+Anyway, I think it's still the best tool in R to make alluvial plots.</p>
 <h3 id="umap-by-cell-type">UMAP by cell type</h3>
 <p>Similar to the UMAP plot of clusters, we add cell type labels to the UMAP.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">UMAP_centers_cell_type <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
@@ -2495,7 +2616,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 <h2 id="perform-analysis-for-cerebro">Perform analysis for Cerebro</h2>
 <p>To allow further investigation of the data set in <a href="https://github.com/romanhaa/Cerebro">Cerebro</a> [4], we now add some more meta data, calculate marker genes, pathway enrichment of the marker genes, and export the data set.</p>
-<p>Because we don&rsquo;t expect large differences between the samples, instead of looking for most expressed genes, marker genes and enriched pathways for samples, we do provide the cell type grouping column.</p>
+<p>Because we don't expect large differences between the samples, instead of looking for most expressed genes, marker genes and enriched pathways for samples, we do provide the cell type grouping column.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>experiment <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
   experiment_name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bone_marrow_donor_cells&#39;</span>,
   organism <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">hg&#39;</span>,
@@ -2580,11 +2701,11 @@ cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:
 </code></pre></div><h2 id="expression-of-individual-genes">Expression of individual genes</h2>
 <h3 id="violin-plot-single-gene">Violin plot (single gene)</h3>
 <p>This seems very trivial, just take the log-normalized expression values and plot them, right?
-I&rsquo;d just like to mention three things.
+I'd just like to mention three things.
 Firstly, I find it useful to scale the violins by <code>width</code>, as opposed to <code>area</code>.
-Secondly, I suggest trimming the violin to avoid the violin extending into the negative scale, which doesn&rsquo;t make sense since there aren&rsquo;t any negative expression values.
+Secondly, I suggest trimming the violin to avoid the violin extending into the negative scale, which doesn't make sense since there aren't any negative expression values.
 Thirdly, it might make sense to add a bit of noise to the data to avoid highlighting distinct values at the bottom end of the scale, e.g. <code>log(1)</code>, <code>log(2)</code>, etc.
-This is done by default (there isn&rsquo;t even an option) when plotting expression values with Seurat.
+This is done by default (there isn't even an option) when plotting expression values with Seurat.
 In this case, the difference is quite subtle, as you can see below (erythrocytes and monocytes).</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(expression <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data[<span style="color:#d14">&#39;</span><span style="color:#d14">CD69&#39;</span>,]) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2824,7 +2945,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 
 <h2 id="expression-of-gene-sets">Expression of gene sets</h2>
-<p>Let&rsquo;s check the expression of the genes in the GO term &ldquo;B_CELL_ACTIVATION&rdquo; downloaded from the <a href="https://www.gsea-msigdb.org/gsea/msigdb/cards/GO_B_CELL_ACTIVATION.html">MSigDB</a> by cell type.</p>
+<p>Let's check the expression of the genes in the GO term &ldquo;B_CELL_ACTIVATION&rdquo; downloaded from the <a href="https://www.gsea-msigdb.org/gsea/msigdb/cards/GO_B_CELL_ACTIVATION.html">MSigDB</a> by cell type.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">gene_set <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">geneset.txt&#39;</span>, skip <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">pull</span>(X1)
 gene_set_present <span style="color:#000;font-weight:bold">&lt;-</span> gene_set<span style="color:#900;font-weight:bold">[which</span>(gene_set <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">rownames</span>(seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data))]
 
