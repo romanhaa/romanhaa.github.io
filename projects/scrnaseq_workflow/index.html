@@ -2395,14 +2395,20 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 
 <h4 id="alluvial-plots">Alluvial plots</h4>
 <p>Samples by clusters.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">samples <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic">## get sample and cluster names</span>
+samples <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample)
 clusters <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
 
+<span style="color:#998;font-style:italic">## create named vector holding the color assignments for both samples and</span>
+<span style="color:#998;font-style:italic">## clusters</span>
 color_assignments <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">setNames</span>(
   <span style="color:#900;font-weight:bold">c</span>(custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(samples)], custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(clusters)]),
   <span style="color:#900;font-weight:bold">c</span>(samples,clusters)
 )
 
+<span style="color:#998;font-style:italic">## prepare data for the plot; factor() calls are necessary for the right order</span>
+<span style="color:#998;font-style:italic">## of columns (first samples then clusters) and boxes within each column (</span>
+<span style="color:#998;font-style:italic">## cluster 1, 2, 3, ..., not 1, 10, 11, ...)</span>
 data <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample,seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2413,6 +2419,25 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="c
     y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(y, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(y))
   )
 
+data
+<span style="color:#998;font-style:italic"># A tibble: 114 x 6</span>
+<span style="color:#998;font-style:italic">#    sample seurat_clusters     n    id x      y</span>
+<span style="color:#998;font-style:italic">#    &lt;fct&gt;  &lt;fct&gt;           &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;</span>
+<span style="color:#998;font-style:italic">#  1 A      0                 328     1 sample A</span>
+<span style="color:#998;font-style:italic">#  2 A      1                 127     2 sample A</span>
+<span style="color:#998;font-style:italic">#  3 A      2                 104     3 sample A</span>
+<span style="color:#998;font-style:italic">#  4 A      3                 126     4 sample A</span>
+<span style="color:#998;font-style:italic">#  5 A      4                 230     5 sample A</span>
+<span style="color:#998;font-style:italic">#  6 A      5                  35     6 sample A</span>
+<span style="color:#998;font-style:italic">#  7 A      6                 182     7 sample A</span>
+<span style="color:#998;font-style:italic">#  8 A      7                 118     8 sample A</span>
+<span style="color:#998;font-style:italic">#  9 A      8                  47     9 sample A</span>
+<span style="color:#998;font-style:italic"># 10 A      9                  35    10 sample A</span>
+<span style="color:#998;font-style:italic"># … with 104 more rows</span>
+
+<span style="color:#998;font-style:italic">## create sample and cluster labels; hjust defines whether label will be</span>
+<span style="color:#998;font-style:italic">## aligned to the right (1) or to the left (0); the nudge_x parameter is used</span>
+<span style="color:#998;font-style:italic">## to move the label outside of the boxes</span>
 data_labels <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(
       <span style="color:#900;font-weight:bold">rep</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span>, <span style="color:#900;font-weight:bold">length</span>(samples)),
@@ -2424,6 +2449,23 @@ data_labels <span style="color:#000;font-weight:bold">&lt;-</span> <span style="
     nudge_x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ifelse</span>(group <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">sample&#39;</span>, <span style="color:#099">-0.1</span>, <span style="color:#099">0.1</span>)
   )
 
+data_labels
+<span style="color:#998;font-style:italic"># A tibble: 22 x 3</span>
+<span style="color:#998;font-style:italic">#    group           hjust nudge_x</span>
+<span style="color:#998;font-style:italic">#    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span style="color:#998;font-style:italic">#  1 sample              1    -0.1</span>
+<span style="color:#998;font-style:italic">#  2 sample              1    -0.1</span>
+<span style="color:#998;font-style:italic">#  3 sample              1    -0.1</span>
+<span style="color:#998;font-style:italic">#  4 seurat_clusters     0     0.1</span>
+<span style="color:#998;font-style:italic">#  5 seurat_clusters     0     0.1</span>
+<span style="color:#998;font-style:italic">#  6 seurat_clusters     0     0.1</span>
+<span style="color:#998;font-style:italic">#  7 seurat_clusters     0     0.1</span>
+<span style="color:#998;font-style:italic">#  8 seurat_clusters     0     0.1</span>
+<span style="color:#998;font-style:italic">#  9 seurat_clusters     0     0.1</span>
+<span style="color:#998;font-style:italic"># 10 seurat_clusters     0     0.1</span>
+<span style="color:#998;font-style:italic"># … with 12 more rows</span>
+
+<span style="color:#998;font-style:italic">## create plot</span>
 p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data, <span style="color:#900;font-weight:bold">aes</span>(x, id <span style="color:#000;font-weight:bold">=</span> id, split <span style="color:#000;font-weight:bold">=</span> y, value <span style="color:#000;font-weight:bold">=</span> n)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_parallel_sets</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> seurat_clusters), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>, axis.width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.15</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_parallel_sets_axes</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> y), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, axis.width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.1</span>) <span style="color:#000;font-weight:bold">+</span>
