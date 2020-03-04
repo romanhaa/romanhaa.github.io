@@ -2402,7 +2402,7 @@ clusters <span style="color:#000;font-weight:bold">&lt;-</span> <span style="col
 <span style="color:#998;font-style:italic">## create named vector holding the color assignments for both samples and</span>
 <span style="color:#998;font-style:italic">## clusters</span>
 color_assignments <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">setNames</span>(
-  <span style="color:#900;font-weight:bold">c</span>(custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(samples)], custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(clusters)]),
+  <span style="color:#900;font-weight:bold">c</span>(custom_colors<span style="color:#000;font-weight:bold">$</span>discrete[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(samples)], custom_colors<span style="color:#000;font-weight:bold">$</span>discrete[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(clusters)]),
   <span style="color:#900;font-weight:bold">c</span>(samples,clusters)
 )
 
@@ -2435,7 +2435,7 @@ data
 <span style="color:#998;font-style:italic"># 10 A      9                  35    10 sample A</span>
 <span style="color:#998;font-style:italic"># … with 104 more rows</span>
 
-<span style="color:#998;font-style:italic">## create sample and cluster labels; hjust defines whether label will be</span>
+<span style="color:#998;font-style:italic">## create sample and cluster labels; hjust defines whether a label will be</span>
 <span style="color:#998;font-style:italic">## aligned to the right (1) or to the left (0); the nudge_x parameter is used</span>
 <span style="color:#998;font-style:italic">## to move the label outside of the boxes</span>
 data_labels <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
@@ -2491,7 +2491,7 @@ p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 cell_types <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">sort</span>(<span style="color:#900;font-weight:bold">unique</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main))
 
 color_assignments <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">setNames</span>(
-  <span style="color:#900;font-weight:bold">c</span>(custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(clusters)], custom_colors[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(cell_types)]),
+  <span style="color:#900;font-weight:bold">c</span>(custom_colors<span style="color:#000;font-weight:bold">$</span>discrete[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(clusters)], custom_colors<span style="color:#000;font-weight:bold">$</span>discrete[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(cell_types)]),
   <span style="color:#900;font-weight:bold">c</span>(clusters,cell_types)
 )
 
