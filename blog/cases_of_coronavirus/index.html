@@ -179,7 +179,7 @@ htmlwidgets<span style="color:#000;font-weight:bold">::</span><span style="color
 <iframe width="100%" height="700px" name="iframe" src="/images/blog/cases_of_coronavirus/world_map_animated.html" frameborder="0"></iframe>
 
 
-<h2 id="confirmed-cases-outside-of-china">Confirmed cases outside of China</h2>
+<h2 id="confirmed-cases-in-china">Confirmed cases in China</h2>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(coronavirus)
 <span style="color:#900;font-weight:bold">library</span>(patchwork)
@@ -187,14 +187,15 @@ htmlwidgets<span style="color:#000;font-weight:bold">::</span><span style="color
 p1 <span style="color:#000;font-weight:bold">&lt;-</span> coronavirus <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(
     type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">confirmed&#39;</span>,
-    <span style="color:#900;font-weight:bold">grepl</span>(Country.Region, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">China&#39;</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">FALSE</span>
+    <span style="color:#900;font-weight:bold">grepl</span>(Country.Region, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">China&#39;</span>)
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(date) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(cases <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(cases)) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(date, cases)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(cases_sum <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">cumsum</span>(cases)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(date, cases_sum)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_smooth</span>(method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">loess&#39;</span>, formula <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">y ~ x&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Confirmed COVID-19 cases outside China&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Normal scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Total number of COVID-19 cases in China&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Linear scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_x_date</span>(breaks <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">pretty_breaks</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of cases&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
@@ -207,11 +208,12 @@ p1 <span style="color:#000;font-weight:bold">&lt;-</span> coronavirus <span styl
 p2 <span style="color:#000;font-weight:bold">&lt;-</span> coronavirus <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(
     type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">confirmed&#39;</span>,
-    <span style="color:#900;font-weight:bold">grepl</span>(Country.Region, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">China&#39;</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">FALSE</span>
+    <span style="color:#900;font-weight:bold">grepl</span>(Country.Region, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">China&#39;</span>)
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(date) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(cases <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(cases)) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(date, cases)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(cases_sum <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">cumsum</span>(cases)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(date, cases_sum)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_smooth</span>(method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">loess&#39;</span>, formula <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">y ~ x&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">labs</span>(subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Log scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -224,12 +226,173 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> coronavirus <span styl
     panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
   )
 
-p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>)
-
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">confirmed_cases_outside_china.png&#39;</span>, p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>), height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cases_china.png&#39;</span>, p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>), height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
 </code></pre></div>
 
-<img src="/images/blog/cases_of_coronavirus/confirmed_cases_outside_china.png" style="width: 80%; max-width = 700px; display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/images/blog/cases_of_coronavirus/total_cases_china.png" style="width: 80%; max-width = 700px; display: block; margin-left: auto; margin-right: auto;"/>
+
+
+<h2 id="confirmed-cases-outside-of-china">Confirmed cases outside of China</h2>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(coronavirus)
+<span style="color:#900;font-weight:bold">library</span>(patchwork)
+
+coronavirus_tmp <span style="color:#000;font-weight:bold">&lt;-</span> coronavirus <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">filter</span>(
+    type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">confirmed&#39;</span>,
+    <span style="color:#900;font-weight:bold">grepl</span>(Country.Region, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">China&#39;</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">FALSE</span>
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">rename</span>(country <span style="color:#000;font-weight:bold">=</span> Country.Region) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">select</span>(date,cases) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(date) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarize</span>(cases <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(cases)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(cases_sum <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">cumsum</span>(cases))
+
+p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(coronavirus_tmp, <span style="color:#900;font-weight:bold">aes</span>(date, cases_sum)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_smooth</span>(method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">loess&#39;</span>, formula <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">y ~ x&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Total number of COVID-19 cases outside China&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Linear scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_date</span>(breaks <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">pretty_breaks</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of cases&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+
+correlation_pearson <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cor</span>(<span style="color:#900;font-weight:bold">as.numeric</span>(coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>date), coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>cases_sum, method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">pearson&#39;</span>)
+correlation_spearman <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cor</span>(<span style="color:#900;font-weight:bold">as.numeric</span>(coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>date), coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>cases_sum, method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">spearman&#39;</span>)
+
+label <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
+  <span style="color:#900;font-weight:bold">paste0</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Pearson~italic(R)^2 == &#39;</span>, <span style="color:#900;font-weight:bold">round</span>(correlation_pearson, <span style="color:#099">3</span>)),
+  <span style="color:#900;font-weight:bold">paste0</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Spearman~italic(R)^2 == &#39;</span>, <span style="color:#900;font-weight:bold">round</span>(correlation_spearman, <span style="color:#099">3</span>))
+)
+
+p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(coronavirus_tmp, <span style="color:#900;font-weight:bold">aes</span>(date, cases_sum)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_smooth</span>(method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">lm&#39;</span>, formula <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">y ~ x&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Log scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_date</span>(breaks <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">pretty_breaks</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_log10</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of cases&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">annotate</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">text&#39;</span>, x <span style="color:#000;font-weight:bold">=</span> coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>date[1], y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">1E4</span>, <span style="color:#099">1E3</span>), hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, parse <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>, label <span style="color:#000;font-weight:bold">=</span> label) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cases_outside_china.png&#39;</span>, p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>), height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+</code></pre></div>
+
+<img src="/images/blog/cases_of_coronavirus/total_cases_outside_china.png" style="width: 80%; max-width = 700px; display: block; margin-left: auto; margin-right: auto;"/>
+
+
+<h2 id="confirmed-cases-worldwide">Confirmed cases worldwide</h2>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(coronavirus)
+<span style="color:#900;font-weight:bold">library</span>(patchwork)
+
+coronavirus_tmp <span style="color:#000;font-weight:bold">&lt;-</span> coronavirus <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">filter</span>(type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">confirmed&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">ifelse</span>(<span style="color:#900;font-weight:bold">grepl</span>(Country.Region, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">China&#39;</span>), <span style="color:#d14">&#39;</span><span style="color:#d14">China&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">Rest of the world&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(group,date) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarize</span>(cases <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(cases)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">mutate</span>(cases_sum <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">cumsum</span>(cases))
+
+colors_here <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">#2980b9&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#e67e22&#39;</span>)
+
+p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(coronavirus_tmp, <span style="color:#900;font-weight:bold">aes</span>(date, cases_sum, fill <span style="color:#000;font-weight:bold">=</span> group, color <span style="color:#000;font-weight:bold">=</span> group, group <span style="color:#000;font-weight:bold">=</span> group)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_smooth</span>(fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">loess&#39;</span>, formula <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">y ~ x&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">white&#39;</span>, shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">21</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Total number of COVID-19 cases worldwide&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Linear scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_date</span>(breaks <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">pretty_breaks</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of cases&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_manual</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> colors_here) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> colors_here) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+
+p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(coronavirus_tmp, <span style="color:#900;font-weight:bold">aes</span>(date, cases_sum, fill <span style="color:#000;font-weight:bold">=</span> group, color <span style="color:#000;font-weight:bold">=</span> group, group <span style="color:#000;font-weight:bold">=</span> group)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_smooth</span>(fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">loess&#39;</span>, formula <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">y ~ x&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">white&#39;</span>, shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">21</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Log scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_date</span>(breaks <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">pretty_breaks</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_log10</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of cases&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_manual</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> colors_here) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> colors_here) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bottom&#39;</span>,
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">total_cases_china_and_rest.png&#39;</span>, p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>), height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+</code></pre></div>
+
+<img src="/images/blog/cases_of_coronavirus/total_cases_china_and_rest.png" style="width: 80%; max-width = 700px; display: block; margin-left: auto; margin-right: auto;"/>
+
+
+<h2 id="new-cases-outside-of-china">New cases outside of China</h2>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<span style="color:#900;font-weight:bold">library</span>(coronavirus)
+<span style="color:#900;font-weight:bold">library</span>(patchwork)
+
+coronavirus_tmp <span style="color:#000;font-weight:bold">&lt;-</span> coronavirus <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">filter</span>(
+    type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;</span><span style="color:#d14">confirmed&#39;</span>,
+    <span style="color:#900;font-weight:bold">grepl</span>(Country.Region, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">China&#39;</span>) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">FALSE</span>
+  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">group_by</span>(date) <span style="color:#000;font-weight:bold">%&gt;%</span>
+  <span style="color:#900;font-weight:bold">summarize</span>(cases <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(cases))
+
+p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(coronavirus_tmp, <span style="color:#900;font-weight:bold">aes</span>(date, cases)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_smooth</span>(method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">loess&#39;</span>, formula <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">y ~ x&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">New COVID-19 cases outside China&#39;</span>, subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Linear scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_date</span>(breaks <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">pretty_breaks</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of new cases&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+
+correlation_pearson <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cor</span>(<span style="color:#900;font-weight:bold">as.numeric</span>(coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>date), coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>cases, method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">pearson&#39;</span>)
+correlation_spearman <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cor</span>(<span style="color:#900;font-weight:bold">as.numeric</span>(coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>date), coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>cases, method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">spearman&#39;</span>)
+
+label <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
+  <span style="color:#900;font-weight:bold">paste0</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Pearson~italic(R)^2 == &#39;</span>, <span style="color:#900;font-weight:bold">round</span>(correlation_pearson, <span style="color:#099">3</span>)),
+  <span style="color:#900;font-weight:bold">paste0</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Spearman~italic(R)^2 == &#39;</span>, <span style="color:#900;font-weight:bold">round</span>(correlation_spearman, <span style="color:#099">3</span>))
+)
+
+p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(coronavirus_tmp, <span style="color:#900;font-weight:bold">aes</span>(date, cases)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_smooth</span>(method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">loess&#39;</span>, formula <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">y ~ x&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_point</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(subtitle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Log scale&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_date</span>(breaks <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">pretty_breaks</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_log10</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of new cases&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">annotate</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">text&#39;</span>, x <span style="color:#000;font-weight:bold">=</span> coronavirus_tmp<span style="color:#000;font-weight:bold">$</span>date[1], y <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">5E3</span>, <span style="color:#099">1E3</span>), hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, parse <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>, label <span style="color:#000;font-weight:bold">=</span> label) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(
+    axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
+    panel.grid.minor.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
+  )
+
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">new_cases_outside_china.png&#39;</span>, p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>), height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+</code></pre></div>
+
+<img src="/images/blog/cases_of_coronavirus/new_cases_outside_china.png" style="width: 80%; max-width = 700px; display: block; margin-left: auto; margin-right: auto;"/>
 
 
 
