@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman Hillje - All rights reserved</copyright>
-    <lastBuildDate>Thu, 12 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://romanhaa.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Cases of coronavirus (ongoing)</title>
       <link>http://romanhaa.github.io/blog/cases_of_coronavirus/</link>
-      <pubDate>Thu, 12 Mar 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/blog/cases_of_coronavirus/</guid>
       <description>Introduction A colleague of mine (hey 👋 @lost_efano) showed me this R package coronavirus which collects data about the virus. I simply couldn&#39;t resist to plot some of the data.</description>
