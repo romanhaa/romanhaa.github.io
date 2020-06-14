@@ -81,7 +81,6 @@
           <div class="article-post">
             <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(ggExtra)
-<span style="color:#900;font-weight:bold">library</span>(MASS)
 <span style="color:#900;font-weight:bold">library</span>(viridis)
 
 cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
@@ -97,34 +96,13 @@ cells <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color
 <span style="color:#998;font-style:italic"># $ nCount   &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113…</span>
 <span style="color:#998;font-style:italic"># $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27…</span>
 
-<span style="color:#998;font-style:italic"># calculate density of dots as described on:</span>
-<span style="color:#998;font-style:italic"># https://slowkow.com/notes/ggplot2-color-by-density/</span>
-get_density <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(x, y, <span style="color:#000;font-weight:bold">...</span>) {
-  dens <span style="color:#000;font-weight:bold">&lt;-</span> MASS<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">kde2d</span>(x, y, <span style="color:#000;font-weight:bold">...</span>)
-  ix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">findInterval</span>(x, dens<span style="color:#000;font-weight:bold">$</span>x)
-  iy <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">findInterval</span>(y, dens<span style="color:#000;font-weight:bold">$</span>y)
-  ii <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">cbind</span>(ix, iy)
-  <span style="color:#900;font-weight:bold">return</span>(dens<span style="color:#000;font-weight:bold">$</span>z[ii])
-}
-
-cells <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">mutate</span>(density <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">get_density</span>(nCount, nFeature, n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">100</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">arrange</span>(density)
-
-cells <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">glimpse</span>()
-<span style="color:#998;font-style:italic"># Observations: 6,000</span>
-<span style="color:#998;font-style:italic"># Variables: 4</span>
-<span style="color:#998;font-style:italic"># $ cell     &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG…</span>
-<span style="color:#998;font-style:italic"># $ nCount   &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113…</span>
-<span style="color:#998;font-style:italic"># $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27…</span>
-<span style="color:#998;font-style:italic"># $ density  &lt;dbl&gt; 5.143103e-08, 8.837126e-08, 1.707788e-07, 3.781027e-10, 6.79…</span>
-
 p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> density), show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_pointdensity</span>(adjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">500</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_x_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Number of transcripts&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Numner of expressed genes&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_color_viridis</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme_bw</span>()
+  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>)
 p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggMarginal</span>(p, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">histogram&#39;</span>, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, bins <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50</span>)
 
 <span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">5.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)

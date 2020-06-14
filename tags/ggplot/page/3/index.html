@@ -152,7 +152,7 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/scatter/5/">Scatter plot 5</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(ggExtra) library(MASS) library(viridis) cells &lt;- tibble( cell = colnames(transcripts$raw$merged), nCount = colSums(transcripts$raw$merged), nFeature = colSums(transcripts$raw$merged != 0) ) cells %&gt;% glimpse() # Observations: 6,000 # Variables: 3 # $ cell &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG… # $ nCount &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113… # $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27… # calculate density of dots as described on: # https://slowkow.</h4>
+      <h4 class="card-text">library(tidyverse) library(ggExtra) library(viridis) cells &lt;- tibble( cell = colnames(transcripts$raw$merged), nCount = colSums(transcripts$raw$merged), nFeature = colSums(transcripts$raw$merged != 0) ) cells %&gt;% glimpse() # Observations: 6,000 # Variables: 3 # $ cell &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG… # $ nCount &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113… # $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27… p &lt;- ggplot(cells, aes(nCount, nFeature)) + geom_pointdensity(adjust = 500) + scale_x_continuous(name = &#39;Number of transcripts&#39;, labels = scales::comma) + scale_y_continuous(name = &#39;Numner of expressed genes&#39;, labels = scales::comma) + scale_color_viridis() + theme_bw() + theme(legend.</h4>
     </div>
   </div>
 </div>
