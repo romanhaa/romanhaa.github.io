@@ -67,6 +67,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="http://romanhaa.github.io/plots/scatter/1/">
+        
+          <img class="img-fluid" src="/images/plots/scatter/1.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/scatter/1/">Scatter plot 1</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) data(iris) p &lt;- iris %&gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &#39;black&#39;, show.legend = FALSE) + geom_point(aes(Sepal.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="http://romanhaa.github.io/plots/scatter/2/">
         
           <img class="img-fluid" src="/images/plots/scatter/2.png" alt="A thumbnail image">
@@ -153,25 +172,6 @@
       <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/bar/flights_by_airport_and_carrier/">Showing compositions in a bar plot</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(patchwork) library(plyr) library(nycflights13) colors_dutch &lt;- c( &#39;#FFC312&#39;,&#39;#C4E538&#39;,&#39;#12CBC4&#39;,&#39;#FDA7DF&#39;,&#39;#ED4C67&#39;, &#39;#F79F1F&#39;,&#39;#A3CB38&#39;,&#39;#1289A7&#39;,&#39;#D980FA&#39;,&#39;#B53471&#39;, &#39;#EE5A24&#39;,&#39;#009432&#39;,&#39;#0652DD&#39;,&#39;#9980FA&#39;,&#39;#833471&#39;, &#39;#EA2027&#39;,&#39;#006266&#39;,&#39;#1B1464&#39;,&#39;#5758BB&#39;,&#39;#6F1E51&#39; ) colors_spanish &lt;- c( &#39;#40407a&#39;,&#39;#706fd3&#39;,&#39;#f7f1e3&#39;,&#39;#34ace0&#39;,&#39;#33d9b2&#39;, &#39;#2c2c54&#39;,&#39;#474787&#39;,&#39;#aaa69d&#39;,&#39;#227093&#39;,&#39;#218c74&#39;, &#39;#ff5252&#39;,&#39;#ff793f&#39;,&#39;#d1ccc0&#39;,&#39;#ffb142&#39;,&#39;#ffda79&#39;, &#39;#b33939&#39;,&#39;#cd6133&#39;,&#39;#84817a&#39;,&#39;#cc8e35&#39;,&#39;#ccae62&#39; ) custom_colors &lt;- c(colors_dutch, colors_spanish) data(flights) t &lt;- flights %&gt;% dplyr::select(origin, carrier) %&gt;% group_by(origin, carrier) %&gt;% tally() %&gt;% ungroup() %&gt;% filter(n &gt; 2000) %&gt;% mutate(carrier = factor(carrier, levels = carrier %&gt;% unique() %&gt;% sort())) t_labels_number &lt;- t %&gt;% mutate(carrier = as.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="http://romanhaa.github.io/plots/geographical/time_zones/">
-        
-          <img class="img-fluid" src="/images/plots/geographical/time_zones_1.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/geographical/time_zones/">Time zones</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(sf) library(lwgeom) library(patchwork) library(wesanderson) blankbg &lt;- theme( axis.line = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_blank(), axis.title.y = element_blank(), panel.</h4>
     </div>
   </div>
 </div>

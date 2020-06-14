@@ -67,6 +67,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="http://romanhaa.github.io/plots/bar/gsva_hallmark_gene_sets/">
+        
+          <img class="img-fluid" src="/images/plots/bar/gsva_hallmark_gene_sets.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/bar/gsva_hallmark_gene_sets/">Gene set enrichment results</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">Context and code for this plot can be found in my scRNA-seq workflow in the chapter &ldquo;Gene set enrichment analysis&rdquo;.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="http://romanhaa.github.io/plots/heatmap/1/">
         
           <img class="img-fluid" src="/images/plots/heatmap/1.png" alt="A thumbnail image">
@@ -153,25 +172,6 @@
       <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/other/phylogenetic_tree/">Phylogenetic tree</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(jcolors) library(ggtree) # load data data(mtcars) # choose number of carburetors as group groups &lt;- mtcars$carb %&gt;% as.character() %&gt;% unique() %&gt;% sort() # group data by carburetor and calculate means for all features temp_data &lt;- mtcars %&gt;% group_by(carb) %&gt;% summarise_all(list(mean = mean)) %&gt;% as.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="http://romanhaa.github.io/plots/scatter/1/">
-        
-          <img class="img-fluid" src="/images/plots/scatter/1.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/scatter/1/">Scatter plot 1</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) data(iris) p &lt;- iris %&gt;% mutate(Petal.Width.larger = Petal.Width * 1.5) %&gt;% ggplot() + geom_point(aes(Sepal.Length, Sepal.Width, size = Petal.Width.larger), color = &#39;black&#39;, show.legend = FALSE) + geom_point(aes(Sepal.</h4>
     </div>
   </div>
 </div>
