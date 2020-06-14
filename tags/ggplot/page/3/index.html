@@ -67,6 +67,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="http://romanhaa.github.io/plots/other/phylogenetic_tree/">
+        
+          <img class="img-fluid" src="/images/plots/other/phylogenetic_tree.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/other/phylogenetic_tree/">Phylogenetic tree</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">library(tidyverse) library(jcolors) library(ggtree) # load data data(mtcars) # choose number of carburetors as group groups &lt;- mtcars$carb %&gt;% as.character() %&gt;% unique() %&gt;% sort() # group data by carburetor and calculate means for all features temp_data &lt;- mtcars %&gt;% group_by(carb) %&gt;% summarise_all(list(mean = mean)) %&gt;% as.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="http://romanhaa.github.io/plots/scatter/1/">
         
           <img class="img-fluid" src="/images/plots/scatter/1.png" alt="A thumbnail image">
@@ -153,25 +172,6 @@
       <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/scatter/5/">Scatter plot 5</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) library(ggExtra) library(viridis) cells &lt;- tibble( cell = colnames(transcripts$raw$merged), nCount = colSums(transcripts$raw$merged), nFeature = colSums(transcripts$raw$merged != 0) ) cells %&gt;% glimpse() # Observations: 6,000 # Variables: 3 # $ cell &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG… # $ nCount &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113… # $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27… p &lt;- ggplot(cells, aes(nCount, nFeature)) + geom_pointdensity(adjust = 500) + scale_x_continuous(name = &#39;Number of transcripts&#39;, labels = scales::comma) + scale_y_continuous(name = &#39;Numner of expressed genes&#39;, labels = scales::comma) + scale_color_viridis() + theme_bw() + theme(legend.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="http://romanhaa.github.io/plots/bar/flights_by_airport_and_carrier/">
-        
-          <img class="img-fluid" src="/images/plots/bar/flights_by_airport_and_carrier.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/bar/flights_by_airport_and_carrier/">Showing compositions in a bar plot</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(patchwork) library(plyr) library(nycflights13) colors_dutch &lt;- c( &#39;#FFC312&#39;,&#39;#C4E538&#39;,&#39;#12CBC4&#39;,&#39;#FDA7DF&#39;,&#39;#ED4C67&#39;, &#39;#F79F1F&#39;,&#39;#A3CB38&#39;,&#39;#1289A7&#39;,&#39;#D980FA&#39;,&#39;#B53471&#39;, &#39;#EE5A24&#39;,&#39;#009432&#39;,&#39;#0652DD&#39;,&#39;#9980FA&#39;,&#39;#833471&#39;, &#39;#EA2027&#39;,&#39;#006266&#39;,&#39;#1B1464&#39;,&#39;#5758BB&#39;,&#39;#6F1E51&#39; ) colors_spanish &lt;- c( &#39;#40407a&#39;,&#39;#706fd3&#39;,&#39;#f7f1e3&#39;,&#39;#34ace0&#39;,&#39;#33d9b2&#39;, &#39;#2c2c54&#39;,&#39;#474787&#39;,&#39;#aaa69d&#39;,&#39;#227093&#39;,&#39;#218c74&#39;, &#39;#ff5252&#39;,&#39;#ff793f&#39;,&#39;#d1ccc0&#39;,&#39;#ffb142&#39;,&#39;#ffda79&#39;, &#39;#b33939&#39;,&#39;#cd6133&#39;,&#39;#84817a&#39;,&#39;#cc8e35&#39;,&#39;#ccae62&#39; ) custom_colors &lt;- c(colors_dutch, colors_spanish) data(flights) t &lt;- flights %&gt;% dplyr::select(origin, carrier) %&gt;% group_by(origin, carrier) %&gt;% tally() %&gt;% ungroup() %&gt;% filter(n &gt; 2000) %&gt;% mutate(carrier = factor(carrier, levels = carrier %&gt;% unique() %&gt;% sort())) t_labels_number &lt;- t %&gt;% mutate(carrier = as.</h4>
     </div>
   </div>
 </div>

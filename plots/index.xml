@@ -45,7 +45,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/distributions/1/</guid>
-      <description>library(tidyverse) library(wesanderson) data(iris) p &amp;lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Width, color = Species), alpha = 0.75, size = 3, show.legend = FALSE) + geom_violin(aes(Species, Sepal.Width, fill = Species), alpha = 0.</description>
+      <description>library(tidyverse) library(wesanderson) # https://github.com/allisonhorst/palmerpenguins library(palmerpenguins) p &amp;lt;- ggplot(penguins, aes(species, flipper_length_mm)) + geom_jitter(aes(color = species), alpha = 0.75, size = 3, show.legend = FALSE) + geom_violin(aes(fill = species), alpha = 0.</description>
     </item>
     
     <item>
@@ -54,7 +54,16 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/plots/distributions/2/</guid>
-      <description>library(tidyverse) library(gghalves) library(wesanderson) data(iris) p &amp;lt;- ggplot(iris) + geom_jitter(aes(Species, Sepal.Length, color = Species), alpha = 0.75, size = 3, show.legend = FALSE) + gghalves::geom_half_violin(aes(Species, Sepal.Length, fill = Species), side = &amp;#39;l&amp;#39;, alpha = 0.</description>
+      <description>library(tidyverse) library(gghalves) library(wesanderson) # https://github.com/allisonhorst/palmerpenguins library(palmerpenguins) p &amp;lt;- ggplot(penguins, aes(species, body_mass_g)) + geom_jitter(aes(color = species), alpha = 0.75, size = 3, show.legend = FALSE) + geom_half_violin(aes(fill = species), side = &amp;#39;l&amp;#39;, alpha = 0.</description>
+    </item>
+    
+    <item>
+      <title>Distribution plot 3</title>
+      <link>http://romanhaa.github.io/plots/distributions/3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/plots/distributions/3/</guid>
+      <description>library(tidyverse) library(gghalves) library(ggbeeswarm) library(wesanderson) # https://github.com/allisonhorst/palmerpenguins library(palmerpenguins) p &amp;lt;- ggplot(penguins, aes(species, culmen_length_mm, color = species)) + geom_beeswarm(priority = &amp;#39;none&amp;#39;, size = 1.5, beeswarmArgs = list(side = -1)) + geom_half_boxplot(aes(fill = species), side = &amp;#39;r&amp;#39;, color = &amp;#39;black&amp;#39;, outlier.</description>
     </item>
     
     <item>
