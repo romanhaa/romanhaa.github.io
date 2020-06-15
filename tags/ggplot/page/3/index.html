@@ -67,6 +67,25 @@
 <div class="col-lg-4 col-md-6 mb-30px card-group">
   <div class="card h-100">
     <div class="maxthumb">
+      <a href="http://romanhaa.github.io/plots/geographical/trieste_1/">
+        
+          <img class="img-fluid" src="/images/plots/geographical/trieste_light.png" alt="A thumbnail image">
+        
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/geographical/trieste_1/">Map of Trieste</a></h2>
+      <h4 class="card-text">Jan 1, 0001</h4>
+      <h4 class="card-text">Light version library(sf) library(foreign) library(tidyverse) library(lwgeom) library(stringi) options(stringsAsFactors = FALSE) # download SHP files for region, e.g. from Geofabrik # http://download.geofabrik.de/europe/italy/nord-est.html buildings_a &lt;- read_sf(&#39;gis_osm_buildings_a_free_1.shp&#39;) landuse_a &lt;- read_sf(&#39;gis_osm_landuse_a_free_1.</h4>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+  <div class="card h-100">
+    <div class="maxthumb">
       <a href="http://romanhaa.github.io/plots/other/phylogenetic_tree/">
         
           <img class="img-fluid" src="/images/plots/other/phylogenetic_tree.png" alt="A thumbnail image">
@@ -153,25 +172,6 @@
       <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/scatter/4/">Scatter plot 4</a></h2>
       <h4 class="card-text">Jan 1, 0001</h4>
       <h4 class="card-text">library(tidyverse) data(iris) correlation_pearson &lt;- cor(iris$Sepal.Length, iris$Petal.Length, method = &#39;pearson&#39;) correlation_spearman &lt;- cor(iris$Sepal.Length, iris$Petal.Length, method = &#39;spearman&#39;) label &lt;- list( paste0(&#39;Pearson~italic(R)^2 == &#39;, round(correlation_pearson, 3)), paste0(&#39;Spearman~italic(R)^2 == &#39;, round(correlation_spearman, 3)) ) p &lt;- iris %&gt;% mutate(Petal.</h4>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="col-lg-4 col-md-6 mb-30px card-group">
-  <div class="card h-100">
-    <div class="maxthumb">
-      <a href="http://romanhaa.github.io/plots/scatter/5/">
-        
-          <img class="img-fluid" src="/images/plots/scatter/5.png" alt="A thumbnail image">
-        
-      </a>
-    </div>
-    <div class="card-body">
-      <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/plots/scatter/5/">Scatter plot 5</a></h2>
-      <h4 class="card-text">Jan 1, 0001</h4>
-      <h4 class="card-text">library(tidyverse) library(ggExtra) library(viridis) cells &lt;- tibble( cell = colnames(transcripts$raw$merged), nCount = colSums(transcripts$raw$merged), nFeature = colSums(transcripts$raw$merged != 0) ) cells %&gt;% glimpse() # Observations: 6,000 # Variables: 3 # $ cell &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG… # $ nCount &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113… # $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27… p &lt;- ggplot(cells, aes(nCount, nFeature)) + geom_pointdensity(adjust = 500) + scale_x_continuous(name = &#39;Number of transcripts&#39;, labels = scales::comma) + scale_y_continuous(name = &#39;Numner of expressed genes&#39;, labels = scales::comma) + scale_color_viridis() + theme_bw() + theme(legend.</h4>
     </div>
   </div>
 </div>

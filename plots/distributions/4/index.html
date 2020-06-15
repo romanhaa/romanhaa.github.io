@@ -66,7 +66,7 @@
           <div class="mainheading">
 
             
-            <h1 class="posttitle">Distribution plot 2</h1>
+            <h1 class="posttitle">Distribution plot 3</h1>
             <div class="article-post">
               <p>Category: distribution</p>
             </div>
@@ -74,8 +74,8 @@
 
           
           
-            <a href="/images/plots/distributions/2.png" target="_blank">
-              <img class="featured-image img-fluid" src="/images/plots/distributions/2.png" alt="thumbnail for this post" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+            <a href="/images/plots/distributions/3.png" target="_blank">
+              <img class="featured-image img-fluid" src="/images/plots/distributions/3.png" alt="thumbnail for this post" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
             </a>
           
 
@@ -83,26 +83,28 @@
           <div class="article-post">
             <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(gghalves)
+<span style="color:#900;font-weight:bold">library</span>(ggbeeswarm)
 <span style="color:#900;font-weight:bold">library</span>(wesanderson)
 
 <span style="color:#998;font-style:italic"># https://github.com/allisonhorst/palmerpenguins</span>
 <span style="color:#900;font-weight:bold">library</span>(palmerpenguins)
 
-p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(penguins, <span style="color:#900;font-weight:bold">aes</span>(species, body_mass_g)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_jitter</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> species), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1.5</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_half_violin</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> species), side <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">l&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.25</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_half_boxplot</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> species), side <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">r&#39;</span>, outlier.size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wes_palette</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Darjeeling1&#39;</span>, <span style="color:#099">3</span>, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">discrete&#39;</span>)) <span style="color:#000;font-weight:bold">+</span>
+p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(penguins, <span style="color:#900;font-weight:bold">aes</span>(species, culmen_depth_mm, fill <span style="color:#000;font-weight:bold">=</span> species)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.25</span>, <span style="color:#099">0.75</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">count&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">count&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">transparent&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">stat_summary</span>(fun <span style="color:#000;font-weight:bold">=</span> mean, geom <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">point&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_color_manual</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Species&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wes_palette</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Darjeeling1&#39;</span>, <span style="color:#099">3</span>, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">discrete&#39;</span>)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wes_palette</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Darjeeling1&#39;</span>, <span style="color:#099">3</span>, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">discrete&#39;</span>)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_y_continuous</span>(labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Body mass [g]&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Culmen depth [mm]&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme</span>(
+    legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">none&#39;</span>,
     axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
     panel.grid.major.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
   )
-
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">2.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
+  
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">4.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
           </div>
 
