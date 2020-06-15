@@ -1735,7 +1735,14 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <span style="color:#998;font-style:italic"># |16      |               86|  44|  24|  18|</span>
 <span style="color:#998;font-style:italic"># |17      |               78|  41|  30|   7|</span>
 <span style="color:#998;font-style:italic"># |18      |               49|  11|  16|  22|</span>
-</code></pre></div><h4 id="number-of-cells">Number of cells</h4>
+</code></pre></div>
+
+<div class="tabs">
+  <input type="radio" name="composition_samples_clusters_1" id="composition_samples_clusters_1_1" checked="checked">
+  <label for="composition_samples_clusters_1_1">Number of cells</label>
+  <div class="tab">
+
+
 <p>Shown below is the composition of samples/clusters by actual number of cells.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1809,8 +1816,15 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 </figure>
 
 
-<h4 id="percent-of-cells">Percent of cells</h4>
-<p>Shown below is the composition of samples/clusters by percent of cells (normalized to each sample/cluster).</p>
+
+
+  </div>
+  <input type="radio" name="composition_samples_clusters_1" id="composition_samples_clusters_1_2">
+  <label for="composition_samples_clusters_1_2">Percent of cells</label>
+  <div class="tab">
+
+
+<p>Shown below is the composition of samples/clusters by percent of cells.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
@@ -1883,6 +1897,12 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 </figure>
 
 
+
+
+  </div>
+</div>
+
+
 <h2 id="cell-cycle-analysis">Cell cycle analysis</h2>
 <p>Using the <code>CellCycleScoring()</code> function of <a href="https://satijalab.org/seurat/">Seurat</a>, we can assign a cell cycle phase (G1, S, G2M) to every cell.</p>
 <h3 id="infer-cell-cycle-status">Infer cell cycle status</h3>
@@ -1949,8 +1969,15 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <span style="color:#998;font-style:italic"># |16      |               86|  72|   7|   7|</span>
 <span style="color:#998;font-style:italic"># |17      |               78|  76|   2|   0|</span>
 <span style="color:#998;font-style:italic"># |18      |               49|  46|   3|   0|</span>
-</code></pre></div><h4 id="number-of-cells-1">Number of cells</h4>
-<p>First, we show the actual cell count in each group.</p>
+</code></pre></div>
+
+<div class="tabs">
+  <input type="radio" name="composition_samples_clusters_cell_cycle_1" id="composition_samples_clusters_cell_cycle_1_1" checked="checked">
+  <label for="composition_samples_clusters_cell_cycle_1_1">Number of cells</label>
+  <div class="tab">
+
+
+<p>Shown below is the composition of samples/clusters by actual number of cells.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
@@ -2023,7 +2050,15 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 </figure>
 
 
-<h4 id="percent-of-cells-1">Percent of cells</h4>
+
+
+  </div>
+  <input type="radio" name="composition_samples_clusters_cell_cycle_1" id="composition_samples_clusters_cell_cycle_1_2">
+  <label for="composition_samples_clusters_cell_cycle_1_2">Percent of cells</label>
+  <div class="tab">
+
+
+<p>Shown below is the composition of samples/clusters by percent of cells.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
@@ -2094,6 +2129,12 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
   
   
 </figure>
+
+
+
+
+  </div>
+</div>
 
 
 <h2 id="dimensional-reduction">Dimensional reduction</h2>
@@ -2507,7 +2548,15 @@ table_clusters_by_cell_type <span style="color:#000;font-weight:bold">%&gt;%</sp
 <span style="color:#998;font-style:italic"># |16      |               86|          0|       7|            0|            1|            1|  45|        31|        1|</span>
 <span style="color:#998;font-style:italic"># |17      |               78|          0|       0|            0|            0|            0|   0|        78|        0|</span>
 <span style="color:#998;font-style:italic"># |18      |               49|          0|      39|            0|            0|            1|   7|         2|        0|</span>
-</code></pre></div><h4 id="number-of-cells-2">Number of cells</h4>
+</code></pre></div>
+
+<div class="tabs">
+  <input type="radio" name="composition_samples_clusters_cell_type_1" id="composition_samples_clusters_cell_type_1_1" checked="checked">
+  <label for="composition_samples_clusters_cell_type_1_1">Number of cells</label>
+  <div class="tab">
+
+
+<p>Shown below is the composition of samples/clusters by actual number of cells.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
@@ -2580,7 +2629,15 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 </figure>
 
 
-<h4 id="percent-of-cells-2">Percent of cells</h4>
+
+
+  </div>
+  <input type="radio" name="composition_samples_clusters_cell_type_1" id="composition_samples_clusters_cell_type_1_2">
+  <label for="composition_samples_clusters_cell_type_1_2">Percent of cells</label>
+  <div class="tab">
+
+
+<p>Shown below is the composition of samples/clusters by percent of cells.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
@@ -2651,6 +2708,12 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
   
   
 </figure>
+
+
+
+
+  </div>
+</div>
 
 
 <h4 id="alluvial-plots">Alluvial plots</h4>
