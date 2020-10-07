@@ -212,7 +212,7 @@ Others keep the genes separate by adding a suffix to the duplicate gene names.</
   <span style="color:#900;font-weight:bold">if </span>( <span style="color:#900;font-weight:bold">any</span>(<span style="color:#900;font-weight:bold">duplicated</span>(gene_names)) <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">TRUE</span> ) {
 
     <span style="color:#998;font-style:italic">## get names of genes with multiple entries</span>
-    duplicated_gene_names <span style="color:#000;font-weight:bold">&lt;-</span> gene_names<span style="color:#900;font-weight:bold">[which</span>(<span style="color:#900;font-weight:bold">duplicated</span>(gene_names))]
+    duplicated_gene_names <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">unique</span>(gene_names<span style="color:#900;font-weight:bold">[which</span>(<span style="color:#900;font-weight:bold">duplicated</span>(gene_names))])
 
     <span style="color:#998;font-style:italic">## log message</span>
     <span style="color:#900;font-weight:bold">message</span>(
@@ -225,19 +225,25 @@ Others keep the genes separate by adding a suffix to the duplicate gene names.</
     <span style="color:#998;font-style:italic">## go through genes with multiple entries</span>
     <span style="color:#900;font-weight:bold">for </span>( i in duplicated_gene_names ) {
 
-      <span style="color:#998;font-style:italic">## extract transcripts counts and calculate sum for each cell</span>
+      <span style="color:#998;font-style:italic">## extract transcripts counts for current gene</span>
       tmp_counts <span style="color:#000;font-weight:bold">&lt;-</span> transcript_counts<span style="color:#900;font-weight:bold">[which</span>(gene_names <span style="color:#000;font-weight:bold">==</span> i),]
-      tmp_counts_sum <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">colSums</span>(tmp_counts)
 
-      <span style="color:#998;font-style:italic">## remove original counts from transcript matrix and the gene name from</span>
-      <span style="color:#998;font-style:italic">## the list of gene names</span>
-      transcript_counts <span style="color:#000;font-weight:bold">&lt;-</span> transcript_counts[<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#900;font-weight:bold">which</span>(gene_names <span style="color:#000;font-weight:bold">==</span> i)),]
-      gene_names <span style="color:#000;font-weight:bold">&lt;-</span> gene_names[<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#900;font-weight:bold">which</span>(gene_names <span style="color:#000;font-weight:bold">==</span> i))]
+      <span style="color:#998;font-style:italic">## make sure at least 2 rows are present</span>
+      <span style="color:#900;font-weight:bold">if </span>( <span style="color:#900;font-weight:bold">nrow</span>(tmp_counts) <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">2</span> ) {
 
-      <span style="color:#998;font-style:italic">## add summed counts to end of transcript count matrix and current gene</span>
-      <span style="color:#998;font-style:italic">## name to end of gene names</span>
-      transcript_counts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">rbind</span>(transcript_counts, tmp_counts_sum)
-      gene_names <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(gene_names, i)
+        <span style="color:#998;font-style:italic">## sum up counts in each cell</span>
+        tmp_counts_sum <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">colSums</span>(tmp_counts)
+
+        <span style="color:#998;font-style:italic">## remove original counts from transcript matrix and the gene name from</span>
+        <span style="color:#998;font-style:italic">## the list of gene names</span>
+        transcript_counts <span style="color:#000;font-weight:bold">&lt;-</span> transcript_counts[<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#900;font-weight:bold">which</span>(gene_names <span style="color:#000;font-weight:bold">==</span> i)),]
+        gene_names <span style="color:#000;font-weight:bold">&lt;-</span> gene_names[<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">c</span>(<span style="color:#900;font-weight:bold">which</span>(gene_names <span style="color:#000;font-weight:bold">==</span> i))]
+
+        <span style="color:#998;font-style:italic">## add summed counts to end of transcript count matrix and current gene</span>
+        <span style="color:#998;font-style:italic">## name to end of gene names</span>
+        transcript_counts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">rbind</span>(transcript_counts, tmp_counts_sum)
+        gene_names <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(gene_names, i)
+      }
     }
   }
 
