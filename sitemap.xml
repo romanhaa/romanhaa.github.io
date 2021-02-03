@@ -3,12 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://romanhaa.github.io/projects/</loc>
+    <loc>http://romanhaa.github.io/</loc>
     <lastmod>2020-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://romanhaa.github.io/</loc>
+    <loc>http://romanhaa.github.io/projects/</loc>
     <lastmod>2020-10-07T00:00:00+00:00</lastmod>
   </url>
   

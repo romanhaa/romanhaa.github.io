@@ -74,7 +74,7 @@
           
           <body>
             <div class="article-post">
-              <p>At the research institute I currently work at, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System">PBS</a> as a job scheduler for collaborative use and research management of the HPC cluster.
+              <p>At the research institute I currently work at, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System" target="_blank" rel="noreferrer noopener">PBS</a> as a job scheduler for collaborative use and research management of the HPC cluster.
 Just for a little background info, the cluster consists of 14 computers which are connected to make the cluster.
 Two of those 14 are masters, one of them being a backup of the first.
 The master isn't supposed to be used to for computation because its main job is to distribute the work between the other machines.
@@ -82,7 +82,7 @@ The other 12 computers, also called nodes, are those which we do all our work on
 The job scheduler runs on the master and assigns jobs to the nodes.
 A job is a set of operation you need to be done and which is saved in a script which you hand over to the job scheduler with the request to execute it.
 In bioinformatics, a good example would be the alignment of reads to a reference genome.
-As mentioned before, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System">PBS</a> but there are others out there, e.g. <a href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine">SGE</a> or <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager">Slurm</a>.
+As mentioned before, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System" target="_blank" rel="noreferrer noopener">PBS</a> but there are others out there, e.g. <a href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine" target="_blank" rel="noreferrer noopener">SGE</a> or <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager" target="_blank" rel="noreferrer noopener">Slurm</a>.
 Which node gets to do which job depends on the resources (number of CPUs and memory) each job requests.
 Ideally, this allows efficient resource usage so that everybody gets their job done the quickest.</p>
 <p>Now you might ask me: <em>&ldquo;But Roman, how does the job scheduler know what resources a job needs?&quot;</em>
@@ -95,7 +95,7 @@ This is a real problem because if the resources are not specified, the scheduler
 And that, finally, brings me to what this article is about.</p>
 <p>We had a few users who flooded the cluster with jobs, many of them without properly specified resources, which made the computation for everybody painfully slow.
 Interactive session (which are treated as jobs just like scripts) were almost impossible.</p>
-<p>Unfortunately, the <a href="https://en.wikipedia.org/wiki/Portable_Batch_System">PBS</a> job scheduler only offers unsatisfying ways to understand what is going on in a particular moment.
+<p>Unfortunately, the <a href="https://en.wikipedia.org/wiki/Portable_Batch_System" target="_blank" rel="noreferrer noopener">PBS</a> job scheduler only offers unsatisfying ways to understand what is going on in a particular moment.
 You can ask for a list of running and queued jobs but you just see the names and status, not the requested resources.
 See below for an example:</p>
 <pre><code>Job id            Name             User              Time Use S Queue
@@ -164,12 +164,12 @@ vnode           state           njobs   run   susp      f/t        f/t     f/t  
 --------------- --------------- ------ ----- ------ ------------ ------- ------- ------- -------
 node01          free                 2     2      0   36gb/126gb    8/28     0/0     0/0 job.1,job.2
 node02          free                 0     0      0  126gb/126gb   11/28     0/0     0/0 --
-</code></pre><p>So far I haven't done a great job at documenting the respective <a href="https://github.com/romanhaa/PBSviewer">GitHub repository</a>, but feel free to have a look anyway.</p>
+</code></pre><p>So far I haven't done a great job at documenting the respective <a href="https://github.com/romanhaa/PBSviewer" target="_blank" rel="noreferrer noopener">GitHub repository</a>, but feel free to have a look anyway.</p>
 <p>Maybe this is of help to anyone.
 I think it would be great to run this as a web service by the administrators, or perhaps a pimped version of it, accessible to all users.</p>
 <p>Since, at least in principle, I wanted this to be readily applicable to other people working with HPC and PBS job schedulers, and because I didn't want to hard-code my user credentials into the app, one must first specify the address of the master, along with user name and password.
 Beyond that, you might have to adapt the text parsing of the job details since I had to specify widths of columns and length of output which could be different on your system.</p>
-<p><a href="https://github.com/romanhaa/PBSviewer">PBSviewer on GitHub</a></p>
+<p><a href="https://github.com/romanhaa/PBSviewer" target="_blank" rel="noreferrer noopener">PBSviewer on GitHub</a></p>
 <p>Below you can find some screenshots:</p>
 
 

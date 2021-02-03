@@ -75,15 +75,15 @@
           <body>
             <div class="article-post">
               <h2 id="preface">Preface</h2>
-<p>Last Friday, I came across an interesting method called <a href="https://www.biorxiv.org/content/10.1101/689547v2">&ldquo;Poincaré map&rdquo;</a> to visualize the relationship of cells in single cell RNA-seq data using hyperbolic space.
-Check <a href="https://dmishin.github.io/hyperbolic-ca-simulator/index.html">this page</a> for an intuitive representation of what hyperbolic space is.
+<p>Last Friday, I came across an interesting method called <a href="https://www.biorxiv.org/content/10.1101/689547v2" target="_blank" rel="noreferrer noopener">&ldquo;Poincaré map&rdquo;</a> to visualize the relationship of cells in single cell RNA-seq data using hyperbolic space.
+Check <a href="https://dmishin.github.io/hyperbolic-ca-simulator/index.html" target="_blank" rel="noreferrer noopener">this page</a> for an intuitive representation of what hyperbolic space is.
 During the weekend, I had the chance to experiment with this method to the data set I used in the <a href="http://romanhaa.github.io/projects/scrnaseq_workflow/">scRNA-seq workflow</a>.
 This article is not about finding the right parameters, even if it might help doing so.
 Instead, it is about (1) finally getting a chance to make animated plots, and (2) visualize what happens during the training process of the Poincaré map.</p>
 <p>Links:</p>
 <ul>
-<li>Preprint on bioRxiv: <a href="https://www.biorxiv.org/content/10.1101/689547v2">Poincaré Maps for Analyzing Complex Hierarchies in Single-Cell Data</a></li>
-<li>GitHub repository: <a href="https://github.com/facebookresearch/PoincareMaps">facebookresearch/PoincareMaps</a></li>
+<li>Preprint on bioRxiv: <a href="https://www.biorxiv.org/content/10.1101/689547v2" target="_blank" rel="noreferrer noopener">Poincaré Maps for Analyzing Complex Hierarchies in Single-Cell Data</a></li>
+<li>GitHub repository: <a href="https://github.com/facebookresearch/PoincareMaps" target="_blank" rel="noreferrer noopener">facebookresearch/PoincareMaps</a></li>
 </ul>
 <p>Let's go.</p>
 <h2 id="export-log-normalized-transcript-counts">Export log-normalized transcript counts</h2>
@@ -259,7 +259,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <p>As documented in the code block, this plot already took 3 minutes to generate.
 I found this unusually long but I don't know of a way to know if it's just a feeling or a correct assessment.</p>
 <h2 id="create-animation-with-gganimate">Create animation with <code>gganimate</code></h2>
-<p>My initial idea was to create the animation using <a href="https://github.com/thomasp85/gganimate"><code>gganimate</code></a>.
+<p>My initial idea was to create the animation using <a href="https://github.com/thomasp85/gganimate" target="_blank" rel="noreferrer noopener"><code>gganimate</code></a>.
 However, after a few attempts, I realized that it takes way too long for it to render.
 I was able to make on with the first 100 cell IDs (it took 5 minutes), but even with just 1,000 cells the process crashed due to a lack of memory after about 1 hour.</p>
 <p><strong>Note:</strong> The full data set contains ~5,700 cells.</p>

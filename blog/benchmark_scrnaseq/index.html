@@ -75,11 +75,11 @@
           <body>
             <div class="article-post">
               <p>At the end of last year, I was curious to compare the results of a few single cell RNA-seq analysis tools, focusing on the generation of the transcript count matrix from the raw FASTQ files.
-The contenders are: <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger">10x Genomics Cell Ranger</a>, <a href="https://github.com/alexdobin/STAR">STARsolo</a>, <a href="https://salmon.readthedocs.io/en/latest/alevin.html">Alevin (Salmon)</a>, and <a href="https://pachterlab.github.io/kallisto/about">kallisto</a>.
+The contenders are: <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger" target="_blank" rel="noreferrer noopener">10x Genomics Cell Ranger</a>, <a href="https://github.com/alexdobin/STAR" target="_blank" rel="noreferrer noopener">STARsolo</a>, <a href="https://salmon.readthedocs.io/en/latest/alevin.html" target="_blank" rel="noreferrer noopener">Alevin (Salmon)</a>, and <a href="https://pachterlab.github.io/kallisto/about" target="_blank" rel="noreferrer noopener">kallisto</a>.
 Even though this was done a while ago, and updates of the tools possibly influence the results, I thought it might be worth sharing anyway.</p>
 <h2 id="preparation">Preparation</h2>
 <h3 id="download-raw-data">Download raw data</h3>
-<p>I only used a single data set, which consists of roughly 11,000 cells from a human PBMC sample, was generated using the 10x Genomics Single Cell Gene Expression kit (v3 chemistry), and can be downloaded from the <a href="https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_10k_v3">10x Genomics website</a>.</p>
+<p>I only used a single data set, which consists of roughly 11,000 cells from a human PBMC sample, was generated using the 10x Genomics Single Cell Gene Expression kit (v3 chemistry), and can be downloaded from the <a href="https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_10k_v3" target="_blank" rel="noreferrer noopener">10x Genomics website</a>.</p>
 <p>The data set contains 639 million reads, resulting in a sequencing depth of approximately 54,000 reads per cell.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">mkdir -p &lt;project_home&gt;/raw_data/pbmc_10k_v3
 <span style="color:#0086b3">cd</span> &lt;project_home&gt;/raw_data/pbmc_10k_v3/
@@ -87,7 +87,7 @@ wget http://s3-us-west-2.amazonaws.com/10x.files/samples/cell-exp/3.0.0/pbmc_10k
 tar -xf pbmc_10k_v3_fastqs.tar
 mv pbmc_10k_v3_fastqs FASTQ</code></pre></div>
 <h3 id="collect-reference">Collect reference</h3>
-<p>All reference files (genome as <code>FASTA</code>, transcriptome as <code>FASTA</code>, and annotation as <code>GTF</code>) were taken from <a href="https://www.gencodegenes.org/human/">GENCODE (v32)</a>.</p>
+<p>All reference files (genome as <code>FASTA</code>, transcriptome as <code>FASTA</code>, and annotation as <code>GTF</code>) were taken from <a href="https://www.gencodegenes.org/human/" target="_blank" rel="noreferrer noopener">GENCODE (v32)</a>.</p>
 <h4 id="genome">Genome</h4>
 <p>We use the <code>hg38</code> release of the human genome.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">mkdir -p &lt;project_home&gt;/reference_files/hg38

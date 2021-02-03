@@ -456,7 +456,7 @@ cells<span style="color:#000;font-weight:bold">$</span>percent_MT <span style="c
 </tbody>
 </table>
 <h4 id="doublets">Doublets</h4>
-<p>To identify doublets, we will use the <a href="https://bioconductor.org/packages/release/bioc/html/scDblFinder.html"><code>scDblFinder</code></a> package.</p>
+<p>To identify doublets, we will use the <a href="https://bioconductor.org/packages/release/bioc/html/scDblFinder.html" target="_blank" rel="noreferrer noopener"><code>scDblFinder</code></a> package.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(assays <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged))
 sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">scDblFinder</span>(sce)
 
@@ -1403,7 +1403,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <h2 id="normalize-expression-data">Normalize expression data</h2>
 <p>Next, we normalize the raw transcript counts (so that every cell has the same number of transcripts) and apply a log-scale.
 This can be done in different ways with different tools.
-The <code>SCTransform()</code> and <code>NormalizeData()</code> methods from the <a href="https://satijalab.org/seurat/">Seurat</a> package and the <code>logNormCounts()</code> function from <a href="https://bioconductor.org/packages/release/bioc/html/scran.html"><code>scran</code></a> seem to work well.</p>
+The <code>SCTransform()</code> and <code>NormalizeData()</code> methods from the <a href="https://satijalab.org/seurat/" target="_blank" rel="noreferrer noopener">Seurat</a> package and the <code>logNormCounts()</code> function from <a href="https://bioconductor.org/packages/release/bioc/html/scran.html" target="_blank" rel="noreferrer noopener"><code>scran</code></a> seem to work well.</p>
 
 
 <div class="tabs">
@@ -1448,7 +1448,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color
 <h2 id="optional-data-integration">(Optional) Data integration</h2>
 <p>In some cases, e.g. when there are evident batch effects due to different preparation techniques, it might make sense to integrate data sets.
 Again, many methods exist to perform this task.
-The data integration procedure built into the <a href="https://satijalab.org/seurat/">Seurat</a> package has proven to work well [3] and I've personally had good experience with it.
+The data integration procedure built into the <a href="https://satijalab.org/seurat/" target="_blank" rel="noreferrer noopener">Seurat</a> package has proven to work well [3] and I've personally had good experience with it.
 For the samples analyzed here, we don't need it though and will skip this part.</p>
 
 
@@ -1556,7 +1556,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
 <p>Principal component analysis (PCA) is frequently used as a first step to reduce the dimensionality of the data set.
 Here, we calculate the first 50 principal components.
 Then, we must choose how many to continue the analysis with.
-In a recent paper by Germain <em>et al.</em> [2], it is suggested to use the <code>maxLikGlobalDimEst()</code> function from the <a href="https://cran.r-project.org/web/packages/intrinsicDimension/index.html"><code>intrinsicDimension</code></a> package to test the dimensionality of the data set.
+In a recent paper by Germain <em>et al.</em> [2], it is suggested to use the <code>maxLikGlobalDimEst()</code> function from the <a href="https://cran.r-project.org/web/packages/intrinsicDimension/index.html" target="_blank" rel="noreferrer noopener"><code>intrinsicDimension</code></a> package to test the dimensionality of the data set.
 For this, one must also choose a value for the parameter <code>k</code>.
 In my experience, values in the range of <code>10-20</code> give reasonable and not too different results.
 In the plot of the PCA results shown below, I highlight the output value of <code>maxLikGlobalDimEst()</code> (blue line), which here is close to <code>10</code>.
@@ -1593,7 +1593,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <h2 id="clustering">Clustering</h2>
 <p>Time to identify clusters of cells with relatively homogeneous transcription profiles.</p>
 <h3 id="define-cluster">Define cluster</h3>
-<p>We use the <code>FindNeighbors()</code> and <code>FindClusters()</code> functions built into <a href="https://satijalab.org/seurat/">Seurat</a> to cluster the cells in our data set.</p>
+<p>We use the <code>FindNeighbors()</code> and <code>FindClusters()</code> functions built into <a href="https://satijalab.org/seurat/" target="_blank" rel="noreferrer noopener">Seurat</a> to cluster the cells in our data set.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindNeighbors</span>(seurat, reduction <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">pca&#39;</span>, dims <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>)
 seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindClusters</span>(seurat, resolution <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.8</span>)
 </code></pre></div><h3 id="number-of-transcripts-and-expressed-genes">Number of transcripts and expressed genes</h3>
@@ -1665,7 +1665,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 
 <h3 id="cluster-stability">Cluster stability</h3>
-<p>We use the <code>bootstrapCluster()</code> function from the <code>scran</code> package as described <a href="https://bioconductor.org/packages/devel/bioc/vignettes/scran/inst/doc/scran.html">here</a>.
+<p>We use the <code>bootstrapCluster()</code> function from the <code>scran</code> package as described <a href="https://bioconductor.org/packages/devel/bioc/vignettes/scran/inst/doc/scran.html" target="_blank" rel="noreferrer noopener">here</a>.
 We represent the co-assignment probabilities as a heatmap.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.SingleCellExperiment</span>(seurat)
 <span style="color:#900;font-weight:bold">reducedDim</span>(sce, <span style="color:#d14">&#39;</span><span style="color:#d14">PCA_sub&#39;</span>) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">reducedDim</span>(sce, <span style="color:#d14">&#39;</span><span style="color:#d14">PCA&#39;</span>)[,<span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>, drop <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>]
@@ -1725,8 +1725,8 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> ass_prob <span style="c
 
 <h3 id="silhouette-plot">Silhouette plot</h3>
 <ul>
-<li>General info about a silhouette plot: <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html">link</a></li>
-<li>Code to calculate silhouette score (from Seurat people): <a href="https://github.com/satijalab/Integration2019/blob/master/analysis_code/integration/integration_metrics.R#L36">link</a></li>
+<li>General info about a silhouette plot: <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html" target="_blank" rel="noreferrer noopener">link</a></li>
+<li>Code to calculate silhouette score (from Seurat people): <a href="https://github.com/satijalab/Integration2019/blob/master/analysis_code/integration/integration_metrics.R#L36" target="_blank" rel="noreferrer noopener">link</a></li>
 </ul>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(cluster)
 
@@ -1768,7 +1768,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="colo
 
 
 <h3 id="cluster-similarity">Cluster similarity</h3>
-<p>Here, we use the <code>clusterModularity()</code> function from the <code>scran</code> package as described <a href="https://bioconductor.org/packages/devel/bioc/vignettes/scran/inst/doc/scran.html">here</a>.
+<p>Here, we use the <code>clusterModularity()</code> function from the <code>scran</code> package as described <a href="https://bioconductor.org/packages/devel/bioc/vignettes/scran/inst/doc/scran.html" target="_blank" rel="noreferrer noopener">here</a>.
 The heatmap below shows the difference between the observed and expected edge weights between each cluster pair.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.SingleCellExperiment</span>(seurat)
 
@@ -2095,7 +2095,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 
 
 <h2 id="cell-cycle-analysis">Cell cycle analysis</h2>
-<p>Using the <code>CellCycleScoring()</code> function of <a href="https://satijalab.org/seurat/">Seurat</a>, we can assign a cell cycle phase (G1, S, G2M) to every cell.</p>
+<p>Using the <code>CellCycleScoring()</code> function of <a href="https://satijalab.org/seurat/" target="_blank" rel="noreferrer noopener">Seurat</a>, we can assign a cell cycle phase (G1, S, G2M) to every cell.</p>
 <h3 id="infer-cell-cycle-status">Infer cell cycle status</h3>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">CellCycleScoring</span>(
   seurat,
@@ -2593,7 +2593,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <p>For now, please check my blog article <a href="http://romanhaa.github.io/blog/dynamics_of_training_a_poincare_map/">&ldquo;Animating the dynamics of training a Poincaré map&rdquo;</a>.</p>
 <h2 id="cell-type-annotation-with-singler">Cell type annotation with SingleR</h2>
 <p>Cell inference can be performed with many tools.
-Personally, I find <a href="https://bioconductor.org/packages/3.11/bioc/html/SingleR.html"><code>SingleR</code></a> very useful because it has given good results in my experiments and because it provides multiple pre-trained reference data sets.</p>
+Personally, I find <a href="https://bioconductor.org/packages/3.11/bioc/html/SingleR.html" target="_blank" rel="noreferrer noopener"><code>SingleR</code></a> very useful because it has given good results in my experiments and because it provides multiple pre-trained reference data sets.</p>
 <h3 id="assign-labels">Assign labels</h3>
 <p>First, we assign a label to each cell using the <code>BlueprintEncodeData()</code> data as a reference.
 We then extract the labels and assignment scores and add them to the Seurat object.</p>
@@ -3372,7 +3372,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 
 <h2 id="perform-analysis-for-cerebro">Perform analysis for Cerebro</h2>
-<p>To allow further investigation of the data set in <a href="https://github.com/romanhaa/Cerebro">Cerebro</a> [4], we now add some more meta data, calculate marker genes, pathway enrichment of the marker genes, and export the data set. This procedure largely follows the workflow described on the <a href="https://romanhaa.github.io/cerebroApp/articles/cerebroApp_workflow_Seurat.html">cerebroApp website</a>.</p>
+<p>To allow further investigation of the data set in <a href="https://github.com/romanhaa/Cerebro" target="_blank" rel="noreferrer noopener">Cerebro</a> [4], we now add some more meta data, calculate marker genes, pathway enrichment of the marker genes, and export the data set. This procedure largely follows the workflow described on the <a href="https://romanhaa.github.io/cerebroApp/articles/cerebroApp_workflow_Seurat.html" target="_blank" rel="noreferrer noopener">cerebroApp website</a>.</p>
 <h3 id="add-meta-data">Add meta data</h3>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>experiment <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
   experiment_name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bone_marrow_donor_cells&#39;</span>,
@@ -3747,7 +3747,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 
 <h2 id="expression-of-gene-sets">Expression of gene sets</h2>
-<p>Let's check the expression of the genes in the GO term &ldquo;B_CELL_ACTIVATION&rdquo; downloaded from the <a href="https://www.gsea-msigdb.org/gsea/msigdb/cards/GO_B_CELL_ACTIVATION.html">MSigDB</a> by cell type.</p>
+<p>Let's check the expression of the genes in the GO term &ldquo;B_CELL_ACTIVATION&rdquo; downloaded from the <a href="https://www.gsea-msigdb.org/gsea/msigdb/cards/GO_B_CELL_ACTIVATION.html" target="_blank" rel="noreferrer noopener">MSigDB</a> by cell type.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(msigdbr)
 
 gene_set <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">msigdbr</span>(species <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Homo sapiens&#39;</span>, category <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">C5&#39;</span>, subcategory <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">BP&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -3864,8 +3864,8 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="colo
 
 <h2 id="gene-set-enrichment-analysis">Gene set enrichment analysis</h2>
 <h3 id="gsva">GSVA</h3>
-<p>For illustrative reasons, we will use the <a href="https://www.gsea-msigdb.org/gsea/msigdb/index.jsp">50 hallmark gene sets from MSigDB</a> and compare monocytes to hematopoietic stem cells (HSC; control).</p>
-<p>Thanks to <a href="https://twitter.com/Raveancic">Alessandro Raveane</a> for letting me start from his code.</p>
+<p>For illustrative reasons, we will use the <a href="https://www.gsea-msigdb.org/gsea/msigdb/index.jsp" target="_blank" rel="noreferrer noopener">50 hallmark gene sets from MSigDB</a> and compare monocytes to hematopoietic stem cells (HSC; control).</p>
+<p>Thanks to <a href="https://twitter.com/Raveancic" target="_blank" rel="noreferrer noopener">Alessandro Raveane</a> for letting me start from his code.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic"># function to read GMT file</span>
 read_GMT_file <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(file) {
   gmt <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_delim</span>(
