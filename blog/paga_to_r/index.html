@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.84.0" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -78,28 +78,28 @@
 Most of the methods frequently used in the literature are available in both toolkits and the workflow is essentially the same.
 However, Fabian Theis and his group (with special credit to Alex Wolf) have recently published their <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1663-x" target="_blank" rel="noreferrer noopener">PAGA</a> algorithm that attempts to harmonize dimensional reduction with clustering and trajectory analysis.
 This is very exciting and a step in the right direction as tSNE and UMAP are known to have limitations in this regard.
-However, if you are a heavy Seurat/R user, you will be bummed to hear that for now (at least to my knowledge) no R port of PAGA exists and I'm not sure the authors have intentions to change this.
+However, if you are a heavy Seurat/R user, you will be bummed to hear that for now (at least to my knowledge) no R port of PAGA exists and I&rsquo;m not sure the authors have intentions to change this.
 As far as I know, Cole Trapnell and his lab are working on implementing something similar, if not precisely the PAGA algorithm, in <a href="http://cole-trapnell-lab.github.io/monocle-release/monocle3/" target="_blank" rel="noreferrer noopener">Monocle 3</a>.</p>
-<p>For those of you who do most of their analysis in Seurat and want to perform PAGA analysis (and/or can't wait for Monocle 3), I explain here how to do so.</p>
+<p>For those of you who do most of their analysis in Seurat and want to perform PAGA analysis (and/or can&rsquo;t wait for Monocle 3), I explain here how to do so.</p>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li><code>Seurat</code> <strong>v2</strong>.x; unfortunately, the <code>Convert()</code> function in Seurat v3 doesn't seem to be able yet to export the Seurat object to the anndata format (which is what we need).</li>
+<li><code>Seurat</code> <strong>v2</strong>.x; unfortunately, the <code>Convert()</code> function in Seurat v3 doesn&rsquo;t seem to be able yet to export the Seurat object to the anndata format (which is what we need).</li>
 <li>The <code>reticulate</code> R package for communication  between R and Python.</li>
 <li><code>scanpy</code>; I installed it using <code>pip3</code>.</li>
 </ul>
 <p>I also use the <code>tidyverse</code> R meta package but they are not technically required as the respective commands can be replaced.</p>
-<h2 id="lets-get-started">Let's get started</h2>
+<h2 id="lets-get-started">Let&rsquo;s get started</h2>
 <p>First we load the packages mentioned above.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">Seurat&#34;</span>)
-<span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">tidyverse&#34;</span>)
-<span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">reticulate&#34;</span>)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;Seurat&#34;</span>)
+<span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;tidyverse&#34;</span>)
+<span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;reticulate&#34;</span>)
 </code></pre></div><p>Then we load a Seurat object (this one here was created with <code>Seurat</code> v2.3.4), convert it to the anndata format and save it to a file.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">seurat.rds&#34;</span>)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#34;seurat.rds&#34;</span>)
 
 seurat_ad <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">Convert</span>(
   from <span style="color:#000;font-weight:bold">=</span> seurat,
-  to <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">anndata&#34;</span>,
-  filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">seurat.h5ad&#34;</span>
+  to <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;anndata&#34;</span>,
+  filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;seurat.h5ad&#34;</span>
 )
 </code></pre></div><h2 id="without-rna-velocity-data">Without RNA velocity data</h2>
 <h3 id="apply-paga-and-umap">Apply PAGA and UMAP</h3>
@@ -113,33 +113,67 @@ seurat_ad <span style="color:#000;font-weight:bold">&lt;-</span> <span style="co
 <li>generate a UMAP using the PAGA results as initial positions (<code>sc.tl.umap()</code>)</li>
 <li>plot UMAP and PAGA side-by-side (<code>sc.pl.paga_compare()</code>)</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">import</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">scanpy&#34;</span>, convert <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">import</span>(<span style="color:#d14">&#34;scanpy&#34;</span>, convert <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>)
 
-adata <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">read</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">seurat.h5ad&#34;</span>)
+adata <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">read</span>(<span style="color:#d14">&#34;seurat.h5ad&#34;</span>)
 
 sc<span style="color:#000;font-weight:bold">$</span>pp<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">neighbors</span>(adata)
 sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">leiden</span>(adata, resolution <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1.0</span>)
 
-sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(adata, groups <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">leiden&#34;</span>)
+sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(adata, groups <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;leiden&#34;</span>)
 sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(adata)
 
-sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">umap</span>(adata, init_pos <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">paga&#34;</span>)
+sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">umap</span>(adata, init_pos <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;paga&#34;</span>)
 
 sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga_compare</span>(
   adata,
-  basis <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">umap&#34;</span>,
+  basis <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;umap&#34;</span>,
   threshold <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.15</span>,
   edge_width_scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>,
   save <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>
 )
 </code></pre></div>
-
-
-<figure>
-  <img src="/images/blog/PAGA/scanpy_umap_paga.png" alt="UMAP_PAGA" style="width: 100%"/>
-  <figcaption style="text-align: center">PAGA on the basis of Leiden clusters and derived UMAP plotted with scanpy.</figcaption>
+<figure
+  
+>
+  
+    <a
+      href="/images/blog/paga/scanpy_umap_paga.png"
+      target="_blank"
+    >
+  
+      <picture>
+        <source
+          srcset="/images/blog/paga/scanpy_umap_paga.webp"
+          type="image/webp"
+        >
+        <img
+          src="/images/blog/paga/scanpy_umap_paga.jpg"
+          loading="lazy"
+          
+            alt="something went wrong... here should be a figure"
+          
+          style="display: block; margin-left: auto; margin-right: auto; width: 100%; max-width: 1000px;"
+        />
+      </picture>
+  
+    </a>
+  
+  
+  <figcaption
+    style="text-align: center;"
+  >
+    
+    
+      <p>
+      PAGA on the basis of Leiden clusters and derived UMAP plotted with scanpy.
+      
+      
+        
+    </p> 
+  </figcaption>
+  
 </figure>
-
 
 
 <p><strong>Notes:</strong></p>
@@ -149,7 +183,7 @@ sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;fo
 </ul>
 <h3 id="export-results-and-store-in-seurat-object">Export results and store in Seurat object</h3>
 <p>Next, we store the results in our Seurat object.
-This is technically not necessary but I think it's good practice to keep all results in a single file.</p>
+This is technically not necessary but I think it&rsquo;s good practice to keep all results in a single file.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>leiden <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>obs<span style="color:#000;font-weight:bold">$</span>leiden)
 
 paga <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
@@ -197,13 +231,13 @@ The lower the cut-off, the more connection will be visible.</p>
   data <span style="color:#000;font-weight:bold">=</span> paga_edges,
   <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x1, y <span style="color:#000;font-weight:bold">=</span> y1, xend <span style="color:#000;font-weight:bold">=</span> x2, yend <span style="color:#000;font-weight:bold">=</span> y2),
   size <span style="color:#000;font-weight:bold">=</span> paga_edges<span style="color:#000;font-weight:bold">$</span>weight<span style="color:#000;font-weight:bold">*</span><span style="color:#099">3</span>,
-  colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">black&#34;</span>,
+  colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;black&#34;</span>,
   show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
 ) <span style="color:#000;font-weight:bold">+</span>
 <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> group), size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
 <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>group_colors) <span style="color:#000;font-weight:bold">+</span>
-<span style="color:#900;font-weight:bold">geom_text</span>(<span style="color:#900;font-weight:bold">aes</span>(label <span style="color:#000;font-weight:bold">=</span> group), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">black&#34;</span>, fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">bold&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
-<span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">UMAP_1&#34;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">UMAP_2&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">geom_text</span>(<span style="color:#900;font-weight:bold">aes</span>(label <span style="color:#000;font-weight:bold">=</span> group), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;black&#34;</span>, fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;bold&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
+<span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;UMAP_1&#34;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;UMAP_2&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
 <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
 <span style="color:#900;font-weight:bold">theme</span>(
   axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
@@ -215,8 +249,8 @@ The lower the cut-off, the more connection will be visible.</p>
   panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
 )
 
-<span style="color:#900;font-weight:bold">ggsave</span>(paga, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">r_paga.pdf&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
-<span style="color:#900;font-weight:bold">ggsave</span>(paga, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">r_paga.png&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(paga, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;r_paga.pdf&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(paga, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;r_paga.png&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
 </code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">umap <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   UMAP_1 <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>umap<span style="color:#000;font-weight:bold">$</span>UMAP_1,
   UMAP_2 <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>umap<span style="color:#000;font-weight:bold">$</span>UMAP_2,
@@ -234,8 +268,8 @@ umap_plot <span style="color:#000;font-weight:bold">&lt;-</span> umap <span styl
   data <span style="color:#000;font-weight:bold">=</span> group_centers,
   mapping <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">aes</span>(x, y, label <span style="color:#000;font-weight:bold">=</span> group),
   size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4.5</span>,
-  color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">black&#34;</span>,
-  fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">bold&#34;</span>,
+  color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;black&#34;</span>,
+  fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;bold&#34;</span>,
   show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
 ) <span style="color:#000;font-weight:bold">+</span>
 <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>group_colors) <span style="color:#000;font-weight:bold">+</span>
@@ -250,16 +284,50 @@ umap_plot <span style="color:#000;font-weight:bold">&lt;-</span> umap <span styl
   panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
 )
 
-<span style="color:#900;font-weight:bold">ggsave</span>(umap_plot, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">r_umap.pdf&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
-<span style="color:#900;font-weight:bold">ggsave</span>(umap_plot, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">r_umap.png&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(umap_plot, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;r_umap.pdf&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(umap_plot, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;r_umap.png&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
 </code></pre></div>
-
-
-<figure>
-  <img src="/images/blog/PAGA/r_umap.png" alt="UMAP" style="width: 50%"/><img src="/images/blog/PAGA/r_paga.png" alt="PAGA" style="width: 50%"/>
-  <figcaption style="text-align: center">PAGA on the basis of Leiden clusters and derived UMAP plotted with ggplot2.</figcaption>
+<figure
+  
+>
+  
+    <a
+      href="/images/blog/paga/r_umap.png"
+      target="_blank"
+    >
+  
+      <picture>
+        <source
+          srcset="/images/blog/paga/r_umap.webp"
+          type="image/webp"
+        >
+        <img
+          src="/images/blog/paga/r_umap.jpg"
+          loading="lazy"
+          
+            alt="something went wrong... here should be a figure"
+          
+          style="display: block; margin-left: auto; margin-right: auto; width: 80%; max-width: 1000px;"
+        />
+      </picture>
+  
+    </a>
+  
+  
+  <figcaption
+    style="text-align: center;"
+  >
+    
+    
+      <p>
+      PAGA on the basis of Leiden clusters and derived UMAP plotted with ggplot2.
+      
+      
+        
+    </p> 
+  </figcaption>
+  
 </figure>
-
 
 
 <h3 id="result">Result</h3>
@@ -268,7 +336,18 @@ umap_plot <span style="color:#000;font-weight:bold">&lt;-</span> umap <span styl
 
 
 <figure>
-  <img src="/images/blog/PAGA/scanpy_paga.png" alt="PAGA" style="width: 50%"/><img src="/images/blog/PAGA/r_paga.png" alt="UMAP" style="width: 50%"/>
+  <a href="/images/blog/paga/scanpy_paga.png" target="_blank">
+    <picture>
+      <source srcset="/images/blog/paga/scanpy_paga.webp" type="image/webp">
+      <img src="/images/blog/paga/scanpy_paga.jpg" loading="lazy" alt="UMAP_PAGA" style="width: 45%; max-width: 1000px" />
+    </picture>
+  </a>
+  <a href="/images/blog/paga/r_paga.png" target="_blank">
+    <picture>
+      <source srcset="/images/blog/paga/r_paga.webp" type="image/webp">
+      <img src="/images/blog/paga/r_paga.jpg" loading="lazy" alt="UMAP_PAGA" style="width: 45%; max-width: 1000px" />
+    </picture>
+  </a>
   <figcaption style="text-align: center">PAGA plots of scanpy (left) and ggplot2 (right).</figcaption>
 </figure>
 
@@ -276,27 +355,61 @@ umap_plot <span style="color:#000;font-weight:bold">&lt;-</span> umap <span styl
 
 <h2 id="adaptation-for-rna-velocity-based-transitions-between-clusters">Adaptation for RNA velocity-based transitions between clusters</h2>
 <p><code>scanpy</code> offers to use RNA velocity information to predict transitions between clusters in the PAGA results.
-I won't go into detail on how to do that but can recommend to use <a href="https://scvelo.readthedocs.io/en/latest/#" target="_blank" rel="noreferrer noopener"><code>scVelo</code></a> which directly integrates into the <code>scanpy</code> framework.
-Here, I'll assume you have already generated the PAGA using RNA velocity data, e.g. as shown below.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(adata, groups <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">leiden&#34;</span>, use_rna_velocity <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>)
+I won&rsquo;t go into detail on how to do that but can recommend to use <a href="https://scvelo.readthedocs.io/en/latest/#" target="_blank" rel="noreferrer noopener"><code>scVelo</code></a> which directly integrates into the <code>scanpy</code> framework.
+Here, I&rsquo;ll assume you have already generated the PAGA using RNA velocity data, e.g. as shown below.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(adata, groups <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;leiden&#34;</span>, use_rna_velocity <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>)
 sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(
   adata,
-  basis <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">umap&#34;</span>,
+  basis <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;umap&#34;</span>,
   threshold <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.15</span>,
   arrowsize <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>,
   edge_width_scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>,
-  transitions <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">transitions_confidence&#34;</span>,
-  dashed_edges <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">connectivities&#34;</span>,
+  transitions <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;transitions_confidence&#34;</span>,
+  dashed_edges <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;connectivities&#34;</span>,
   save <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>
 )
 </code></pre></div>
-
-
-<figure>
-  <img src="/images/blog/PAGA/scanpy_umap_paga_velocity.png" alt="UMAP_PAGA_velocity" style="width: 100%"/>
-  <figcaption style="text-align: center">PAGA on the basis of Leiden clusters and derived UMAP plotted with scanpy.</figcaption>
+<figure
+  
+>
+  
+    <a
+      href="/images/blog/paga/scanpy_umap_paga_velocity.png"
+      target="_blank"
+    >
+  
+      <picture>
+        <source
+          srcset="/images/blog/paga/scanpy_umap_paga_velocity.webp"
+          type="image/webp"
+        >
+        <img
+          src="/images/blog/paga/scanpy_umap_paga_velocity.jpg"
+          loading="lazy"
+          
+            alt="something went wrong... here should be a figure"
+          
+          style="display: block; margin-left: auto; margin-right: auto; width: 100%; max-width: 1000px;"
+        />
+      </picture>
+  
+    </a>
+  
+  
+  <figcaption
+    style="text-align: center;"
+  >
+    
+    
+      <p>
+      PAGA on the basis of Leiden clusters and derived UMAP plotted with scanpy.
+      
+      
+        
+    </p> 
+  </figcaption>
+  
 </figure>
-
 
 
 <h3 id="extract-paga-results">Extract PAGA results</h3>
@@ -372,7 +485,7 @@ arrow_gap <span style="color:#000;font-weight:bold">&lt;-</span> <span style="co
     <span style="color:#900;font-weight:bold">if </span>( i <span style="color:#000;font-weight:bold">==</span> j ) {
       next
     <span style="color:#998;font-style:italic"># skip cell if transition between these clusters has already been extracted</span>
-    } else <span style="color:#900;font-weight:bold">if </span>( <span style="color:#900;font-weight:bold">paste0</span>(i, <span style="color:#d14">&#34;</span><span style="color:#d14">/&#34;</span>, j) <span style="color:#000;font-weight:bold">%in%</span> comparisons_done <span style="color:#000;font-weight:bold">|</span> <span style="color:#900;font-weight:bold">paste0</span>(j, <span style="color:#d14">&#34;</span><span style="color:#d14">/&#34;</span>, i) <span style="color:#000;font-weight:bold">%in%</span> comparisons_done ) {
+    } else <span style="color:#900;font-weight:bold">if </span>( <span style="color:#900;font-weight:bold">paste0</span>(i, <span style="color:#d14">&#34;/&#34;</span>, j) <span style="color:#000;font-weight:bold">%in%</span> comparisons_done <span style="color:#000;font-weight:bold">|</span> <span style="color:#900;font-weight:bold">paste0</span>(j, <span style="color:#d14">&#34;/&#34;</span>, i) <span style="color:#000;font-weight:bold">%in%</span> comparisons_done ) {
       next
     <span style="color:#998;font-style:italic"># if none of the above, go ahead</span>
     } else {
@@ -437,12 +550,12 @@ arrow_gap <span style="color:#000;font-weight:bold">&lt;-</span> <span style="co
         next
       }
       <span style="color:#998;font-style:italic"># add comparison to list of already performed comparisons</span>
-      comparisons_done <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(comparisons_done, <span style="color:#900;font-weight:bold">paste0</span>(i,<span style="color:#d14">&#34;</span><span style="color:#d14">/&#34;</span>,j))
+      comparisons_done <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(comparisons_done, <span style="color:#900;font-weight:bold">paste0</span>(i,<span style="color:#d14">&#34;/&#34;</span>,j))
     }
   }
 }
 </code></pre></div><h3 id="filter-connections">Filter connections</h3>
-<p>Similar to what we've done before, we remove connections and arrows below a threshold of confidence.
+<p>Similar to what we&rsquo;ve done before, we remove connections and arrows below a threshold of confidence.
 Here, this threshold is <code>0.15</code>.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_edges <span style="color:#000;font-weight:bold">&lt;-</span> paga_edges <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(weight <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0.15</span>)
@@ -468,7 +581,7 @@ plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="co
     <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x1, y <span style="color:#000;font-weight:bold">=</span> y1, xend <span style="color:#000;font-weight:bold">=</span> x2, yend <span style="color:#000;font-weight:bold">=</span> y2),
     size <span style="color:#000;font-weight:bold">=</span> paga_edges<span style="color:#000;font-weight:bold">$</span>weight<span style="color:#000;font-weight:bold">*</span><span style="color:#099">3</span>,
     linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>,
-    colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">grey&#34;</span>,
+    colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;grey&#34;</span>,
     alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.75</span>,
     show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
   )
@@ -477,7 +590,7 @@ plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="co
     data <span style="color:#000;font-weight:bold">=</span> paga_arrows,
     <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x1, y <span style="color:#000;font-weight:bold">=</span> y1, xend <span style="color:#000;font-weight:bold">=</span> x2, yend <span style="color:#000;font-weight:bold">=</span> y2),
     size <span style="color:#000;font-weight:bold">=</span> paga_arrows<span style="color:#000;font-weight:bold">$</span>weight<span style="color:#000;font-weight:bold">*</span><span style="color:#099">3</span>,
-    arrow <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">arrow</span>(length <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#099">0.02</span>, <span style="color:#d14">&#34;</span><span style="color:#d14">npc&#34;</span>), type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">closed&#34;</span>),
+    arrow <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">arrow</span>(length <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#099">0.02</span>, <span style="color:#d14">&#34;npc&#34;</span>), type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;closed&#34;</span>),
     show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
   )
 
@@ -491,12 +604,12 @@ plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="co
 plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">geom_text</span>(
     data <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>position,
     <span style="color:#900;font-weight:bold">aes</span>(x, y, label <span style="color:#000;font-weight:bold">=</span> group),
-    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">black&#34;</span>,
-    fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">bold&#34;</span>
+    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;black&#34;</span>,
+    fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;bold&#34;</span>
   )
 
 plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">scale_color_manual</span>(values <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>group_colors) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">UMAP_1&#34;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">UMAP_2&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;UMAP_1&#34;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;UMAP_2&#34;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme</span>(
     axis.title <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
@@ -508,8 +621,8 @@ plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="co
     panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
   )
 
-<span style="color:#900;font-weight:bold">ggsave</span>(plot <span style="color:#000;font-weight:bold">=</span> plot, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">r_paga_velocity.pdf&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
-<span style="color:#900;font-weight:bold">ggsave</span>(plot <span style="color:#000;font-weight:bold">=</span> plot, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">r_paga_velocity.png&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(plot <span style="color:#000;font-weight:bold">=</span> plot, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;r_paga_velocity.pdf&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(plot <span style="color:#000;font-weight:bold">=</span> plot, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;r_paga_velocity.png&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
 </code></pre></div><p>Note that there are some parameters that you might have to adjust:</p>
 <ul>
 <li><code>arrow_gap</code>: How much to shorten the length of the transition arrows.</li>
@@ -522,7 +635,18 @@ plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="co
 
 
 <figure>
-  <img src="/images/blog/PAGA/scanpy_paga_velocity.png" alt="PAGA" style="width: 50%"/><img src="/images/blog/PAGA/r_paga_velocity.png" alt="UMAP" style="width: 50%"/>
+  <a href="/images/blog/paga/scanpy_paga_velocity.png" target="_blank">
+    <picture>
+      <source srcset="/images/blog/paga/scanpy_paga_velocity.webp" type="image/webp">
+      <img src="/images/blog/paga/scanpy_paga_velocity.jpg" loading="lazy" alt="UMAP_PAGA" style="width: 45%; max-width: 1000px" />
+    </picture>
+  </a>
+  <a href="/images/blog/paga/r_paga_velocity.png" target="_blank">
+    <picture>
+      <source srcset="/images/blog/paga/r_paga_velocity.webp" type="image/webp">
+      <img src="/images/blog/paga/r_paga_velocity.jpg" loading="lazy" alt="UMAP_PAGA" style="width: 45%; max-width: 1000px" />
+    </picture>
+  </a>
   <figcaption style="text-align: center">PAGA plots with transition confidence of scanpy (left) and ggplot2 (right).</figcaption>
 </figure>
 
@@ -530,13 +654,13 @@ plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="co
 
 <p>From here you can tweak the plots as you prefer, for example by scaling the point size in the PAGA results by the number of cells in that group/cluster.</p>
 <p>Parameter optimization is another topic, but I find this analysis very useful to understand the relationship between identified clusters.</p>
-<p><strong>That's it for now.</strong>
+<p><strong>That&rsquo;s it for now.</strong>
 You can use the same process explained here to perform other analysis provided by <code>scanpy</code>, such as diffusion pseudotime (<code>tl.dpt()</code>).</p>
 <p>If you have questions, comments, point out improvements/errors or simply reach out, please do so on Twitter <a href="https://twitter.com/fakechek1" target="_blank" rel="noreferrer noopener">@fakechek1</a></p>
 <h2 id="session-info">Session info</h2>
 <p>Analysis was performed in a Docker container: <a href="https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/r_github" target="_blank" rel="noreferrer noopener">romanhaa/r_github:2019-04-12_r_3.5.2</a></p>
 <p>Obligatory <code>sessionInfo()</code>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">R version <span style="color:#099">3.5</span><span style="color:#099">.2</span> (<span style="color:#099">2018</span><span style="color:#099">-12</span><span style="color:#099">-20</span>)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">R version <span style="color:#099">3.5.2</span> (<span style="color:#099">2018-12-20</span>)
 Platform<span style="color:#000;font-weight:bold">:</span> x86_64<span style="color:#000;font-weight:bold">-</span>pc<span style="color:#000;font-weight:bold">-</span>linux<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">gnu </span>(<span style="color:#099">64</span><span style="color:#000;font-weight:bold">-</span>bit)
 Running under<span style="color:#000;font-weight:bold">:</span> Debian GNU<span style="color:#000;font-weight:bold">/</span>Linux buster<span style="color:#000;font-weight:bold">/</span>sid
 
@@ -604,10 +728,10 @@ loaded via a <span style="color:#900;font-weight:bold">namespace </span>(and not
 [118] diptest_0.75<span style="color:#099">-7</span>      R.utils_2.8.0       stats4_3.5.2
 [121] munsell_0.5.0
 </code></pre></div><p>And Python + scanpy version:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">system</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">python3 --version&#34;</span>)
-Python <span style="color:#099">3.7</span><span style="color:#099">.3</span>rc1
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">system</span>(<span style="color:#d14">&#34;python3 --version&#34;</span>)
+Python <span style="color:#099">3.7.3</span>rc1
 
-<span style="color:#900;font-weight:bold">system</span>(<span style="color:#d14">&#34;</span><span style="color:#d14">python3 -c &#39;import scanpy; print(scanpy.__version__)&#39;&#34;</span>)
+<span style="color:#900;font-weight:bold">system</span>(<span style="color:#d14">&#34;python3 -c &#39;import scanpy; print(scanpy.__version__)&#39;&#34;</span>)
 <span style="color:#099">1.4</span>
 </code></pre></div>
             </div>
@@ -628,11 +752,11 @@ Python <span style="color:#099">3.7</span><span style="color:#099">.3</span>rc1
         &copy; Copyright Roman Hillje - All rights reserved
       </div>
       <section class="col-md-4 col-sm-4 text-center">
-        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://gitlab.com/romanhaa"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://hub.docker.com/u/romanhaa"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://www.twitter.com/fakechek1" target="_blank" rel="noopener"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

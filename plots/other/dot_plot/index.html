@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.84.0" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -73,11 +73,23 @@
           </div>
 
           
-          
-            <a href="/images/plots/other/dot_plot.png" target="_blank">
-              <img class="featured-image img-fluid" src="/images/plots/other/dot_plot.png" alt="thumbnail for this post" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-            </a>
-          
+          <a
+            href="/images/plots/other/dot_plot.png"
+            target="_blank"
+          >
+            <picture>
+              <source
+                srcset="/images/plots/other/dot_plot.webp"
+                type="image/webp"
+              >
+              <img
+                class="featured-image img-fluid"
+                src="/images/plots/other/dot_plot.jpg"
+                alt="something went wrong... here should be a figure"
+                style="width: 80%; display: block; margin-left: auto; margin-right: auto;"
+              >
+            </picture>
+          </a>
 
           
           <div class="article-post">
@@ -86,7 +98,7 @@
 <span style="color:#900;font-weight:bold">library</span>(Seurat)
 
 <span style="color:#998;font-style:italic"># load a single cell expression data set (generated in the lab I work at)</span>
-seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">seurat.rds&#39;</span>)
+seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;seurat.rds&#39;</span>)
 
 <span style="color:#998;font-style:italic"># cells will be grouped by clusters that they have been assigned to</span>
 cluster_ids <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
@@ -112,10 +124,10 @@ expression_levels_per_cluster <span style="color:#000;font-weight:bold">&lt;-</s
   <span style="color:#900;font-weight:bold">select</span>(cluster, <span style="color:#900;font-weight:bold">everything</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">pivot_longer</span>(
     cols <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">2</span><span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">ncol</span>(.)),
-    names_to <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">gene&#39;</span>
+    names_to <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;gene&#39;</span>
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">rename</span>(expression <span style="color:#000;font-weight:bold">=</span> value) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">mutate</span>(id_to_merge <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(cluster, <span style="color:#d14">&#39;</span><span style="color:#d14">_&#39;</span>, gene))
+  <span style="color:#900;font-weight:bold">mutate</span>(id_to_merge <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(cluster, <span style="color:#d14">&#39;_&#39;</span>, gene))
 
 <span style="color:#998;font-style:italic"># for every cluster-gene combination, calculate the percentage of cells in the</span>
 <span style="color:#998;font-style:italic"># respective group that has at least 1 transcript (this means we consider it</span>
@@ -132,7 +144,7 @@ percentage_of_cells_expressing_gene <span style="color:#000;font-weight:bold">&l
   <span style="color:#900;font-weight:bold">select</span>(cluster, <span style="color:#900;font-weight:bold">everything</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">pivot_longer</span>(
     cols <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">2</span><span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">ncol</span>(.)),
-    names_to <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">gene&#39;</span>
+    names_to <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;gene&#39;</span>
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">rename</span>(cell_count <span style="color:#000;font-weight:bold">=</span> value) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">left_join</span>(
@@ -141,9 +153,9 @@ percentage_of_cells_expressing_gene <span style="color:#000;font-weight:bold">&l
       <span style="color:#900;font-weight:bold">group_by</span>(seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
       <span style="color:#900;font-weight:bold">tally</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
       <span style="color:#900;font-weight:bold">rename</span>(cluster <span style="color:#000;font-weight:bold">=</span> seurat_clusters),
-    by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">cluster&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+    by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;cluster&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(
-    id_to_merge <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(cluster, <span style="color:#d14">&#39;</span><span style="color:#d14">_&#39;</span>, gene),
+    id_to_merge <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(cluster, <span style="color:#d14">&#39;_&#39;</span>, gene),
     percent_cells <span style="color:#000;font-weight:bold">=</span> cell_count <span style="color:#000;font-weight:bold">/</span> n
   )
 
@@ -151,26 +163,26 @@ percentage_of_cells_expressing_gene <span style="color:#000;font-weight:bold">&l
 p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">left_join</span>(
     expression_levels_per_cluster,
     percentage_of_cells_expressing_gene <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">select</span>(id_to_merge, percent_cells),
-    by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">id_to_merge&#39;</span>
+    by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;id_to_merge&#39;</span>
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(cluster <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(cluster, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rev</span>(cluster_ids))) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(gene, cluster)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> expression, size <span style="color:#000;font-weight:bold">=</span> percent_cells)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_color_distiller</span>(
-    palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Reds&#39;</span>,
+    palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Reds&#39;</span>,
     direction <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>,
-    name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Log-normalised\nexpression&#39;</span>,
-    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">black&#34;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;</span><span style="color:#d14">black&#34;</span>)
+    name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Log-normalised\nexpression&#39;</span>,
+    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;black&#34;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;black&#34;</span>)
   ) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_size</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Percent\nof cells&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>percent) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Expression&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_size</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Percent\nof cells&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>percent) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Cluster&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Expression&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">coord_fixed</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme</span>(
     axis.title.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>(),
     axis.text.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_text</span>(angle <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">45</span>, hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>)
   )
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">4.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;4.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
 </code></pre></div>
           </div>
 
@@ -187,11 +199,11 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
         &copy; Copyright Roman Hillje - All rights reserved
       </div>
       <section class="col-md-4 col-sm-4 text-center">
-        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://gitlab.com/romanhaa"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://hub.docker.com/u/romanhaa"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://www.twitter.com/fakechek1" target="_blank" rel="noopener"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

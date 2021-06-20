@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.84.0" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -78,7 +78,7 @@
 Often, people estimate the potency of a drug by its EC50 value, the concentration at which we observe half-maximal response.</p>
 <p>Calculating that value and visualizing the data behind it is usually a fairly simple procedure using popular software solutions such as Origin or GraphPad Prism.
 Doing so in R was just a bit more difficult than what I anticipated.
-That's why I decided to document the process here.
+That&rsquo;s why I decided to document the process here.
 For me when I have to do this again and for those of you who have to do the same.</p>
 <h2 id="load-packages">Load packages</h2>
 <p>We will need packages from the <code>tidyverse</code> meta package for data processing and plotting.
@@ -92,33 +92,33 @@ Finally, the <code>wesanderson</code> package has some nice color scales but apa
 The important thing is that we have pairs of concentrations and the corresponding fraction of viable cells, and multiple replicates for each pair.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_measured <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tribble</span>(
     <span style="color:#000;font-weight:bold">~</span>concentration, <span style="color:#000;font-weight:bold">~</span>replicate, <span style="color:#000;font-weight:bold">~</span>viable_cells,
-    <span style="color:#099">0</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">104.157</span>,
-    <span style="color:#099">0</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">98.893</span>,
-    <span style="color:#099">0</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">96.949</span>,
-    <span style="color:#099">0.05</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">95.677</span>,
-    <span style="color:#099">0.05</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">98.282</span>,
-    <span style="color:#099">0.05</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">90.958</span>,
-    <span style="color:#099">0.25</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">92.661</span>,
-    <span style="color:#099">0.25</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">95.644</span>,
-    <span style="color:#099">0.25</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">93.670</span>,
-    <span style="color:#099">0.50</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">91.201</span>,
-    <span style="color:#099">0.50</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">90.660</span>,
-    <span style="color:#099">0.50</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">84.912</span>,
-    <span style="color:#099">1.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">75.417</span>,
-    <span style="color:#099">1.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">69.602</span>,
-    <span style="color:#099">1.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">70.904</span>,
-    <span style="color:#099">2.50</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">35.073</span>,
-    <span style="color:#099">2.50</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">36.386</span>,
-    <span style="color:#099">2.50</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">33.440</span>,
-    <span style="color:#099">5.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">24.422</span>,
-    <span style="color:#099">5.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">20.010</span>,
-    <span style="color:#099">5.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">11.135</span>,
-    <span style="color:#099">10.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">4.315</span>,
-    <span style="color:#099">10.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">5.741</span>,
-    <span style="color:#099">10.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">5.835</span>,
-    <span style="color:#099">25.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">A&#39;</span>, <span style="color:#099">3.988</span>,
-    <span style="color:#099">25.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">B&#39;</span>, <span style="color:#099">4.883</span>,
-    <span style="color:#099">25.00</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">C&#39;</span>, <span style="color:#099">4.208</span>,
+    <span style="color:#099">0</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">104.157</span>,
+    <span style="color:#099">0</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">98.893</span>,
+    <span style="color:#099">0</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">96.949</span>,
+    <span style="color:#099">0.05</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">95.677</span>,
+    <span style="color:#099">0.05</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">98.282</span>,
+    <span style="color:#099">0.05</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">90.958</span>,
+    <span style="color:#099">0.25</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">92.661</span>,
+    <span style="color:#099">0.25</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">95.644</span>,
+    <span style="color:#099">0.25</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">93.670</span>,
+    <span style="color:#099">0.50</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">91.201</span>,
+    <span style="color:#099">0.50</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">90.660</span>,
+    <span style="color:#099">0.50</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">84.912</span>,
+    <span style="color:#099">1.00</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">75.417</span>,
+    <span style="color:#099">1.00</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">69.602</span>,
+    <span style="color:#099">1.00</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">70.904</span>,
+    <span style="color:#099">2.50</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">35.073</span>,
+    <span style="color:#099">2.50</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">36.386</span>,
+    <span style="color:#099">2.50</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">33.440</span>,
+    <span style="color:#099">5.00</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">24.422</span>,
+    <span style="color:#099">5.00</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">20.010</span>,
+    <span style="color:#099">5.00</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">11.135</span>,
+    <span style="color:#099">10.00</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">4.315</span>,
+    <span style="color:#099">10.00</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">5.741</span>,
+    <span style="color:#099">10.00</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">5.835</span>,
+    <span style="color:#099">25.00</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">3.988</span>,
+    <span style="color:#099">25.00</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">4.883</span>,
+    <span style="color:#099">25.00</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#099">4.208</span>,
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(viable_cells <span style="color:#000;font-weight:bold">=</span> viable_cells<span style="color:#000;font-weight:bold">/</span><span style="color:#099">100</span>)
 
@@ -133,10 +133,10 @@ The important thing is that we have pairs of concentrations and the correspondin
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">curve_fit <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">drm</span>(
   formula <span style="color:#000;font-weight:bold">=</span> viable_cells <span style="color:#000;font-weight:bold">~</span> concentration,
   data <span style="color:#000;font-weight:bold">=</span> data_measured,
-  fct <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">LL.4</span>(names <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">hill&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">min_value&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">max_value&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">ec_50&#39;</span>))
+  fct <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">LL.4</span>(names <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;hill&#39;</span>, <span style="color:#d14">&#39;min_value&#39;</span>, <span style="color:#d14">&#39;max_value&#39;</span>, <span style="color:#d14">&#39;ec_50&#39;</span>))
 )
 
-ec50 <span style="color:#000;font-weight:bold">&lt;-</span> curve_fit<span style="color:#000;font-weight:bold">$</span>coefficients[<span style="color:#d14">&#39;</span><span style="color:#d14">ec_50:(Intercept)&#39;</span>]
+ec50 <span style="color:#000;font-weight:bold">&lt;-</span> curve_fit<span style="color:#000;font-weight:bold">$</span>coefficients[<span style="color:#d14">&#39;ec_50:(Intercept)&#39;</span>]
 
 curve_fit
 <span style="color:#998;font-style:italic"># A &#39;drc&#39; model.</span>
@@ -176,27 +176,53 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
   <span style="color:#900;font-weight:bold">geom_segment</span>(
     data <span style="color:#000;font-weight:bold">=</span> lines_to_highlight_ec50,
     <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x, y <span style="color:#000;font-weight:bold">=</span> y, xend <span style="color:#000;font-weight:bold">=</span> xend, yend <span style="color:#000;font-weight:bold">=</span> yend),
-    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">grey&#39;</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
+    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;grey&#39;</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;dashed&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
   ) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_line</span>(data <span style="color:#000;font-weight:bold">=</span> data_predicted, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> concentration, y <span style="color:#000;font-weight:bold">=</span> predicted), size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(
     data <span style="color:#000;font-weight:bold">=</span> data_measured,
     <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> concentration, y <span style="color:#000;font-weight:bold">=</span> viable_cells, fill <span style="color:#000;font-weight:bold">=</span> replicate),
-    shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">21</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">white&#39;</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
+    shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">21</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;white&#39;</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
   ) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">annotate</span>(
-    <span style="color:#d14">&#39;</span><span style="color:#d14">text&#39;</span>, x <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.01</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">EC50: &#39;</span>, <span style="color:#900;font-weight:bold">round</span>(ec50, digits <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>), <span style="color:#d14">&#39;</span><span style="color:#d14"> mM&#39;</span>),
+    <span style="color:#d14">&#39;text&#39;</span>, x <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.01</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(<span style="color:#d14">&#39;EC50: &#39;</span>, <span style="color:#900;font-weight:bold">round</span>(ec50, digits <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>), <span style="color:#d14">&#39; mM&#39;</span>),
     hjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, vjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">-1</span>
   ) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_x_log10</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Drug concentration [mM]&#39;</span>, breaks <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(data_measured<span style="color:#000;font-weight:bold">$</span>concentration)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Viable cells&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>percent) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wes_palette</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">BottleRocket2&#39;</span>)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_x_log10</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Drug concentration [mM]&#39;</span>, breaks <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unique</span>(data_measured<span style="color:#000;font-weight:bold">$</span>concentration)) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Viable cells&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>percent) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wes_palette</span>(<span style="color:#d14">&#39;BottleRocket2&#39;</span>)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>()
 
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">dose_response_curve.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;dose_response_curve.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
-
-<img src="/images/blog/dose_response_curve/1.png" style="width: 80%; max-width = 700px; display: block; margin-left: auto; margin-right: auto;"/>
+<figure
+  
+>
+  
+    <a
+      href="/images/blog/dose_response_curve/1.png"
+      target="_blank"
+    >
+  
+      <picture>
+        <source
+          srcset="/images/blog/dose_response_curve/1.webp"
+          type="image/webp"
+        >
+        <img
+          src="/images/blog/dose_response_curve/1.jpg"
+          loading="lazy"
+          
+            alt="something went wrong... here should be a figure"
+          
+          style="display: block; margin-left: auto; margin-right: auto; width: 80%; max-width: 1000px;"
+        />
+      </picture>
+  
+    </a>
+  
+  
+</figure>
 
 
 
@@ -218,11 +244,11 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
         &copy; Copyright Roman Hillje - All rights reserved
       </div>
       <section class="col-md-4 col-sm-4 text-center">
-        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://gitlab.com/romanhaa"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://hub.docker.com/u/romanhaa"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://www.twitter.com/fakechek1" target="_blank" rel="noopener"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

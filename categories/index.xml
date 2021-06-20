@@ -6,10 +6,6 @@
     <description>Recent content in Categories on Roman Hillje - Data Visualization &amp; Bioinformatics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Roman Hillje - All rights reserved</copyright>
-    
-	<atom:link href="http://romanhaa.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <copyright>Roman Hillje - All rights reserved</copyright><atom:link href="http://romanhaa.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.84.0" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -73,11 +73,23 @@
           </div>
 
           
-          
-            <a href="/images/plots/heatmap/1.png" target="_blank">
-              <img class="featured-image img-fluid" src="/images/plots/heatmap/1.png" alt="thumbnail for this post" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-            </a>
-          
+          <a
+            href="/images/plots/heatmap/1.png"
+            target="_blank"
+          >
+            <picture>
+              <source
+                srcset="/images/plots/heatmap/1.webp"
+                type="image/webp"
+              >
+              <img
+                class="featured-image img-fluid"
+                src="/images/plots/heatmap/1.jpg"
+                alt="something went wrong... here should be a figure"
+                style="width: 80%; display: block; margin-left: auto; margin-right: auto;"
+              >
+            </picture>
+          </a>
 
           
           <div class="article-post">
@@ -90,21 +102,21 @@
 
 <span style="color:#998;font-style:italic"># create color palette from flatuicolors.com</span>
 colors_dutch <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#FFC312&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#C4E538&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#12CBC4&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#FDA7DF&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ED4C67&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#F79F1F&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#A3CB38&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#1289A7&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#D980FA&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#B53471&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#EE5A24&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#009432&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#0652DD&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#9980FA&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#833471&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#EA2027&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#006266&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#1B1464&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#5758BB&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#6F1E51&#39;</span>
+  <span style="color:#d14">&#39;#FFC312&#39;</span>,<span style="color:#d14">&#39;#C4E538&#39;</span>,<span style="color:#d14">&#39;#12CBC4&#39;</span>,<span style="color:#d14">&#39;#FDA7DF&#39;</span>,<span style="color:#d14">&#39;#ED4C67&#39;</span>,
+  <span style="color:#d14">&#39;#F79F1F&#39;</span>,<span style="color:#d14">&#39;#A3CB38&#39;</span>,<span style="color:#d14">&#39;#1289A7&#39;</span>,<span style="color:#d14">&#39;#D980FA&#39;</span>,<span style="color:#d14">&#39;#B53471&#39;</span>,
+  <span style="color:#d14">&#39;#EE5A24&#39;</span>,<span style="color:#d14">&#39;#009432&#39;</span>,<span style="color:#d14">&#39;#0652DD&#39;</span>,<span style="color:#d14">&#39;#9980FA&#39;</span>,<span style="color:#d14">&#39;#833471&#39;</span>,
+  <span style="color:#d14">&#39;#EA2027&#39;</span>,<span style="color:#d14">&#39;#006266&#39;</span>,<span style="color:#d14">&#39;#1B1464&#39;</span>,<span style="color:#d14">&#39;#5758BB&#39;</span>,<span style="color:#d14">&#39;#6F1E51&#39;</span>
 )
 colors_spanish <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#40407a&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#706fd3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#f7f1e3&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#34ace0&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#33d9b2&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#2c2c54&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#474787&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#aaa69d&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#227093&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#218c74&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#ff5252&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ff793f&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#d1ccc0&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ffb142&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ffda79&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#b33939&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#cd6133&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#84817a&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#cc8e35&#39;</span>,<span style="color:#d14">&#39;</span><span style="color:#d14">#ccae62&#39;</span>
+  <span style="color:#d14">&#39;#40407a&#39;</span>,<span style="color:#d14">&#39;#706fd3&#39;</span>,<span style="color:#d14">&#39;#f7f1e3&#39;</span>,<span style="color:#d14">&#39;#34ace0&#39;</span>,<span style="color:#d14">&#39;#33d9b2&#39;</span>,
+  <span style="color:#d14">&#39;#2c2c54&#39;</span>,<span style="color:#d14">&#39;#474787&#39;</span>,<span style="color:#d14">&#39;#aaa69d&#39;</span>,<span style="color:#d14">&#39;#227093&#39;</span>,<span style="color:#d14">&#39;#218c74&#39;</span>,
+  <span style="color:#d14">&#39;#ff5252&#39;</span>,<span style="color:#d14">&#39;#ff793f&#39;</span>,<span style="color:#d14">&#39;#d1ccc0&#39;</span>,<span style="color:#d14">&#39;#ffb142&#39;</span>,<span style="color:#d14">&#39;#ffda79&#39;</span>,
+  <span style="color:#d14">&#39;#b33939&#39;</span>,<span style="color:#d14">&#39;#cd6133&#39;</span>,<span style="color:#d14">&#39;#84817a&#39;</span>,<span style="color:#d14">&#39;#cc8e35&#39;</span>,<span style="color:#d14">&#39;#ccae62&#39;</span>
 )
 custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(colors_dutch, colors_spanish)
 
 <span style="color:#998;font-style:italic"># load a single cell expression data set (generated in the lab I work at)</span>
-seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">seurat.rds&#39;</span>)
+seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;seurat.rds&#39;</span>)
 
 <span style="color:#998;font-style:italic"># calculate average expression value for all variable genes for each cluster</span>
 average_expression_profiles_by_cluster <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>data[seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>var.features,] <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -121,7 +133,7 @@ correlation_matrix <span style="color:#000;font-weight:bold">&lt;-</span> averag
   <span style="color:#900;font-weight:bold">select</span>(<span style="color:#099">-1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">as.matrix</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">cor</span>(method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">spearman&#39;</span>)
+  <span style="color:#900;font-weight:bold">cor</span>(method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;spearman&#39;</span>)
 
 <span style="color:#998;font-style:italic"># assign row and column names</span>
 <span style="color:#900;font-weight:bold">rownames</span>(correlation_matrix) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
@@ -142,43 +154,43 @@ func_cell_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span s
 <span style="color:#998;font-style:italic"># create main heatmap</span>
 ht_matrix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">Heatmap</span>(
   correlation_matrix,
-  name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Spearman\ncorrelation&#39;</span>,
+  name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Spearman\ncorrelation&#39;</span>,
   col <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colorRamp2</span>(
     <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">-1</span>, <span style="color:#099">-0.75</span>, <span style="color:#099">-0.5</span>, <span style="color:#099">-0.25</span>, <span style="color:#099">0</span>, <span style="color:#099">0.25</span>, <span style="color:#099">0.5</span>, <span style="color:#099">0.75</span>, <span style="color:#099">1</span>),
-    <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">#00007F&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">blue&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#007FFF&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">cyan&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#7FFF7F&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">yellow&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#FF7F00&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">red&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#7F0000&#39;</span>)
+    <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;#00007F&#39;</span>, <span style="color:#d14">&#39;blue&#39;</span>, <span style="color:#d14">&#39;#007FFF&#39;</span>, <span style="color:#d14">&#39;cyan&#39;</span>, <span style="color:#d14">&#39;#7FFF7F&#39;</span>, <span style="color:#d14">&#39;yellow&#39;</span>, <span style="color:#d14">&#39;#FF7F00&#39;</span>, <span style="color:#d14">&#39;red&#39;</span>, <span style="color:#d14">&#39;#7F0000&#39;</span>)
   ),
   cluster_rows <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>,
   cluster_columns <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>,
   show_row_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>,
   show_column_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>,
   heatmap_legend_param <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(
-    title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Spearman correlation&#39;</span>,
-    legend_height <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#099">6</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">cm&#39;</span>),
-    legend_width <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#099">1</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">cm&#39;</span>),
-    title_position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">lefttop-rot&#39;</span>,
-    border <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>
+    title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Spearman correlation&#39;</span>,
+    legend_height <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#099">6</span>, <span style="color:#d14">&#39;cm&#39;</span>),
+    legend_width <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#099">1</span>, <span style="color:#d14">&#39;cm&#39;</span>),
+    title_position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;lefttop-rot&#39;</span>,
+    border <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>
   )
 )
 
 <span style="color:#998;font-style:italic"># create heatmap for annotation of clusters</span>
 ht_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">Heatmap</span>(
   cluster,
-  name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>,
+  name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Cluster&#39;</span>,
   cell_fun <span style="color:#000;font-weight:bold">=</span> func_cell_cluster,
   show_row_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
   show_column_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
-  width <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#099">15</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">mm&#39;</span>),
+  width <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#099">15</span>, <span style="color:#d14">&#39;mm&#39;</span>),
   col <span style="color:#000;font-weight:bold">=</span> colors_for_clusters,
   show_heatmap_legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
   top_annotation <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">HeatmapAnnotation</span>(
-    cn <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">anno_text</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>, rot <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, just <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">center&#39;</span>, gp <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">gpar</span>(fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">bold&#39;</span>)),
-    height <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">max_text_height</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Cluster&#39;</span>)
+    cn <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">anno_text</span>(<span style="color:#d14">&#39;Cluster&#39;</span>, rot <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, just <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;center&#39;</span>, gp <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">gpar</span>(fontface <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;bold&#39;</span>)),
+    height <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">max_text_height</span>(<span style="color:#d14">&#39;Cluster&#39;</span>)
   )
 )
 
 <span style="color:#998;font-style:italic"># plot</span>
 p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.ggplot</span>(<span style="color:#900;font-weight:bold">grid.grabExpr</span>(<span style="color:#900;font-weight:bold">draw</span>(ht_matrix <span style="color:#000;font-weight:bold">+</span> ht_cluster)))
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">1.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;1.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
 </code></pre></div>
           </div>
 
@@ -195,11 +207,11 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
         &copy; Copyright Roman Hillje - All rights reserved
       </div>
       <section class="col-md-4 col-sm-4 text-center">
-        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://gitlab.com/romanhaa"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://hub.docker.com/u/romanhaa"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://www.twitter.com/fakechek1" target="_blank" rel="noopener"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

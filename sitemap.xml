@@ -1,202 +1,114 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>http://romanhaa.github.io/</loc>
     <lastmod>2020-10-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/projects/</loc>
     <lastmod>2020-10-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/projects/scrnaseq_workflow/</loc>
     <lastmod>2020-10-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/benchmark_scrnaseq/</loc>
     <lastmod>2020-06-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/</loc>
     <lastmod>2020-06-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/tags/scrnaseq/</loc>
     <lastmod>2020-06-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/tags/</loc>
     <lastmod>2020-06-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/cases_of_coronavirus/</loc>
     <lastmod>2020-03-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/tags/dataviz/</loc>
     <lastmod>2020-03-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/dynamics_of_training_a_poincare_map/</loc>
     <lastmod>2020-03-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/dose_response_curve/</loc>
     <lastmod>2020-02-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/projects/health_data_from_apple_health/</loc>
     <lastmod>2020-02-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/projects/cerebro/</loc>
     <lastmod>2020-02-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/dummy/</loc>
     <lastmod>2020-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/</loc>
     <lastmod>2020-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/d3js_bar_chart_league_of_legends_ranks/</loc>
     <lastmod>2019-09-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/d3js_schulferien_2018_2019/</loc>
     <lastmod>2019-09-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/pbsviewer/</loc>
     <lastmod>2019-08-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/blog/paga_to_r/</loc>
     <lastmod>2019-04-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/tags/tutorial/</loc>
     <lastmod>2019-04-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/other/alluvial/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/other/alluvial_plot/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/categories/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/distributions/1/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/distributions/2/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/distributions/3/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/distributions/4/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/other/dose_response_curve/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/other/dot_plot/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/bar/gsva_hallmark_gene_sets/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/tags/ggplot/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/heatmap/1/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/intensity/1/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/intensity/2/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/geographical/trieste_1/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/other/phylogenetic_tree/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/scatter/1/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/scatter/2/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/scatter/3/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/scatter/4/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/scatter/5/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/bar/flights_by_airport_and_carrier/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/geographical/time_zones/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>http://romanhaa.github.io/plots/geographical/world_1/</loc>
   </url>
-  
 </urlset>

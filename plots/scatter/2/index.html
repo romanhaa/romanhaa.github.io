@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.84.0" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -73,11 +73,23 @@
           </div>
 
           
-          
-            <a href="/images/plots/scatter/2.png" target="_blank">
-              <img class="featured-image img-fluid" src="/images/plots/scatter/2.png" alt="thumbnail for this post" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-            </a>
-          
+          <a
+            href="/images/plots/scatter/2.png"
+            target="_blank"
+          >
+            <picture>
+              <source
+                srcset="/images/plots/scatter/2.webp"
+                type="image/webp"
+              >
+              <img
+                class="featured-image img-fluid"
+                src="/images/plots/scatter/2.jpg"
+                alt="something went wrong... here should be a figure"
+                style="width: 80%; display: block; margin-left: auto; margin-right: auto;"
+              >
+            </picture>
+          </a>
 
           
           <div class="article-post">
@@ -86,7 +98,7 @@
 
 <span style="color:#998;font-style:italic"># download differential expression data from EBI Expression Atlas database</span>
 <span style="color:#998;font-style:italic"># https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7445/Results</span>
-t <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">E-MTAB-7445-query-results.tsv&#39;</span>, skip <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+t <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#39;E-MTAB-7445-query-results.tsv&#39;</span>, skip <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">rename</span>(
     gene_id <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>,
     gene_name <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>,
@@ -120,8 +132,8 @@ t_filtered<span style="color:#000;font-weight:bold">$</span>density <span style=
 )
 
 <span style="color:#998;font-style:italic"># build color palette on https://gka.github.io/palettes</span>
-colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">#7ac6e7&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#6badd9&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#5c95cb&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#4e7ebd&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#3f66af&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#314fa2&#39;</span>,
-  <span style="color:#d14">&#39;</span><span style="color:#d14">#223894&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#132086&#39;</span>, <span style="color:#d14">&#39;</span><span style="color:#d14">#000275&#39;</span>)
+colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;#7ac6e7&#39;</span>, <span style="color:#d14">&#39;#6badd9&#39;</span>, <span style="color:#d14">&#39;#5c95cb&#39;</span>, <span style="color:#d14">&#39;#4e7ebd&#39;</span>, <span style="color:#d14">&#39;#3f66af&#39;</span>, <span style="color:#d14">&#39;#314fa2&#39;</span>,
+  <span style="color:#d14">&#39;#223894&#39;</span>, <span style="color:#d14">&#39;#132086&#39;</span>, <span style="color:#d14">&#39;#000275&#39;</span>)
 
 p <span style="color:#000;font-weight:bold">&lt;-</span> t_filtered <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(density) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -130,12 +142,12 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> t_filtered <span style=
     <span style="color:#900;font-weight:bold">aes</span>(comparison_1_fold_change, comparison_2_fold_change, color <span style="color:#000;font-weight:bold">=</span> density),
     size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
   ) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_vline</span>(xintercept <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">dashed&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;dashed&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_vline</span>(xintercept <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, linetype <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;dashed&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">logFC - comparison A&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">logFC - comparison B&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;logFC - comparison A&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;logFC - comparison B&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_color_gradientn</span>(colors <span style="color:#000;font-weight:bold">=</span> colors)
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">2.png&#39;</span>, p, scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;2.png&#39;</span>, p, scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
           </div>
 
@@ -152,11 +164,11 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> t_filtered <span style=
         &copy; Copyright Roman Hillje - All rights reserved
       </div>
       <section class="col-md-4 col-sm-4 text-center">
-        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://gitlab.com/romanhaa"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://hub.docker.com/u/romanhaa"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://www.twitter.com/fakechek1" target="_blank" rel="noopener"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

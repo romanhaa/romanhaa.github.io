@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.84.0" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -73,11 +73,23 @@
           </div>
 
           
-          
-            <a href="/images/plots/intensity/1.png" target="_blank">
-              <img class="featured-image img-fluid" src="/images/plots/intensity/1.png" alt="thumbnail for this post" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-            </a>
-          
+          <a
+            href="/images/plots/intensity/1.png"
+            target="_blank"
+          >
+            <picture>
+              <source
+                srcset="/images/plots/intensity/1.webp"
+                type="image/webp"
+              >
+              <img
+                class="featured-image img-fluid"
+                src="/images/plots/intensity/1.jpg"
+                alt="something went wrong... here should be a figure"
+                style="width: 80%; display: block; margin-left: auto; margin-right: auto;"
+              >
+            </picture>
+          </a>
 
           
           <div class="article-post">
@@ -87,15 +99,15 @@
 <span style="color:#900;font-weight:bold">data</span>(iris)
 
 p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(iris) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">stat_density_2d</span>(<span style="color:#900;font-weight:bold">aes</span>(Sepal.Length, Sepal.Width, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">stat</span>(level)), geom <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">polygon&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">stat_density_2d</span>(<span style="color:#900;font-weight:bold">aes</span>(Sepal.Length, Sepal.Width, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">stat</span>(level)), geom <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;polygon&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Sepal length&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Sepal width&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">Petal width&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Sepal length&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Sepal width&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Petal width&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_fill_gradientn</span>(
-    colours <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wes_palette</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">Zissou1&#39;</span>, <span style="color:#099">21</span>, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">continuous&#39;</span>),
-    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">black&#39;</span>)
+    colours <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">wes_palette</span>(<span style="color:#d14">&#39;Zissou1&#39;</span>, <span style="color:#099">21</span>, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;continuous&#39;</span>),
+    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>)
   ) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">right&#39;</span>)
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">1.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
+  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;right&#39;</span>)
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;1.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
 </code></pre></div>
           </div>
 
@@ -112,11 +124,11 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
         &copy; Copyright Roman Hillje - All rights reserved
       </div>
       <section class="col-md-4 col-sm-4 text-center">
-        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://gitlab.com/romanhaa"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://hub.docker.com/u/romanhaa"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://www.twitter.com/fakechek1" target="_blank" rel="noopener"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

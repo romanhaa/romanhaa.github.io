@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.84.0" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -73,11 +73,23 @@
           </div>
 
           
-          
-            <a href="/images/plots/other/phylogenetic_tree.png" target="_blank">
-              <img class="featured-image img-fluid" src="/images/plots/other/phylogenetic_tree.png" alt="thumbnail for this post" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-            </a>
-          
+          <a
+            href="/images/plots/other/phylogenetic_tree.png"
+            target="_blank"
+          >
+            <picture>
+              <source
+                srcset="/images/plots/other/phylogenetic_tree.webp"
+                type="image/webp"
+              >
+              <img
+                class="featured-image img-fluid"
+                src="/images/plots/other/phylogenetic_tree.jpg"
+                alt="something went wrong... here should be a figure"
+                style="width: 80%; display: block; margin-left: auto; margin-right: auto;"
+              >
+            </picture>
+          </a>
 
           
           <div class="article-post">
@@ -109,11 +121,11 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
   <span style="color:#900;font-weight:bold">scale_y_reverse</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_tree</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_tree</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_tiplab</span>(label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(tree<span style="color:#000;font-weight:bold">$</span>tip.label, <span style="color:#d14">&#39;</span><span style="color:#d14"> carbs&#39;</span>), offset <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_tippoint</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">jcolors</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">pal5&#39;</span>), shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">16</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">coord_cartesian</span>(clip <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">off&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(plot.margin <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>), <span style="color:#d14">&#39;</span><span style="color:#d14">cm&#39;</span>))
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">phylogenetic_tree.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>)
+  <span style="color:#900;font-weight:bold">geom_tiplab</span>(label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(tree<span style="color:#000;font-weight:bold">$</span>tip.label, <span style="color:#d14">&#39; carbs&#39;</span>), offset <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">geom_tippoint</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">jcolors</span>(<span style="color:#d14">&#39;pal5&#39;</span>), shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">16</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">coord_cartesian</span>(clip <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;off&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+  <span style="color:#900;font-weight:bold">theme</span>(plot.margin <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>), <span style="color:#d14">&#39;cm&#39;</span>))
+<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;phylogenetic_tree.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>)
 </code></pre></div>
           </div>
 
@@ -130,11 +142,11 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
         &copy; Copyright Roman Hillje - All rights reserved
       </div>
       <section class="col-md-4 col-sm-4 text-center">
-        <a target="_blank" href="https://www.twitter.com/fakechek1"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://github.com/romanhaa"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://gitlab.com/romanhaa"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://hub.docker.com/u/romanhaa"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a target="_blank" href="https://linkedin.com/in/roman.hillje"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://www.twitter.com/fakechek1" target="_blank" rel="noopener"><i class="fab fa-twitter" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman Hillje - All rights reserved</copyright>
-    <lastBuildDate>Wed, 07 Oct 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://romanhaa.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 07 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://romanhaa.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>scRNA-seq analysis workflow</title>
       <link>http://romanhaa.github.io/projects/scrnaseq_workflow/</link>
@@ -36,7 +32,7 @@
       <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/blog/cases_of_coronavirus/</guid>
-      <description>Introduction A colleague of mine (hey 👋 @lost_efano) showed me this R package coronavirus which collects data about the virus. I simply couldn&#39;t resist to plot some of the data.</description>
+      <description>Introduction A colleague of mine (hey 👋 @lost_efano) showed me this R package coronavirus which collects data about the virus. I simply couldn&amp;rsquo;t resist to plot some of the data.</description>
     </item>
     
     <item>
@@ -90,7 +86,7 @@
       <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/blog/d3js_bar_chart_league_of_legends_ranks/</guid>
-      <description>Still experimenting with D3.js, this time I wanted to make a simple bar chart. Since it&#39;s always nice to show actual, informative data, I decided to reproduce the distribution of players in the different ranks in League of Legends as shown on this website: https://www.</description>
+      <description>Still experimenting with D3.js, this time I wanted to make a simple bar chart. Since it&amp;rsquo;s always nice to show actual, informative data, I decided to reproduce the distribution of players in the different ranks in League of Legends as shown on this website: https://www.</description>
     </item>
     
     <item>
