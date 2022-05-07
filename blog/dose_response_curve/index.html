@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.84.0" />
+  <meta name="generator" content="Hugo 0.91.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -33,19 +33,53 @@
       <ul class="navbar-nav ml-auto">
         
         <li class="nav-item ">
-          <a class="nav-link" href="/">About Me</a>
+          <a
+            class="nav-link"
+            href="/"
+            
+          >
+            About Me
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a
+            class="nav-link"
+            href="/projects"
+            
+          >
+            Projects
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/plots">Plot Gallery</a>
+          <a
+            class="nav-link"
+            href="/phd_thesis"
+            
+          >
+            PhD Thesis
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a
+            class="nav-link"
+            href="/plots"
+            
+          >
+            Plot Gallery
+          </a>
+        </li>
+        
+        <li class="nav-item ">
+          <a
+            class="nav-link"
+            href="/blog"
+            
+          >
+            Blog
+          </a>
         </li>
         
       </ul>
@@ -84,13 +118,13 @@ For me when I have to do this again and for those of you who have to do the same
 <p>We will need packages from the <code>tidyverse</code> meta package for data processing and plotting.
 The <code>drc</code> package provides us with the required statistics to calculate the EC50.
 Finally, the <code>wesanderson</code> package has some nice color scales but apart from that is not necessary.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(drc)
 <span style="color:#900;font-weight:bold">library</span>(wesanderson)
 </code></pre></div><h2 id="the-data">The data</h2>
 <p>You can load the data from a file or define it manually as shown below.
 The important thing is that we have pairs of concentrations and the corresponding fraction of viable cells, and multiple replicates for each pair.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_measured <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tribble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_measured <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tribble</span>(
     <span style="color:#000;font-weight:bold">~</span>concentration, <span style="color:#000;font-weight:bold">~</span>replicate, <span style="color:#000;font-weight:bold">~</span>viable_cells,
     <span style="color:#099">0</span>, <span style="color:#d14">&#39;A&#39;</span>, <span style="color:#099">104.157</span>,
     <span style="color:#099">0</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#099">98.893</span>,
@@ -130,7 +164,7 @@ The important thing is that we have pairs of concentrations and the correspondin
 <span style="color:#998;font-style:italic"># $ viable_cells  &lt;dbl&gt; 1.04157, 0.98893, 0.96949, 0.95677, 0.98282, 0.90958, 0…</span>
 </code></pre></div><h2 id="estimate-ec50">Estimate EC50</h2>
 <p>Now, we use the <code>drm()</code> function from the <code>drc</code> package to generate a dose-response model from the data we defined/loaded before.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">curve_fit <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">drm</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">curve_fit <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">drm</span>(
   formula <span style="color:#000;font-weight:bold">=</span> viable_cells <span style="color:#000;font-weight:bold">~</span> concentration,
   data <span style="color:#000;font-weight:bold">=</span> data_measured,
   fct <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">LL.4</span>(names <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;hill&#39;</span>, <span style="color:#d14">&#39;min_value&#39;</span>, <span style="color:#d14">&#39;max_value&#39;</span>, <span style="color:#d14">&#39;ec_50&#39;</span>))
@@ -150,7 +184,7 @@ curve_fit
 </code></pre></div><p>In this particular case, we find the EC50 to be a concentration of 1.76 mM.</p>
 <h2 id="predict-values-with-finer-scale">Predict values with finer scale</h2>
 <p>Using the model, we predict values for the range of tested concentrations, however at a finer resolution so the curve will look nicer.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_predicted <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_predicted <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   concentration <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">seq</span>(<span style="color:#900;font-weight:bold">min</span>(data_measured<span style="color:#000;font-weight:bold">$</span>concentration), <span style="color:#900;font-weight:bold">max</span>(data_measured<span style="color:#000;font-weight:bold">$</span>concentration), <span style="color:#099">0.01</span>)
 )
 
@@ -166,7 +200,7 @@ data_predicted<span style="color:#000;font-weight:bold">$</span>predicted <span 
 <span style="color:#998;font-style:italic"># $ predicted     &lt;dbl&gt; 0.9764612, 0.9763426, 0.9760657, 0.9756614, 0.9751433, …</span>
 </code></pre></div><h2 id="plot-dose-response-curve">Plot dose-response curve</h2>
 <p>Now, we are ready to plot the dose-response curve, together with the measured data and lines to highlight the EC50.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">lines_to_highlight_ec50 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tribble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">lines_to_highlight_ec50 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tribble</span>(
   <span style="color:#000;font-weight:bold">~</span>x,   <span style="color:#000;font-weight:bold">~</span>xend, <span style="color:#000;font-weight:bold">~</span>y,   <span style="color:#000;font-weight:bold">~</span>yend,
   ec50, ec50,  <span style="color:#000;font-weight:bold">-</span><span style="color:#000;font-weight:bold">Inf</span>, <span style="color:#099">0.5</span>,
   <span style="color:#099">0</span>,    ec50,  <span style="color:#099">0.5</span>,  <span style="color:#099">0.5</span>
@@ -248,7 +282,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
         <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman-hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

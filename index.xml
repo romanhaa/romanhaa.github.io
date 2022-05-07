@@ -235,6 +235,16 @@ library(tidyverse) library(Seurat) # load a single cell expression data set (gen
     </item>
     
     <item>
+      <title>PhD Thesis</title>
+      <link>http://romanhaa.github.io/phd_thesis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/phd_thesis/</guid>
+      <description>My dissertation can be downloaded in .pdf format here: https://air.unimi.it/handle/2434/790077 Code, figures and additional material can be found here: https://romanhaa.gitlab.io/phd_thesis  Title:
+A Computational Perspective at the Histone Modification Landscape of the Mouse Liver During Aging</description>
+    </item>
+    
+    <item>
       <title>Phylogenetic tree</title>
       <link>http://romanhaa.github.io/plots/other/phylogenetic_tree/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

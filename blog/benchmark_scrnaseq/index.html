@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.84.0" />
+  <meta name="generator" content="Hugo 0.91.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -33,19 +33,53 @@
       <ul class="navbar-nav ml-auto">
         
         <li class="nav-item ">
-          <a class="nav-link" href="/">About Me</a>
+          <a
+            class="nav-link"
+            href="/"
+            
+          >
+            About Me
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a
+            class="nav-link"
+            href="/projects"
+            
+          >
+            Projects
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/plots">Plot Gallery</a>
+          <a
+            class="nav-link"
+            href="/phd_thesis"
+            
+          >
+            PhD Thesis
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a
+            class="nav-link"
+            href="/plots"
+            
+          >
+            Plot Gallery
+          </a>
+        </li>
+        
+        <li class="nav-item ">
+          <a
+            class="nav-link"
+            href="/blog"
+            
+          >
+            Blog
+          </a>
         </li>
         
       </ul>
@@ -81,7 +115,7 @@ Even though this was done a while ago, and updates of the tools possibly influen
 <h3 id="download-raw-data">Download raw data</h3>
 <p>I only used a single data set, which consists of roughly 11,000 cells from a human PBMC sample, was generated using the 10x Genomics Single Cell Gene Expression kit (v3 chemistry), and can be downloaded from the <a href="https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_10k_v3" target="_blank" rel="noreferrer noopener">10x Genomics website</a>.</p>
 <p>The data set contains 639 million reads, resulting in a sequencing depth of approximately 54,000 reads per cell.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">mkdir -p &lt;project_home&gt;/raw_data/pbmc_10k_v3
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">mkdir -p &lt;project_home&gt;/raw_data/pbmc_10k_v3
 <span style="color:#0086b3">cd</span> &lt;project_home&gt;/raw_data/pbmc_10k_v3/
 wget http://s3-us-west-2.amazonaws.com/10x.files/samples/cell-exp/3.0.0/pbmc_10k_v3/pbmc_10k_v3_fastqs.tar
 tar -xf pbmc_10k_v3_fastqs.tar
@@ -90,13 +124,13 @@ mv pbmc_10k_v3_fastqs FASTQ
 <p>All reference files (genome as <code>FASTA</code>, transcriptome as <code>FASTA</code>, and annotation as <code>GTF</code>) were taken from <a href="https://www.gencodegenes.org/human/" target="_blank" rel="noreferrer noopener">GENCODE (v32)</a>.</p>
 <h4 id="genome">Genome</h4>
 <p>We use the <code>hg38</code> release of the human genome.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">mkdir -p &lt;project_home&gt;/reference_files/hg38
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">mkdir -p &lt;project_home&gt;/reference_files/hg38
 <span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
 wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/GRCh38.primary_assembly.genome.fa.gz
 gunzip GRCh38.primary_assembly.genome.fa.gz
 </code></pre></div><h4 id="transcriptome">Transcriptome</h4>
 <p>We use all transcripts.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
 wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.transcripts.fa.gz
 gunzip gencode.v32.transcripts.fa.gz
 
@@ -107,13 +141,13 @@ grep -c <span style="color:#d14">&#39;^&gt;ENST&#39;</span> gencode.v32.transcri
 cut -f1 gencode.v32.annotation_tgMap.tsv &gt; gencode.v32.annotation_transcripts.tsv
 </code></pre></div><h4 id="annotation">Annotation</h4>
 <p>We use the comprehensive annotation.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
 wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.annotation.gtf.gz
 gunzip gencode.v32.annotation.gtf.gz
 </code></pre></div><h4 id="transcript-to-gene-map-file-for-salmon">Transcript to gene map file for Salmon</h4>
 <p>Alevin annd kallisto require a <code>TSV</code> file that connect every annotated transcript to its corresponding gene ID.
 We can generate this file from the previously downloaded <code>GTF</code> file containing the comprehensive GENCODE annotation.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">setwd</span>(<span style="color:#d14">&#39;&lt;project_home&gt;/&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">setwd</span>(<span style="color:#d14">&#39;&lt;project_home&gt;/&#39;</span>)
 
 <span style="color:#900;font-weight:bold">library</span>(tidyverse)
 
@@ -133,26 +167,26 @@ tgMap <span style="color:#000;font-weight:bold">&lt;-</span> gtf <span style="co
 <p>For some steps of the analysis, we will need a list of all valid cellular barcodes in the 10x Genomics Single Cell Gene Expression kit (v3 chemistry).
 It&rsquo;s well hidden but can be found in the Cell Ranger pipeline installation (<code>cellranger-x.y.z/cellranger-cs/x.y.z/lib/python/cellranger/barcodes/3M-february-2018.txt.gz</code>).
 I previously extracted this file and unpacked it, so here I just take it from there.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/
 mkdir &lt;project_home&gt;/software
 cp &lt;some_other_folder&gt;/3M-february-2018.txt &lt;project_home&gt;/software
 </code></pre></div><h3 id="get-tools">Get tools</h3>
 <p>I have created separate Docker containers with Cell Ranger, STARsolo, Alevin (Salmon), and kallisto installed which I import into Singularity.</p>
 <h4 id="cell-ranger">Cell Ranger</h4>
 <p>We use Cell Ranger 3.1.0.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity build &lt;project_home&gt;/software/cell_ranger_3.1.0.simg docker://romanhaa/cell_ranger:3.1.0
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity build &lt;project_home&gt;/software/cell_ranger_3.1.0.simg docker://romanhaa/cell_ranger:3.1.0
 </code></pre></div><h4 id="starsolo">STARsolo</h4>
 <p>We use STAR 2.7.3a.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity build &lt;project_home&gt;/software/star_2.7.3a.simg docker://romanhaa/star:2.7.3a
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity build &lt;project_home&gt;/software/star_2.7.3a.simg docker://romanhaa/star:2.7.3a
 </code></pre></div><h4 id="alevin-salmon">Alevin (Salmon)</h4>
 <p>We use Alevin 0.14.1.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity build &lt;project_home&gt;/software/salmon_0.14.1.simg docker://combinelab/salmon:0.14.1
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity build &lt;project_home&gt;/software/salmon_0.14.1.simg docker://combinelab/salmon:0.14.1
 </code></pre></div><h4 id="kallisto">kallisto</h4>
 <p>We use kallisto 0.46.0.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity build &lt;project_home&gt;/software/kallist_0.46.0.simg docker://romanhaa/kallisto:0.46.0
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity build &lt;project_home&gt;/software/kallist_0.46.0.simg docker://romanhaa/kallisto:0.46.0
 </code></pre></div><h3 id="create-indices">Create indices</h3>
 <h4 id="cell-ranger-1">Cell Ranger</h4>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
 
 singularity <span style="color:#0086b3">exec</span> --bind /hpcnfs &lt;project_home&gt;/software/cell_ranger_3.1.0.simg <span style="color:#d14">\
 </span><span style="color:#d14"></span>cellranger mkref <span style="color:#d14">\
@@ -212,7 +246,7 @@ singularity <span style="color:#0086b3">exec</span> --bind /hpcnfs &lt;project_h
 <span style="color:#998;font-style:italic"># You can now specify this reference on the command line:</span>
 <span style="color:#998;font-style:italic"># cellranger --transcriptome=&lt;project_home&gt;/reference_files/hg38/cell_ranger_3.1.0 ...</span>
 </code></pre></div><h4 id="starsolo-1">STARsolo</h4>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;/reference_files/hg38
 mkdir STAR_2.7.3a
 
 singularity <span style="color:#0086b3">exec</span> --bind /hpcnfs &lt;project_home&gt;/software/star_2.7.3a.simg <span style="color:#d14">\
@@ -239,7 +273,7 @@ singularity <span style="color:#0086b3">exec</span> --bind /hpcnfs &lt;project_h
 <span style="color:#998;font-style:italic"># Oct 26 14:07:46 ... writing SAindex to disk</span>
 <span style="color:#998;font-style:italic"># Oct 26 14:08:02 ..... finished successfully</span>
 </code></pre></div><h4 id="alevin-salmon-1">Alevin (Salmon)</h4>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#0086b3">cd</span> &lt;project_home&gt;
 mkdir reference_files/hg38/salmon_index_k_31
 
 singularity <span style="color:#0086b3">exec</span> --bind /hpcnfs &lt;project_home&gt;/software/salmon_0.14.1.simg <span style="color:#d14">\
@@ -313,7 +347,7 @@ singularity <span style="color:#0086b3">exec</span> --bind /hpcnfs &lt;project_h
 <span style="color:#998;font-style:italic"># Elapsed time: 8.59516s</span>
 <span style="color:#998;font-style:italic"># [2019-10-24 09:52:40.740] [jLog] [info] done building index</span>
 </code></pre></div><h4 id="kallisto-1">kallisto</h4>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity <span style="color:#0086b3">exec</span> --bind /hpcnfs <span style="color:#d14">\
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">singularity <span style="color:#0086b3">exec</span> --bind /hpcnfs <span style="color:#d14">\
 </span><span style="color:#d14"></span>software/kallisto_0.46.0.simg <span style="color:#d14">\
 </span><span style="color:#d14"></span>kallisto index <span style="color:#d14">\
 </span><span style="color:#d14"></span>--index reference_files/hg38/kallisto_index_k_31 <span style="color:#d14">\
@@ -339,7 +373,7 @@ No other jobs compete for the same memory.</p>
 The filtered matrix contains only those cellular barcodes that have been identified as belonging to actual cells, whereas the others are background and therefore removed.</p>
 <p>Cell Ranger might not be the best tool for the analysis out there, but since it is provided by 10x Genomics, the manufacturer of the library preparation kit, we will use the list of cells identified by it, also known as whitelist, to compare the tools.</p>
 <p>Here is the script that was submitted to the job scheduler.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N cell_ranger</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N cell_ranger</span>
 <span style="color:#998;font-style:italic">#PBS -l select=1:ncpus=28:mem=120gb</span>
 <span style="color:#998;font-style:italic">#PBS -o &lt;..&gt;/sh_files/cell_ranger.stdout</span>
 <span style="color:#998;font-style:italic">#PBS -e &lt;..&gt;/sh_files/cell_ranger.stderr</span>
@@ -363,7 +397,7 @@ singularity <span style="color:#d14">\
 </span><span style="color:#d14"></span>--localmem<span style="color:#000;font-weight:bold">=</span><span style="color:#099">100</span> <span style="color:#d14">\
 </span><span style="color:#d14"></span>--mempercore<span style="color:#000;font-weight:bold">=</span><span style="color:#099">5</span>
 </code></pre></div><p>Below is a summary of the run time and used resources.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1077</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1077</span>
 resources_used.cput<span style="color:#000;font-weight:bold">=</span>222:30:36
 resources_used.mem<span style="color:#000;font-weight:bold">=</span>125829116kb
 resources_used.ncpus<span style="color:#000;font-weight:bold">=</span><span style="color:#099">28</span>
@@ -373,7 +407,7 @@ resources_used.walltime<span style="color:#000;font-weight:bold">=</span>20:39:0
 <p>Also STAR automatically generates a raw and filtered transcript count matrix.
 The algorithm for cellular barcode filtering is one that was used in previous Cell Ranger versions.</p>
 <p>Here is the script that was submitted to the job scheduler.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N star</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N star</span>
 <span style="color:#998;font-style:italic">#PBS -l select=1:ncpus=28:mem=120gb</span>
 <span style="color:#998;font-style:italic">#PBS -o &lt;project_home&gt;/sh_files/star.stdout</span>
 <span style="color:#998;font-style:italic">#PBS -e &lt;project_home&gt;/sh_files/star.stderr</span>
@@ -412,7 +446,7 @@ singularity <span style="color:#d14">\
 </span><span style="color:#d14"></span>--soloOutFileNames STARsolo/ features.tsv barcodes.tsv matrix.mtx <span style="color:#d14">\
 </span><span style="color:#d14"></span>--soloCellFilter CellRanger2.2 <span style="color:#099">3000</span> 0.99 <span style="color:#099">10</span>
 </code></pre></div><p>Below is a summary of the run time and used resources.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1584</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1584</span>
 resources_used.cput<span style="color:#000;font-weight:bold">=</span>09:10:46
 resources_used.mem<span style="color:#000;font-weight:bold">=</span>45942620kb
 resources_used.ncpus<span style="color:#000;font-weight:bold">=</span><span style="color:#099">28</span>
@@ -427,7 +461,7 @@ That means, to compare the tools, we have to run it twice:</p>
 </ol>
 <h4 id="with-all-cellular-barcodes-as-whitelist-file-raw">With all cellular barcodes as whitelist file (raw)</h4>
 <p>Here is the script that was submitted to the job scheduler.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N alevin_1</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N alevin_1</span>
 <span style="color:#998;font-style:italic">#PBS -l select=1:ncpus=28:mem=120gb</span>
 <span style="color:#998;font-style:italic">#PBS -o &lt;project_home&gt;/sh_files/alevin_1.stdout</span>
 <span style="color:#998;font-style:italic">#PBS -e &lt;project_home&gt;/sh_files/alevin_1.stderr</span>
@@ -455,7 +489,7 @@ singularity <span style="color:#0086b3">exec</span> <span style="color:#d14">\
 </span><span style="color:#d14"></span>--whitelist software/3M-february-2018.txt <span style="color:#d14">\
 </span><span style="color:#d14"></span>--tgMap reference_files/hg38/gencode.v32.annotation_tgMap.tsv
 </code></pre></div><p>Below is a summary of the run time and used resources.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1898</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1898</span>
 resources_used.cput<span style="color:#000;font-weight:bold">=</span>53:05:08
 resources_used.mem<span style="color:#000;font-weight:bold">=</span>21223076kb
 resources_used.ncpus<span style="color:#000;font-weight:bold">=</span><span style="color:#099">28</span>
@@ -463,7 +497,7 @@ resources_used.vmem<span style="color:#000;font-weight:bold">=</span>34565292kb
 resources_used.walltime<span style="color:#000;font-weight:bold">=</span>03:09:25
 </code></pre></div><h4 id="without-specified-whitelist-file-filtered">Without specified whitelist file (filtered)</h4>
 <p>Here is the script that was submitted to the job scheduler.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N alevin_2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N alevin_2</span>
 <span style="color:#998;font-style:italic">#PBS -l select=1:ncpus=28:mem=120gb</span>
 <span style="color:#998;font-style:italic">#PBS -o &lt;project_home&gt;/sh_files/alevin_2.stdout</span>
 <span style="color:#998;font-style:italic">#PBS -e &lt;project_home&gt;/sh_files/alevin_2.stderr</span>
@@ -490,7 +524,7 @@ singularity <span style="color:#0086b3">exec</span> <span style="color:#d14">\
 </span><span style="color:#d14"></span>--output results/pbmc_10k_v3/alevin/filtered <span style="color:#d14">\
 </span><span style="color:#d14"></span>--tgMap reference_files/hg38/gencode.v32.annotation_tgMap.tsv
 </code></pre></div><p>Below is a summary of the run time and used resources.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1829</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1829</span>
 resources_used.cput<span style="color:#000;font-weight:bold">=</span>13:06:48
 resources_used.mem<span style="color:#000;font-weight:bold">=</span>18361588kb
 resources_used.ncpus<span style="color:#000;font-weight:bold">=</span><span style="color:#099">28</span>
@@ -500,7 +534,7 @@ resources_used.walltime<span style="color:#000;font-weight:bold">=</span>00:59:4
 <p>kallisto does not have any integrated algorithm for cellular barcode filtering and expects you to provide a list of barcodes you want to analyze.
 We simply run kallisto once to quantify transcript counts in all valid cellular barcodes and then extract the cells identified by Cell Ranger later.</p>
 <p>Here is the script that was submitted to the job scheduler.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N kallisto</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh"><span style="color:#998;font-style:italic">#PBS -N kallisto</span>
 <span style="color:#998;font-style:italic">#PBS -l select=1:ncpus=28:mem=120gb</span>
 <span style="color:#998;font-style:italic">#PBS -o &lt;project_home&gt;/sh_files/kallisto.stdout</span>
 <span style="color:#998;font-style:italic">#PBS -e &lt;project_home&gt;/sh_files/kallisto.stderr</span>
@@ -549,7 +583,7 @@ singularity <span style="color:#d14">\
 </span><span style="color:#d14"></span>--genecounts <span style="color:#d14">\
 </span><span style="color:#d14"></span>-
 </code></pre></div><p>Below is a summary of the run time and used resources.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">404</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">resources_used.cpupercent<span style="color:#000;font-weight:bold">=</span><span style="color:#099">404</span>
 resources_used.cput<span style="color:#000;font-weight:bold">=</span>01:54:21
 resources_used.mem<span style="color:#000;font-weight:bold">=</span>13737072kb
 resources_used.ncpus<span style="color:#000;font-weight:bold">=</span><span style="color:#099">28</span>
@@ -559,7 +593,7 @@ resources_used.walltime<span style="color:#000;font-weight:bold">=</span>00:35:0
 <p>After producing all the transcript count matrices, it is time for some comparisons.</p>
 <h3 id="load-data">Load data</h3>
 <p>First, we prepare an object that will hold all the transcript counts.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 
 feature_matrix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>()
 </code></pre></div><p>Now, we can load and add the matrices one-by-one.
@@ -567,7 +601,7 @@ Importantly, for each raw transcript count matrix, we also (1) remove all genes 
 Instead, in the filtered matrices, we only remove the genes that are not expressed in any cell but leave the cellular barcodes as they are.</p>
 <h4 id="cell-ranger-3">Cell Ranger</h4>
 <h5 id="all-cellular-barcodes">All cellular barcodes</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/cell_ranger/pbmc_10k_v3/outs/raw_feature_bc_matrix/matrix.mtx.gz&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/cell_ranger/pbmc_10k_v3/outs/raw_feature_bc_matrix/matrix.mtx.gz&#34;</span>)
 <span style="color:#900;font-weight:bold">colnames</span>(temp) <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/cell_ranger/pbmc_10k_v3/outs/raw_feature_bc_matrix/barcodes.tsv.gz&#34;</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -593,7 +627,7 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[,<span style="c
 
 feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_all_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h5 id="filtered-cellular-barcodes">Filtered cellular barcodes</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/cell_ranger/pbmc_10k_v3/outs/filtered_feature_bc_matrix/matrix.mtx.gz&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/cell_ranger/pbmc_10k_v3/outs/filtered_feature_bc_matrix/matrix.mtx.gz&#34;</span>)
 <span style="color:#900;font-weight:bold">colnames</span>(temp) <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/cell_ranger/pbmc_10k_v3/outs/filtered_feature_bc_matrix/barcodes.tsv.gz&#34;</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -616,7 +650,7 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[expressed_genes
 feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_filtered_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h4 id="starsolo-3">STARsolo</h4>
 <h5 id="all-cellular-barcodes-1">All cellular barcodes</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/STAR/STARsolo/Gene/raw/matrix.mtx.gz&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/STAR/STARsolo/Gene/raw/matrix.mtx.gz&#34;</span>)
 <span style="color:#900;font-weight:bold">colnames</span>(temp) <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/STAR/STARsolo/Gene/raw/barcodes.tsv.gz&#34;</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -641,7 +675,7 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[,<span style="c
 
 feature_matrix<span style="color:#000;font-weight:bold">$</span>starsolo_all_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h5 id="filtered-cellular-barcodes-1">Filtered cellular barcodes</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/STAR/STARsolo/Gene/filtered/matrix.mtx.gz&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/STAR/STARsolo/Gene/filtered/matrix.mtx.gz&#34;</span>)
 <span style="color:#900;font-weight:bold">colnames</span>(temp) <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/STAR/STARsolo/Gene/filtered/barcodes.tsv.gz&#34;</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -661,7 +695,7 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[expressed_genes
 
 feature_matrix<span style="color:#000;font-weight:bold">$</span>starsolo_filtered_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h5 id="cellular-barcodes-from-cell-ranger">Cellular barcodes from Cell Ranger</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colnames</span>(feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_filtered_barcodes) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colnames</span>(feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_filtered_barcodes) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">gsub</span>(pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;-1&#39;</span>, replacement <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>)
 temp <span style="color:#000;font-weight:bold">&lt;-</span> feature_matrix<span style="color:#000;font-weight:bold">$</span>starsolo_all_barcodes[,cells]
 
@@ -676,7 +710,7 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[expressed_genes
 feature_matrix<span style="color:#000;font-weight:bold">$</span>starsolo_cell_ranger_whitelist <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h4 id="alevin">Alevin</h4>
 <h5 id="all-cellular-barcodes-2">All cellular barcodes</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/alevin/raw/alevin/quants_mat.mtx.gz&#34;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/alevin/raw/alevin/quants_mat.mtx.gz&#34;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">t</span>()
 <span style="color:#900;font-weight:bold">colnames</span>(temp) <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/alevin/raw/alevin/quants_mat_rows.txt&#34;</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -702,7 +736,7 @@ empty_cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="
 
 feature_matrix<span style="color:#000;font-weight:bold">$</span>alevin_all_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h5 id="filtered-cellular-barcodes-2">Filtered cellular barcodes</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/alevin/filtered/alevin/quants_mat.mtx.gz&#34;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/alevin/filtered/alevin/quants_mat.mtx.gz&#34;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">t</span>()
 <span style="color:#900;font-weight:bold">colnames</span>(temp) <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/alevin/filtered/alevin/quants_mat_rows.txt&#34;</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -723,7 +757,7 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[expressed_genes
 
 feature_matrix<span style="color:#000;font-weight:bold">$</span>alevin_filtered_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h5 id="cellular-barcodes-from-cell-ranger-1">Cellular barcodes from Cell Ranger</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colnames</span>(feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_filtered_barcodes) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colnames</span>(feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_filtered_barcodes) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">gsub</span>(pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;-1&#39;</span>, replacement <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>)
 temp <span style="color:#000;font-weight:bold">&lt;-</span> feature_matrix<span style="color:#000;font-weight:bold">$</span>alevin_all_barcodes[,cells]
 
@@ -738,7 +772,7 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[expressed_genes
 feature_matrix<span style="color:#000;font-weight:bold">$</span>alevin_cell_ranger_whitelist <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h4 id="kallisto-3">kallisto</h4>
 <h5 id="all-cellular-barcodes-3">All cellular barcodes</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/kallisto/genecount/genes.mtx&#34;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">t</span>()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp <span style="color:#000;font-weight:bold">&lt;-</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">readMM</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/kallisto/genecount/genes.mtx&#34;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">t</span>()
 <span style="color:#900;font-weight:bold">colnames</span>(temp) <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_tsv</span>(<span style="color:#d14">&#34;results/pbmc_10k_v3/kallisto/genecount/genes.barcodes.txt&#34;</span>, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -763,7 +797,7 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[,<span style="c
 
 feature_matrix<span style="color:#000;font-weight:bold">$</span>kallisto_all_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h5 id="cellular-barcodes-from-cell-ranger-2">Cellular barcodes from Cell Ranger</h5>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colnames</span>(feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_filtered) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colnames</span>(feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_filtered) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">gsub</span>(pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;-1&#39;</span>, replacement <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>)
 temp <span style="color:#000;font-weight:bold">&lt;-</span> feature_matrix<span style="color:#000;font-weight:bold">$</span>kallisto_all_barcodes[,cells]
 
@@ -778,10 +812,10 @@ temp <span style="color:#000;font-weight:bold">&lt;-</span> temp[expressed_genes
 feature_matrix<span style="color:#000;font-weight:bold">$</span>kallisto_cell_ranger_whitelist <span style="color:#000;font-weight:bold">&lt;-</span> temp
 </code></pre></div><h4 id="save-data">Save data</h4>
 <p>Finally, we save the object that contains all the transcript count matrices.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">saveRDS</span>(feature_matrix, <span style="color:#d14">&#39;results/pbmc_10k_v3/merged_data/feature_matrix.rds&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">saveRDS</span>(feature_matrix, <span style="color:#d14">&#39;results/pbmc_10k_v3/merged_data/feature_matrix.rds&#39;</span>)
 </code></pre></div><h3 id="color-code">Color code</h3>
 <p>A coherent color code helps to quickly read the data.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">color_assignments <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">color_assignments <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
   <span style="color:#d14">&#39;Cell Ranger&#39;</span>                <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;#c0392b&#39;</span>,
   <span style="color:#d14">&#39;STARsolo&#39;</span>                   <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;#2980b9&#39;</span>,
   <span style="color:#d14">&#39;Alevin (all barcodes)&#39;</span>      <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;#f39c12&#39;</span>,
@@ -802,7 +836,7 @@ feature_matrix<span style="color:#000;font-weight:bold">$</span>kallisto_cell_ra
 <p>Now, we collect some meta data.</p>
 <h4 id="runs">Runs</h4>
 <p>Here, we put together the run statistics, including the run time, peak memory usage, etc.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(lubridate)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(lubridate)
 
 meta_data_runs <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tribble</span>(
                             <span style="color:#000;font-weight:bold">~</span>run,  <span style="color:#000;font-weight:bold">~</span>run_time,  <span style="color:#000;font-weight:bold">~</span>CPU_hours,   <span style="color:#000;font-weight:bold">~</span>mem_KB,  <span style="color:#000;font-weight:bold">~</span>vmem_KB, 
@@ -875,7 +909,7 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 </table>
 <h4 id="cells">Cells</h4>
 <p>Let&rsquo;s define the group levels.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">group_levels <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">group_levels <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
   <span style="color:#d14">&#39;Cell Ranger (all barcodes)&#39;</span>,
   <span style="color:#d14">&#39;Cell Ranger (filtered barcodes)&#39;</span>,
   <span style="color:#d14">&#39;STARsolo (all barcodes)&#39;</span>,
@@ -888,7 +922,7 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
   <span style="color:#d14">&#39;kallisto (Cell Ranger whitelist)&#39;</span>
 )
 </code></pre></div><p>Here, for every transcript count matrix we got, we count the number of transcripts and number of expressed genes per cell and rank them by the number of transcripts (we will need that later).</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_cell_ranger_all_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_cell_ranger_all_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     group <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Cell Ranger (all barcodes)&#39;</span>,
     cell <span style="color:#000;font-weight:bold">=</span> feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_all_barcodes <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">colnames</span>(),
     nUMI <span style="color:#000;font-weight:bold">=</span> feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_all_barcodes <span style="color:#000;font-weight:bold">%&gt;%</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">colSums</span>(),
@@ -995,7 +1029,7 @@ meta_data_cells <span style="color:#000;font-weight:bold">&lt;-</span> <span sty
 <span style="color:#900;font-weight:bold">saveRDS</span>(meta_data_cells, <span style="color:#d14">&#39;results/pbmc_10k_v3/merged_data/meta_data_cells.rds&#39;</span>)
 </code></pre></div><h3 id="run-time">Run time</h3>
 <p>The run time is defined as the time it took a job to finish after it was started.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_runs <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_runs <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(run <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">fct_rev</span>(run)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(run_time, run, fill <span style="color:#000;font-weight:bold">=</span> run)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_bar</span>(stat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;identity&#39;</span>, position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;dodge&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1055,7 +1089,7 @@ Cell Ranger, which internally uses STAR but not the STARsolo mode, needed more t
 <p>The measure &ldquo;CPU hours&rdquo; reflects exactly what it says: the cumulative hours used across all the cores that were engaged in the job.
 For example, a 30 minute long job using 10 cores would have the same CPU hours as a 1 hour long job using 5 cores (assuming that all cores were engaged the entire time): 5 CPU hours.
 This measure is taken from the run summary of the PBE scheduler and I cannot comment on how reliable it is.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_runs <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_runs <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(run <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">fct_rev</span>(run)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(CPU_hours, run, fill <span style="color:#000;font-weight:bold">=</span> run)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_bar</span>(stat <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;identity&#39;</span>, position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;dodge&#39;</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1116,7 +1150,7 @@ While this is impressive, it is also important to keep in mind that STAR aligns 
 <p>It would be great to have a temporal profile of memory occupancy during the job, but unfortunately that appears to be quite complicated to record.
 Instead, here we see the memory usage as reported by the PBE job scheduler.
 As far as I know, this number corresponds to the highest (peak) usage throughout the entire job, meaning that we don&rsquo;t know anything about how this value potentially fluctuates.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_runs <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_runs <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(run <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">fct_rev</span>(run)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rename</span>(mem <span style="color:#000;font-weight:bold">=</span> mem_GB, vmem <span style="color:#000;font-weight:bold">=</span> vmem_GB) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">pivot_longer</span>(
@@ -1186,7 +1220,7 @@ Also, when analysing all valid cellular barcodes, Alevin scores the lowest memor
 Again, kallisto performs well with a memory usage of less than 40 GB.</p>
 <h3 id="number-of-cells">Number of cells</h3>
 <p>Next, I looked at the number of cells that were identified in each run.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(group) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarise</span>(cell_count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">fct_rev</span>(group)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1252,7 +1286,7 @@ STARsolo and Alevin, using their own filtering algorithms, retrieved similar cel
 No drastic differences are seen in the total barcode counts, which are about 1.1 million (Alevin is slightly below the other three).</p>
 <h3 id="total-number-of-transcriptsmolecules">Total number of transcripts/molecules</h3>
 <p>Next, I looked at the number of transcripts that were counted across all cells and genes.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(group) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarise</span>(nUMI <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(nUMI)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">fct_rev</span>(group)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -1311,7 +1345,7 @@ When using the Cell Ranger whitelist, very similar counts are seen for Cell Rang
 kallisto counted considerably (10%) more transcripts, both for all and filtered barcodes.</p>
 <h3 id="number-of-expressed-genes">Number of expressed genes</h3>
 <p>Similar to the previous analysis, I also checked how many genes are expressed in at least 1 cell with at least 1 transcript.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span>
   <span style="color:#900;font-weight:bold">tibble</span>(
     group <span style="color:#000;font-weight:bold">=</span> group_levels,
     nGene <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(
@@ -1384,7 +1418,7 @@ While Cell Ranger, STARsolo, and Alevin again provide similar numbers, kallisto 
 <p>Here, we focus on those cells whose expression profiles were quantified with all tools, namely those in the Cell Ranger whitelist.</p>
 <h4 id="number-of-transcripts">Number of transcripts</h4>
 <p>First, I compared the number of transcripts that were identified in each cell for every comparison of tools.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(patchwork)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(patchwork)
 <span style="color:#900;font-weight:bold">library</span>(viridis)
 
 temp_groups <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;Cell Ranger&#39;</span>, <span style="color:#d14">&#39;STARsolo&#39;</span>, <span style="color:#d14">&#39;Alevin&#39;</span>, <span style="color:#d14">&#39;kallisto&#39;</span>)
@@ -1533,7 +1567,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 However, consistent with the higher number of transcripts identified by kallisto, the majority of cells are located above the diagonal line, meaning that kallisto identified more transcripts evenly across all cells.</p>
 <h4 id="number-of-expressed-genes-1">Number of expressed genes</h4>
 <p>Next, we checked the number of expressed genes (at least 1 transcript) across the cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_groups <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;Cell Ranger&#39;</span>, <span style="color:#d14">&#39;STARsolo&#39;</span>, <span style="color:#d14">&#39;Alevin&#39;</span>, <span style="color:#d14">&#39;kallisto&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_groups <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;Cell Ranger&#39;</span>, <span style="color:#d14">&#39;STARsolo&#39;</span>, <span style="color:#d14">&#39;Alevin&#39;</span>, <span style="color:#d14">&#39;kallisto&#39;</span>)
 
 temp <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   group.x <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(),
@@ -1650,7 +1684,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <p>While Cell Ranger, STAR, and Alevin have comparable results, kallisto found more genes to be expressed in most cells.</p>
 <h3 id="correlation-of-transcripts-per-gene">Correlation of transcripts per gene</h3>
 <p>Here, we switch focus to genes instead of cells and ask how many transcripts were found for every gene between the tools.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_groups <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;Cell Ranger&#39;</span>, <span style="color:#d14">&#39;STARsolo&#39;</span>, <span style="color:#d14">&#39;Alevin&#39;</span>, <span style="color:#d14">&#39;kallisto&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_groups <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;Cell Ranger&#39;</span>, <span style="color:#d14">&#39;STARsolo&#39;</span>, <span style="color:#d14">&#39;Alevin&#39;</span>, <span style="color:#d14">&#39;kallisto&#39;</span>)
 
 temp_cell_ranger_filtered_barcodes <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     gene <span style="color:#000;font-weight:bold">=</span> feature_matrix<span style="color:#000;font-weight:bold">$</span>cell_ranger_filtered_barcodes <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">rownames</span>(),
@@ -1794,7 +1828,7 @@ While the scatter plot might indicate that many genes have drastically different
 Interestingly, despite the higher number of genes detected by kallisto compared to the other tools, some genes were identified in the other tools but not in kallisto.
 While genes with very high counts are more consistently quantified between the tools, some genes show large discrepancies, with zero counts in one tools and more than 10,000 in another.</p>
 <h3 id="knee-plots">Knee plots</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(group) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarise</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>())
 
@@ -1853,7 +1887,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span s
 
 
 <h3 id="transcripts-per-cell">Transcripts per cell</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">fct_rev</span>(group)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(nUMI, group, fill <span style="color:#000;font-weight:bold">=</span> group)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_boxplot</span>(width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, outlier.size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.2</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1900,7 +1934,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span s
 
 
 <h3 id="expressed-genes-per-cell">Expressed genes per cell</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">fct_rev</span>(group)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(nGene, group, fill <span style="color:#000;font-weight:bold">=</span> group)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_boxplot</span>(width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, outlier.size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.2</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1947,7 +1981,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span s
 
 
 <h3 id="number-of-expressed-genes-over-number-of-transcripts-per-cell">Number of expressed genes over number of transcripts (per cell)</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(group) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarise</span>(n <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>())
 
@@ -2029,7 +2063,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> meta_data_cells <span s
         <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman-hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

@@ -89,70 +89,42 @@
 </nav>
 <div class="site-content">
       <div class="container">
-  <div class="main-content">
+        <div class="main-content">
+          
+          <div class="container">
+            <div class="row">
+              
+              <div class="col-md-12 flex-first flex-md-unordered">
+                <div class="mainheading">
+                  
+                  <h1 class="posttitle">PhD Thesis</h1>
+                </div>
+                
+                
+                
+                <body>
+                  <div class="article-post">
+                    <ul>
+<li>My dissertation can be downloaded in <code>.pdf</code> format here: <a href="https://air.unimi.it/handle/2434/790077" target="_blank" rel="noreferrer noopener">https://air.unimi.it/handle/2434/790077</a></li>
+<li>Code, figures and additional material can be found here: <a href="https://romanhaa.gitlab.io/phd_thesis" target="_blank" rel="noreferrer noopener">https://romanhaa.gitlab.io/phd_thesis</a></li>
+</ul>
+<p><strong>Title:</strong></p>
+<p>A Computational Perspective at the Histone Modification Landscape of the Mouse Liver During Aging</p>
+<p><strong>Abstract:</strong></p>
+<p>Aging, seen as the progressive physiological change in an organism that leads to the decline of biological functions and the organism’s ability to adapt to external and internal stress, is a complex process that is genetically and epigenetically determined and environmentally modulated.
+At the epigenetic level, aging is known to involve alterations of histone modifications which are associated with transcriptional changes occurring throughout the entire life span of an individual.
+Rather than studying these epigenetic variations between ”truly old” and young mice, we are particularly interested in clarifying how time as a primary factor affects the dynamics of histone modifications in young adults which are still in the healthy phase of their life span.
+To systematically approach this concept, we report the genome-wide mapping of mono- and tri-methylated lysine 4 (H3K4me1, H3K4me3), and acetylated and tri-methylated lysine 27 of histone H3 (H3K27ac, H3K27me3) in the livers of healthy 3, 6 and 12 months old C57BL/6 mice.
+The comparison of different age profiles of histone H3 marks revealed global redistribution of histone H3 modifications with time, in particular in intergenic regions and near transcription start sites, as well as altered correlation between the profiles of different histone modifications.
+Moreover, feeding mice with a 30% caloric restriction diet, a treatment known to retard aging, preserved a younger state of histone H3 in these genomic regions.
+Taken together, our data provide one of the most comprehensive descriptions of the dynamics of genome-wide histone H3 modifications over time and upon reduction of caloric intake, in mammals.</p>
 
-    
-    <div class="container">
-      <div class="row">
-
-        
-        <div class="col-md-12 flex-first flex-md-unordered">
-          <div class="mainheading">
-
-            
-            <h1 class="posttitle">Scatter plot 1</h1>
-            <div class="article-post">
-              <p>Category: scatter</p>
+                  </div>
+                </body>
+              </div>
             </div>
           </div>
-
-          
-          <a
-            href="/images/plots/scatter/1.png"
-            target="_blank"
-          >
-            <picture>
-              <source
-                srcset="/images/plots/scatter/1.webp"
-                type="image/webp"
-              >
-              <img
-                class="featured-image img-fluid"
-                src="/images/plots/scatter/1.jpg"
-                alt="something went wrong... here should be a figure"
-                style="width: 80%; display: block; margin-left: auto; margin-right: auto;"
-              >
-            </picture>
-          </a>
-
-          
-          <div class="article-post">
-            <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
-
-<span style="color:#900;font-weight:bold">data</span>(iris)
-
-p <span style="color:#000;font-weight:bold">&lt;-</span> iris <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">mutate</span>(Petal.Width.larger <span style="color:#000;font-weight:bold">=</span> Petal.Width <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">1.5</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(Sepal.Length, Sepal.Width, size <span style="color:#000;font-weight:bold">=</span> Petal.Width.larger), color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(Sepal.Length, Sepal.Width, color <span style="color:#000;font-weight:bold">=</span> Petal.Length, size <span style="color:#000;font-weight:bold">=</span> Petal.Width)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">labs</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Sepal length&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Sepal width&#39;</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Petal width&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_color_distiller</span>(
-    palette <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Spectral&#39;</span>, name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Petal length&#39;</span>,
-    guide <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">guide_colorbar</span>(frame.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>, ticks.colour <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>)
-  ) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;right&#39;</span>)
-
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;1.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
-</code></pre></div>
-          </div>
-
         </div>
-      </div>
-    </div>
-  </div>
-
       </div>
 <footer class="footer">
   <div class="container">
@@ -184,3 +156,4 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> iris <span style="color
 
   </body>
 </html>
+

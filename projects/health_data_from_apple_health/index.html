@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.84.0" />
+  <meta name="generator" content="Hugo 0.91.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -33,19 +33,53 @@
       <ul class="navbar-nav ml-auto">
         
         <li class="nav-item ">
-          <a class="nav-link" href="/">About Me</a>
+          <a
+            class="nav-link"
+            href="/"
+            
+          >
+            About Me
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a
+            class="nav-link"
+            href="/projects"
+            
+          >
+            Projects
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/plots">Plot Gallery</a>
+          <a
+            class="nav-link"
+            href="/phd_thesis"
+            
+          >
+            PhD Thesis
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a
+            class="nav-link"
+            href="/plots"
+            
+          >
+            Plot Gallery
+          </a>
+        </li>
+        
+        <li class="nav-item ">
+          <a
+            class="nav-link"
+            href="/blog"
+            
+          >
+            Blog
+          </a>
         </li>
         
       </ul>
@@ -96,7 +130,7 @@
 </ul>
 <h2 id="preparation">Preparation</h2>
 <h3 id="load-packages">Load packages</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(lubridate)
 <span style="color:#900;font-weight:bold">library</span>(XML)
 <span style="color:#900;font-weight:bold">library</span>(viridis)
@@ -105,10 +139,10 @@
 Depending on the amount of data that is stored in Apple Health, these files can become quite large.
 The data we want to import is stored in the <code>export.xml</code> file, which we will load using the <code>XML::xmlParse()</code> function.
 Then, we transform it into a tibble using the <code>XML::xmlAttrsToDataFrame()</code> function.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">xml <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">xmlParse</span>(<span style="color:#d14">&#39;export.xml&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">xml <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">xmlParse</span>(<span style="color:#d14">&#39;export.xml&#39;</span>)
 data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="color:#000;font-weight:bold">:::</span><span style="color:#900;font-weight:bold">xmlAttrsToDataFrame</span>(xml[<span style="color:#d14">&#39;//Record&#39;</span>]) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as_tibble</span>()
 </code></pre></div><p>We also export my workout sessions which I recorded with <a href="https://streaksworkout.com" target="_blank" rel="noreferrer noopener">Streaks Workout</a>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">workouts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#d14">&#39;streaks-workout.csv&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">workouts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(<span style="color:#d14">&#39;streaks-workout.csv&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(<span style="color:#000;font-weight:bold">!</span><span style="color:#900;font-weight:bold">is.na</span>(device_name)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(
     date <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">format</span>(starting_time, <span style="color:#d14">&#39;%Y-%m-%d&#39;</span>),
@@ -118,7 +152,7 @@ data <span style="color:#000;font-weight:bold">&lt;-</span> XML<span style="colo
 </code></pre></div><h2 id="heart-rate">Heart rate</h2>
 <p>Ideally, my heart rate is recorded once a minute.
 However, there are some missing values because sometimes the band is placed in a way that it can&rsquo;t measure the heart rate.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_heart_rate <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_heart_rate <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">filter</span>(
     type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;HKQuantityTypeIdentifierHeartRate&#39;</span>,
     sourceName <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;Mi Fit&#39;</span>
@@ -136,7 +170,7 @@ However, there are some missing values because sometimes the band is placed in a
 </code></pre></div><h3 id="profile-over-the-day">Profile over the day</h3>
 <p>We use different values for <code>k</code> in the <code>geom_smooth()</code> call to control how smooth the line of the GAM should be.
 Workout sessions are marked as grey areas.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(date <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;2020-01-25&#39;</span>,<span style="color:#d14">&#39;2020-02-07&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_rect</span>(
@@ -189,7 +223,7 @@ Workout sessions are marked as grey areas.</p>
 
 <p>Some measurements look like outliers.
 We can deal with that by applying a smoothing line with different <code>k</code> parameter to control how sensitive it should be.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(date <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;2020-01-25&#39;</span>,<span style="color:#d14">&#39;2020-02-07&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_rect</span>(
@@ -243,7 +277,7 @@ We can deal with that by applying a smoothing line with different <code>k</code>
 
 
 <h3 id="heatmap">Heatmap</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_heart_rate <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(<span style="color:#900;font-weight:bold">grepl</span>(date, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;2020-02&#39;</span>)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(hour_minute, <span style="color:#900;font-weight:bold">reorder</span>(date, <span style="color:#900;font-weight:bold">desc</span>(date)))) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_tile</span>(<span style="color:#900;font-weight:bold">aes</span>(fill <span style="color:#000;font-weight:bold">=</span> value)) <span style="color:#000;font-weight:bold">+</span>
@@ -293,7 +327,7 @@ We can deal with that by applying a smoothing line with different <code>k</code>
 <h2 id="sleep-stats">Sleep stats</h2>
 <p>To show sleeping blocks, we need to do some extra parsing.
 With this technique, we cut the day into two parts: The part before 18:00, and the part after 18:00.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_sleep <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_sleep <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(
     type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;HKCategoryTypeIdentifierSleepAnalysis&#39;</span>,
     sourceName <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;Mi Fit&#39;</span>
@@ -325,7 +359,7 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
     data_sleep<span style="color:#000;font-weight:bold">$</span>night[i] <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.character</span>(<span style="color:#900;font-weight:bold">as.integer</span>(data_sleep<span style="color:#000;font-weight:bold">$</span>night[i<span style="color:#099">-1</span>]) <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>)
   }
 }
-</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data_sleep) <span style="color:#000;font-weight:bold">+</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data_sleep) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_rect</span>(
     <span style="color:#900;font-weight:bold">aes</span>(
       xmin <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.integer</span>(night) <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">0.45</span>,
@@ -384,7 +418,7 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h2 id="steps">Steps</h2>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_steps <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_steps <span style="color:#000;font-weight:bold">&lt;-</span> data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(
     type <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;HKQuantityTypeIdentifierStepCount&#39;</span>,
     sourceName <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;Mi Fit&#39;</span>
@@ -401,7 +435,7 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
   ) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(startDate)
 </code></pre></div><h3 id="total-steps-per-day">Total steps per day</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(startDate) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(start_date) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(total_steps <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(value)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -448,7 +482,7 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h3 id="profile-for-selected-days">Profile for selected days</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(startDate <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#d14">&#39;2020-02-03&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_rect</span>(
@@ -507,7 +541,7 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h3 id="profile-across-all-days">Profile across all days</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(start_hour_minute, end_hour_minute) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(value <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(value)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>() <span style="color:#000;font-weight:bold">+</span>
@@ -565,7 +599,7 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h3 id="total-number-of-steps-by-weekday">Total number of steps by weekday</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">arrange</span>(startDate) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(start_date) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(total_steps <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">sum</span>(value)) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -618,7 +652,7 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 
 
 <h3 id="distribution-of-steps-by-weekday">Distribution of steps by weekday</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> data_steps <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(
     weekday <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">weekdays</span>(<span style="color:#900;font-weight:bold">as.Date</span>(start_date, <span style="color:#d14">&#39;%Y-%m-%d&#39;</span>)),
     weekday <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">factor</span>(weekday, levels <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#d14">&#39;Monday&#39;</span>,<span style="color:#d14">&#39;Tuesday&#39;</span>,<span style="color:#d14">&#39;Wednesday&#39;</span>,<span style="color:#d14">&#39;Thursday&#39;</span>,<span style="color:#d14">&#39;Friday&#39;</span>,<span style="color:#d14">&#39;Saturday&#39;</span>,<span style="color:#d14">&#39;Sunday&#39;</span>))
@@ -685,7 +719,7 @@ data_sleep<span style="color:#000;font-weight:bold">$</span>night <span style="c
 <h3 id="calendar">Calendar</h3>
 <p>To plot highlight the days we worked in calendar style, we take advantage of the <code>ggcal()</code> function made by <a href="https://github.com/jayjacobs/ggcal" target="_blank" rel="noreferrer noopener"><code>jayjaycobs</code></a>.
 However, we slightly modify it, e.g. so that the week starts on Monday instead of Sunday.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">ggcal <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(dates, fills) {
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">ggcal <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(dates, fills) {
   months <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">format</span>(<span style="color:#900;font-weight:bold">seq</span>(<span style="color:#900;font-weight:bold">as.Date</span>(<span style="color:#d14">&#39;2016-01-01&#39;</span>), <span style="color:#900;font-weight:bold">as.Date</span>(<span style="color:#d14">&#39;2016-12-01&#39;</span>), by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;1 month&#39;</span>), <span style="color:#d14">&#39;%B&#39;</span>)
   mindate <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.Date</span>(<span style="color:#900;font-weight:bold">format</span>(<span style="color:#900;font-weight:bold">min</span>(dates), <span style="color:#d14">&#39;%Y-%m-01&#39;</span>))
   maxdate <span style="color:#000;font-weight:bold">&lt;-</span> (<span style="color:#900;font-weight:bold">seq</span>(<span style="color:#900;font-weight:bold">as.Date</span>(<span style="color:#900;font-weight:bold">format</span>(<span style="color:#900;font-weight:bold">max</span>(dates), <span style="color:#d14">&#39;%Y-%m-01&#39;</span>)), length.out <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>, by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;1 month&#39;</span>) <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>)[2]
@@ -771,8 +805,8 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <p>Color reflects the workout length.</p>
 <h2 id="running-sessions">Running sessions</h2>
 <p><strong>WORK IN PROGRESS</strong></p>
-<p>I took parts of code from this article: <a href="https://rpubs.com/ials2un/gpx1">https://rpubs.com/ials2un/gpx1</a></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(ggmap)
+<p>I took parts of code from this article: <a href="https://rpubs.com/ials2un/gpx1" target="_blank" rel="noreferrer noopener">https://rpubs.com/ials2un/gpx1</a></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(ggmap)
 <span style="color:#900;font-weight:bold">library</span>(plotKML)
 <span style="color:#900;font-weight:bold">library</span>(geosphere)
 
@@ -869,7 +903,7 @@ df
         <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman-hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

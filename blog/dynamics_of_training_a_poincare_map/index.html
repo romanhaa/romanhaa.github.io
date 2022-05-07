@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.84.0" />
+  <meta name="generator" content="Hugo 0.91.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -33,19 +33,53 @@
       <ul class="navbar-nav ml-auto">
         
         <li class="nav-item ">
-          <a class="nav-link" href="/">About Me</a>
+          <a
+            class="nav-link"
+            href="/"
+            
+          >
+            About Me
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a
+            class="nav-link"
+            href="/projects"
+            
+          >
+            Projects
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/plots">Plot Gallery</a>
+          <a
+            class="nav-link"
+            href="/phd_thesis"
+            
+          >
+            PhD Thesis
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a
+            class="nav-link"
+            href="/plots"
+            
+          >
+            Plot Gallery
+          </a>
+        </li>
+        
+        <li class="nav-item ">
+          <a
+            class="nav-link"
+            href="/blog"
+            
+          >
+            Blog
+          </a>
         </li>
         
       </ul>
@@ -89,7 +123,7 @@ Instead, it is about (1) finally getting a chance to make animated plots, and (2
 <h2 id="export-log-normalized-transcript-counts">Export log-normalized transcript counts</h2>
 <p>First, we will load our data and identify genes with a mean expression above a visually determined and quite arbitrary threshold (I&rsquo;m not sure this is the right way to do it but I wanted to reduce computation time).
 We remove almost half of the genes, having 8,886 genes left.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(Seurat)
 
 seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;data/seurat.rds&#39;</span>)
@@ -142,7 +176,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 
 <p>Then, we write the filtered transcript counts in a transposed format to a CSV file, adding the cell type identified using <code>SingleR</code> as a label.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data<span style="color:#900;font-weight:bold">[which</span>(average_expression_per_gene <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0.01</span>),] <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data<span style="color:#900;font-weight:bold">[which</span>(average_expression_per_gene <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0.01</span>),] <span style="color:#000;font-weight:bold">%&gt;%</span>
 <span style="color:#900;font-weight:bold">as.matrix</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
 <span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
 <span style="color:#900;font-weight:bold">as_tibble</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -155,7 +189,7 @@ If we set it to <code>10</code> (which we will do later), the intermediate data 
 The adjustments in the code are necessary because the intermediate data is overwritten every time they are re-generated.
 In the <code>train.py</code> file, in the definition of the <code>train</code> function, we create a new variable <code>temp_fout</code>, which will be the file name of the temporary data, and add the current epoch count to the file name.
 Then, we use that temporary name for the intermediate map (in PDF format) and cell coordinates (CSV format).</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-py" data-lang="py"><span style="color:#998;font-style:italic"># ...</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-py" data-lang="py"><span style="color:#998;font-style:italic"># ...</span>
         <span style="color:#000;font-weight:bold">if</span> args<span style="color:#000;font-weight:bold">.</span>debugplot:
             <span style="color:#000;font-weight:bold">if</span> (epoch <span style="color:#000;font-weight:bold">%</span> args<span style="color:#000;font-weight:bold">.</span>debugplot) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span>:
                 d <span style="color:#000;font-weight:bold">=</span> model<span style="color:#000;font-weight:bold">.</span>lt<span style="color:#000;font-weight:bold">.</span>weight<span style="color:#000;font-weight:bold">.</span>cpu()<span style="color:#000;font-weight:bold">.</span>detach()<span style="color:#000;font-weight:bold">.</span>numpy()
@@ -175,7 +209,7 @@ By default, this process will run for 5,000 epochs (<code>--epochs</code>) or un
 I did my early tests on my private laptop which doesn&rsquo;t have a GPU, which means I had to set <code>--cuda</code> to <code>0</code>.
 I terminated the command below after a about an hour because it had only calculated 290 epochs.
 Further tests will have to be run on some proper hardware, but for the purpose of visualizing the process we anyway collected some interesting data.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">python3 main.py <span style="color:#d14">\
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-sh" data-lang="sh">python3 main.py <span style="color:#d14">\
 </span><span style="color:#d14"></span>--dset SCT_data <span style="color:#d14">\
 </span><span style="color:#d14"></span>--path data/ <span style="color:#d14">\
 </span><span style="color:#d14"></span>--batchsize -1 <span style="color:#d14">\
@@ -224,7 +258,7 @@ But maybe I&rsquo;m wrong, there isn&rsquo;t too much information.</p>
 <p>Anyway, all the intermediate data was put into the <code>results</code> folder of the current working directory.</p>
 <h2 id="prepare-r-session">Prepare R session</h2>
 <p>Here, we launch an R session, load libraries, load our Seurat object, and define some custom colors.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(Seurat)
 <span style="color:#900;font-weight:bold">library</span>(plotly)
 
@@ -239,7 +273,7 @@ colors_dutch <span style="color:#000;font-weight:bold">&lt;-</span> <span style=
 </code></pre></div><h2 id="load-data">Load data</h2>
 <p>Now, we load the cell coordinates from all available intermediate results.
 While doing this, we also add an ID and the cell type to every cell.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">final_data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">final_data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   X1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(),
   X2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(),
   cell_id <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(),
@@ -271,11 +305,11 @@ final_data <span style="color:#000;font-weight:bold">&lt;-</span> final_data <sp
 <span style="color:#998;font-style:italic"># $ epoch   &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…</span>
 <span style="color:#998;font-style:italic"># $ label   &lt;chr&gt; &#34;HSC&#34;, &#34;CD8+ T-cells&#34;, &#34;CD8+ T-cells&#34;, &#34;Erythrocytes&#34;, &#34;Eryth…</span>
 </code></pre></div><p>Also, we create a named vector that holds the color assignment for each cell type.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">colors_here <span style="color:#000;font-weight:bold">&lt;-</span> colors_dutch<span style="color:#000;font-weight:bold">$</span>discrete[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(<span style="color:#900;font-weight:bold">unique</span>(final_data<span style="color:#000;font-weight:bold">$</span>label))]
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">colors_here <span style="color:#000;font-weight:bold">&lt;-</span> colors_dutch<span style="color:#000;font-weight:bold">$</span>discrete[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(<span style="color:#900;font-weight:bold">unique</span>(final_data<span style="color:#000;font-weight:bold">$</span>label))]
 <span style="color:#900;font-weight:bold">names</span>(colors_here) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">sort</span>(<span style="color:#900;font-weight:bold">unique</span>(final_data<span style="color:#000;font-weight:bold">$</span>label))
 </code></pre></div><h2 id="make-static-plot">Make static plot</h2>
 <p>To get a sense of the data, I first created a faceted static plot using <code>ggplot2</code> for the first 1,000 cell ID at every epoch.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_to_plot <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(final_data, cell_id <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">seq</span>(<span style="color:#099">1000</span>))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_to_plot <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(final_data, cell_id <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">seq</span>(<span style="color:#099">1000</span>))
 
 <span style="color:#900;font-weight:bold">glimpse</span>(data_to_plot)
 <span style="color:#998;font-style:italic"># Observations: 29,000</span>
@@ -335,7 +369,7 @@ I found this unusually long but I don&rsquo;t know of a way to know if it&rsquo;
 However, after a few attempts, I realized that it takes way too long for it to render.
 I was able to make on with the first 100 cell IDs (it took 5 minutes), but even with just 1,000 cells the process crashed due to a lack of memory after about 1 hour.</p>
 <p><strong>Note:</strong> The full data set contains ~5,700 cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_to_plot <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(final_data, cell_id <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">seq</span>(<span style="color:#099">100</span>))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">data_to_plot <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(final_data, cell_id <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">seq</span>(<span style="color:#099">100</span>))
 
 <span style="color:#900;font-weight:bold">glimpse</span>(data_to_plot)
 <span style="color:#998;font-style:italic"># Observations: 2,900</span>
@@ -375,7 +409,7 @@ Also the added tail is quite neat, even though perhaps not very useful with all 
 I worked with <code>plotly</code> quite often and thought I knew it relatively well.
 Yet, I was not aware of its capability to generate animations.
 And it&rsquo;s actually also quite easy to set up, using a similar syntax as <code>gganimate</code> (or maybe it&rsquo;s the other way around, who knows).</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">fig <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">plot_ly</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">fig <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">plot_ly</span>(
     final_data,
     type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;scatter&#39;</span>,
     mode <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;markers&#39;</span>,
@@ -483,7 +517,7 @@ This is an exciting result and makes me look forward to additional tests (hopefu
         <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman-hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

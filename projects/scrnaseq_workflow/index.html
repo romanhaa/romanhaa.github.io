@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.84.0" />
+  <meta name="generator" content="Hugo 0.91.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -33,19 +33,53 @@
       <ul class="navbar-nav ml-auto">
         
         <li class="nav-item ">
-          <a class="nav-link" href="/">About Me</a>
+          <a
+            class="nav-link"
+            href="/"
+            
+          >
+            About Me
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a
+            class="nav-link"
+            href="/projects"
+            
+          >
+            Projects
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/plots">Plot Gallery</a>
+          <a
+            class="nav-link"
+            href="/phd_thesis"
+            
+          >
+            PhD Thesis
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a
+            class="nav-link"
+            href="/plots"
+            
+          >
+            Plot Gallery
+          </a>
+        </li>
+        
+        <li class="nav-item ">
+          <a
+            class="nav-link"
+            href="/blog"
+            
+          >
+            Blog
+          </a>
         </li>
         
       </ul>
@@ -128,7 +162,7 @@ We will use three samples from a public data set <a href="https://www.ncbi.nlm.n
 
 <h2 id="preparation">Preparation</h2>
 <h3 id="load-r-packages">Load R packages</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
 <span style="color:#900;font-weight:bold">library</span>(Seurat)
 <span style="color:#900;font-weight:bold">library</span>(scran)
 <span style="color:#900;font-weight:bold">library</span>(patchwork)
@@ -140,9 +174,9 @@ We will use three samples from a public data set <a href="https://www.ncbi.nlm.n
 <span style="color:#900;font-weight:bold">library</span>(SingleR)
 </code></pre></div><h3 id="define-colors">Define colors</h3>
 <p>I have a custom color set that I like to use for discrete color scales.
-It&rsquo;s two color palettes from <a href="https://flatuicolors.com">https://flatuicolors.com</a> merged together.
+It&rsquo;s two color palettes from <a href="https://flatuicolors.com" target="_blank" rel="noreferrer noopener">https://flatuicolors.com</a> merged together.
 We also define some colors for the cell cycle phases.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">custom_colors <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>()
 
 colors_dutch <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
   <span style="color:#d14">&#39;#FFC312&#39;</span>,<span style="color:#d14">&#39;#C4E538&#39;</span>,<span style="color:#d14">&#39;#12CBC4&#39;</span>,<span style="color:#d14">&#39;#FDA7DF&#39;</span>,<span style="color:#d14">&#39;#ED4C67&#39;</span>,
@@ -167,7 +201,7 @@ custom_colors<span style="color:#000;font-weight:bold">$</span>cell_cycle <span 
 </code></pre></div><h3 id="helper-functions">Helper functions</h3>
 <h4 id="format-numbers">Format numbers</h4>
 <p>This is a function that will format numbers so they are easier to look at.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">niceFormat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(number) {
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">niceFormat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(number) {
   <span style="color:#900;font-weight:bold">formatC</span>(number, format <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;f&#39;</span>, big.mark <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;,&#39;</span>, digits <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>)
 }
 </code></pre></div><h4 id="load-transcript-count-matrix">Load transcript count matrix</h4>
@@ -175,7 +209,7 @@ custom_colors<span style="color:#000;font-weight:bold">$</span>cell_cycle <span 
 Importantly, this function collapses the counts from genes with the same name (they usually have different gene IDs which is why they were reported separately).
 It is not always done like this.
 Others keep the genes separate by adding a suffix to the duplicate gene names.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">load10xData <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">load10xData <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(
   sample_name,
   path,
   max_number_of_cells <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">NULL</span>
@@ -280,7 +314,7 @@ Others keep the genes separate by adding a suffix to the duplicate gene names.</
 }
 </code></pre></div><h4 id="check-if-gene-names-are-the-same">Check if gene names are the same</h4>
 <p>When provided with a list of transcript count matrices, this function checks whether the gene names are the same in all the count matrices, which is an important premise for merging them.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sameGeneNames <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(counts) {
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sameGeneNames <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(counts) {
 
   <span style="color:#998;font-style:italic">## create place holder for gene names from each count matrix</span>
   gene_names <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>()
@@ -298,7 +332,7 @@ Others keep the genes separate by adding a suffix to the duplicate gene names.</
 }
 </code></pre></div><h4 id="table-of-ncount-and-nfeature-by-sample">Table of nCount and nFeature by sample</h4>
 <p>This function outputs a table of mean and median transcripts and expressed genes for every sample in our data set.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">averagenCountnFeature <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(cells) {
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">averagenCountnFeature <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(cells) {
   output <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     <span style="color:#d14">&#39;sample&#39;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(),
     <span style="color:#d14">&#39;mean(nCount)&#39;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(),
@@ -320,13 +354,13 @@ Others keep the genes separate by adding a suffix to the duplicate gene names.</
 }
 </code></pre></div><h3 id="create-output-directories">Create output directories</h3>
 <p>Every output of this workflow is either stored in <code>data</code> or <code>plots</code>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">dir.create</span>(<span style="color:#d14">&#39;data&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">dir.create</span>(<span style="color:#d14">&#39;data&#39;</span>)
 <span style="color:#900;font-weight:bold">dir.create</span>(<span style="color:#d14">&#39;plots&#39;</span>)
 </code></pre></div><h2 id="load-data">Load data</h2>
 <p>First, we load every sample by itself using the previously specified <code>load10xData()</code> function.
 We will randomly down-sample each sample to 2,000 cells for faster processing.</p>
 <h3 id="sample-wise">Sample-wise</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sample_names <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list.dirs</span>(<span style="color:#d14">&#39;raw_data&#39;</span>, recursive <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">basename</span>()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sample_names <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list.dirs</span>(<span style="color:#d14">&#39;raw_data&#39;</span>, recursive <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">basename</span>()
 
 transcripts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
   raw <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>()
@@ -346,17 +380,17 @@ transcripts <span style="color:#000;font-weight:bold">&lt;-</span> <span style="
 <span style="color:#998;font-style:italic"># [2020-10-06 21:32:28] Loaded counts for sample E with 2,000 cells and 33,660 genes.</span>
 </code></pre></div><h3 id="merge-samples">Merge samples</h3>
 <p>Before being able to merge the transcript count matrices, we need to check whether the gene names are the same in each of them. This is important because if they are, then we can just glue the matrices together.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">checkGeneNames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">checkGeneNames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw)
 <span style="color:#998;font-style:italic"># TRUE</span>
 </code></pre></div><p>Since all three samples used here were generated with the same software, the gene names are the same in each of them and so we can proceed with merging them.</p>
 <p>Now, we merge the transcript counts from every sample by gene name.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">do.call</span>(cbind, transcripts<span style="color:#000;font-weight:bold">$</span>raw)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">do.call</span>(cbind, transcripts<span style="color:#000;font-weight:bold">$</span>raw)
 
 <span style="color:#900;font-weight:bold">dim</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged)
 <span style="color:#998;font-style:italic"># 33660  6000</span>
 </code></pre></div><p><strong>NOTE:</strong> If the gene names are not the same, there are two strategies. You can convert the transcript count matrices to data frame format and then merge them using the <code>full_join()</code> function. Depending on the size of the data set you are working with, this might result in memory issues. Alternatively, you add missing genes filled with 0 counts to the matrices that are missing the gene. Before merging, you must then make sure that the genes are in the same order.</p>
 <p>Below you can find an outline of the first procedure:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">for </span>( i in sample_names ) {
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">for </span>( i in sample_names ) {
   gene_names <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">rownames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw[[i]])
   transcripts<span style="color:#000;font-weight:bold">$</span>raw[[i]] <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(<span style="color:#900;font-weight:bold">as.matrix</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw[[i]]))
   transcripts<span style="color:#000;font-weight:bold">$</span>raw[[i]] <span style="color:#000;font-weight:bold">&lt;-</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw[[i]] <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -374,7 +408,7 @@ transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="col
 <p>We start with the cells.</p>
 <h4 id="prepare-data">Prepare data</h4>
 <p>First, we collect the transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   cell <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colnames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
   sample <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colnames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged) <span style="color:#000;font-weight:bold">%&gt;%</span>
     <span style="color:#900;font-weight:bold">strsplit</span>(<span style="color:#d14">&#39;-&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -425,7 +459,7 @@ cells<span style="color:#000;font-weight:bold">$</span>percent_MT <span style="c
 <span style="color:#998;font-style:italic"># 5999 TGATTTCAGGCTCAGA-E        E      2150       733  0.0232558</span>
 <span style="color:#998;font-style:italic"># 6000 CAGCTGGGTTATCGGT-E        E     21167      4030  0.0313223</span>
 </code></pre></div><p>We use our <code>averagenCountnFeature()</code> function to get an idea of the metrics per sample.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">averagenCountnFeature</span>(cells) <span style="color:#000;font-weight:bold">%&gt;%</span> knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">kable</span>()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">averagenCountnFeature</span>(cells) <span style="color:#000;font-weight:bold">%&gt;%</span> knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">kable</span>()
 </code></pre></div><table>
 <thead>
 <tr>
@@ -462,12 +496,12 @@ cells<span style="color:#000;font-weight:bold">$</span>percent_MT <span style="c
 </table>
 <h4 id="doublets">Doublets</h4>
 <p>To identify doublets, we will use the <a href="https://bioconductor.org/packages/release/bioc/html/scDblFinder.html" target="_blank" rel="noreferrer noopener"><code>scDblFinder</code></a> package.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(assays <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(assays <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged))
 sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">scDblFinder</span>(sce)
 
 cells<span style="color:#000;font-weight:bold">$</span>multiplet_class <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">colData</span>(sce)<span style="color:#000;font-weight:bold">$</span>scDblFinder.class
 </code></pre></div><p>How many doublets do we find in each sample?</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(multiplet_class <span style="color:#000;font-weight:bold">!=</span> <span style="color:#d14">&#39;singlet&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -521,7 +555,7 @@ cells<span style="color:#000;font-weight:bold">$</span>multiplet_class <span sty
 
 
 <p>Below we see the distribution of <code>nCount</code> and <code>nFeature</code> by the multiplet class.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> multiplet_class, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> multiplet_class)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
@@ -616,7 +650,7 @@ p4 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 
 <p>Now, we remove the doublets.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(cells, multiplet_class <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;singlet&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(cells, multiplet_class <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;singlet&#39;</span>)
 </code></pre></div><h4 id="before-filtering">Before filtering</h4>
 <p>Before removing any cell, let&rsquo;s look at the distribution of transcript count, expressed genes per cell, and percentage of mitochondrial transcripts per cell.
 These distributions can be represented in different ways.
@@ -629,7 +663,7 @@ Which of them looks best depends on taste and dataset.</p>
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
@@ -749,7 +783,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
@@ -859,7 +893,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_histogram</span>(bins <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">200</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
@@ -944,7 +978,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> nCount, y <span style="color:#000;font-weight:bold">=</span> sample, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> nCount, y <span style="color:#000;font-weight:bold">=</span> sample, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_density_ridges</span>(rel_min_height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.01</span>, scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.9</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.8</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_ridges</span>(center <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_fill_manual</span>(values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
@@ -1039,7 +1073,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <p>Another interesting relationship is the number of expressed genes over the number of transcripts per cell.
 This usually results in a curve as the one shown below.
 Sometimes there are a number of cells with a particular pattern, i.e. many expressed genes for the number of transcripts they have, which could be dying cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_x_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Number of transcripts&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Number of expressed genes&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
@@ -1090,7 +1124,7 @@ One way is to go by eye, another to calculate median and MAD (median absolute de
 If you decide to go with option 2, it is generally advised to stay within 3-5 MADs around the median [2].
 Here, we will be generous and accept anything below median plus 5 times the MAD.
 We don&rsquo;t need a lower boundary because the matrices have apparently been pre-filtered with acceptable lower boundaries for the number of transcripts and expressed genes per cell.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">median_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">median</span>(cells<span style="color:#000;font-weight:bold">$</span>nCount)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">median_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">median</span>(cells<span style="color:#000;font-weight:bold">$</span>nCount)
 <span style="color:#998;font-style:italic"># 4255</span>
 mad_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">mad</span>(cells<span style="color:#000;font-weight:bold">$</span>nCount)
 <span style="color:#998;font-style:italic"># 2630.874</span>
@@ -1112,7 +1146,7 @@ thresholds_nFeature <span style="color:#000;font-weight:bold">&lt;-</span> <span
 thresholds_percent_MT <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>, median_percent_MT <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">5</span><span style="color:#000;font-weight:bold">*</span>mad_percent_MT)
 <span style="color:#998;font-style:italic"># 0.0000000 0.1327934</span>
 </code></pre></div><p>Median and thresholds are shown in the plots below.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> median_nCount, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> thresholds_nCount, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1235,7 +1269,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 
 <p>Same thresholds in the other representation.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> thresholds_nFeature, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_vline</span>(xintercept <span style="color:#000;font-weight:bold">=</span> thresholds_nCount, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1285,7 +1319,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <p>Now we identify cells which meet the thresholds we identified.
 Note that the violin plots extending beyond the indicated cut-offs does not mean that the filtering didn&rsquo;t work.
 The reason they do that is because the distribution is smoothened and I switched off trimming in the <code>geom_violin()</code> call.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells_filtered <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells_filtered <span style="color:#000;font-weight:bold">&lt;-</span> cells <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">filter</span>(
     nCount <span style="color:#000;font-weight:bold">&gt;=</span> thresholds_nCount[1],
     nCount <span style="color:#000;font-weight:bold">&lt;=</span> thresholds_nCount[2],
@@ -1310,7 +1344,7 @@ The reason they do that is because the distribution is smoothened and I switched
 <span style="color:#998;font-style:italic"># 5393 AGGGAGTTCCTGTAGA-E        E      2405       699 0.01912682         singlet</span>
 <span style="color:#998;font-style:italic"># 5394 CATTCGCAGGTACTCT-E        E      2262       888 0.05393457         singlet</span>
 <span style="color:#998;font-style:italic"># 5395 TGATTTCAGGCTCAGA-E        E      2150       733 0.02325581         singlet</span>
-</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells_filtered, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells_filtered, <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> sample, y <span style="color:#000;font-weight:bold">=</span> nCount, fill <span style="color:#000;font-weight:bold">=</span> sample)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;area&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> median_nCount, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> thresholds_nCount, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1433,7 +1467,7 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 
 <p>And again, another representation that now clearly highlights the lower boundaries that have been used to filter the cells in the samples.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells_filtered, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells_filtered, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature, color <span style="color:#000;font-weight:bold">=</span> percent_MT)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_hline</span>(yintercept <span style="color:#000;font-weight:bold">=</span> thresholds_nFeature, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_vline</span>(xintercept <span style="color:#000;font-weight:bold">=</span> thresholds_nCount, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -1479,13 +1513,13 @@ p5 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 </figure>
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells_to_keep <span style="color:#000;font-weight:bold">&lt;-</span> cells_filtered<span style="color:#000;font-weight:bold">$</span>cell
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cells_to_keep <span style="color:#000;font-weight:bold">&lt;-</span> cells_filtered<span style="color:#000;font-weight:bold">$</span>cell
 <span style="color:#900;font-weight:bold">length</span>(cells_to_keep)
 <span style="color:#998;font-style:italic"># 5395</span>
 </code></pre></div><p>Out of the 6,000 cells we loaded from the three samples, we have 5,395 cells left after filtering.</p>
 <h3 id="filter-genes">Filter genes</h3>
 <p>As mentioned earlier, we will also remove genes which are expressed in fewer than 5 cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">genes <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">genes <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   gene <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rownames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
   count <span style="color:#000;font-weight:bold">=</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rowSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
   cells <span style="color:#000;font-weight:bold">=</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rowSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span>)
@@ -1497,7 +1531,7 @@ genes_to_keep <span style="color:#000;font-weight:bold">&lt;-</span> genes <span
 </code></pre></div><p>Applying this filter reduces the number of genes from ~33,000 to 16,406 genes.</p>
 <h3 id="generate-filtered-transcript-matrix">Generate filtered transcript matrix</h3>
 <p>Here, we generate the new, filtered transcript count matrix.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>filtered <span style="color:#000;font-weight:bold">&lt;-</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged[genes_to_keep,cells_to_keep]
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>filtered <span style="color:#000;font-weight:bold">&lt;-</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged[genes_to_keep,cells_to_keep]
 
 cells_per_sample_after_filtering <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   sample <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(),
@@ -1545,7 +1579,7 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <h2 id="create-seurat-object">Create Seurat object</h2>
 <p>Having the transcript count matrix ready, we can now initialize our Seurat object.
 Right after, we store the sample assignment for every cell in the meta data.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">CreateSeuratObject</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">CreateSeuratObject</span>(
   counts <span style="color:#000;font-weight:bold">=</span> transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>filtered,
   min.cells <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>,
   min.features <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>
@@ -1556,7 +1590,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
   <span style="color:#900;font-weight:bold">vapply</span>(FUN.VALUE <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(<span style="color:#099">1</span>), `[`, <span style="color:#099">2</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">factor</span>(levels <span style="color:#000;font-weight:bold">=</span> sample_names)
 </code></pre></div><p>Just to be sure, let&rsquo;s look at the distribution of number of transcripts and expressed genes per cell by sample once more.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -1657,7 +1691,7 @@ The <code>SCTransform()</code> and <code>NormalizeData()</code> methods from the
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SCTransform</span>(seurat, assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;RNA&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SCTransform</span>(seurat, assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;RNA&#39;</span>)
 </code></pre></div>
 
   </div>
@@ -1666,7 +1700,7 @@ The <code>SCTransform()</code> and <code>NormalizeData()</code> methods from the
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(<span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>counts))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SingleCellExperiment</span>(<span style="color:#900;font-weight:bold">list</span>(counts <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>counts))
 sce <span style="color:#000;font-weight:bold">&lt;-</span> scater<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">logNormCounts</span>(sce)
 
 seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>RNA<span style="color:#000;font-weight:bold">@</span>data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as</span>(<span style="color:#900;font-weight:bold">logcounts</span>(sce), <span style="color:#d14">&#39;dgCMatrix&#39;</span>)
@@ -1678,7 +1712,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">NormalizeData</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">NormalizeData</span>(
   seurat,
   assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;RNA&#39;</span>,
   normalization.method <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;LogNormalize&#39;</span>,
@@ -1703,7 +1737,7 @@ For the samples analyzed here, we don&rsquo;t need it though and will skip this 
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SplitObject</span>(seurat, split.by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;sample&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SplitObject</span>(seurat, split.by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;sample&#39;</span>)
 
 seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">lapply</span>(
   X <span style="color:#000;font-weight:bold">=</span> seurat_list,
@@ -1747,7 +1781,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
   <div class="tab">
 
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SplitObject</span>(seurat, split.by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;sample&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">SplitObject</span>(seurat, split.by <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;sample&#39;</span>)
 
 seurat_list <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">lapply</span>(
   X <span style="color:#000;font-weight:bold">=</span> seurat_list,
@@ -1807,7 +1841,7 @@ In my experience, values in the range of <code>10-20</code> give reasonable and 
 In the plot of the PCA results shown below, I highlight the output value of <code>maxLikGlobalDimEst()</code> (blue line), which here is close to <code>10</code>.
 In my opinion, that is an underestimation so I will proceed with the first 15 PCs (red line).
 Also, it is generally better to be generous with PCs as compared to using too few.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">RunPCA</span>(seurat, assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;SCT&#39;</span>, npcs <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">RunPCA</span>(seurat, assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;SCT&#39;</span>, npcs <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50</span>)
 
 intrinsicDimension<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">maxLikGlobalDimEst</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>pca<span style="color:#000;font-weight:bold">@</span>cell.embeddings, k <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>)
 <span style="color:#998;font-style:italic"># 10.44694</span>
@@ -1859,11 +1893,11 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <p>Time to identify clusters of cells with relatively homogeneous transcription profiles.</p>
 <h3 id="define-cluster">Define cluster</h3>
 <p>We use the <code>FindNeighbors()</code> and <code>FindClusters()</code> functions built into <a href="https://satijalab.org/seurat/" target="_blank" rel="noreferrer noopener">Seurat</a> to cluster the cells in our data set.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindNeighbors</span>(seurat, reduction <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;pca&#39;</span>, dims <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindNeighbors</span>(seurat, reduction <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;pca&#39;</span>, dims <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>)
 seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">FindClusters</span>(seurat, resolution <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.8</span>)
 </code></pre></div><h3 id="number-of-transcripts-and-expressed-genes">Number of transcripts and expressed genes</h3>
 <p>As we did for the samples, we check the average number of transcripts and expressed genes for every cluster.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -1952,7 +1986,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <h3 id="cluster-stability">Cluster stability</h3>
 <p>We use the <code>bootstrapCluster()</code> function from the <code>scran</code> package as described <a href="https://bioconductor.org/packages/devel/bioc/vignettes/scran/inst/doc/scran.html" target="_blank" rel="noreferrer noopener">here</a>.
 We represent the co-assignment probabilities as a heatmap.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.SingleCellExperiment</span>(seurat)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.SingleCellExperiment</span>(seurat)
 <span style="color:#900;font-weight:bold">reducedDim</span>(sce, <span style="color:#d14">&#39;PCA_sub&#39;</span>) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">reducedDim</span>(sce, <span style="color:#d14">&#39;PCA&#39;</span>)[,<span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>, drop <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>]
 
 ass_prob <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bootstrapCluster</span>(sce, FUN <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">function</span>(x) {
@@ -2033,7 +2067,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> ass_prob <span style="c
 <li>General info about a silhouette plot: <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html" target="_blank" rel="noreferrer noopener">link</a></li>
 <li>Code to calculate silhouette score (from Seurat people): <a href="https://github.com/satijalab/Integration2019/blob/master/analysis_code/integration/integration_metrics.R#L36" target="_blank" rel="noreferrer noopener">link</a></li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(cluster)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(cluster)
 
 distance_matrix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">dist</span>(<span style="color:#900;font-weight:bold">Embeddings</span>(seurat[[<span style="color:#d14">&#39;pca&#39;</span>]])[, <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>])
 clusters <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters
@@ -2095,7 +2129,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="colo
 <h3 id="cluster-similarity">Cluster similarity</h3>
 <p>Here, we use the <code>clusterModularity()</code> function from the <code>scran</code> package as described <a href="https://bioconductor.org/packages/devel/bioc/vignettes/scran/inst/doc/scran.html" target="_blank" rel="noreferrer noopener">here</a>.
 The heatmap below shows the difference between the observed and expected edge weights between each cluster pair.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.SingleCellExperiment</span>(seurat)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sce <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">as.SingleCellExperiment</span>(seurat)
 
 <span style="color:#900;font-weight:bold">reducedDim</span>(sce, <span style="color:#d14">&#39;PCA_sub&#39;</span>) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">reducedDim</span>(sce, <span style="color:#d14">&#39;PCA&#39;</span>)[,<span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>, drop <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>]
 
@@ -2173,7 +2207,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> ratio_to_plot <span sty
 <h3 id="cluster-tree">Cluster tree</h3>
 <p>The relationship (similarity) between clusters can be represented in a cluster tree.
 I find this useful to identify which clusters might be candidates for merging.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">BuildClusterTree</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">BuildClusterTree</span>(
   seurat,
   dims <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>,
   reorder <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
@@ -2228,7 +2262,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> ggtree<span style="colo
 <p>Having two major groupings for our cells (sample and cluster), we can now check the composition of each with respect to the other, i.e. how are samples composed by clusters and how are cluster composed by samples?
 This gives us an idea whether some clusters are specific to one sample.</p>
 <p>Samples:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_clusters <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_clusters <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample, seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">spread</span>(seurat_clusters, count, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2244,7 +2278,7 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <span style="color:#998;font-style:italic"># |B      |             1818| 512| 297|  85| 151|  50|  31|  84|  94|  36|  41| 77| 52|  41| 70| 84| 43| 36| 31|  3|</span>
 <span style="color:#998;font-style:italic"># |E      |             1881| 325| 182| 297|  55| 225| 233| 170|  35|  37|  34| 80| 99|  11| 27| 19| 18| 10|  9| 15|</span>
 </code></pre></div><p>Clusters:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_clusters_by_samples <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_clusters_by_samples <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rename</span>(<span style="color:#d14">&#39;cluster&#39;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;seurat_clusters&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(cluster, sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2285,7 +2319,7 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 
 
 <p>Shown below is the composition of samples/clusters by actual number of cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -2394,7 +2428,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 
 
 <p>Shown below is the composition of samples/clusters by percent of cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -2502,7 +2536,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_samp
 <h2 id="cell-cycle-analysis">Cell cycle analysis</h2>
 <p>Using the <code>CellCycleScoring()</code> function of <a href="https://satijalab.org/seurat/" target="_blank" rel="noreferrer noopener">Seurat</a>, we can assign a cell cycle phase (G1, S, G2M) to every cell.</p>
 <h3 id="infer-cell-cycle-status">Infer cell cycle status</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">CellCycleScoring</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">CellCycleScoring</span>(
   seurat,
   assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;SCT&#39;</span>,
   s.features <span style="color:#000;font-weight:bold">=</span> cc.genes<span style="color:#000;font-weight:bold">$</span>s.genes,
@@ -2517,7 +2551,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
 </code></pre></div><h3 id="composition-of-samples-and-clusters-by-cell-cycle">Composition of samples and clusters by cell cycle</h3>
 <p>Now check the cell cycle phase distribution for every sample and cluster.</p>
 <p>Samples:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample, cell_cycle_seurat) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">spread</span>(cell_cycle_seurat, count, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2533,7 +2567,7 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 <span style="color:#998;font-style:italic"># |B      |             1818| 1001| 413| 404|</span>
 <span style="color:#998;font-style:italic"># |E      |             1881| 1303| 278| 300|</span>
 </code></pre></div><p>Clusters:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_clusters_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_clusters_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rename</span>(cluster <span style="color:#000;font-weight:bold">=</span> seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(cluster, cell_cycle_seurat) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">summarize</span>(count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2574,7 +2608,7 @@ knitr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;
 
 
 <p>Shown below is the composition of samples/clusters by actual number of cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -2683,7 +2717,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 
 
 <p>Shown below is the composition of samples/clusters by percent of cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -2793,7 +2827,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 <p>Here, we represent the transcription profiles of all cells in the data set in a 2D or 3D projection, typically using the t-SNE or UMAP methods.</p>
 <h3 id="snn-graph">SNN graph</h3>
 <p>The SNN graph was calculated earlier in the <code>FindNeighbors()</code> function.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(ggnetwork)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(ggnetwork)
 
 SCT_snn <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>graphs<span style="color:#000;font-weight:bold">$</span>SCT_snn <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">as.matrix</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -2869,7 +2903,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 <h3 id="umap">UMAP</h3>
 <h4 id="calculate-umap">Calculate UMAP</h4>
 <p>He we calculate the UMAP using the same 15 PCs we have also used for clustering.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">RunUMAP</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">RunUMAP</span>(
   seurat,
   reduction.name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;UMAP&#39;</span>,
   reduction <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;pca&#39;</span>,
@@ -2879,7 +2913,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 )
 </code></pre></div><h4 id="overview">Overview</h4>
 <p>After calculation of the UMAP, we plot it while coloring the cells by the number of transcripts, sample, cluster, and cell cycle.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">plot_umap_by_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">plot_umap_by_nCount <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(UMAP_1, UMAP_2, color <span style="color:#000;font-weight:bold">=</span> nCount_RNA)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.2</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
@@ -2984,7 +3018,7 @@ plot_umap_by_cell_cycle <span style="color:#000;font-weight:bold">&lt;-</span> <
 <h4 id="samples">Samples</h4>
 <p>To understand how much the samples overlap, we plot the UMAP again and split the samples in different panels.
 Evidently, they overlap very well.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -3044,7 +3078,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 <h4 id="clusters">Clusters</h4>
 <p>Instead, for the clusters we simply add a label to the geometric center of each cluster.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">UMAP_centers_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">UMAP_centers_cluster <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     UMAP_1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_1,
     UMAP_2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_2,
     cluster <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters
@@ -3122,7 +3156,7 @@ Personally, I find <a href="https://bioconductor.org/packages/3.11/bioc/html/Sin
 <h3 id="assign-labels">Assign labels</h3>
 <p>First, we assign a label to each cell using the <code>BlueprintEncodeData()</code> data as a reference.
 We then extract the labels and assignment scores and add them to the Seurat object.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(SingleR)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(SingleR)
 
 singler_ref <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">BlueprintEncodeData</span>()
 
@@ -3192,7 +3226,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="co
 
 <h3 id="assignment-score-by-sample-cluster-and-cell-type">Assignment score by sample, cluster and cell type</h3>
 <p>Here, we plot the assignment score for every sample, cluster, and cell type.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -3371,7 +3405,7 @@ p3 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
 
 <h3 id="composition-of-samples-and-clusters-by-cell-type">Composition of samples and clusters by cell type</h3>
 <p>Then, we check how samples and clusters are composed in terms of identified cell types.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_cell_type <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">table_samples_by_cell_type <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">group_by</span>(sample, cell_type_singler_blueprintencode_main) <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">summarize</span>(count <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">n</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
   tidyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">spread</span>(cell_type_singler_blueprintencode_main, count, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -3426,7 +3460,7 @@ table_clusters_by_cell_type <span style="color:#000;font-weight:bold">%&gt;%</sp
 
 
 <p>Shown below is the composition of samples/clusters by actual number of cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -3552,7 +3586,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 
 
 <p>Shown below is the composition of samples/clusters by percent of cells.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(sample) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -3678,7 +3712,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> table_clusters_by_cell
 
 <h4 id="alluvial-plots">Alluvial plots</h4>
 <p>Samples by clusters.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic">## get sample and cluster names</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic">## get sample and cluster names</span>
 samples <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>sample)
 clusters <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
 
@@ -3770,7 +3804,7 @@ p1 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
     panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
   )
 </code></pre></div><p>Clusters by cell types.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">clusters <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">clusters <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
 cell_types <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">sort</span>(<span style="color:#900;font-weight:bold">unique</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main))
 
 color_assignments <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">setNames</span>(
@@ -3822,7 +3856,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#90
     panel.border <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">element_blank</span>()
   )
 </code></pre></div><p>Combine the two plots.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">ggsave</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">ggsave</span>(
   <span style="color:#d14">&#39;plots/samples_clusters_cell_types_alluvial.png&#39;</span>,
   p1 <span style="color:#000;font-weight:bold">+</span> p2 <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">plot_layout</span>(ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>),
   height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>
@@ -3863,7 +3897,7 @@ For example, I would expect the &ldquo;Samples&rdquo; columns to reach equal hei
 Anyway, I think it&rsquo;s still the best tool in R to make alluvial plots.</p>
 <h3 id="umap-by-cell-type">UMAP by cell type</h3>
 <p>Similar to the UMAP plot of clusters, we add cell type labels to the UMAP.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">UMAP_centers_cell_type <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">UMAP_centers_cell_type <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
     UMAP_1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_1,
     UMAP_2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)<span style="color:#000;font-weight:bold">$</span>UMAP_2,
     cell_type <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main
@@ -3936,7 +3970,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 
 <p>To understand whether cell types overlap in the UMAP (which would be hard to see in the previous plot), we also plot the same and split the panels by cell type.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(cell_type_singler_blueprintencode_main) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>()
 
@@ -4002,7 +4036,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 <h3 id="umap-by-assignment-score">UMAP by assignment score</h3>
 <p>Lastly, we make another UMAP with the cells colored by their assignment score.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_cols</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data, <span style="color:#900;font-weight:bold">as.data.frame</span>(seurat<span style="color:#000;font-weight:bold">@</span>reductions<span style="color:#000;font-weight:bold">$</span>UMAP<span style="color:#000;font-weight:bold">@</span>cell.embeddings)) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(UMAP_1, UMAP_2, color <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main_score)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_point</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.2</span>) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
@@ -4059,7 +4093,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 <h2 id="perform-analysis-for-cerebro">Perform analysis for Cerebro</h2>
 <p>To allow further investigation of the data set in <a href="https://github.com/romanhaa/Cerebro" target="_blank" rel="noreferrer noopener">Cerebro</a> [4], we now add some more meta data, calculate marker genes, pathway enrichment of the marker genes, and export the data set. This procedure largely follows the workflow described on the <a href="https://romanhaa.github.io/cerebroApp/articles/cerebroApp_workflow_Seurat.html" target="_blank" rel="noreferrer noopener">cerebroApp website</a>.</p>
 <h3 id="add-meta-data">Add meta data</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>experiment <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>experiment <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
   experiment_name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;bone_marrow_donor_cells&#39;</span>,
   organism <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;hg&#39;</span>,
   date_of_analysis <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">Sys.Date</span>()
@@ -4091,7 +4125,7 @@ seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#
 </code></pre></div><h3 id="calculate-relationship-trees">Calculate relationship trees</h3>
 <p>Here, we calculate a relationship tree - just like the one we made before for the clusters - for all three grouping variables: samples, clusters, and cell types. Each of them is added to the <code>@misc</code> slot of the Seurat object so it can be extracted to Cerebro.</p>
 <p>Samples:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">Idents</span>(seurat) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#d14">&#34;sample&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">Idents</span>(seurat) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#d14">&#34;sample&#34;</span>
 seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">BuildClusterTree</span>(
   seurat,
   dims <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>,
@@ -4100,7 +4134,7 @@ seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color
 )
 seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>trees<span style="color:#000;font-weight:bold">$</span>sample <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>tools<span style="color:#000;font-weight:bold">$</span>BuildClusterTree
 </code></pre></div><p>Clusters:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">Idents</span>(seurat) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#d14">&#34;seurat_clusters&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">Idents</span>(seurat) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#d14">&#34;seurat_clusters&#34;</span>
 seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">BuildClusterTree</span>(
   seurat,
   dims <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>,
@@ -4109,7 +4143,7 @@ seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color
 )
 seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>trees<span style="color:#000;font-weight:bold">$</span>seurat_clusters <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>tools<span style="color:#000;font-weight:bold">$</span>BuildClusterTree
 </code></pre></div><p>Cell types:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">Idents</span>(seurat) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#d14">&#34;cell_type_singler_blueprintencode_main&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">Idents</span>(seurat) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#d14">&#34;cell_type_singler_blueprintencode_main&#34;</span>
 seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">BuildClusterTree</span>(
   seurat,
   dims <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#099">15</span>,
@@ -4119,7 +4153,7 @@ seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color
 seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>trees<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>tools<span style="color:#000;font-weight:bold">$</span>BuildClusterTree
 </code></pre></div><h3 id="cerebroapp-steps">cerebroApp steps</h3>
 <p>Here, we calculate the percentage of mitochondrial and ribosomal transcripts, get most expressed and marker genes, test for enriched pathways, and perform gene set enrichment analysis.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">addPercentMtRibo</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">addPercentMtRibo</span>(
   seurat,
   organism <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;hg&#39;</span>,
   gene_nomenclature <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;name&#39;</span>
@@ -4159,7 +4193,7 @@ seurat <span style="color:#000;font-weight:bold">&lt;-</span> cerebroApp<span st
 )
 </code></pre></div><h3 id="export">Export</h3>
 <p>Finally, we can export the data to a <code>.crb</code> file that can be loaded into Cerebro.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">exportFromSeurat</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">cerebroApp<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">exportFromSeurat</span>(
   seurat,
   assay <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;RNA&#39;</span>,
   slot <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;data&#39;</span>,
@@ -4181,7 +4215,7 @@ Secondly, I suggest trimming the violin to avoid the violin extending into the n
 Thirdly, it might make sense to add a bit of noise to the data to avoid highlighting distinct values at the bottom end of the scale, e.g. <code>log(1)</code>, <code>log(2)</code>, etc.
 This is done by default (there isn&rsquo;t even an option) when plotting expression values with Seurat.
 In this case, the difference is quite subtle, as you can see below (erythrocytes and monocytes).</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">p1 <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">mutate</span>(expression <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data[<span style="color:#d14">&#39;CD69&#39;</span>,]) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main, y <span style="color:#000;font-weight:bold">=</span> expression, fill <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main)) <span style="color:#000;font-weight:bold">+</span>
   <span style="color:#900;font-weight:bold">geom_violin</span>(draw_quantiles <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0.5</span>), scale <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;width&#39;</span>, trim <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>) <span style="color:#000;font-weight:bold">+</span>
@@ -4258,7 +4292,7 @@ p2 <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="col
 <p>Dot plots can be a useful method to show the expression of multiple genes by a certain grouping variable.
 As an example, we will use the marker genes that we detected for cell types and clusters.</p>
 <h4 id="by-cell-type">By cell type</h4>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic"># cells will be grouped by samples that they have been assigned to</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic"># cells will be grouped by samples that they have been assigned to</span>
 group_ids <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">unique</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main)
 
 <span style="color:#998;font-style:italic"># select a set of genes for which we want to show expression</span>
@@ -4379,7 +4413,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 <h4 id="by-cluster">By cluster</h4>
 <p><strong>NOTE:</strong> No marker gene was identified for cluster 6.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">group_ids <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">group_ids <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">levels</span>(seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>seurat_clusters)
 
 genes_to_show <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>marker_genes<span style="color:#000;font-weight:bold">$</span>cerebro_seurat<span style="color:#000;font-weight:bold">$</span>seurat_clusters <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(seurat_clusters) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -4493,7 +4527,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 <h2 id="expression-of-gene-sets">Expression of gene sets</h2>
 <p>Let&rsquo;s check the expression of the genes in the GO term &ldquo;B_CELL_ACTIVATION&rdquo; downloaded from the <a href="https://www.gsea-msigdb.org/gsea/msigdb/cards/GO_B_CELL_ACTIVATION.html" target="_blank" rel="noreferrer noopener">MSigDB</a> by cell type.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(msigdbr)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(msigdbr)
 
 gene_set <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">msigdbr</span>(species <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Homo sapiens&#39;</span>, category <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;C5&#39;</span>, subcategory <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;BP&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(gs_name <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;GO_B_CELL_ACTIVATION&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -4505,7 +4539,7 @@ gene_set_present <span style="color:#000;font-weight:bold">&lt;-</span> gene_set
 <span style="color:#900;font-weight:bold">head</span>(gene_set_present)
 <span style="color:#998;font-style:italic"># [1] &#34;ABL1&#34;    &#34;ADA&#34;     &#34;ADAM17&#34;  &#34;ADGRG3&#34;  &#34;AHR&#34;     &#34;AKAP17A&#34;</span>
 </code></pre></div><h3 id="mean-log-expression">Mean log-expression</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">temp_labels <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">group_by</span>(cell_type_singler_blueprintencode_main) <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">tally</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
   dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rename</span>(<span style="color:#d14">&#39;cell_type&#39;</span> <span style="color:#000;font-weight:bold">=</span> cell_type_singler_blueprintencode_main)
@@ -4572,7 +4606,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 
 <h3 id="module-score">Module score</h3>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">AddModuleScore</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">AddModuleScore</span>(
   seurat,
   features <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(gene_set_present),
   name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;GO_B_CELL_ACTIVATION&#39;</span>,
@@ -4651,7 +4685,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="colo
 <h3 id="gsva">GSVA</h3>
 <p>For illustrative reasons, we will use the <a href="https://www.gsea-msigdb.org/gsea/msigdb/index.jsp" target="_blank" rel="noreferrer noopener">50 hallmark gene sets from MSigDB</a> and compare monocytes to hematopoietic stem cells (HSC; control).</p>
 <p>Thanks to <a href="https://twitter.com/Raveancic" target="_blank" rel="noreferrer noopener">Alessandro Raveane</a> for letting me start from his code.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic"># function to read GMT file</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic"># function to read GMT file</span>
 read_GMT_file <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">function</span>(file) {
   gmt <span style="color:#000;font-weight:bold">&lt;-</span> readr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">read_delim</span>(
     file,
@@ -4821,10 +4855,10 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
 
 <h2 id="store-data">Store data</h2>
 <p>Finally, we store our Seurat object so we can continue the analysis later.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">saveRDS</span>(seurat, <span style="color:#d14">&#39;data/seurat.rds&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">saveRDS</span>(seurat, <span style="color:#d14">&#39;data/seurat.rds&#39;</span>)
 </code></pre></div><h2 id="session-info">Session info</h2>
 <p>Here we report information about the version of R and R packages we used.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic"># devtools::session_info()</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#998;font-style:italic"># devtools::session_info()</span>
 <span style="color:#998;font-style:italic"># ─ Session info ───────────────────────────────────────────────────────────────────────────────────</span>
 <span style="color:#998;font-style:italic">#  setting  value</span>
 <span style="color:#998;font-style:italic">#  version  R version 4.0.2 Patched (2020-08-19 r79057)</span>
@@ -5117,7 +5151,7 @@ p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900
         <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman-hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

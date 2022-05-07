@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.84.0" />
+  <meta name="generator" content="Hugo 0.91.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -33,19 +33,53 @@
       <ul class="navbar-nav ml-auto">
         
         <li class="nav-item ">
-          <a class="nav-link" href="/">About Me</a>
+          <a
+            class="nav-link"
+            href="/"
+            
+          >
+            About Me
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a
+            class="nav-link"
+            href="/projects"
+            
+          >
+            Projects
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/plots">Plot Gallery</a>
+          <a
+            class="nav-link"
+            href="/phd_thesis"
+            
+          >
+            PhD Thesis
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a
+            class="nav-link"
+            href="/plots"
+            
+          >
+            Plot Gallery
+          </a>
+        </li>
+        
+        <li class="nav-item ">
+          <a
+            class="nav-link"
+            href="/blog"
+            
+          >
+            Blog
+          </a>
         </li>
         
       </ul>
@@ -98,12 +132,12 @@ Interactive session (which are treated as jobs just like scripts) were almost im
 <p>Unfortunately, the <a href="https://en.wikipedia.org/wiki/Portable_Batch_System" target="_blank" rel="noreferrer noopener">PBS</a> job scheduler only offers unsatisfying ways to understand what is going on in a particular moment.
 You can ask for a list of running and queued jobs but you just see the names and status, not the requested resources.
 See below for an example:</p>
-<pre><code>Job id            Name             User              Time Use S Queue
+<pre tabindex="0"><code>Job id            Name             User              Time Use S Queue
 ----------------  ---------------- ----------------  -------- - -----
 job.1             STDIN            user1             xx:xx:xx R turbovnc
 job.2             align_STAR       user2             xx:xx:xx R workq
 </code></pre><p>To see all the details, you must send a query for each job separately (see below).</p>
-<pre><code>Job Id: &lt;job_id&gt;
+<pre tabindex="0"><code>Job Id: &lt;job_id&gt;
     Job_Name = &lt;job_name&gt;
     Job_Owner = &lt;user&gt;@&lt;host&gt;.cluster.local
     resources_used.cpupercent = 264
@@ -159,7 +193,7 @@ Data is collected once a minute while the app is running.</p>
 <p>In the nodes panel, one can select nodes (single/multiple) to get highlights of just that node.
 Otherwise, the jobs of all nodes are shown.
 The input data for this looks like this:</p>
-<pre><code>                                                        mem       ncpus   nmics   ngpus
+<pre tabindex="0"><code>                                                        mem       ncpus   nmics   ngpus
 vnode           state           njobs   run   susp      f/t        f/t     f/t     f/t   jobs
 --------------- --------------- ------ ----- ------ ------------ ------- ------- ------- -------
 node01          free                 2     2      0   36gb/126gb    8/28     0/0     0/0 job.1,job.2
@@ -370,7 +404,7 @@ Beyond that, you might have to adapt the text parsing of the job details since I
         <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman-hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>

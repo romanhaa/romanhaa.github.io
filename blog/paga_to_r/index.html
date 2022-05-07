@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.84.0" />
+  <meta name="generator" content="Hugo 0.91.2" />
   
   <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
   
@@ -33,19 +33,53 @@
       <ul class="navbar-nav ml-auto">
         
         <li class="nav-item ">
-          <a class="nav-link" href="/">About Me</a>
+          <a
+            class="nav-link"
+            href="/"
+            
+          >
+            About Me
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/projects">Projects</a>
+          <a
+            class="nav-link"
+            href="/projects"
+            
+          >
+            Projects
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/plots">Plot Gallery</a>
+          <a
+            class="nav-link"
+            href="/phd_thesis"
+            
+          >
+            PhD Thesis
+          </a>
         </li>
         
         <li class="nav-item ">
-          <a class="nav-link" href="/blog">Blog</a>
+          <a
+            class="nav-link"
+            href="/plots"
+            
+          >
+            Plot Gallery
+          </a>
+        </li>
+        
+        <li class="nav-item ">
+          <a
+            class="nav-link"
+            href="/blog"
+            
+          >
+            Blog
+          </a>
         </li>
         
       </ul>
@@ -90,11 +124,11 @@ As far as I know, Cole Trapnell and his lab are working on implementing somethin
 <p>I also use the <code>tidyverse</code> R meta package but they are not technically required as the respective commands can be replaced.</p>
 <h2 id="lets-get-started">Let&rsquo;s get started</h2>
 <p>First we load the packages mentioned above.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;Seurat&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;Seurat&#34;</span>)
 <span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;tidyverse&#34;</span>)
 <span style="color:#900;font-weight:bold">library</span>(<span style="color:#d14">&#34;reticulate&#34;</span>)
 </code></pre></div><p>Then we load a Seurat object (this one here was created with <code>Seurat</code> v2.3.4), convert it to the anndata format and save it to a file.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#34;seurat.rds&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#34;seurat.rds&#34;</span>)
 
 seurat_ad <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">Convert</span>(
   from <span style="color:#000;font-weight:bold">=</span> seurat,
@@ -113,7 +147,7 @@ seurat_ad <span style="color:#000;font-weight:bold">&lt;-</span> <span style="co
 <li>generate a UMAP using the PAGA results as initial positions (<code>sc.tl.umap()</code>)</li>
 <li>plot UMAP and PAGA side-by-side (<code>sc.pl.paga_compare()</code>)</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">import</span>(<span style="color:#d14">&#34;scanpy&#34;</span>, convert <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">import</span>(<span style="color:#d14">&#34;scanpy&#34;</span>, convert <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>)
 
 adata <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">read</span>(<span style="color:#d14">&#34;seurat.h5ad&#34;</span>)
 
@@ -184,7 +218,7 @@ sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;fo
 <h3 id="export-results-and-store-in-seurat-object">Export results and store in Seurat object</h3>
 <p>Next, we store the results in our Seurat object.
 This is technically not necessary but I think it&rsquo;s good practice to keep all results in a single file.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>leiden <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>obs<span style="color:#000;font-weight:bold">$</span>leiden)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>leiden <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>obs<span style="color:#000;font-weight:bold">$</span>leiden)
 
 paga <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
   connectivities <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>uns<span style="color:#000;font-weight:bold">$</span>paga<span style="color:#000;font-weight:bold">$</span>connectivities<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">todense</span>()),
@@ -209,7 +243,7 @@ paga <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#
 seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>paga <span style="color:#000;font-weight:bold">&lt;-</span> paga
 </code></pre></div><h3 id="process-paga-results">Process PAGA results</h3>
 <p>Then we turn the PAGA results in a plot-able format.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_edges <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_edges <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   group1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rownames</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)<span style="color:#900;font-weight:bold">[row</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)<span style="color:#900;font-weight:bold">[upper.tri</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)]],
   group2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colnames</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)<span style="color:#900;font-weight:bold">[col</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)<span style="color:#900;font-weight:bold">[upper.tri</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)]],
   weight <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>connectivities<span style="color:#900;font-weight:bold">[upper.tri</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)]
@@ -226,7 +260,7 @@ This value was arbitrarily chosen and you can adjust this to your data set.
 The lower the cut-off, the more connection will be visible.</p>
 <h3 id="plot-paga-with-ggplot2">Plot PAGA with ggplot2</h3>
 <p>Now we can plot the graph generated by PAGA and the derived UMAP using <code>ggplot2</code>, in particular <code>geom_segment</code>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(paga<span style="color:#000;font-weight:bold">$</span>position, <span style="color:#900;font-weight:bold">aes</span>(x, y)) <span style="color:#000;font-weight:bold">+</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(paga<span style="color:#000;font-weight:bold">$</span>position, <span style="color:#900;font-weight:bold">aes</span>(x, y)) <span style="color:#000;font-weight:bold">+</span>
 <span style="color:#900;font-weight:bold">geom_segment</span>(
   data <span style="color:#000;font-weight:bold">=</span> paga_edges,
   <span style="color:#900;font-weight:bold">aes</span>(x <span style="color:#000;font-weight:bold">=</span> x1, y <span style="color:#000;font-weight:bold">=</span> y1, xend <span style="color:#000;font-weight:bold">=</span> x2, yend <span style="color:#000;font-weight:bold">=</span> y2),
@@ -251,7 +285,7 @@ The lower the cut-off, the more connection will be visible.</p>
 
 <span style="color:#900;font-weight:bold">ggsave</span>(paga, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;r_paga.pdf&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
 <span style="color:#900;font-weight:bold">ggsave</span>(paga, filename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;r_paga.png&#34;</span>, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
-</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">umap <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">umap <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   UMAP_1 <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>umap<span style="color:#000;font-weight:bold">$</span>UMAP_1,
   UMAP_2 <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>umap<span style="color:#000;font-weight:bold">$</span>UMAP_2,
   group <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>obs<span style="color:#000;font-weight:bold">$</span>leiden)
@@ -357,7 +391,7 @@ umap_plot <span style="color:#000;font-weight:bold">&lt;-</span> umap <span styl
 <p><code>scanpy</code> offers to use RNA velocity information to predict transitions between clusters in the PAGA results.
 I won&rsquo;t go into detail on how to do that but can recommend to use <a href="https://scvelo.readthedocs.io/en/latest/#" target="_blank" rel="noreferrer noopener"><code>scVelo</code></a> which directly integrates into the <code>scanpy</code> framework.
 Here, I&rsquo;ll assume you have already generated the PAGA using RNA velocity data, e.g. as shown below.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(adata, groups <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;leiden&#34;</span>, use_rna_velocity <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">sc<span style="color:#000;font-weight:bold">$</span>tl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(adata, groups <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;leiden&#34;</span>, use_rna_velocity <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>)
 sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">paga</span>(
   adata,
   basis <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;umap&#34;</span>,
@@ -415,7 +449,7 @@ sc<span style="color:#000;font-weight:bold">$</span>pl<span style="color:#000;fo
 <h3 id="extract-paga-results">Extract PAGA results</h3>
 <p>When exporting the results to R and plotting them with <code>ggplot2</code> we will have to extract more information and add a layer for the transition arrows.
 Below you can see the same step as before, however also extracting the <code>transitions_confidence</code> matrix that represents the RNA velocity results.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">list</span>(
   connectivities <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>uns<span style="color:#000;font-weight:bold">$</span>paga<span style="color:#000;font-weight:bold">$</span>connectivities<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">todense</span>()),
   connectivities_tree <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>uns<span style="color:#000;font-weight:bold">$</span>paga<span style="color:#000;font-weight:bold">$</span>connectivities<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">todense</span>()),
   transitions_confidence <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">py_to_r</span>(adata<span style="color:#000;font-weight:bold">$</span>uns<span style="color:#000;font-weight:bold">$</span>paga<span style="color:#000;font-weight:bold">$</span>transitions_confidence<span style="color:#000;font-weight:bold">$</span><span style="color:#900;font-weight:bold">todense</span>()),
@@ -438,10 +472,10 @@ Below you can see the same step as before, however also extracting the <code>tra
 
 <span style="color:#900;font-weight:bold">rownames</span>(paga<span style="color:#000;font-weight:bold">$</span>transitions_confidence) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">nrow</span>(paga<span style="color:#000;font-weight:bold">$</span>pos))
 <span style="color:#900;font-weight:bold">colnames</span>(paga<span style="color:#000;font-weight:bold">$</span>transitions_confidence) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">nrow</span>(paga<span style="color:#000;font-weight:bold">$</span>pos))
-</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>paga <span style="color:#000;font-weight:bold">&lt;-</span> paga
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">seurat<span style="color:#000;font-weight:bold">@</span>misc<span style="color:#000;font-weight:bold">$</span>paga <span style="color:#000;font-weight:bold">&lt;-</span> paga
 </code></pre></div><h3 id="transform-matrices-to-tibbles">Transform matrices to tibbles</h3>
 <p>Then, we generate tibbles that contain information about the connectivities between clusters (<code>paga_edges</code>) as well as the transition confidence (<code>paga_arrows</code>).</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_edges <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_edges <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   group1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">rownames</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)<span style="color:#900;font-weight:bold">[row</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)<span style="color:#900;font-weight:bold">[upper.tri</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)]],
   group2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colnames</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)<span style="color:#900;font-weight:bold">[col</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)<span style="color:#900;font-weight:bold">[upper.tri</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)]],
   weight <span style="color:#000;font-weight:bold">=</span> paga<span style="color:#000;font-weight:bold">$</span>connectivities<span style="color:#900;font-weight:bold">[upper.tri</span>(paga<span style="color:#000;font-weight:bold">$</span>connectivities)]
@@ -462,7 +496,7 @@ To do so, we&hellip;</p>
 <li>shorten the arrow to avoid overlap with the cluster nodes</li>
 </ul>
 <p>There is probably a more elegant way to do this, perhaps using tools such as <a href="https://briatte.github.io/ggnetwork/" target="_blank" rel="noreferrer noopener"><code>ggnetwork</code></a> or <a href="https://briatte.github.io/ggnet/" target="_blank" rel="noreferrer noopener"><code>ggnet2</code></a>, but this gets the job done for now.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_arrows <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_arrows <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
   group1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(),
   group2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>(),
   weight <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">double</span>(),
@@ -557,7 +591,7 @@ arrow_gap <span style="color:#000;font-weight:bold">&lt;-</span> <span style="co
 </code></pre></div><h3 id="filter-connections">Filter connections</h3>
 <p>Similar to what we&rsquo;ve done before, we remove connections and arrows below a threshold of confidence.
 Here, this threshold is <code>0.15</code>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_edges <span style="color:#000;font-weight:bold">&lt;-</span> paga_edges <span style="color:#000;font-weight:bold">%&gt;%</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">paga_edges <span style="color:#000;font-weight:bold">&lt;-</span> paga_edges <span style="color:#000;font-weight:bold">%&gt;%</span>
   <span style="color:#900;font-weight:bold">filter</span>(weight <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0.15</span>)
 
 paga_arrows <span style="color:#000;font-weight:bold">&lt;-</span> paga_arrows <span style="color:#000;font-weight:bold">%&gt;%</span>
@@ -574,7 +608,7 @@ These are the steps:</p>
 <li>Customize cluster color and layout.</li>
 <li>Save plot to file.</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">plot <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">plot <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>()
 
 plot <span style="color:#000;font-weight:bold">&lt;-</span> plot <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">geom_segment</span>(
     data <span style="color:#000;font-weight:bold">=</span> paga_edges,
@@ -660,7 +694,7 @@ You can use the same process explained here to perform other analysis provided b
 <h2 id="session-info">Session info</h2>
 <p>Analysis was performed in a Docker container: <a href="https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/r_github" target="_blank" rel="noreferrer noopener">romanhaa/r_github:2019-04-12_r_3.5.2</a></p>
 <p>Obligatory <code>sessionInfo()</code>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">R version <span style="color:#099">3.5.2</span> (<span style="color:#099">2018-12-20</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r">R version <span style="color:#099">3.5.2</span> (<span style="color:#099">2018-12-20</span>)
 Platform<span style="color:#000;font-weight:bold">:</span> x86_64<span style="color:#000;font-weight:bold">-</span>pc<span style="color:#000;font-weight:bold">-</span>linux<span style="color:#000;font-weight:bold">-</span><span style="color:#900;font-weight:bold">gnu </span>(<span style="color:#099">64</span><span style="color:#000;font-weight:bold">-</span>bit)
 Running under<span style="color:#000;font-weight:bold">:</span> Debian GNU<span style="color:#000;font-weight:bold">/</span>Linux buster<span style="color:#000;font-weight:bold">/</span>sid
 
@@ -728,7 +762,7 @@ loaded via a <span style="color:#900;font-weight:bold">namespace </span>(and not
 [118] diptest_0.75<span style="color:#099">-7</span>      R.utils_2.8.0       stats4_3.5.2
 [121] munsell_0.5.0
 </code></pre></div><p>And Python + scanpy version:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">system</span>(<span style="color:#d14">&#34;python3 --version&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">system</span>(<span style="color:#d14">&#34;python3 --version&#34;</span>)
 Python <span style="color:#099">3.7.3</span>rc1
 
 <span style="color:#900;font-weight:bold">system</span>(<span style="color:#d14">&#34;python3 -c &#39;import scanpy; print(scanpy.__version__)&#39;&#34;</span>)
@@ -756,7 +790,7 @@ Python <span style="color:#099">3.7.3</span>rc1
         <a href="https://github.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-github" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://gitlab.com/romanhaa" target="_blank" rel="noopener"><i class="fab fa-gitlab" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
         <a href="https://hub.docker.com/u/romanhaa" target="_blank" rel="noopener"><i class="fab fa-docker" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
-        <a href="https://linkedin.com/in/roman.hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/roman-hillje" target="_blank" rel="noopener"><i class="fab fa-linkedin" style="color: rgba(0,0,0,.44); font-size: 2rem; margin-left: 10px" aria-hidden="true"></i></a>
       </section>
       <div class="col-md-4 col-sm-4 text-center text-lg-right">
         Adapted from <a target="_blank" href="https://www.wowthemes.net">Mediumish Theme</a>
