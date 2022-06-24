@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects on Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+    <title>Projects on Roman Hillje - Programming &amp; Data Visualization</title>
     <link>http://romanhaa.github.io/projects/</link>
-    <description>Recent content in Projects on Roman Hillje - Data Visualization &amp; Bioinformatics</description>
+    <description>Recent content in Projects on Roman Hillje - Programming &amp; Data Visualization</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Roman Hillje - All rights reserved</copyright>
-    <lastBuildDate>Wed, 07 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://romanhaa.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://romanhaa.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating maps programmatically</title>
+      <link>http://romanhaa.github.io/projects/maps/</link>
+      <pubDate>Fri, 24 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/projects/maps/</guid>
+      <description>Use geographical data to make maps with R (for fun).</description>
+    </item>
+    
     <item>
       <title>scRNA-seq analysis workflow</title>
       <link>http://romanhaa.github.io/projects/scrnaseq_workflow/</link>

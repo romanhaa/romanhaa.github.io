@@ -2,9 +2,9 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.101.0" />
   
-  <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+  <title>Roman Hillje - Programming &amp; Data Visualization</title>
   
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -19,7 +19,7 @@
     
     <a class="navbar-brand" href="http://romanhaa.github.io/">
       
-      <span style="font-family:Righteous;">Roman Hillje - Data Visualization &amp; Bioinformatics</span>
+      <span style="font-family:Righteous;">Roman Hillje - Programming &amp; Data Visualization</span>
       
     </a>
 
@@ -127,34 +127,34 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
-<span style="color:#900;font-weight:bold">library</span>(ggExtra)
-<span style="color:#900;font-weight:bold">library</span>(viridis)
-
-cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
-  cell <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colnames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
-  nCount <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
-  nFeature <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span>)
-)
-
-cells <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">glimpse</span>()
-<span style="color:#998;font-style:italic"># Observations: 6,000</span>
-<span style="color:#998;font-style:italic"># Variables: 3</span>
-<span style="color:#998;font-style:italic"># $ cell     &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG…</span>
-<span style="color:#998;font-style:italic"># $ nCount   &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113…</span>
-<span style="color:#998;font-style:italic"># $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27…</span>
-
-p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_pointdensity</span>(adjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">500</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_x_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Number of transcripts&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Numner of expressed genes&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_color_viridis</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;none&#39;</span>)
-p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggMarginal</span>(p, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;histogram&#39;</span>, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;grey&#39;</span>, bins <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50</span>)
-
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;5.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
-</code></pre></div>
+            <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(ggExtra)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(viridis)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cells <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
+</span></span><span style="display:flex;"><span>  cell <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colnames</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
+</span></span><span style="display:flex;"><span>  nCount <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged),
+</span></span><span style="display:flex;"><span>  nFeature <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">colSums</span>(transcripts<span style="color:#000;font-weight:bold">$</span>raw<span style="color:#000;font-weight:bold">$</span>merged <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">0</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cells <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">glimpse</span>()
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Observations: 6,000</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Variables: 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ cell     &lt;chr&gt; &#34;TGCCCATGTGTTCGAT-A&#34;, &#34;ACGGCCACAAGAAGAG-A&#34;, &#34;CTGTGCTGTCAGAAG…</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ nCount   &lt;dbl&gt; 5784, 6037, 4655, 42398, 14765, 4621, 14368, 4570, 6635, 113…</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ nFeature &lt;dbl&gt; 1655, 1397, 1300, 5387, 2548, 295, 2929, 1056, 1720, 638, 27…</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(cells, <span style="color:#900;font-weight:bold">aes</span>(nCount, nFeature)) <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_pointdensity</span>(adjust <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">500</span>) <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_x_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Number of transcripts&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Numner of expressed genes&#39;</span>, labels <span style="color:#000;font-weight:bold">=</span> scales<span style="color:#000;font-weight:bold">::</span>comma) <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_color_viridis</span>() <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_bw</span>() <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme</span>(legend.position <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;none&#39;</span>)
+</span></span><span style="display:flex;"><span>p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggMarginal</span>(p, type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;histogram&#39;</span>, fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;grey&#39;</span>, bins <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;5.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>)
+</span></span></code></pre></div>
           </div>
 
         </div>

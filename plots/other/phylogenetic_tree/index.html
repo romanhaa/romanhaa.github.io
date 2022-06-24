@@ -2,9 +2,9 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.101.0" />
   
-  <title>Roman Hillje - Data Visualization &amp; Bioinformatics</title>
+  <title>Roman Hillje - Programming &amp; Data Visualization</title>
   
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -19,7 +19,7 @@
     
     <a class="navbar-brand" href="http://romanhaa.github.io/">
       
-      <span style="font-family:Righteous;">Roman Hillje - Data Visualization &amp; Bioinformatics</span>
+      <span style="font-family:Righteous;">Roman Hillje - Programming &amp; Data Visualization</span>
       
     </a>
 
@@ -127,40 +127,40 @@
 
           
           <div class="article-post">
-            <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-r" data-lang="r"><span style="color:#900;font-weight:bold">library</span>(tidyverse)
-<span style="color:#900;font-weight:bold">library</span>(jcolors)
-<span style="color:#900;font-weight:bold">library</span>(ggtree)
-
-<span style="color:#998;font-style:italic"># load data</span>
-<span style="color:#900;font-weight:bold">data</span>(mtcars)
-
-<span style="color:#998;font-style:italic"># choose number of carburetors as group</span>
-groups <span style="color:#000;font-weight:bold">&lt;-</span> mtcars<span style="color:#000;font-weight:bold">$</span>carb <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.character</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">unique</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">sort</span>()
-
-<span style="color:#998;font-style:italic"># group data by carburetor and calculate means for all features</span>
-temp_data <span style="color:#000;font-weight:bold">&lt;-</span> mtcars <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">group_by</span>(carb) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">summarise_all</span>(<span style="color:#900;font-weight:bold">list</span>(mean <span style="color:#000;font-weight:bold">=</span> mean)) <span style="color:#000;font-weight:bold">%&gt;%</span>
-  <span style="color:#900;font-weight:bold">as.matrix</span>()
-<span style="color:#900;font-weight:bold">rownames</span>(temp_data) <span style="color:#000;font-weight:bold">&lt;-</span> groups
-
-<span style="color:#998;font-style:italic"># calculate distance matrix</span>
-distance_matrix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">dist</span>(temp_data)
-
-<span style="color:#998;font-style:italic"># calculate phylogenetic tree</span>
-tree <span style="color:#000;font-weight:bold">&lt;-</span> ape<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">as.phylo</span>(<span style="color:#900;font-weight:bold">hclust</span>(distance_matrix))
-
-<span style="color:#998;font-style:italic"># plot</span>
-p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggtree</span>(tree, <span style="color:#900;font-weight:bold">aes</span>(x, y)) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">scale_y_reverse</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_tree</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme_tree</span>() <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_tiplab</span>(label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(tree<span style="color:#000;font-weight:bold">$</span>tip.label, <span style="color:#d14">&#39; carbs&#39;</span>), offset <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">geom_tippoint</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">jcolors</span>(<span style="color:#d14">&#39;pal5&#39;</span>), shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">16</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">coord_cartesian</span>(clip <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;off&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-  <span style="color:#900;font-weight:bold">theme</span>(plot.margin <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>), <span style="color:#d14">&#39;cm&#39;</span>))
-<span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;phylogenetic_tree.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>)
-</code></pre></div>
+            <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(tidyverse)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(jcolors)
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(ggtree)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># load data</span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">data</span>(mtcars)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># choose number of carburetors as group</span>
+</span></span><span style="display:flex;"><span>groups <span style="color:#000;font-weight:bold">&lt;-</span> mtcars<span style="color:#000;font-weight:bold">$</span>carb <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">as.character</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">unique</span>() <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">sort</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># group data by carburetor and calculate means for all features</span>
+</span></span><span style="display:flex;"><span>temp_data <span style="color:#000;font-weight:bold">&lt;-</span> mtcars <span style="color:#000;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">group_by</span>(carb) <span style="color:#000;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">summarise_all</span>(<span style="color:#900;font-weight:bold">list</span>(mean <span style="color:#000;font-weight:bold">=</span> mean)) <span style="color:#000;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">as.matrix</span>()
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">rownames</span>(temp_data) <span style="color:#000;font-weight:bold">&lt;-</span> groups
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># calculate distance matrix</span>
+</span></span><span style="display:flex;"><span>distance_matrix <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">dist</span>(temp_data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># calculate phylogenetic tree</span>
+</span></span><span style="display:flex;"><span>tree <span style="color:#000;font-weight:bold">&lt;-</span> ape<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">as.phylo</span>(<span style="color:#900;font-weight:bold">hclust</span>(distance_matrix))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># plot</span>
+</span></span><span style="display:flex;"><span>p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggtree</span>(tree, <span style="color:#900;font-weight:bold">aes</span>(x, y)) <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_y_reverse</span>() <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_tree</span>() <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_tree</span>() <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_tiplab</span>(label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">paste0</span>(tree<span style="color:#000;font-weight:bold">$</span>tip.label, <span style="color:#d14">&#39; carbs&#39;</span>), offset <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>) <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_tippoint</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">jcolors</span>(<span style="color:#d14">&#39;pal5&#39;</span>), shape <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">16</span>, size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">5</span>) <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">coord_cartesian</span>(clip <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;off&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme</span>(plot.margin <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">unit</span>(<span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>), <span style="color:#d14">&#39;cm&#39;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;phylogenetic_tree.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>)
+</span></span></code></pre></div>
           </div>
 
         </div>
