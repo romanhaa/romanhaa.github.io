@@ -81,6 +81,11 @@ section.recent-posts {
 .maxthumb {
   max-height: 300px;
   overflow: hidden;
+  margin-top: 5px;
+}
+.card-body {
+  padding-top: 0.5rem;
+  padding-bottom: 0.75rem;
 }
 .listfeaturedtag h2.card-title,.listrecent h2.card-title {
   font-size:1.3rem;
@@ -402,4 +407,12 @@ iframe {
   font-size: 14px;
   padding: 2px 5px 2px 5px;
   cursor: pointer;
+}
+
+/* education */
+.education-li {
+  margin-right: 5px;
+}
+.education-place {
+  font-size: 0.9rem;
 }
