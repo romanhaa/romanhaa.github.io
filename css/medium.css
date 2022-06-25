@@ -79,13 +79,18 @@ section.recent-posts {
   }
 }
 .maxthumb {
-  max-height: 300px;
+  max-height: 200px;
+  width: auto;
   overflow: hidden;
   margin-top: 5px;
 }
 .card-body {
   padding-top: 0.5rem;
   padding-bottom: 0.75rem;
+}
+.project-featured-image {
+  max-width: 80%;
+  margin: auto;
 }
 .listfeaturedtag h2.card-title,.listrecent h2.card-title {
   font-size:1.3rem;
