@@ -426,3 +426,33 @@ iframe {
 .publication-subtitle {
   font-size: 0.9rem;
 }
+
+/* project */
+.project {
+  font-weight: 500;
+  border-radius: 3px;
+  background-color: #F0F0F0;
+  padding: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.project-in-summary {
+  font-size: 0.65rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+.project-ongoing {
+  color: white;
+  background-color: green;
+}
+.project-finished {
+  color: white;
+  background-color: grey;
+}
+.project-stopped {
+  color: white;
+  background-color: red;
+}
