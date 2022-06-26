@@ -104,75 +104,92 @@
         
           <div class="mainheading">
             
-            <h1 class="posttitle">Cerebro</h1>
+            <h1 class="posttitle">Übersicht widgets</h1>
             
               
                 <div class="article-post">
                   Project status:
                   
-                    <span class="project project-stopped">
+                    <span class="project project-ongoing">
                   
-                      stopped
+                      ongoing
                   </span>
                 
               </div>
             
             <div class="article-post">
-              Last update: Feb 5, 2020
+              Last update: May 31, 2022
             </div>
           </div>
           
           
-            
-              <div class="project-featured-image">
-                <a href="/images/projects/cerebro/cerebro.png" target="_blank">
-                  <picture>
-                    <source srcset="/images/projects/cerebro/cerebro.webp" type="image/webp">
-                    <img class="featured-image img-fluid" src="/images/projects/cerebro/cerebro.jpg">
-                  </picture>
-                </a>
-              </div>
-            
-          
           
           <body>
             <div class="article-post">
-              <h2 id="summary">Summary</h2>
-<p>Transcriptomics data from single cells (scRNA-seq) are generated with unprecedented frequency due to steadily decreasing prices for kits and sequencing.
-Due to the often exploratory nature of scRNA-seq experiments, extensive knowledge of the biological system is required to properly infer cell types and derive conclusions.
-Even though public data sets are becoming more accessible through online platforms, direct interaction with their own data sets is often out of reach for experimental biologists.
-Cerebro is a Shiny- and Electron-based standalone desktop application for macOS and Windows which allows to investigate and visualize single cell transcriptomics data without any bioinformatic knowledge.
-Users have access to dimensional reductions, marker gene lists, results of functional analysis (gene ontology), and can retrieve expression of individual genes or gene lists.
-Overall, this tool aims to aid the study of transcriptomic data from single cells to ultimately facilitate scientific interpretation and discovery.</p>
-<h2 id="additional-material">Additional material</h2>
-<ul>
-<li><a href="https://romanhaa.github.io/cerebroApp" target="_blank" rel="noreferrer noopener">cerebroApp</a>: R package that contains the Shiny application on which Cerebro is based</li>
-<li><a href="https://github.com/romanhaa/Cerebro" target="_blank" rel="noreferrer noopener">Cerebro on GitHub</a>: Standalone desktop application</li>
-<li><a href="/images/projects/cerebro/poster_ieo_roman_hillje.png">Poster about Cerebro I presented at the PhD Networking Days on January 9, 2020</a></li>
-</ul>
+              <p>I made two widgets for <a href="http://tracesof.net/uebersicht/" target="_blank" rel="noreferrer noopener">Übersicht</a>.
+For those who don&rsquo;t know what Übersicht is, here is the author&rsquo;s description:</p>
+<blockquote>
+<p>Übersicht lets you run system commands and display their output on your desktop in little containers, called widgets. Widgets are written using HTML5, which means they</p>
+</blockquote>
+<h2 id="calendar-widget">Calendar widget</h2>
 
 
 
-<div id="images" style="text-align:center">
-  <a href="/images/projects/cerebro/logo_cerebro.png" target="_blank">
-    <picture>
-      <source srcset="/images/projects/cerebro/logo_cerebro.webp" type="image/webp">
-      <img src="/images/projects/cerebro/logo_cerebro.jpg" style="display: inline-block; margin-left: auto; margin-right: auto; width: 30%;" loading="lazy"/>
-    </picture>
-  </a>
-  <a href="/images/projects/cerebro/poster_ieo_roman_hillje.png" target="_blank">
-    <picture>
-      <source srcset="/images/projects/cerebro/poster_ieo_roman_hillje.webp" type="image/webp">
-    <img src="/images/projects/cerebro/poster_ieo_roman_hillje.jpg" style="display: inline-block; margin-left: auto; margin-right: auto; width: 30%;" loading="lazy"/>
-    </picture>
-  </a>
-</div>​
+<i class="fas fa-code"></i> Code:
+<a
+  href="https://github.com/romanhaa/ubersicht-calendar-widget"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <code>romanhaa/ubersicht-calendar-widget</code>
+</a>
 
 
 
-<h2 id="citation">Citation</h2>
-<p>If you used Cerebro for your research, please cite the following publication:</p>
-<p>Roman Hillje, Pier Giuseppe Pelicci, Lucilla Luzi, Cerebro: interactive visualization of scRNA-seq data, Bioinformatics, btz877, <a href="https://doi.org/10.1093/bioinformatics/btz877" target="_blank" rel="noreferrer noopener">https://doi.org/10.1093/bioinformatics/btz877</a></p>
+<p>The calendar widget shows an overview of the events of the day.
+It also extracts links to calls on Google Meet, Zoom and Teams from the even details for quick access.
+You can navigate between days, jump back to today, hide all events (for privacy) and open the Calendar desktop application (or a replacement if desired).</p>
+
+
+
+<a href="/images/projects/ubersicht-widgets/calendar.png" target="_blank">
+  <picture>
+    <source srcset="/images/projects/ubersicht-widgets/calendar.webp" type="image/webp">
+    <img src="/images/projects/ubersicht-widgets/calendar.jpg" style="max-width: 200px" loading="lazy"/>
+  </picture>
+</a>
+
+
+
+<h2 id="shortcuts-widget">Shortcuts widget</h2>
+
+
+
+<i class="fas fa-code"></i> Code:
+<a
+  href="https://github.com/romanhaa/ubersicht-shortcut-widget"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <code>romanhaa/ubersicht-shortcut-widget</code>
+</a>
+
+
+
+<p>The purpose of the shortcuts widget is to help when trying to adopt new keyboard shortcuts by showing them on the desktop.
+Shortcut definitions are stored in a <code>.json</code> file.</p>
+
+
+
+<a href="/images/projects/ubersicht-widgets/shortcuts.png" target="_blank">
+  <picture>
+    <source srcset="/images/projects/ubersicht-widgets/shortcuts.webp" type="image/webp">
+    <img src="/images/projects/ubersicht-widgets/shortcuts.jpg" style="max-width: 300px" loading="lazy"/>
+  </picture>
+</a>
+
+
+
 
             </div>
         </body>
