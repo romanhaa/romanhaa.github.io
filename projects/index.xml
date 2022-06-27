@@ -14,7 +14,7 @@
       <pubDate>Fri, 24 Jun 2022 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/maps/</guid>
-      <description>Use geographical data to make maps with R (for fun).</description>
+      <description>Use geographical data to make maps with R (for fun)</description>
     </item>
     
     <item>
@@ -41,7 +41,7 @@
       <pubDate>Fri, 29 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/xenocell/</guid>
-      <description>Classification of cellular barcodes in single cell experiments from xenograft samples.</description>
+      <description>Classification of cellular barcodes in single cell experiments from xenograft samples</description>
     </item>
     
     <item>
@@ -50,7 +50,7 @@
       <pubDate>Wed, 07 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/scrnaseq_workflow/</guid>
-      <description>Seurat-based workflow in R which starts from transcript count tables.</description>
+      <description>Seurat-based workflow in R which starts from transcript count tables</description>
     </item>
     
     <item>
@@ -59,7 +59,7 @@
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/health_data_from_apple_health/</guid>
-      <description>Visualize health data recorded by a fitness tracker.</description>
+      <description>Visualize health data recorded by a fitness tracker</description>
     </item>
     
     <item>
@@ -68,7 +68,7 @@
       <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>http://romanhaa.github.io/projects/cerebro/</guid>
-      <description>Interactive visualization of scRNA-seq data.</description>
+      <description>Interactive visualization of scRNA-seq data</description>
     </item>
     
   </channel>

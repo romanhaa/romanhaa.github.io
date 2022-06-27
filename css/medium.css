@@ -148,7 +148,7 @@ section.recent-posts {
   margin-right: 5px;
 }
 .mainheading h1.sitetitle {
-  font-family: Righteous;
+  font-family: 'Roboto Mono', monospace;
 }
 .mainheading h1.posttitle {
   font-weight:700;
