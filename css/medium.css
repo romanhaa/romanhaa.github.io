@@ -444,15 +444,15 @@ iframe {
   margin-right: 5px;
   margin-top: 5px;
 }
-.project-ongoing {
+.project-open {
   color: white;
   background-color: green;
 }
-.project-finished {
+.project-closed {
   color: white;
   background-color: grey;
 }
-.project-stopped {
+/* .project-stopped {
   color: white;
   background-color: red;
-}
+} */
