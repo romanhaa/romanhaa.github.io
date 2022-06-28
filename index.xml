@@ -36,6 +36,15 @@
     </item>
     
     <item>
+      <title>Cerebro</title>
+      <link>http://romanhaa.github.io/projects/cerebro/</link>
+      <pubDate>Wed, 05 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://romanhaa.github.io/projects/cerebro/</guid>
+      <description>Interactive visualization of scRNA-seq data</description>
+    </item>
+    
+    <item>
       <title>XenoCell</title>
       <link>http://romanhaa.github.io/projects/xenocell/</link>
       <pubDate>Fri, 29 Jan 2021 00:00:00 +0000</pubDate>
@@ -96,15 +105,6 @@
       
       <guid>http://romanhaa.github.io/projects/health_data_from_apple_health/</guid>
       <description>Visualize health data recorded by a fitness tracker</description>
-    </item>
-    
-    <item>
-      <title>Cerebro</title>
-      <link>http://romanhaa.github.io/projects/cerebro/</link>
-      <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://romanhaa.github.io/projects/cerebro/</guid>
-      <description>Interactive visualization of scRNA-seq data</description>
     </item>
     
     <item>
