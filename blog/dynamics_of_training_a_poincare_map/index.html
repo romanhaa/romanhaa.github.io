@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.114.1">
+  <meta name="generator" content="Hugo 0.150.0">
   <title>Roman Hillje</title>
   
   
@@ -10,13 +10,18 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  
+  
   <link rel="stylesheet" href="/css/fonts.css">
+  
+  
   <link rel="stylesheet" href="/css/medium.css">
+  
 </head>
 <body><nav class="navbar navbar-expand-lg navbar-light bg-white mediumnavigation nav-down navbar-static-top">
   <div class="container pr-0">
     
-    <a class="navbar-brand" href="http://romanhaa.github.io/">
+    <a class="navbar-brand" href="http://romanhaa.github.io//">
       <span style="font-family: 'Roboto Mono', monospace;">
         [roman-hillje]
       </span>
@@ -137,27 +142,27 @@ Instead, it is about (1) finally getting a chance to make animated plots, and (2
 <h2 id="export-log-normalized-transcript-counts">Export log-normalized transcript counts</h2>
 <p>First, we will load our data and identify genes with a mean expression above a visually determined and quite arbitrary threshold (I&rsquo;m not sure this is the right way to do it but I wanted to reduce computation time).
 We remove almost half of the genes, having 8,886 genes left.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(tidyverse)
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(Seurat)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#6639ba">library</span><span style="color:#1f2328">(</span>tidyverse<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">library</span><span style="color:#1f2328">(</span>Seurat<span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;data/seurat.rds&#39;</span>)
+</span></span><span style="display:flex;"><span>seurat <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">readRDS</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;data/seurat.rds&#39;</span><span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>average_expression_per_gene <span style="color:#000;font-weight:bold">&lt;-</span> seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data <span style="color:#000;font-weight:bold">%&gt;%</span> Matrix<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">rowMeans</span>()
+</span></span><span style="display:flex;"><span>average_expression_per_gene <span style="color:#0550ae">&lt;-</span> seurat<span style="color:#0550ae">@</span>assays<span style="color:#0550ae">$</span>SCT<span style="color:#0550ae">@</span>data <span style="color:#0550ae">%&gt;%</span> Matrix<span style="color:#0550ae">::</span><span style="color:#6639ba">rowMeans</span><span style="color:#1f2328">()</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(value <span style="color:#000;font-weight:bold">=</span> average_expression_per_gene) <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">ggplot</span>(<span style="color:#900;font-weight:bold">aes</span>(value)) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_density</span>(fill <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;grey&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.8</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_vline</span>(xintercept <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.01</span>, color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_x_log10</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Mean log-normalized expression&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_y_continuous</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Density&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_bw</span>()
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;mean_log_normalized_expression.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">3</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">7</span>)
+</span></span><span style="display:flex;"><span>p <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">tibble</span><span style="color:#1f2328">(</span>value <span style="color:#0550ae">=</span> average_expression_per_gene<span style="color:#1f2328">)</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">ggplot</span><span style="color:#1f2328">(</span><span style="color:#6639ba">aes</span><span style="color:#1f2328">(</span>value<span style="color:#1f2328">))</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">geom_density</span><span style="color:#1f2328">(</span>fill <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;grey&#39;</span><span style="color:#1f2328">,</span> alpha <span style="color:#0550ae">=</span> <span style="color:#0550ae">0.8</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">geom_vline</span><span style="color:#1f2328">(</span>xintercept <span style="color:#0550ae">=</span> <span style="color:#0550ae">0.01</span><span style="color:#1f2328">,</span> color <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;red&#39;</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">scale_x_log10</span><span style="color:#1f2328">(</span>name <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;Mean log-normalized expression&#39;</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">scale_y_continuous</span><span style="color:#1f2328">(</span>name <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;Density&#39;</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">theme_bw</span><span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">ggsave</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;mean_log_normalized_expression.png&#39;</span><span style="color:#1f2328">,</span> p<span style="color:#1f2328">,</span> height <span style="color:#0550ae">=</span> <span style="color:#0550ae">3</span><span style="color:#1f2328">,</span> width <span style="color:#0550ae">=</span> <span style="color:#0550ae">7</span><span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">length</span>(average_expression_per_gene)
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># 15907</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">length</span><span style="color:#1f2328">(</span>average_expression_per_gene<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># 15907</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">length</span>(<span style="color:#900;font-weight:bold">which</span>(average_expression_per_gene <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0.01</span>))
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># 8886</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">length</span><span style="color:#1f2328">(</span><span style="color:#6639ba">which</span><span style="color:#1f2328">(</span>average_expression_per_gene <span style="color:#0550ae">&gt;=</span> <span style="color:#0550ae">0.01</span><span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># 8886</span>
 </span></span></code></pre></div>
 <figure
   
@@ -190,12 +195,12 @@ We remove almost half of the genes, having 8,886 genes left.</p>
 
 
 <p>Then, we write the filtered transcript counts in a transposed format to a CSV file, adding the cell type identified using <code>SingleR</code> as a label.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>seurat<span style="color:#000;font-weight:bold">@</span>assays<span style="color:#000;font-weight:bold">$</span>SCT<span style="color:#000;font-weight:bold">@</span>data<span style="color:#900;font-weight:bold">[which</span>(average_expression_per_gene <span style="color:#000;font-weight:bold">&gt;=</span> <span style="color:#099">0.01</span>),] <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">as.matrix</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">t</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">as_tibble</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">mutate</span>(label <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main) <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">write_csv</span>(<span style="color:#d14">&#39;data/SCT_data.csv&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>seurat<span style="color:#0550ae">@</span>assays<span style="color:#0550ae">$</span>SCT<span style="color:#0550ae">@</span>data<span style="color:#6639ba">[which</span><span style="color:#1f2328">(</span>average_expression_per_gene <span style="color:#0550ae">&gt;=</span> <span style="color:#0550ae">0.01</span><span style="color:#1f2328">),</span>] <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">as.matrix</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">t</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">as_tibble</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">mutate</span><span style="color:#1f2328">(</span>label <span style="color:#0550ae">=</span> seurat<span style="color:#0550ae">@</span>meta.data<span style="color:#0550ae">$</span>cell_type_singler_blueprintencode_main<span style="color:#1f2328">)</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">write_csv</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;data/SCT_data.csv&#39;</span><span style="color:#1f2328">)</span>
 </span></span></code></pre></div><h2 id="adjust-code-of-poincaré-tool">Adjust code of Poincaré tool</h2>
 <p>Before actually generating any Poincaré map, we have to download the tool from GitHub and a few small adjustments to the code.
 The tool allows to see intermediate maps (and cell coordinates) through the <code>--debugplot</code> parameter where we specify how often we want to get the intermediate data.
@@ -203,18 +208,18 @@ If we set it to <code>10</code> (which we will do later), the intermediate data 
 The adjustments in the code are necessary because the intermediate data is overwritten every time they are re-generated.
 In the <code>train.py</code> file, in the definition of the <code>train</code> function, we create a new variable <code>temp_fout</code>, which will be the file name of the temporary data, and add the current epoch count to the file name.
 Then, we use that temporary name for the intermediate map (in PDF format) and cell coordinates (CSV format).</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># ...</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> args<span style="color:#000;font-weight:bold">.</span>debugplot:
-</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span> (epoch <span style="color:#000;font-weight:bold">%</span> args<span style="color:#000;font-weight:bold">.</span>debugplot) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span>:
-</span></span><span style="display:flex;"><span>                d <span style="color:#000;font-weight:bold">=</span> model<span style="color:#000;font-weight:bold">.</span>lt<span style="color:#000;font-weight:bold">.</span>weight<span style="color:#000;font-weight:bold">.</span>cpu()<span style="color:#000;font-weight:bold">.</span>detach()<span style="color:#000;font-weight:bold">.</span>numpy()
-</span></span><span style="display:flex;"><span>                titlename <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;epoch: </span><span style="color:#d14">{:d}</span><span style="color:#d14">, loss: </span><span style="color:#d14">{:.3e}</span><span style="color:#d14">&#39;</span><span style="color:#000;font-weight:bold">.</span>format(
-</span></span><span style="display:flex;"><span>                    epoch, np<span style="color:#000;font-weight:bold">.</span>mean(epoch_loss))
-</span></span><span style="display:flex;"><span>                temp_fout <span style="color:#000;font-weight:bold">=</span> fout <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;_epoch=&#34;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0086b3">str</span>(epoch)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#57606a"># ...</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#cf222e">if</span> args<span style="color:#0550ae">.</span>debugplot<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>epoch <span style="color:#0550ae">%</span> args<span style="color:#0550ae">.</span>debugplot<span style="color:#1f2328">)</span> <span style="color:#0550ae">==</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>                d <span style="color:#0550ae">=</span> model<span style="color:#0550ae">.</span>lt<span style="color:#0550ae">.</span>weight<span style="color:#0550ae">.</span>cpu<span style="color:#1f2328">()</span><span style="color:#0550ae">.</span>detach<span style="color:#1f2328">()</span><span style="color:#0550ae">.</span>numpy<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>                titlename <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;epoch: </span><span style="color:#0a3069">{:d}</span><span style="color:#0a3069">, loss: </span><span style="color:#0a3069">{:.3e}</span><span style="color:#0a3069">&#39;</span><span style="color:#0550ae">.</span>format<span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>                    epoch<span style="color:#1f2328">,</span> np<span style="color:#0550ae">.</span>mean<span style="color:#1f2328">(</span>epoch_loss<span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span>                temp_fout <span style="color:#0550ae">=</span> fout <span style="color:#0550ae">+</span> <span style="color:#0a3069">&#34;_epoch=&#34;</span> <span style="color:#0550ae">+</span> <span style="color:#6639ba">str</span><span style="color:#1f2328">(</span>epoch<span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">if</span> epoch <span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#099">5</span>:
-</span></span><span style="display:flex;"><span>                    plotPoincareDisc(np<span style="color:#000;font-weight:bold">.</span>transpose(d), labels, temp_fout, titlename, color_dict<span style="color:#000;font-weight:bold">=</span>color_dict)
-</span></span><span style="display:flex;"><span>                    np<span style="color:#000;font-weight:bold">.</span>savetxt(temp_fout <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#39;.csv&#39;</span>, d, delimiter<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;,&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># ...</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#cf222e">if</span> epoch <span style="color:#0550ae">&gt;</span> <span style="color:#0550ae">5</span><span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>                    plotPoincareDisc<span style="color:#1f2328">(</span>np<span style="color:#0550ae">.</span>transpose<span style="color:#1f2328">(</span>d<span style="color:#1f2328">),</span> labels<span style="color:#1f2328">,</span> temp_fout<span style="color:#1f2328">,</span> titlename<span style="color:#1f2328">,</span> color_dict<span style="color:#0550ae">=</span>color_dict<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>                    np<span style="color:#0550ae">.</span>savetxt<span style="color:#1f2328">(</span>temp_fout <span style="color:#0550ae">+</span> <span style="color:#0a3069">&#39;.csv&#39;</span><span style="color:#1f2328">,</span> d<span style="color:#1f2328">,</span> delimiter<span style="color:#0550ae">=</span><span style="color:#0a3069">&#34;,&#34;</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># ...</span>
 </span></span></code></pre></div><p>I think this is a quite ugly approach but it gets the job done for now.
 If the developers think this is useful, I would think about a way to store intermediate results without creating many separate files.</p>
 <h2 id="learn-poincaré-map">Learn Poincaré map</h2>
@@ -223,18 +228,18 @@ By default, this process will run for 5,000 epochs (<code>--epochs</code>) or un
 I did my early tests on my private laptop which doesn&rsquo;t have a GPU, which means I had to set <code>--cuda</code> to <code>0</code>.
 I terminated the command below after a about an hour because it had only calculated 290 epochs.
 Further tests will have to be run on some proper hardware, but for the purpose of visualizing the process we anyway collected some interesting data.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>python3 main.py <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--dset SCT_data <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--path data/ <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--batchsize -1 <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--cuda <span style="color:#099">0</span> <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--knn <span style="color:#099">15</span> <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--gamma 2.0 <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--sigma 1.0 <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--pca <span style="color:#099">20</span> <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--labels <span style="color:#099">1</span> <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--mode features <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>--debugplot <span style="color:#099">10</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>python3 main.py <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--dset SCT_data <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--path data/ <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--batchsize -1 <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--cuda <span style="color:#0550ae">0</span> <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--knn <span style="color:#0550ae">15</span> <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--gamma 2.0 <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--sigma 1.0 <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--pca <span style="color:#0550ae">20</span> <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--labels <span style="color:#0550ae">1</span> <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--mode features <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>--debugplot <span style="color:#0550ae">10</span>
 </span></span></code></pre></div><p>The plot below is generated by the Poincaré tool and shows the loss curve during the training process.
 If I interpret it correctly, the top value indicates that we were actually very close to the <code>0.0001</code> epsilon that would&rsquo;ve stopped the analysis.
 But maybe I&rsquo;m wrong, there isn&rsquo;t too much information.</p>
@@ -272,79 +277,79 @@ But maybe I&rsquo;m wrong, there isn&rsquo;t too much information.</p>
 <p>Anyway, all the intermediate data was put into the <code>results</code> folder of the current working directory.</p>
 <h2 id="prepare-r-session">Prepare R session</h2>
 <p>Here, we launch an R session, load libraries, load our Seurat object, and define some custom colors.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(tidyverse)
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(Seurat)
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">library</span>(plotly)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#6639ba">library</span><span style="color:#1f2328">(</span>tidyverse<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">library</span><span style="color:#1f2328">(</span>Seurat<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">library</span><span style="color:#1f2328">(</span>plotly<span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>seurat <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">readRDS</span>(<span style="color:#d14">&#39;data/seurat.rds&#39;</span>)
+</span></span><span style="display:flex;"><span>seurat <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">readRDS</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;data/seurat.rds&#39;</span><span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>colors_dutch <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">c</span>(
-</span></span><span style="display:flex;"><span>  <span style="color:#d14">&#39;#FFC312&#39;</span>,<span style="color:#d14">&#39;#C4E538&#39;</span>,<span style="color:#d14">&#39;#12CBC4&#39;</span>,<span style="color:#d14">&#39;#FDA7DF&#39;</span>,<span style="color:#d14">&#39;#ED4C67&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#d14">&#39;#F79F1F&#39;</span>,<span style="color:#d14">&#39;#A3CB38&#39;</span>,<span style="color:#d14">&#39;#1289A7&#39;</span>,<span style="color:#d14">&#39;#D980FA&#39;</span>,<span style="color:#d14">&#39;#B53471&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#d14">&#39;#EE5A24&#39;</span>,<span style="color:#d14">&#39;#009432&#39;</span>,<span style="color:#d14">&#39;#0652DD&#39;</span>,<span style="color:#d14">&#39;#9980FA&#39;</span>,<span style="color:#d14">&#39;#833471&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#d14">&#39;#EA2027&#39;</span>,<span style="color:#d14">&#39;#006266&#39;</span>,<span style="color:#d14">&#39;#1B1464&#39;</span>,<span style="color:#d14">&#39;#5758BB&#39;</span>,<span style="color:#d14">&#39;#6F1E51&#39;</span>
-</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>colors_dutch <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">c</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0a3069">&#39;#FFC312&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#C4E538&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#12CBC4&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#FDA7DF&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#ED4C67&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0a3069">&#39;#F79F1F&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#A3CB38&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#1289A7&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#D980FA&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#B53471&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0a3069">&#39;#EE5A24&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#009432&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#0652DD&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#9980FA&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#833471&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0a3069">&#39;#EA2027&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#006266&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#1B1464&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#5758BB&#39;</span><span style="color:#1f2328">,</span><span style="color:#0a3069">&#39;#6F1E51&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">)</span>
 </span></span></code></pre></div><h2 id="load-data">Load data</h2>
 <p>Now, we load the cell coordinates from all available intermediate results.
 While doing this, we also add an ID and the cell type to every cell.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>final_data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">tibble</span>(
-</span></span><span style="display:flex;"><span>  X1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(),
-</span></span><span style="display:flex;"><span>  X2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(),
-</span></span><span style="display:flex;"><span>  cell_id <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(),
-</span></span><span style="display:flex;"><span>  epoch <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">numeric</span>(),
-</span></span><span style="display:flex;"><span>  label <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">character</span>()
-</span></span><span style="display:flex;"><span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>final_data <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">tibble</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>  X1 <span style="color:#0550ae">=</span> <span style="color:#6639ba">numeric</span><span style="color:#1f2328">(),</span>
+</span></span><span style="display:flex;"><span>  X2 <span style="color:#0550ae">=</span> <span style="color:#6639ba">numeric</span><span style="color:#1f2328">(),</span>
+</span></span><span style="display:flex;"><span>  cell_id <span style="color:#0550ae">=</span> <span style="color:#6639ba">numeric</span><span style="color:#1f2328">(),</span>
+</span></span><span style="display:flex;"><span>  epoch <span style="color:#0550ae">=</span> <span style="color:#6639ba">numeric</span><span style="color:#1f2328">(),</span>
+</span></span><span style="display:flex;"><span>  label <span style="color:#0550ae">=</span> <span style="color:#6639ba">character</span><span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">for </span>( i in <span style="color:#900;font-weight:bold">list.files</span>(<span style="color:#d14">&#39;~/Research/PoincareMaps/results&#39;</span>, pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;seed0_epoch=[0-9]{2,4}.csv&#39;</span>, full.name <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>) ) {
-</span></span><span style="display:flex;"><span>  epoch <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">gsub</span>(<span style="color:#900;font-weight:bold">basename</span>(i), pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;SCT_data_PM15sigma=1.00gamma=2.00minkowskipca=20_seed0_epoch=&#39;</span>, replacement <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#900;font-weight:bold">gsub</span>(pattern <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;\\.csv&#39;</span>, replacement <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>) <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#900;font-weight:bold">as.integer</span>()
-</span></span><span style="display:flex;"><span>  temp_data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">read_csv</span>(i, col_names <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>, col_types <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">cols</span>()) <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#900;font-weight:bold">mutate</span>(
-</span></span><span style="display:flex;"><span>      cell_id <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">row_number</span>(),
-</span></span><span style="display:flex;"><span>      epoch <span style="color:#000;font-weight:bold">=</span> epoch,
-</span></span><span style="display:flex;"><span>      label <span style="color:#000;font-weight:bold">=</span> seurat<span style="color:#000;font-weight:bold">@</span>meta.data<span style="color:#000;font-weight:bold">$</span>cell_type_singler_blueprintencode_main
-</span></span><span style="display:flex;"><span>    )
-</span></span><span style="display:flex;"><span>  final_data <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">bind_rows</span>(final_data, temp_data)
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">for</span> <span style="color:#1f2328">(</span> i <span style="color:#cf222e">in</span> <span style="color:#6639ba">list.files</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;~/Research/PoincareMaps/results&#39;</span><span style="color:#1f2328">,</span> pattern <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;seed0_epoch=[0-9]{2,4}.csv&#39;</span><span style="color:#1f2328">,</span> full.name <span style="color:#0550ae">=</span> <span style="color:#cf222e">TRUE</span><span style="color:#1f2328">)</span> <span style="color:#1f2328">)</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  epoch <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">gsub</span><span style="color:#1f2328">(</span><span style="color:#6639ba">basename</span><span style="color:#1f2328">(</span>i<span style="color:#1f2328">),</span> pattern <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;SCT_data_PM15sigma=1.00gamma=2.00minkowskipca=20_seed0_epoch=&#39;</span><span style="color:#1f2328">,</span> replacement <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;&#39;</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6639ba">gsub</span><span style="color:#1f2328">(</span>pattern <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;\\.csv&#39;</span><span style="color:#1f2328">,</span> replacement <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;&#39;</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6639ba">as.integer</span><span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>  temp_data <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">read_csv</span><span style="color:#1f2328">(</span>i<span style="color:#1f2328">,</span> col_names <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">,</span> col_types <span style="color:#0550ae">=</span> <span style="color:#6639ba">cols</span><span style="color:#1f2328">())</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6639ba">mutate</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>      cell_id <span style="color:#0550ae">=</span> <span style="color:#6639ba">row_number</span><span style="color:#1f2328">(),</span>
+</span></span><span style="display:flex;"><span>      epoch <span style="color:#0550ae">=</span> epoch<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      label <span style="color:#0550ae">=</span> seurat<span style="color:#0550ae">@</span>meta.data<span style="color:#0550ae">$</span>cell_type_singler_blueprintencode_main
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>  final_data <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">bind_rows</span><span style="color:#1f2328">(</span>final_data<span style="color:#1f2328">,</span> temp_data<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>final_data <span style="color:#000;font-weight:bold">&lt;-</span> final_data <span style="color:#000;font-weight:bold">%&gt;%</span> <span style="color:#900;font-weight:bold">arrange</span>(epoch, cell_id)
+</span></span><span style="display:flex;"><span>final_data <span style="color:#0550ae">&lt;-</span> final_data <span style="color:#0550ae">%&gt;%</span> <span style="color:#6639ba">arrange</span><span style="color:#1f2328">(</span>epoch<span style="color:#1f2328">,</span> cell_id<span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">glimpse</span>(final_data)
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Observations: 165,213</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Variables: 5</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ X1      &lt;dbl&gt; 0.004369234, 0.132621959, 0.127156094, -0.051962741, -0.22114…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ X2      &lt;dbl&gt; 0.03714102, 0.13966362, 0.13251643, -0.06476162, -0.18119001,…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ cell_id &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ epoch   &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ label   &lt;chr&gt; &#34;HSC&#34;, &#34;CD8+ T-cells&#34;, &#34;CD8+ T-cells&#34;, &#34;Erythrocytes&#34;, &#34;Eryth…</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">glimpse</span><span style="color:#1f2328">(</span>final_data<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Observations: 165,213</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Variables: 5</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ X1      &lt;dbl&gt; 0.004369234, 0.132621959, 0.127156094, -0.051962741, -0.22114…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ X2      &lt;dbl&gt; 0.03714102, 0.13966362, 0.13251643, -0.06476162, -0.18119001,…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ cell_id &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ epoch   &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ label   &lt;chr&gt; &#34;HSC&#34;, &#34;CD8+ T-cells&#34;, &#34;CD8+ T-cells&#34;, &#34;Erythrocytes&#34;, &#34;Eryth…</span>
 </span></span></code></pre></div><p>Also, we create a named vector that holds the color assignment for each cell type.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>colors_here <span style="color:#000;font-weight:bold">&lt;-</span> colors_dutch<span style="color:#000;font-weight:bold">$</span>discrete[1<span style="color:#000;font-weight:bold">:</span><span style="color:#900;font-weight:bold">length</span>(<span style="color:#900;font-weight:bold">unique</span>(final_data<span style="color:#000;font-weight:bold">$</span>label))]
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">names</span>(colors_here) <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">sort</span>(<span style="color:#900;font-weight:bold">unique</span>(final_data<span style="color:#000;font-weight:bold">$</span>label))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>colors_here <span style="color:#0550ae">&lt;-</span> colors_dutch<span style="color:#0550ae">$</span>discrete[1<span style="color:#0550ae">:</span><span style="color:#6639ba">length</span><span style="color:#1f2328">(</span><span style="color:#6639ba">unique</span><span style="color:#1f2328">(</span>final_data<span style="color:#0550ae">$</span>label<span style="color:#1f2328">))</span>]
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">names</span><span style="color:#1f2328">(</span>colors_here<span style="color:#1f2328">)</span> <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">sort</span><span style="color:#1f2328">(</span><span style="color:#6639ba">unique</span><span style="color:#1f2328">(</span>final_data<span style="color:#0550ae">$</span>label<span style="color:#1f2328">))</span>
 </span></span></code></pre></div><h2 id="make-static-plot">Make static plot</h2>
 <p>To get a sense of the data, I first created a faceted static plot using <code>ggplot2</code> for the first 1,000 cell ID at every epoch.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>data_to_plot <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(final_data, cell_id <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">seq</span>(<span style="color:#099">1000</span>))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>data_to_plot <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">filter</span><span style="color:#1f2328">(</span>final_data<span style="color:#1f2328">,</span> cell_id <span style="color:#0550ae">%in%</span> <span style="color:#6639ba">seq</span><span style="color:#1f2328">(</span><span style="color:#0550ae">1000</span><span style="color:#1f2328">))</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">glimpse</span>(data_to_plot)
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Observations: 29,000</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Variables: 5</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ X1      &lt;dbl&gt; 0.004369234, 0.132621959, 0.127156094, -0.051962741, -0.22114…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ X2      &lt;dbl&gt; 0.03714102, 0.13966362, 0.13251643, -0.06476162, -0.18119001,…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ cell_id &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ epoch   &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ label   &lt;chr&gt; &#34;HSC&#34;, &#34;CD8+ T-cells&#34;, &#34;CD8+ T-cells&#34;, &#34;Erythrocytes&#34;, &#34;Eryth…</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">glimpse</span><span style="color:#1f2328">(</span>data_to_plot<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Observations: 29,000</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Variables: 5</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ X1      &lt;dbl&gt; 0.004369234, 0.132621959, 0.127156094, -0.051962741, -0.22114…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ X2      &lt;dbl&gt; 0.03714102, 0.13966362, 0.13251643, -0.06476162, -0.18119001,…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ cell_id &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ epoch   &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ label   &lt;chr&gt; &#34;HSC&#34;, &#34;CD8+ T-cells&#34;, &#34;CD8+ T-cells&#34;, &#34;Erythrocytes&#34;, &#34;Eryth…</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data_to_plot, <span style="color:#900;font-weight:bold">aes</span>(X1, X2)) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> label), size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.5</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_circle</span>(<span style="color:#900;font-weight:bold">aes</span>(x0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, y0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, r <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>), inherit.aes <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_color_manual</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Cell type&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">coord_fixed</span>() <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_void</span>() <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">facet_wrap</span>(<span style="color:#000;font-weight:bold">~</span>epoch, ncol <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>)
+</span></span><span style="display:flex;"><span>p <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">ggplot</span><span style="color:#1f2328">(</span>data_to_plot<span style="color:#1f2328">,</span> <span style="color:#6639ba">aes</span><span style="color:#1f2328">(</span>X1<span style="color:#1f2328">,</span> X2<span style="color:#1f2328">))</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">geom_point</span><span style="color:#1f2328">(</span><span style="color:#6639ba">aes</span><span style="color:#1f2328">(</span>color <span style="color:#0550ae">=</span> label<span style="color:#1f2328">),</span> size <span style="color:#0550ae">=</span> <span style="color:#0550ae">0.5</span><span style="color:#1f2328">,</span> show.legend <span style="color:#0550ae">=</span> <span style="color:#cf222e">TRUE</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">geom_circle</span><span style="color:#1f2328">(</span><span style="color:#6639ba">aes</span><span style="color:#1f2328">(</span>x0 <span style="color:#0550ae">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> y0 <span style="color:#0550ae">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> r <span style="color:#0550ae">=</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">),</span> inherit.aes <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">scale_color_manual</span><span style="color:#1f2328">(</span>name <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;Cell type&#39;</span><span style="color:#1f2328">,</span> values <span style="color:#0550ae">=</span> custom_colors<span style="color:#0550ae">$</span>discrete<span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">coord_fixed</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">theme_void</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">facet_wrap</span><span style="color:#1f2328">(</span><span style="color:#0550ae">~</span>epoch<span style="color:#1f2328">,</span> ncol <span style="color:#0550ae">=</span> <span style="color:#0550ae">8</span><span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">system.time</span>({ <span style="color:#900;font-weight:bold">ggsave</span>(<span style="color:#d14">&#39;poincare_1000_cells_split.png&#39;</span>, p, height <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>, width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">18</span>) })
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#    user  system elapsed</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># 133.342  37.621 186.061</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">system.time</span><span style="color:#1f2328">({</span> <span style="color:#6639ba">ggsave</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;poincare_1000_cells_split.png&#39;</span><span style="color:#1f2328">,</span> p<span style="color:#1f2328">,</span> height <span style="color:#0550ae">=</span> <span style="color:#0550ae">10</span><span style="color:#1f2328">,</span> width <span style="color:#0550ae">=</span> <span style="color:#0550ae">18</span><span style="color:#1f2328">)</span> <span style="color:#1f2328">})</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">#    user  system elapsed</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># 133.342  37.621 186.061</span>
 </span></span></code></pre></div>
 <figure
   
@@ -383,34 +388,34 @@ I found this unusually long but I don&rsquo;t know of a way to know if it&rsquo;
 However, after a few attempts, I realized that it takes way too long for it to render.
 I was able to make on with the first 100 cell IDs (it took 5 minutes), but even with just 1,000 cells the process crashed due to a lack of memory after about 1 hour.</p>
 <p><strong>Note:</strong> The full data set contains ~5,700 cells.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>data_to_plot <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">filter</span>(final_data, cell_id <span style="color:#000;font-weight:bold">%in%</span> <span style="color:#900;font-weight:bold">seq</span>(<span style="color:#099">100</span>))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>data_to_plot <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">filter</span><span style="color:#1f2328">(</span>final_data<span style="color:#1f2328">,</span> cell_id <span style="color:#0550ae">%in%</span> <span style="color:#6639ba">seq</span><span style="color:#1f2328">(</span><span style="color:#0550ae">100</span><span style="color:#1f2328">))</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">glimpse</span>(data_to_plot)
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Observations: 2,900</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Variables: 5</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ X1      &lt;dbl&gt; 0.004369234, 0.132621959, 0.127156094, -0.051962741, -0.22114…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ X2      &lt;dbl&gt; 0.03714102, 0.13966362, 0.13251643, -0.06476162, -0.18119001,…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ cell_id &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ epoch   &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># $ label   &lt;chr&gt; &#34;HSC&#34;, &#34;CD8+ T-cells&#34;, &#34;CD8+ T-cells&#34;, &#34;Erythrocytes&#34;, &#34;Eryth…</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">glimpse</span><span style="color:#1f2328">(</span>data_to_plot<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Observations: 2,900</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Variables: 5</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ X1      &lt;dbl&gt; 0.004369234, 0.132621959, 0.127156094, -0.051962741, -0.22114…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ X2      &lt;dbl&gt; 0.03714102, 0.13966362, 0.13251643, -0.06476162, -0.18119001,…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ cell_id &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ epoch   &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># $ label   &lt;chr&gt; &#34;HSC&#34;, &#34;CD8+ T-cells&#34;, &#34;CD8+ T-cells&#34;, &#34;Erythrocytes&#34;, &#34;Eryth…</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">ggplot</span>(data_to_plot, <span style="color:#900;font-weight:bold">aes</span>(X1, X2)) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_point</span>(<span style="color:#900;font-weight:bold">aes</span>(color <span style="color:#000;font-weight:bold">=</span> label), alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.7</span>, show.legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">TRUE</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">geom_circle</span>(<span style="color:#900;font-weight:bold">aes</span>(x0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, y0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, r <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>), inherit.aes <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">scale_color_manual</span>(name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Cell type&#39;</span>, values <span style="color:#000;font-weight:bold">=</span> custom_colors<span style="color:#000;font-weight:bold">$</span>discrete) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">coord_fixed</span>() <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">theme_void</span>() <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">labs</span>(title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Epoch: {format(frame_time, digits = 0)}&#39;</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">transition_time</span>(epoch) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">shadow_wake</span>(wake_length <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.1</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>) <span style="color:#000;font-weight:bold">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">ease_aes</span>(<span style="color:#d14">&#39;linear&#39;</span>)
+</span></span><span style="display:flex;"><span>p <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">ggplot</span><span style="color:#1f2328">(</span>data_to_plot<span style="color:#1f2328">,</span> <span style="color:#6639ba">aes</span><span style="color:#1f2328">(</span>X1<span style="color:#1f2328">,</span> X2<span style="color:#1f2328">))</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">geom_point</span><span style="color:#1f2328">(</span><span style="color:#6639ba">aes</span><span style="color:#1f2328">(</span>color <span style="color:#0550ae">=</span> label<span style="color:#1f2328">),</span> alpha <span style="color:#0550ae">=</span> <span style="color:#0550ae">0.7</span><span style="color:#1f2328">,</span> show.legend <span style="color:#0550ae">=</span> <span style="color:#cf222e">TRUE</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">geom_circle</span><span style="color:#1f2328">(</span><span style="color:#6639ba">aes</span><span style="color:#1f2328">(</span>x0 <span style="color:#0550ae">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> y0 <span style="color:#0550ae">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> r <span style="color:#0550ae">=</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">),</span> inherit.aes <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">scale_color_manual</span><span style="color:#1f2328">(</span>name <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;Cell type&#39;</span><span style="color:#1f2328">,</span> values <span style="color:#0550ae">=</span> custom_colors<span style="color:#0550ae">$</span>discrete<span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">coord_fixed</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">theme_void</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">labs</span><span style="color:#1f2328">(</span>title <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;Epoch: {format(frame_time, digits = 0)}&#39;</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">transition_time</span><span style="color:#1f2328">(</span>epoch<span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">shadow_wake</span><span style="color:#1f2328">(</span>wake_length <span style="color:#0550ae">=</span> <span style="color:#0550ae">0.1</span><span style="color:#1f2328">,</span> alpha <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">ease_aes</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;linear&#39;</span><span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">system.time</span>({
-</span></span><span style="display:flex;"><span>  animation <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">animate</span>(p)
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">anim_save</span>(<span style="color:#d14">&#39;poincare_100_cells_with_tail.gif&#39;</span>, animation)
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#    user  system elapsed</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># 280.944  46.455 332.494</span>
+</span></span><span style="display:flex;"><span><span style="color:#6639ba">system.time</span><span style="color:#1f2328">({</span>
+</span></span><span style="display:flex;"><span>  animation <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">animate</span><span style="color:#1f2328">(</span>p<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">anim_save</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;poincare_100_cells_with_tail.gif&#39;</span><span style="color:#1f2328">,</span> animation<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">})</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">#    user  system elapsed</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># 280.944  46.455 332.494</span>
 </span></span></code></pre></div>
 
 <img src="/images/blog/dynamics_of_training_a_poincare_map/poincare_100_cells_with_tail.gif" style="width: 480px; display: block; margin-left: auto; margin-right: auto;" />
@@ -423,73 +428,73 @@ Also the added tail is quite neat, even though perhaps not very useful with all 
 I worked with <code>plotly</code> quite often and thought I knew it relatively well.
 Yet, I was not aware of its capability to generate animations.
 And it&rsquo;s actually also quite easy to set up, using a similar syntax as <code>gganimate</code> (or maybe it&rsquo;s the other way around, who knows).</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>fig <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#900;font-weight:bold">plot_ly</span>(
-</span></span><span style="display:flex;"><span>    final_data,
-</span></span><span style="display:flex;"><span>    type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;scatter&#39;</span>,
-</span></span><span style="display:flex;"><span>    mode <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;markers&#39;</span>,
-</span></span><span style="display:flex;"><span>    x <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span>X1,
-</span></span><span style="display:flex;"><span>    y <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span>X2,
-</span></span><span style="display:flex;"><span>    color <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span>label,
-</span></span><span style="display:flex;"><span>    colors <span style="color:#000;font-weight:bold">=</span> colors_here,
-</span></span><span style="display:flex;"><span>    frame <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span>epoch,
-</span></span><span style="display:flex;"><span>    marker <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">8</span>),
-</span></span><span style="display:flex;"><span>    hoverinfo <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;text&#39;</span>,
-</span></span><span style="display:flex;"><span>    text <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span><span style="color:#900;font-weight:bold">paste0</span>(final_data<span style="color:#000;font-weight:bold">$</span>label, <span style="color:#d14">&#39;&lt;br&gt;Cell ID: &#39;</span>, <span style="color:#900;font-weight:bold">format</span>(final_data<span style="color:#000;font-weight:bold">$</span>cell_id, big.mark <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;,&#39;</span>))
-</span></span><span style="display:flex;"><span>  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">add_markers</span>(
-</span></span><span style="display:flex;"><span>    data <span style="color:#000;font-weight:bold">=</span> final_data <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>      dplyr<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">select</span>(epoch) <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#900;font-weight:bold">distinct</span>() <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#900;font-weight:bold">mutate</span>(x <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, label <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;center&#39;</span>),
-</span></span><span style="display:flex;"><span>    x <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span>x,
-</span></span><span style="display:flex;"><span>    y <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span>y,
-</span></span><span style="display:flex;"><span>    frame <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span>epoch,
-</span></span><span style="display:flex;"><span>    marker <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(
-</span></span><span style="display:flex;"><span>      size <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>,
-</span></span><span style="display:flex;"><span>      line <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(
-</span></span><span style="display:flex;"><span>        color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>,
-</span></span><span style="display:flex;"><span>        width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>
-</span></span><span style="display:flex;"><span>      ),
-</span></span><span style="display:flex;"><span>      symbol <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;x-thin&#39;</span>
-</span></span><span style="display:flex;"><span>    ),
-</span></span><span style="display:flex;"><span>    hoverinfo <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;skip&#39;</span>,
-</span></span><span style="display:flex;"><span>    text <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">~</span>label,
-</span></span><span style="display:flex;"><span>    showlegend <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#000;font-weight:bold">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#900;font-weight:bold">layout</span>(
-</span></span><span style="display:flex;"><span>    title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Dynamics of training a Poincaré map&#39;</span>,
-</span></span><span style="display:flex;"><span>    shapes <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(
-</span></span><span style="display:flex;"><span>      <span style="color:#900;font-weight:bold">list</span>(
-</span></span><span style="display:flex;"><span>        type <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;circle&#39;</span>,
-</span></span><span style="display:flex;"><span>        xref <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;x&#39;</span>,
-</span></span><span style="display:flex;"><span>        x0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">-1</span>,
-</span></span><span style="display:flex;"><span>        x1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>,
-</span></span><span style="display:flex;"><span>        yref <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;y&#39;</span>,
-</span></span><span style="display:flex;"><span>        y0 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">-1</span>,
-</span></span><span style="display:flex;"><span>        y1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>,
-</span></span><span style="display:flex;"><span>        fillcolor <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">NA</span>,
-</span></span><span style="display:flex;"><span>        line <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;black&#39;</span>),
-</span></span><span style="display:flex;"><span>        opacity <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
-</span></span><span style="display:flex;"><span>      )
-</span></span><span style="display:flex;"><span>    ),
-</span></span><span style="display:flex;"><span>    xaxis <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(
-</span></span><span style="display:flex;"><span>      range <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">-1</span>, <span style="color:#099">1</span>),
-</span></span><span style="display:flex;"><span>      showgrid <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
-</span></span><span style="display:flex;"><span>      showticklabels <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
-</span></span><span style="display:flex;"><span>      zeroline <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
-</span></span><span style="display:flex;"><span>      title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>
-</span></span><span style="display:flex;"><span>    ),
-</span></span><span style="display:flex;"><span>    yaxis <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">list</span>(
-</span></span><span style="display:flex;"><span>      range <span style="color:#000;font-weight:bold">=</span> <span style="color:#900;font-weight:bold">c</span>(<span style="color:#099">-1</span>, <span style="color:#099">1</span>),
-</span></span><span style="display:flex;"><span>      showgrid <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
-</span></span><span style="display:flex;"><span>      showticklabels <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
-</span></span><span style="display:flex;"><span>      zeroline <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">FALSE</span>,
-</span></span><span style="display:flex;"><span>      title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>,
-</span></span><span style="display:flex;"><span>      scaleanchor <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;x&#39;</span>
-</span></span><span style="display:flex;"><span>    )
-</span></span><span style="display:flex;"><span>  )
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>fig <span style="color:#0550ae">&lt;-</span> <span style="color:#6639ba">plot_ly</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>    final_data<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    type <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;scatter&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    mode <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;markers&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span>X1<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    y <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span>X2<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    color <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span>label<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    colors <span style="color:#0550ae">=</span> colors_here<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    frame <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span>epoch<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    marker <span style="color:#0550ae">=</span> <span style="color:#6639ba">list</span><span style="color:#1f2328">(</span>size <span style="color:#0550ae">=</span> <span style="color:#0550ae">8</span><span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>    hoverinfo <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;text&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    text <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span><span style="color:#6639ba">paste0</span><span style="color:#1f2328">(</span>final_data<span style="color:#0550ae">$</span>label<span style="color:#1f2328">,</span> <span style="color:#0a3069">&#39;&lt;br&gt;Cell ID: &#39;</span><span style="color:#1f2328">,</span> <span style="color:#6639ba">format</span><span style="color:#1f2328">(</span>final_data<span style="color:#0550ae">$</span>cell_id<span style="color:#1f2328">,</span> big.mark <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;,&#39;</span><span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">)</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">add_markers</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>    data <span style="color:#0550ae">=</span> final_data <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>      dplyr<span style="color:#0550ae">::</span><span style="color:#6639ba">select</span><span style="color:#1f2328">(</span>epoch<span style="color:#1f2328">)</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#6639ba">distinct</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#6639ba">mutate</span><span style="color:#1f2328">(</span>x <span style="color:#0550ae">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> y <span style="color:#0550ae">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> label <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;center&#39;</span><span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span>x<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    y <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span>y<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    frame <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span>epoch<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    marker <span style="color:#0550ae">=</span> <span style="color:#6639ba">list</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>      size <span style="color:#0550ae">=</span> <span style="color:#0550ae">10</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      line <span style="color:#0550ae">=</span> <span style="color:#6639ba">list</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>        color <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;black&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        width <span style="color:#0550ae">=</span> <span style="color:#0550ae">2</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>      symbol <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;x-thin&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>    hoverinfo <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;skip&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    text <span style="color:#0550ae">=</span> <span style="color:#0550ae">~</span>label<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    showlegend <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">)</span> <span style="color:#0550ae">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6639ba">layout</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>    title <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;Dynamics of training a Poincaré map&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    shapes <span style="color:#0550ae">=</span> <span style="color:#6639ba">list</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#6639ba">list</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>        type <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;circle&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        xref <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;x&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        x0 <span style="color:#0550ae">=</span> <span style="color:#0550ae">-1</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        x1 <span style="color:#0550ae">=</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        yref <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;y&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        y0 <span style="color:#0550ae">=</span> <span style="color:#0550ae">-1</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        y1 <span style="color:#0550ae">=</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        fillcolor <span style="color:#0550ae">=</span> <span style="color:#cf222e">NA</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>        line <span style="color:#0550ae">=</span> <span style="color:#6639ba">list</span><span style="color:#1f2328">(</span>color <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;black&#39;</span><span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>        opacity <span style="color:#0550ae">=</span> <span style="color:#0550ae">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>    xaxis <span style="color:#0550ae">=</span> <span style="color:#6639ba">list</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>      range <span style="color:#0550ae">=</span> <span style="color:#6639ba">c</span><span style="color:#1f2328">(</span><span style="color:#0550ae">-1</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>      showgrid <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      showticklabels <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      zeroline <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      title <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>    yaxis <span style="color:#0550ae">=</span> <span style="color:#6639ba">list</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>      range <span style="color:#0550ae">=</span> <span style="color:#6639ba">c</span><span style="color:#1f2328">(</span><span style="color:#0550ae">-1</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">),</span>
+</span></span><span style="display:flex;"><span>      showgrid <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      showticklabels <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      zeroline <span style="color:#0550ae">=</span> <span style="color:#cf222e">FALSE</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      title <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;&#39;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      scaleanchor <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;x&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>htmlwidgets<span style="color:#000;font-weight:bold">::</span><span style="color:#900;font-weight:bold">saveWidget</span>(fig, <span style="color:#d14">&#39;poincare_map.html&#39;</span>)
+</span></span><span style="display:flex;"><span>htmlwidgets<span style="color:#0550ae">::</span><span style="color:#6639ba">saveWidget</span><span style="color:#1f2328">(</span>fig<span style="color:#1f2328">,</span> <span style="color:#0a3069">&#39;poincare_map.html&#39;</span><span style="color:#1f2328">)</span>
 </span></span></code></pre></div><p>Below you find a link to the interactive result, including all cells.
 Just be warned, it is <strong>16 MB</strong> in size.</p>
 

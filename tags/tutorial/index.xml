@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>tutorial on Roman Hillje</title>
+    <title>Tutorial on Roman Hillje</title>
     <link>http://romanhaa.github.io/tags/tutorial/</link>
-    <description>Recent content in tutorial on Roman Hillje</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Tutorial on Roman Hillje</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Roman Hillje</copyright>
-    <lastBuildDate>Tue, 16 Apr 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://romanhaa.github.io/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://romanhaa.github.io/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Porting PAGA results from scanpy to R</title>
       <link>http://romanhaa.github.io/blog/paga_to_r/</link>
       <pubDate>Tue, 16 Apr 2019 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/blog/paga_to_r/</guid>
-      <description>Seurat and scanpy are both great frameworks to analyze single-cell RNA-seq data, the main difference being the language they are designed for. Most of the methods frequently used in the literature are available in both toolkits and the workflow is essentially the same.</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://satijalab.org/seurat/&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;Seurat&lt;/a&gt; and &lt;a href=&#34;https://scanpy.readthedocs.io/en/latest/#&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;scanpy&lt;/a&gt; are both great frameworks to analyze single-cell RNA-seq data, the main difference being the language they are designed for.&#xA;Most of the methods frequently used in the literature are available in both toolkits and the workflow is essentially the same.&#xA;However, Fabian Theis and his group (with special credit to Alex Wolf) have recently published their &lt;a href=&#34;https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1663-x&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;PAGA&lt;/a&gt; algorithm that attempts to harmonize dimensional reduction with clustering and trajectory analysis.&#xA;This is very exciting and a step in the right direction as tSNE and UMAP are known to have limitations in this regard.&#xA;However, if you are a heavy Seurat/R user, you will be bummed to hear that for now (at least to my knowledge) no R port of PAGA exists and I&amp;rsquo;m not sure the authors have intentions to change this.&#xA;As far as I know, Cole Trapnell and his lab are working on implementing something similar, if not precisely the PAGA algorithm, in &lt;a href=&#34;http://cole-trapnell-lab.github.io/monocle-release/monocle3/&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;Monocle 3&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

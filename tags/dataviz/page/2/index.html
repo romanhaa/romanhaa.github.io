@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.114.1">
+  <meta name="generator" content="Hugo 0.150.0">
   <title>Roman Hillje</title>
   
   
@@ -10,13 +10,18 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  
+  
   <link rel="stylesheet" href="/css/fonts.css">
+  
+  
   <link rel="stylesheet" href="/css/medium.css">
+  
 </head>
 <body><nav class="navbar navbar-expand-lg navbar-light bg-white mediumnavigation nav-down navbar-static-top">
   <div class="container pr-0">
     
-    <a class="navbar-brand" href="http://romanhaa.github.io/">
+    <a class="navbar-brand" href="http://romanhaa.github.io//">
       <span style="font-family: 'Roboto Mono', monospace;">
         [roman-hillje]
       </span>
@@ -122,7 +127,17 @@
     <div class="card-body">
       <h2 class="card-title"><a class="text-dark" href="http://romanhaa.github.io/blog/pbsviewer/">Visualizing resources managed by a PBS job scheduler</a></h2>
       <h4 class="card-text">Aug 31, 2019</h4>
-      <h4 class="card-text">At the research institute I currently work at, we use PBS as a job scheduler for collaborative use and research management of the HPC cluster. Just for a little background info, the cluster consists of 14 computers which are connected to make the cluster.</h4>
+      <h4 class="card-text"><p>At the research institute I currently work at, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System" target="_blank" rel="noreferrer noopener">PBS</a> as a job scheduler for collaborative use and research management of the HPC cluster.
+Just for a little background info, the cluster consists of 14 computers which are connected to make the cluster.
+Two of those 14 are masters, one of them being a backup of the first.
+The master isn&rsquo;t supposed to be used to for computation because its main job is to distribute the work between the other machines.
+The other 12 computers, also called nodes, are those which we do all our work on.
+The job scheduler runs on the master and assigns jobs to the nodes.
+A job is a set of operation you need to be done and which is saved in a script which you hand over to the job scheduler with the request to execute it.
+In bioinformatics, a good example would be the alignment of reads to a reference genome.
+As mentioned before, we use <a href="https://en.wikipedia.org/wiki/Portable_Batch_System" target="_blank" rel="noreferrer noopener">PBS</a> but there are others out there, e.g. <a href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine" target="_blank" rel="noreferrer noopener">SGE</a> or <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager" target="_blank" rel="noreferrer noopener">Slurm</a>.
+Which node gets to do which job depends on the resources (number of CPUs and memory) each job requests.
+Ideally, this allows efficient resource usage so that everybody gets their job done the quickest.</p></h4>
     </div>
   </div>
 </div>

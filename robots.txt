@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Disallow specific hidden pages
+Disallow: /wishlist
+
+# Allow other important pages
+Allow: /blog/
+Allow: /projects/
+Allow: /plots/
+Allow: /phd_thesis
+
+Sitemap: http://romanhaa.github.io/sitemap.xml

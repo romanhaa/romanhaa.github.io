@@ -4,72 +4,59 @@
     <title>Projects on Roman Hillje</title>
     <link>http://romanhaa.github.io/projects/</link>
     <description>Recent content in Projects on Roman Hillje</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Roman Hillje</copyright>
-    <lastBuildDate>Fri, 24 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://romanhaa.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://romanhaa.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Creating maps programmatically</title>
       <link>http://romanhaa.github.io/projects/maps/</link>
       <pubDate>Fri, 24 Jun 2022 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/projects/maps/</guid>
       <description>Use geographical data to make maps with R (for fun)</description>
     </item>
-    
     <item>
       <title>Übersicht widgets</title>
       <link>http://romanhaa.github.io/projects/ubersicht-widgets/</link>
       <pubDate>Tue, 31 May 2022 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/projects/ubersicht-widgets/</guid>
       <description>Productivity widgets for Übersicht</description>
     </item>
-    
     <item>
       <title>Garmin watch app</title>
       <link>http://romanhaa.github.io/projects/garmin-app/</link>
       <pubDate>Mon, 18 Apr 2022 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/projects/garmin-app/</guid>
       <description>App for warm-up, cooldown and stretching procedures</description>
     </item>
-    
     <item>
       <title>Cerebro</title>
       <link>http://romanhaa.github.io/projects/cerebro/</link>
       <pubDate>Wed, 05 Jan 2022 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/projects/cerebro/</guid>
       <description>Interactive visualization of scRNA-seq data</description>
     </item>
-    
     <item>
       <title>XenoCell</title>
       <link>http://romanhaa.github.io/projects/xenocell/</link>
       <pubDate>Fri, 29 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/projects/xenocell/</guid>
       <description>Classification of cellular barcodes in single cell experiments from xenograft samples</description>
     </item>
-    
     <item>
       <title>scRNA-seq analysis workflow</title>
       <link>http://romanhaa.github.io/projects/scrnaseq_workflow/</link>
       <pubDate>Wed, 07 Oct 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/projects/scrnaseq_workflow/</guid>
       <description>Seurat-based workflow in R which starts from transcript count tables</description>
     </item>
-    
     <item>
       <title>Visualizing health data</title>
       <link>http://romanhaa.github.io/projects/health_data_from_apple_health/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/projects/health_data_from_apple_health/</guid>
       <description>Visualize health data recorded by a fitness tracker</description>
     </item>
-    
   </channel>
 </rss>

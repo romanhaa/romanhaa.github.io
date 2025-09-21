@@ -4,45 +4,38 @@
     <title>Tags on Roman Hillje</title>
     <link>http://romanhaa.github.io/tags/</link>
     <description>Recent content in Tags on Roman Hillje</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Roman Hillje</copyright>
-    <lastBuildDate>Tue, 23 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://romanhaa.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://romanhaa.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>scrnaseq</title>
+      <title>Scrnaseq</title>
       <link>http://romanhaa.github.io/tags/scrnaseq/</link>
       <pubDate>Tue, 23 Jun 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/tags/scrnaseq/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>dataviz</title>
+      <title>Dataviz</title>
       <link>http://romanhaa.github.io/tags/dataviz/</link>
       <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/tags/dataviz/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>tutorial</title>
+      <title>Tutorial</title>
       <link>http://romanhaa.github.io/tags/tutorial/</link>
       <pubDate>Tue, 16 Apr 2019 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/tags/tutorial/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>ggplot</title>
+      <title>Ggplot</title>
       <link>http://romanhaa.github.io/tags/ggplot/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/tags/ggplot/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

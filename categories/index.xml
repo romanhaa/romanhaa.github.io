@@ -4,8 +4,9 @@
     <title>Categories on Roman Hillje</title>
     <link>http://romanhaa.github.io/categories/</link>
     <description>Recent content in Categories on Roman Hillje</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <copyright>Roman Hillje</copyright><atom:link href="http://romanhaa.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Roman Hillje</copyright>
+    <atom:link href="http://romanhaa.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>scrnaseq on Roman Hillje</title>
+    <title>Scrnaseq on Roman Hillje</title>
     <link>http://romanhaa.github.io/tags/scrnaseq/</link>
-    <description>Recent content in scrnaseq on Roman Hillje</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Scrnaseq on Roman Hillje</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Roman Hillje</copyright>
-    <lastBuildDate>Tue, 23 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://romanhaa.github.io/tags/scrnaseq/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://romanhaa.github.io/tags/scrnaseq/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Benchmark of scRNA-seq analysis tools</title>
       <link>http://romanhaa.github.io/blog/benchmark_scrnaseq/</link>
       <pubDate>Tue, 23 Jun 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/blog/benchmark_scrnaseq/</guid>
-      <description>At the end of last year, I was curious to compare the results of a few single cell RNA-seq analysis tools, focusing on the generation of the transcript count matrix from the raw FASTQ files.</description>
+      <description>&lt;p&gt;At the end of last year, I was curious to compare the results of a few single cell RNA-seq analysis tools, focusing on the generation of the transcript count matrix from the raw FASTQ files.&#xA;The contenders are: &lt;a href=&#34;https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;10x Genomics Cell Ranger&lt;/a&gt;, &lt;a href=&#34;https://github.com/alexdobin/STAR&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;STARsolo&lt;/a&gt;, &lt;a href=&#34;https://salmon.readthedocs.io/en/latest/alevin.html&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;Alevin (Salmon)&lt;/a&gt;, and &lt;a href=&#34;https://pachterlab.github.io/kallisto/about&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;kallisto&lt;/a&gt;.&#xA;Even though this was done a while ago, and updates of the tools possibly influence the results, I thought it might be worth sharing anyway.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

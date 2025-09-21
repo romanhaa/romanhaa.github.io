@@ -1,75 +1,62 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>dataviz on Roman Hillje</title>
+    <title>Dataviz on Roman Hillje</title>
     <link>http://romanhaa.github.io/tags/dataviz/</link>
-    <description>Recent content in dataviz on Roman Hillje</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Dataviz on Roman Hillje</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Roman Hillje</copyright>
-    <lastBuildDate>Fri, 13 Mar 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://romanhaa.github.io/tags/dataviz/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 13 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://romanhaa.github.io/tags/dataviz/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cases of coronavirus (ongoing)</title>
       <link>http://romanhaa.github.io/blog/cases_of_coronavirus/</link>
       <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/blog/cases_of_coronavirus/</guid>
-      <description>Introduction A colleague of mine (hey 👋 @lost_efano) showed me this R package coronavirus which collects data about the virus. I simply couldn&amp;rsquo;t resist to plot some of the data.</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;A colleague of mine (hey 👋 &lt;a href=&#34;https://twitter.com/lost_efano&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;@lost_efano&lt;/a&gt;) showed me this R package &lt;a href=&#34;https://ramikrispin.github.io/coronavirus/index.html&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;&lt;code&gt;coronavirus&lt;/code&gt;&lt;/a&gt; which collects data about the virus.&#xA;I simply couldn&amp;rsquo;t resist to plot some of the data.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Animating the dynamics of training a Poincaré map</title>
       <link>http://romanhaa.github.io/blog/dynamics_of_training_a_poincare_map/</link>
       <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/blog/dynamics_of_training_a_poincare_map/</guid>
-      <description>Preface Last Friday, I came across an interesting method called &amp;ldquo;Poincaré map&amp;rdquo; to visualize the relationship of cells in single cell RNA-seq data using hyperbolic space.</description>
+      <description>&lt;h2 id=&#34;preface&#34;&gt;Preface&lt;/h2&gt;&#xA;&lt;p&gt;Last Friday, I came across an interesting method called &lt;a href=&#34;https://www.biorxiv.org/content/10.1101/689547v2&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;&amp;ldquo;Poincaré map&amp;rdquo;&lt;/a&gt; to visualize the relationship of cells in single cell RNA-seq data using hyperbolic space.&#xA;Check &lt;a href=&#34;https://dmishin.github.io/hyperbolic-ca-simulator/index.html&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;this page&lt;/a&gt; for an intuitive representation of what hyperbolic space is.&#xA;During the weekend, I had the chance to experiment with this method to the data set I used in the &lt;a href=&#34;http://romanhaa.github.io/projects/scrnaseq_workflow/&#34;&gt;scRNA-seq workflow&lt;/a&gt;.&#xA;This article is not about finding the right parameters, even if it might help doing so.&#xA;Instead, it is about (1) finally getting a chance to make animated plots, and (2) visualize what happens during the training process of the Poincaré map.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Calculate EC50 and plot dose response curve</title>
       <link>http://romanhaa.github.io/blog/dose_response_curve/</link>
       <pubDate>Sun, 23 Feb 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/blog/dose_response_curve/</guid>
-      <description>Suppose you performed an experiment where you treated cells with different doses of a certain drug and measured how many cells are left alive after a given delay.</description>
+      <description>&lt;p&gt;Suppose you performed an experiment where you treated cells with different doses of a certain drug and measured how many cells are left alive after a given delay.&#xA;Often, people estimate the potency of a drug by its EC50 value, the concentration at which we observe half-maximal response.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Dummy</title>
       <link>http://romanhaa.github.io/plots/dummy/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/plots/dummy/</guid>
-      <description>Apparently I need this file to create the plots page&amp;hellip;</description>
+      <description>&lt;p&gt;Apparently I need this file to create the plots page&amp;hellip;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>League of Legends players by rank - a simple bar chart with D3.js</title>
       <link>http://romanhaa.github.io/blog/d3js_bar_chart_league_of_legends_ranks/</link>
       <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/blog/d3js_bar_chart_league_of_legends_ranks/</guid>
-      <description>Still experimenting with D3.js, this time I wanted to make a simple bar chart. Since it&amp;rsquo;s always nice to show actual, informative data, I decided to reproduce the distribution of players in the different ranks in League of Legends as shown on this website: https://www.</description>
+      <description>&lt;p&gt;Still experimenting with &lt;a href=&#34;https://d3js.org/&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;D3.js&lt;/a&gt;, this time I wanted to make a simple bar chart.&#xA;Since it&amp;rsquo;s always nice to show actual, informative data, I decided to reproduce the distribution of players in the different ranks in League of Legends as shown on this website: &lt;a href=&#34;https://www.esportstales.com/league-of-legends/rank-distribution-percentage-of-players-by-tier&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;https://www.esportstales.com/league-of-legends/rank-distribution-percentage-of-players-by-tier&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Plotting German school holidays with D3.js</title>
       <link>http://romanhaa.github.io/blog/d3js_schulferien_2018_2019/</link>
       <pubDate>Sun, 01 Sep 2019 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/blog/d3js_schulferien_2018_2019/</guid>
-      <description>Even though I mainly work with R, I wanted to learn some D3.js and recently had the idea to visualize German school holidays by region for the year 2018-19.</description>
+      <description>&lt;p&gt;Even though I mainly work with R, I wanted to learn some &lt;a href=&#34;https://d3js.org/&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;D3.js&lt;/a&gt; and recently had the idea to visualize German school holidays by region for the year 2018-19.&#xA;Don&amp;rsquo;t ask me why I chose the school holidays, I don&amp;rsquo;t know either.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Visualizing resources managed by a PBS job scheduler</title>
       <link>http://romanhaa.github.io/blog/pbsviewer/</link>
       <pubDate>Sat, 31 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>http://romanhaa.github.io/blog/pbsviewer/</guid>
-      <description>At the research institute I currently work at, we use PBS as a job scheduler for collaborative use and research management of the HPC cluster. Just for a little background info, the cluster consists of 14 computers which are connected to make the cluster.</description>
+      <description>&lt;p&gt;At the research institute I currently work at, we use &lt;a href=&#34;https://en.wikipedia.org/wiki/Portable_Batch_System&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;PBS&lt;/a&gt; as a job scheduler for collaborative use and research management of the HPC cluster.&#xA;Just for a little background info, the cluster consists of 14 computers which are connected to make the cluster.&#xA;Two of those 14 are masters, one of them being a backup of the first.&#xA;The master isn&amp;rsquo;t supposed to be used to for computation because its main job is to distribute the work between the other machines.&#xA;The other 12 computers, also called nodes, are those which we do all our work on.&#xA;The job scheduler runs on the master and assigns jobs to the nodes.&#xA;A job is a set of operation you need to be done and which is saved in a script which you hand over to the job scheduler with the request to execute it.&#xA;In bioinformatics, a good example would be the alignment of reads to a reference genome.&#xA;As mentioned before, we use &lt;a href=&#34;https://en.wikipedia.org/wiki/Portable_Batch_System&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;PBS&lt;/a&gt; but there are others out there, e.g. &lt;a href=&#34;https://en.wikipedia.org/wiki/Oracle_Grid_Engine&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;SGE&lt;/a&gt; or &lt;a href=&#34;https://en.wikipedia.org/wiki/Slurm_Workload_Manager&#34; target=&#34;_blank&#34; rel=&#34;noreferrer noopener&#34;&gt;Slurm&lt;/a&gt;.&#xA;Which node gets to do which job depends on the resources (number of CPUs and memory) each job requests.&#xA;Ideally, this allows efficient resource usage so that everybody gets their job done the quickest.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
